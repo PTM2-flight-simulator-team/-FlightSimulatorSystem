@@ -4,7 +4,9 @@ The project is written in Java, The project is divided to three parts:
 
 
 The Frontend - written using the MVVM Design Pattern.
+
 The Agent - written using the MVC Design Pattern.
+
 The Backend - written using the MVC Design Pattern.
 
 
