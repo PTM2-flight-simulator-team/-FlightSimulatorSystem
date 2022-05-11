@@ -1,6 +1,6 @@
 # FlightSimulatorSystem
-This project is of a flight simulator system, with the Flight-Gear program as a projector. 
-The project is written in Java, The project is divided to three parts:
+This project is a flight simulator system, with the Flight-Gear program as a projector. 
+The project is written in Java, and divided into three parts:
 
 
 The Frontend - written using the MVVM Design Pattern.
