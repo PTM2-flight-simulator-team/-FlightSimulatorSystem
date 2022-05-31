@@ -11,8 +11,8 @@ public class PrintCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute(List<String> args, int index) {
-
+    public int execute(List<String> args, int index) {
+        return 0;
     }
 
     @Override

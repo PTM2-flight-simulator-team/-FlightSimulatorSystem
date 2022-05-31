@@ -8,19 +8,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.Buffer;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 public class Interpreter extends Observable {
 
+    private Map<String, Double> FGvars;
     String code;
     String doCommand;
     Lexer lexer;
     Parser parser;
-    Utils utils;
+    public Utils utils;
 
-    public Interpreter() {
+    public Interpreter(Map<String,Double> Fgvars) {
         doCommand = null;
+        this.FGvars = Fgvars;
+        this.utils = new Utils(this);
     }
 
     public void interpret(){}
@@ -34,10 +39,17 @@ public class Interpreter extends Observable {
         setChanged();
         notifyObservers();
     }
+    public Map<String, Double> getFGvars() {
+        return FGvars;
+    }
+
+    public void setFGvars(Map<String, Double> FGvars) {
+        this.FGvars = FGvars;
+    }
 
     public static void main(String[] args)
     {
-        Interpreter interpreter = new Interpreter();
+        Interpreter interpreter = new Interpreter(new HashMap<>());
         Utils utils = new Utils(interpreter);
         Lexer lexer = new Lexer();
         Parser parser = new Parser(utils);
@@ -66,8 +78,11 @@ public class Interpreter extends Observable {
 
         System.out.println(code + "\n");
         List<String> tokens = lexer.lexer(code);
-        parser.parse(tokens);
+        AssignCommand assignCommand = new AssignCommand(interpreter);
+        assignCommand.execute(tokens, 88);
+//        parser.parse(tokens);
         System.out.println("finish");
     }
+
 
 }

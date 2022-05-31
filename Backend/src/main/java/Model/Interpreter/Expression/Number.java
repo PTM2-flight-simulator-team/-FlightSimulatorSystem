@@ -1,5 +1,7 @@
 package Model.Interpreter.Expression;
 
+import java.util.List;
+
 public class Number implements Expression{
 
 	private double value;
@@ -13,7 +15,7 @@ public class Number implements Expression{
 	}
 
 	@Override
-	public double calculate() {
-		return value;
+	public double calculate(List<String> args, int index) {
+		return this.value;
 	}
 }

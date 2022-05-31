@@ -14,8 +14,8 @@ public abstract class AbstractCommand implements Command {
     }
 
     @Override
-    public void execute(List<String> args, int index) {
-
+    public int execute(List<String> args, int index) {
+        return -1;
     }
 
     @Override

@@ -2,6 +2,8 @@ package Model.Interpreter.Expression;
 
 import Model.Interpreter.Commands.AbstractCommand;
 
+import java.util.List;
+
 public class ExpressionCommand implements Expression{
 
     AbstractCommand c;
@@ -11,7 +13,7 @@ public class ExpressionCommand implements Expression{
     }
 
     @Override
-    public double calculate() {
-        return 0;
+    public double calculate(List<String> args, int index) {
+        return c.execute(args, index);
     }
 }

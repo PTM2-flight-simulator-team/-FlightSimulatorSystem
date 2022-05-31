@@ -1,5 +1,7 @@
 package Model.Interpreter.Expression;
 
+import java.util.List;
+
 public class Div extends BinaryExpression {
 
 	public Div(Expression left, Expression right) {
@@ -7,8 +9,8 @@ public class Div extends BinaryExpression {
 	}
 
 	@Override
-	public double calculate() {
-		return left.calculate()/right.calculate();
+	public double calculate(List<String> args, int index) {
+		return left.calculate(args,index)/right.calculate(args,index);
 	}
 
 }
