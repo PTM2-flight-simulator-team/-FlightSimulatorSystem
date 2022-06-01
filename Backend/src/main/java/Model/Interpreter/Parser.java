@@ -23,5 +23,6 @@ public class Parser {
         int num = 1;
         int i = 0;
         int numOfArgs = -1;
+        //if(tokens(i).equals("\n") i++)
     }
 }

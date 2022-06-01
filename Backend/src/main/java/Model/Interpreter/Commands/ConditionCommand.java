@@ -11,8 +11,10 @@ public class ConditionCommand extends AbstractCommand{
     }
 
     @Override
-    public void execute(List<String> args, int index) {
+    public int execute(List<String> args, int index) {
+
         interpreter.setDoCommand("condition");
+        return 0;
     }
 
     @Override

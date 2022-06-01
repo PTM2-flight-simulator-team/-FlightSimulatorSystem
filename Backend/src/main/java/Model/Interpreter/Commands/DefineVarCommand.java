@@ -11,8 +11,11 @@ public class DefineVarCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(List<String> args, int index) {
-
+    public int execute(List<String> args, int index) {
+        if(!interpreter.utils.isSymbol(args.get(index+1))){
+            interpreter.utils.setSymbol(args.get(index+1), null);
+        }
+        return numOfArgs;
     }
 
     @Override

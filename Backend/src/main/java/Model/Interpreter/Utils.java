@@ -1,28 +1,31 @@
 package Model.Interpreter;
 
 import Model.Interpreter.Commands.*;
+import Model.Interpreter.Expression.ExpressionCommand;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
 
-    protected static Map<String, Double> symTable = new HashMap<>();
-    protected static Map<String, Command> commands = new HashMap<>();
+    protected static Map<String, Variable> symTable = new HashMap<>();
+    protected static Map<String, ExpressionCommand> commands = new HashMap<>();
 
     public Utils(Interpreter interpreter) {
-        commands.put("condition", new ConditionCommand(interpreter));
-        commands.put("connect", new ConnectToServerCommand(interpreter));
-        commands.put("var", new DefineVarCommand(interpreter));
-        commands.put("while", new WhileCommand(interpreter));
-        commands.put("openDataServer", new OpenServerCommand(interpreter));
-        commands.put("print", new PrintCommand(interpreter));
-        commands.put("bind", new BindCommand(interpreter));
-        commands.put("sleep", new SleepCommand(interpreter));
-        commands.put("=", new AssignCommand(interpreter));
+        commands.put("condition", new ExpressionCommand(new ConditionCommand(interpreter)));
+        commands.put("connect", new ExpressionCommand(new ConnectToServerCommand(interpreter)));
+        commands.put("var", new ExpressionCommand(new DefineVarCommand(interpreter)));
+        commands.put("while", new ExpressionCommand(new WhileCommand(interpreter)));
+        commands.put("openDataServer", new ExpressionCommand(new OpenServerCommand(interpreter)));
+        commands.put("print", new ExpressionCommand(new PrintCommand(interpreter)));
+        commands.put("bind", new ExpressionCommand(new BindCommand(interpreter)));
+        commands.put("sleep", new ExpressionCommand(new SleepCommand(interpreter)));
+
+        symTable.put("h0", new Variable(null, 100));
+        symTable.put("heading", new Variable("/instrumentation/heading-indicator/offset-deg", 1000));
     }
 
-    public double getSymbol(String sym){
+    public Variable getSymbol(String sym){
         return symTable.get(sym);
     }
 
@@ -30,11 +33,11 @@ public class Utils {
         return symTable.containsKey(sym);
     }
 
-    public void setSymbol(String sym, double value){
+    public void setSymbol(String sym, Variable value){
         symTable.put(sym, value);
     }
 
-    public  Command getCommand(String command){
+    public  ExpressionCommand getCommand(String command){
         return commands.get(command);
     }
 
@@ -42,7 +45,7 @@ public class Utils {
         return commands.containsKey(command);
     }
 
-    public  void setCommand(String commandName, Command command){
+    public  void setCommand(String commandName, ExpressionCommand command){
         commands.put(commandName, command);
     }
 

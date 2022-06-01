@@ -1,5 +1,7 @@
 package Model.Interpreter.Expression;
 
+import java.util.List;
+
 public class Mul extends BinaryExpression {
 
 	public Mul(Expression left, Expression right) {
@@ -7,8 +9,8 @@ public class Mul extends BinaryExpression {
 	}
 
 	@Override
-	public double calculate() {
-		return left.calculate()*right.calculate();
+	public double calculate(List<String> args, int index) {
+		return left.calculate(args, index)*right.calculate(args, index);
 	}
 
 }
