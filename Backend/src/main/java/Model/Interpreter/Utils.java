@@ -21,8 +21,8 @@ public class Utils {
         commands.put("bind", new ExpressionCommand(new BindCommand(interpreter)));
         commands.put("sleep", new ExpressionCommand(new SleepCommand(interpreter)));
 
-//        symTable.put("h0", new Variable(null, 100));
-//        symTable.put("heading", new Variable("/instrumentation/heading-indicator/offset-deg", 1000));
+        symTable.put("h0", new Variable(null, 100));
+        symTable.put("heading", new Variable("/instrumentation/heading-indicator/offset-deg", 1000));
     }
 
     public Variable getSymbol(String sym){

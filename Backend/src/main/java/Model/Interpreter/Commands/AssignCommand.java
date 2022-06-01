@@ -1,5 +1,6 @@
 package Model.Interpreter.Commands;
 
+import Model.Interpreter.Expression.ShuntingYardAlgorithm;
 import Model.Interpreter.Interpreter;
 import Model.Interpreter.Variable;
 
@@ -33,7 +34,18 @@ public class AssignCommand extends AbstractCommand {
                 rightExpression.set(e, exp);
             }
         }
-
-        return 0;
+        if(!interpreter.utils.isSymbol(args.get(index-1))){//case: assign first time local var
+            interpreter.utils.setSymbol(args.get(index-1), new Variable(ShuntingYardAlgorithm.calc(rightExpression)));
+        }else {
+            if(interpreter.utils.getSymbol(args.get(index-1)).getBindTo() == null){//case: change value of local var
+                interpreter.utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
+            }else {//case: change FG var values
+                interpreter.utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
+                interpreter.setDoCommand("set" + " " + interpreter.utils.getSymbol(args.get(index-1)).getBindTo() + " " +
+                        interpreter.utils.getSymbol(args.get(index-1)).getValue());//change the value on the FlightGear
+            }
+        }
+        i -= 1;//i moving forward one extra time
+        return i;// returning num of jumps in args list
     }
 }
