@@ -1,4 +1,4 @@
-package NetworkManager;
+package Network;
 
 public class SSHhandler {
 }

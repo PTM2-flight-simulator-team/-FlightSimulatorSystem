@@ -1,5 +1,10 @@
+import Controller.MyController;
+import Model.MyModel;
+
 public class AgentMain {
     public static void main(String[] args) {
-        System.out.println("We finished Milestone 3!!");
+        MyModel model = new MyModel();
+        MyController controller = new MyController(model);
+        System.out.println("main thread rip");
     }
 }

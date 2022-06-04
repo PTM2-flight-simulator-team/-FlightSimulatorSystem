@@ -1,17 +1,16 @@
 package Controller;
 
-import Model.Model;
-import NetworkManager.NetworkManager;
-
+import Model.MyModel;
+import Network.NetworkManager;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Controller implements Observer {
+public class MyController implements Observer {
     private NetworkManager networkManager;
-    private Model model;
+    private MyModel model;
 
-    public Controller(NetworkManager networkManager, Model model) {
-        this.networkManager = networkManager;
+    public MyController(MyModel model) {
+        this.networkManager = new NetworkManager(model.GetNamesList());
         this.model = model;
         model.addObserver(this);
         networkManager.addObserver(this);
@@ -25,11 +24,11 @@ public class Controller implements Observer {
         this.networkManager = networkManager;
     }
 
-    public Model getModel() {
+    public MyModel getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public void setModel(MyModel model) {
         this.model = model;
     }
 
