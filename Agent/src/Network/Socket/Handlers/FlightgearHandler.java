@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +25,7 @@ public class FlightgearHandler extends Observable{
     Thread serverThread;
     Thread clientThread;
     PrintWriter outToFG;
+    PlainData myData;
 
     public FlightgearHandler(List l){
         newData = new HashMap<>();
@@ -46,7 +49,8 @@ public class FlightgearHandler extends Observable{
                    StartClient();
                 }
             };
-            clientThread.start();   
+            clientThread.start();
+            // check
             BufferedReader in = new BufferedReader(new InputStreamReader(serverAccept.getInputStream()));
             String line;
             while((line = in.readLine())!=null)
@@ -56,7 +60,8 @@ public class FlightgearHandler extends Observable{
                 for(int i = 0; i < vals.length; i++){
                     newData.put(l.get(i), vals[i]);
                 }
-                PlainData data = new PlainData("ShimiHagever",newData);
+                PlainData data = new PlainData("ShimiHagever",newData); // ailreron 1 ,,,,,,
+                myData = data;
 //                data.Print();
                 setChanged();
                 notifyObservers(data);
@@ -91,4 +96,94 @@ public class FlightgearHandler extends Observable{
             outToFG.flush();    
         }
     }
+
+    public PlainData getMyData() {
+        return myData;
+    }
+
+    public void Stop()
+    {
+        try {
+            this.server.close();
+            this.serverAccept.close();
+            this.client.close();
+            // need to check
+            this.serverThread.stop();
+            this.clientThread.stop();
+            this.outToFG.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void AutoPilot(){
+//        try {
+//            Thread.sleep(120000);
+//        } catch (InterruptedException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        }
+        System.out.println("Starting autoPilot");
+        WriteToFG("set /controls/flight/speedbrake 0");
+
+        WriteToFG("set /controls/engines/current-engine/throttle 1");
+//        WriteToFG("set /controls/engines/current-engine/throttle 500");
+
+        double h = Double.parseDouble(myData.getHeading());
+        System.out.println(h);
+        double minus = -1.0;
+        double a = Double.parseDouble(myData.getAltitude());
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("start");
+        System.out.println(a);
+        while((a - Double.parseDouble(myData.getAltitude()) > -50))
+        {
+            WriteToFG("set /controls/flight/rudder "+ ((h - Double.parseDouble(myData.getHeading())) / 20));
+            WriteToFG("set /controls/flight/aileron " + ((-1 * ((Double.parseDouble(myData.getRollDeg())))) / 70));
+            WriteToFG("set /controls/flight/elevator " + ((Double.parseDouble(myData.getPitchDeg())) / 50));
+            System.out.println(myData.getAltitude());
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        System.out.println("change");
+        while((Double.parseDouble(myData.getAltitude())) < 1000){
+            WriteToFG("set /controls/flight/rudder "+ ((h - Double.parseDouble(myData.getHeading())) / 200));
+            WriteToFG("set /controls/flight/aileron " + ((-1 * ((Double.parseDouble(myData.getRollDeg())))) / 200));
+            WriteToFG("set /controls/flight/elevator " + ((Double.parseDouble(myData.getPitchDeg())) / 50));
+            System.out.println(myData.getAltitude());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Done");
+    }
+
+    public void takeoff(){
+        WriteToFG("set /controls/flight/speedbrake 0");
+        WriteToFG("set /controls/engines/current-engine/throttle 1");
+        double h0 = Double.parseDouble(myData.getHeading());
+        while((Double.parseDouble(myData.getAltitude())) < 1000){
+            WriteToFG("set /controls/flight/rudder "+ ((h0 - Double.parseDouble(myData.getHeading())) / 20));
+            WriteToFG("set /controls/flight/aileron " + ((-1 * ((Double.parseDouble(myData.getRollDeg())))) / 70));
+            WriteToFG("set /controls/flight/elevator " + ((Double.parseDouble(myData.getPitchDeg())) / 50));
+            System.out.println("Alt: " + myData.getAltitude());
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
+
