@@ -67,6 +67,16 @@ public class BackendHandler extends  Observable implements Observer {
         }
     }
 
+    public void Stop(){
+        try {
+            this.objectOutputStream.close();
+            this.serverReader.Stop();
+            this.socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         setChanged();

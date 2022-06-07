@@ -1,0 +1,14 @@
+aileron,0
+elevator,0
+rudder,0
+longitude-deg,-22.60542633
+latitude-deg,63.99183623
+airspeed-kt,2.96401759
+vertical-speed-fps,-8.45334
+throttle_0,0
+throttle_1,0
+altitude-ft,146.2296058
+pitch-deg,4.952538663
+roll-deg,0.1139815694
+heading-deg,180.0140609
+side-slip-deg,-29.96368582

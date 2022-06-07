@@ -25,14 +25,25 @@ public class MySocketHandler extends Observable implements Observer {
         return "<h1>This is get response</h1>";
     }
 
+    public FlightgearHandler getFgHandler() {
+        return fgHandler;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
         if(o instanceof FlightgearHandler){
+            if(arg instanceof String){
+                setChanged();
+                notifyObservers(arg);
+            }
             PlainData data =  (PlainData)arg;
             if(data != null)
             {
                 backHandler.SendPlainData(data);
+                String Analytic = "Analytic:" +"altitude "+ data.getAltitude() + " speed " + data.getAirSpeed_kt(); // add all the data you want to compare
+                setChanged();
+                notifyObservers(Analytic);
             }
         }
         if(o instanceof BackendHandler){
@@ -40,6 +51,19 @@ public class MySocketHandler extends Observable implements Observer {
             notifyObservers(arg);
         }
         
+    }
+
+    public void setCommand(String command){
+        this.fgHandler.WriteToFG(command);
+    }
+
+    public void ShutDown(){
+        this.backHandler.Stop();
+        this.fgHandler.Stop();
+    }
+
+    public void PrintStream(){
+        this.fgHandler.getMyData().Print();
     }
 
 }

@@ -37,4 +37,13 @@ public class ServerReaderConnection extends Observable implements Runnable {
             }
         }
     }
+
+    public void Stop(){
+        try {
+            this.in.close();
+            this.server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
