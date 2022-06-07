@@ -1,19 +1,16 @@
 package Model.Interpreter.Commands;
 
-import Model.Interpreter.Interpreter;
-
 import java.util.List;
+import  Model.Interpreter.*;
 
 public class DefineVarCommand extends AbstractCommand {
 
-    public DefineVarCommand(Interpreter interpreter) {
-        super(interpreter,1);//stam
-    }
+    public DefineVarCommand(Interpreter interpreter) {super(interpreter,1);}
 
     @Override
     public int execute(List<String> args, int index) {
-        if(!interpreter.utils.isSymbol(args.get(index+1))){
-            interpreter.utils.setSymbol(args.get(index+1), null);
+        if(!Utils.isSymbol(args.get(index+1))){
+            Utils.setSymbol(args.get(index+1), null);
         }
         return numOfArgs;
     }

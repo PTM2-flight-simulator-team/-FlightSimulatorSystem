@@ -11,7 +11,7 @@ public class Variable {
     }
     public Variable(String bind, double value) {
         this.value = value;
-        this.bindTo = null;
+        this.bindTo = bind;
     }
 
     public double getValue() {
