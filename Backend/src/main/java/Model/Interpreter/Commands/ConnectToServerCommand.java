@@ -1,14 +1,11 @@
 package Model.Interpreter.Commands;
 
-import Model.Interpreter.Interpreter;
-
 import java.util.List;
+import  Model.Interpreter.*;
 
 public class ConnectToServerCommand extends AbstractCommand {
 
-    public ConnectToServerCommand(Interpreter interpreter) {
-        super(interpreter,2);//ip port
-    }
+    public ConnectToServerCommand(Interpreter interpreter) {super(interpreter,1);}
 
     @Override
     public int execute(List<String> args, int index) {

@@ -34,4 +34,25 @@ public class DataBase {
     public void closeClient(){
         this.client.close();
     }
+
+    public FindIterable<Document> getDoc(String colName, Document doc){
+        return this.database.getCollection(colName).find(doc);
+    }
+
+    public FindIterable<Document> getById(String colName, Integer id){
+        return this.database.getCollection(colName).find(new Document().append("_id",id));
+    }
+
+    public FindIterable<Document> getByName(String colName, String name){
+        return this.database.getCollection(colName).find(new Document().append("name",name));
+    }
+
+    public Document deleteAndGetDoc(String colName, Document doc){
+        return this.database.getCollection(colName).findOneAndDelete(doc);
+    }
+
+    public Document deleteById(String colName, Integer id){
+        return this.database.getCollection(colName).findOneAndDelete(new Document().append("_id", id));
+    }
+
 }

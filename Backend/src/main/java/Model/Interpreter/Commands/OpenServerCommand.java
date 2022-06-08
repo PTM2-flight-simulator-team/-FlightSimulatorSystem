@@ -1,16 +1,11 @@
 package Model.Interpreter.Commands;
 
 
-import Model.Interpreter.Interpreter;
-
 import java.util.List;
+import  Model.Interpreter.*;
 
 public class OpenServerCommand extends AbstractCommand {
-
-    String[] params = new String[2];
-    public OpenServerCommand(Interpreter interpreter) {
-        super(interpreter,2);// port
-    }
+    public OpenServerCommand(Interpreter interpreter) {super(interpreter,1);}
 
     @Override
     public int execute(List<String> args, int index) {
