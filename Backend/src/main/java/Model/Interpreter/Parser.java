@@ -1,5 +1,7 @@
 package Model.Interpreter;
 
+import Model.Interpreter.Commands.Command;
+
 import java.util.ArrayList;
 import java.util.List;
 
