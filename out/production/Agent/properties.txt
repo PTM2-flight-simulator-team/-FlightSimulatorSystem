@@ -4,7 +4,7 @@ rudder,/controls/flight/rudder
 flaps,/controls/flight/flaps
 slats,/controls/flight/slats
 speedbrake,/controls/flight/speedbrake
-throttle_0,/controls/engines/engine[0]/throttle
+throttle_0,/controls/engines/current-engine/throttle
 throttle_1,/controls/engines/engine[1]/throttle
 engine-pump_0,/controls/hydraulic/system[0]/engine-pump
 engine-pump_1,/controls/hydraulic/system[1]/engine-pump

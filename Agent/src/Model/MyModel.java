@@ -76,16 +76,16 @@ public class MyModel extends Observable {
     }
 
     public void setEndTime(String time){
-        this.analyticsHandler.setStartTime(time);
+        this.analyticsHandler.setEndTime(time);
     }
 
-    public void setFrom(String from){
-        this.analyticsHandler.setFrom(from);
-    }
+//    public void setFrom(String from){
+//        this.analyticsHandler.setFrom(from);
+//    }
 
-    public void setTo(String to){
-        this.analyticsHandler.setTo(to);
-    }
+//    public void setTo(String to){
+//        this.analyticsHandler.setTo(to);
+//    }
 
     public void sendAnalytic(String analytic){
         this.analyticsHandler.compareAnalytics(analytic);
@@ -106,6 +106,7 @@ public class MyModel extends Observable {
         myCommands.put("reset",new ResetCommand(this));
         myCommands.put("shutdown",new ShutDownCommand(this));
         myCommands.put("analytics",new AnalyticSenderCommand(this));
+        myCommands.put("FlightDataCommand",new FlightDataCommand(this));
     }
 
     public void modelNotify(Object arg){

@@ -64,13 +64,22 @@ public class MySocketHandler extends Observable implements Observer {
         this.fgHandler.WriteToFG(command);
     }
 
-    public void ShutDown(){
-        this.backHandler.Stop();
+    public void ShutDown(String analytic){
         this.fgHandler.Stop();
+        this.backHandler.sendFinalAnalytics(analytic);
+        System.out.println("sent Final Analytics");
+        System.out.println("The analytics are:");
+        System.out.println(analytic);
+        this.backHandler.Stop();
+        System.out.println("Stopped everything");
     }
 
     public void PrintStream(){
         this.fgHandler.getMyData().Print();
+    }
+
+    public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
+        this.backHandler.sendFlightDataToBackend(list);
     }
 
 }
