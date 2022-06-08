@@ -40,13 +40,13 @@ public class BackendHandler extends  Observable implements Observer {
 
     public void SendAirplaneData(){
         try {
-            Scanner scanner = new Scanner(new FileReader("PlaneData.txt"));
+            Scanner scanner = new Scanner(new FileReader("Agent/src/PlaneData.txt"));
             String[] firstrow =  scanner.nextLine().split("=");
             String id = firstrow[1];
             String[] secondRow = scanner.nextLine().split("=");
             String name = secondRow[1];
             if (objectOutputStream != null){
-                objectOutputStream.writeChars(id + "," + name);
+                objectOutputStream.writeObject(id + "," + name);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -65,6 +65,7 @@ public class BackendHandler extends  Observable implements Observer {
             OutputStream outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
             InputStream inputStream = socket.getInputStream();
+            SendAirplaneData();
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block

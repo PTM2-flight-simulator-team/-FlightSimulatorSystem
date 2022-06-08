@@ -18,8 +18,6 @@ public class MyController implements Observer {
     public MyController(MyModel model) {
         this.networkManager = new NetworkManager(model.GetNamesList());
         this.model = model;
-//        this.model.setFrom("Tel-Aviv");
-//        this.model.setTo("New-York");
         this.model.addObserver(this);
         networkManager.addObserver(this);
         LocalDateTime currentTime = LocalDateTime.now();
@@ -44,7 +42,7 @@ public class MyController implements Observer {
         this.model = model;
     }
 
-    public ArrayList<String> getFlightData(){
+    public ArrayList<ArrayList<String>> getFlightData(){
         return this.model.getFlight();
     }
 
@@ -134,6 +132,12 @@ public class MyController implements Observer {
         else if (o.getClass().equals(networkManager.getClass())){
             if(arg instanceof String){
                 String[] data = ((String) arg).split(":");
+
+//                if (data[0].equals("GetFlightData")){
+//                    ArrayList<ArrayList<String>> t = getFlightData();
+//                    System.out.println("here");
+//                }
+
                 if(data[0].equals("StartTime"))
                 {
                     this.model.setStartTime(data[1]);
@@ -142,13 +146,14 @@ public class MyController implements Observer {
                 {
                     this.model.setEndTime(data[1]);
                 }
-                else if (data[1].startsWith("altitude"))// Analytics
+                else if (data.length > 1 && data[1].startsWith("altitude"))// Analytics
                 {
                     this.model.sendAnalytic(data[1]);
                     return;
                 }
                 else {
-                    CLI(data[1]);
+                    System.out.println(arg);
+                    CLI((String) arg);
                 }
                 //aileron,3,throttle,700
                 //set aileron

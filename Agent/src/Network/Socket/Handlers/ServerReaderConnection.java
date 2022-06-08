@@ -2,6 +2,7 @@ package Network.Socket.Handlers;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Observable;
 
 public class ServerReaderConnection extends Observable implements Runnable {
@@ -29,10 +30,12 @@ public class ServerReaderConnection extends Observable implements Runnable {
         while (!stop){
             try {
                 String line = in.readLine();
-                System.out.println(line);
                 setChanged();
                 notifyObservers(line);
-            } catch (IOException e) {
+            }catch (SocketException e) {
+                Stop();
+                System.out.println("Server Error: Disconnected");
+            }catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
@@ -41,14 +42,14 @@ public class FlightGearReader extends Observable {
             // check
             BufferedReader in = new BufferedReader(new InputStreamReader(serverAccept.getInputStream()));
             String line;
-            while((line = in.readLine())!=null && stop == true)
+            while(stop == true && (line = in.readLine())!=null)
             {
                 // System.out.println(line);
                 String[] vals =line.split(",");
                 for(int i = 0; i < vals.length; i++){
                     newData.put(l.get(i), vals[i]);
                 }
-                PlainData data = new PlainData("ShimiHagever",newData); // ailreron 1 ,,,,,,
+                PlainData data = new PlainData(newData); // ailreron 1 ,,,,,,
                 myData = data;
 //                data.Print();
                 setChanged();
@@ -58,7 +59,10 @@ public class FlightGearReader extends Observable {
             in.close();
             serverAccept.close();
 
-        } catch (IOException e) {
+        }catch (SocketException se){
+            return;
+        }
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -71,9 +75,9 @@ public class FlightGearReader extends Observable {
 
     public void stop() {
         try {
+            stop = false; //serverThread.stop()
             serverAccept.close();
             server.close();
-            stop = false; //serverThread.stop()
         } catch (IOException e) {
             e.printStackTrace();
         }

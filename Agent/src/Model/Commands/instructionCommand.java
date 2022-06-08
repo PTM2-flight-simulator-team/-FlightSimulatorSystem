@@ -13,10 +13,11 @@ public class instructionCommand implements Command{
     public void setCommand(String command) { //string != null => path
         String convert = CovertPropertyToPath(command);
         if (CovertPropertyToPath(command) != null) {
-            this.command = command;
+            this.command = convert;
         }
         else
-            this.command = convert;
+            this.command = command;
+
     }
 
     public boolean isProperty(String property){
@@ -28,7 +29,8 @@ public class instructionCommand implements Command{
 
     public String CovertPropertyToPath(String property){
         if (isProperty(property)){
-            return model.getProperties().get(property);
+            String[] data = property.split(" ");
+            return model.getProperties().get(data[0]) + " " + data[1];
         }
         return null;
     }

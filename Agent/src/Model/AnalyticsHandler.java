@@ -5,21 +5,45 @@ import Network.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AnalyticsHandler {
     private HashMap<String,String> analytics;
-    private ArrayList<String> timeSeries;
+    private ArrayList<ArrayList<String>> timeSeries;
 
     public AnalyticsHandler(){
         analytics = new HashMap<>();
-        timeSeries = new ArrayList<>();
+        timeSeries = new ArrayList<ArrayList<String>>();
+
+        ArrayList<String> headers = new ArrayList<String>();
+        AddHeaders(headers);
+
+        timeSeries.add(headers);
         setFrom("Tel-Aviv");
         setTo("New-York");
     }
+
+    private void AddHeaders(ArrayList<String> headers) {
+        headers.add("aileron");
+        headers.add("elevator");
+        headers.add("rudder");
+        headers.add("longitude");
+        headers.add("latitude");
+        headers.add("airSpeed_kt");
+        headers.add("vertSpeed");
+        headers.add("throttle_0");
+        headers.add("throttle_1");
+        headers.add("altitude");
+        headers.add("pitchDeg");
+        headers.add("rollDeg");
+        headers.add("heading");
+        headers.add("turnCoordinator");
+    }
+
     public void AddPlainDataToArrayList(PlainData plainData){
         timeSeries.add(plainData.PlainDataToString());
     }
-    public ArrayList<String> GetFlight(){
+    public ArrayList<ArrayList<String>> GetFlight(){
         return timeSeries;
     }
     public void compareAnalytics(String FGanalytics){
