@@ -19,6 +19,7 @@ public class MySocketHandler extends Observable implements Observer {
         backHandler = new BackendHandler("127.0.0.1",5899);
 
         fgHandler.addObserver(this);
+        backHandler.addObserver(this);
     }
 
     public String GetResponse(){

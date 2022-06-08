@@ -117,7 +117,7 @@ public class MyModel extends Observable {
         this.analyticsHandler.AddPlainDataToArrayList(tempPlane);
     }
 
-    public ArrayList<String> getFlight() {
+    public ArrayList<ArrayList<String>> getFlight() {
         return this.analyticsHandler.GetFlight();
     }
 }
