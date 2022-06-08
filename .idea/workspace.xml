@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="Interpreter classes and packages">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/CommonClasses/PlainData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/Command.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/GetFromDBCommand.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenCliCommand.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" afterDir="false" />
@@ -13,9 +15,6 @@
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentListener.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentWriter.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Commands.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Controller.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" afterDir="false" />
     </list>
@@ -81,5 +80,28 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlightSimulatorSystem$Interpreter.ic" NAME="Interpreter Coverage Results" MODIFIED="1654019815497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Model.Interpreter.*</FILTER>
+    </SUITE>
   </component>
 </project>
