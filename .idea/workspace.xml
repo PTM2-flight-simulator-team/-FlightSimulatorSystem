@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="Interpreter classes and packages">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/CommonClasses/PlainData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/GetFromDBCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenCliCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="29WavyU13Jntv5cUjszNSEvgINB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Backend/src" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
+      <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Controller.MainController" />
+      <module name="Backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainController" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="" />
+      <created>1653231530285</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653231530285</updated>
+      <workItem from="1653231534049" duration="1508000" />
+      <workItem from="1654623763538" duration="96000" />
+      <workItem from="1654623907139" duration="71000" />
+      <workItem from="1654624038669" duration="319000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlightSimulatorSystem$Interpreter.ic" NAME="Interpreter Coverage Results" MODIFIED="1654019815497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Model.Interpreter.*</FILTER>
+    </SUITE>
+  </component>
+</project>
