@@ -1,14 +1,11 @@
 package Model.Interpreter.Commands;
 
-import Model.Interpreter.Interpreter;
-
 import java.util.List;
+import  Model.Interpreter.*;
 
 public class ConditionCommand extends AbstractCommand{
 
-    public ConditionCommand(Interpreter interpreter) {
-        super(interpreter,0);//stam
-    }
+    public ConditionCommand(Interpreter interpreter) {super(interpreter,1);}
 
     @Override
     public int execute(List<String> args, int index) {
