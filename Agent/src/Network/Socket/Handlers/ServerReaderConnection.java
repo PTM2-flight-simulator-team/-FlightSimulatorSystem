@@ -7,7 +7,7 @@ import java.util.Observable;
 public class ServerReaderConnection extends Observable implements Runnable {
     private Socket server;
     private BufferedReader in;
-
+    volatile boolean stop = false;
     public ServerReaderConnection(Socket s){
         server = s;
         try {
@@ -26,7 +26,7 @@ public class ServerReaderConnection extends Observable implements Runnable {
     }
     @Override
     public void run() {
-        while (true){
+        while (!stop){
             try {
                 String line = in.readLine();
                 System.out.println(line);
@@ -40,6 +40,7 @@ public class ServerReaderConnection extends Observable implements Runnable {
 
     public void Stop(){
         try {
+            stop = true;
             this.in.close();
             this.server.close();
         } catch (IOException e) {
