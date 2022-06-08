@@ -10,8 +10,27 @@ public class instructionCommand implements Command{
         this.model = model;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setCommand(String command) { //string != null => path
+        String convert = CovertPropertyToPath(command);
+        if (CovertPropertyToPath(command) != null) {
+            this.command = command;
+        }
+        else
+            this.command = convert;
+    }
+
+    public boolean isProperty(String property){
+        // aileron -> /controls/dmn,ads.mdas
+        if(property.contains("/"))
+            return false;
+        return true;
+    }
+
+    public String CovertPropertyToPath(String property){
+        if (isProperty(property)){
+            return model.getProperties().get(property);
+        }
+        return null;
     }
 
     @Override

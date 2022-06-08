@@ -1,18 +1,27 @@
 package Model;
 
+import CommonClasses.PlainData;
 import Network.NetworkManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AnalyticsHandler {
     private HashMap<String,String> analytics;
+    private ArrayList<String> timeSeries;
 
     public AnalyticsHandler(){
         analytics = new HashMap<>();
+        timeSeries = new ArrayList<>();
         setFrom("Tel-Aviv");
         setTo("New-York");
     }
-
+    public void AddPlainDataToArrayList(PlainData plainData){
+        timeSeries.add(plainData.PlainDataToString());
+    }
+    public ArrayList<String> GetFlight(){
+        return timeSeries;
+    }
     public void compareAnalytics(String FGanalytics){
         String[] data = FGanalytics.split(" ");
         int size = data.length;

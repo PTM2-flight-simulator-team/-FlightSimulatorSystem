@@ -93,24 +93,25 @@ public class PlainData implements Serializable{
         this.rudder = map.get("rudder");
         this.longitude = map.get("longitude-deg");
         this.latitude = map.get("latitude-deg");
-//        this.airSpeed_kt = map.get("airspeed-kt");
         this.airSpeed_kt = map.get("airspeed-indicator_indicated-speed-kt");
         this.vertSpeed = map.get("vertical-speed-fps");
         this.throttle_0 = map.get("throttle_0");
         this.throttle_1 = map.get("throttle_1");
-//        this.altitude = map.get("altitude-ft");
         this.altitude = map.get("altimeter_indicated-altitude-ft");
-//        this.pitchDeg = map.get("pitch-deg");
         this.pitchDeg = map.get("attitude-indicator_internal-pitch-deg");
-//        this.rollDeg = map.get("roll-deg");
         this.rollDeg = map.get("attitude-indicator_indicated-roll-deg");
-//        this.heading = map.get("heading-deg");
         this.heading = map.get("indicated-heading-deg");
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = map.get("side-slip-deg");
     }
 
+    public String PlainDataToString(){
+        return "aileron"+this.aileron +",elevator" + this.elevator +",rudder" + this.rudder+",longitude-deg" + this.longitude+",latitude-deg" + this.latitude
+                +",airspeed-kt" + this.airSpeed_kt+",vertical-speed-fps" + this.vertSpeed+",throttle_0" + this.throttle_0+",throttle_1" + this.throttle_1
+                +",altitude-ft" + this.altitude +",pitch-deg" + this.pitchDeg+",roll-deg" + this.rollDeg
+                +",heading-deg" + this.heading+",side-slip-deg" + this.turnCoordinator;
+    }
     public void Print(){
         System.out.println(
                 "aileron:"+this.aileron +",elevator:" + this.elevator +",rudder:" + this.rudder+",longitude-deg:" + this.longitude+",latitude-deg:" + this.latitude

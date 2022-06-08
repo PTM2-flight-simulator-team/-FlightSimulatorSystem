@@ -1,14 +1,12 @@
 package Network.Socket.Handlers;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 import CommonClasses.PlainData;
 
@@ -37,6 +35,23 @@ public class BackendHandler extends  Observable implements Observer {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             // e.printStackTrace();
+        }
+    }
+
+    public void SendAirplaneData(){
+        try {
+            Scanner scanner = new Scanner(new FileReader("PlaneData.txt"));
+            String[] firstrow =  scanner.nextLine().split("=");
+            String id = firstrow[1];
+            String[] secondRow = scanner.nextLine().split("=");
+            String name = secondRow[1];
+            if (objectOutputStream != null){
+                objectOutputStream.writeChars(id + "," + name);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -69,8 +84,8 @@ public class BackendHandler extends  Observable implements Observer {
 
     public void Stop(){
         try {
-            this.objectOutputStream.close();
             this.serverReader.Stop();
+            this.objectOutputStream.close();
             this.socket.close();
         } catch (IOException e) {
             e.printStackTrace();

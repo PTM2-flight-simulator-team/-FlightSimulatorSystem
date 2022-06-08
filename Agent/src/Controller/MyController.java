@@ -1,10 +1,13 @@
 package Controller;
 
+import CommonClasses.PlainData;
+import Model.Commands.instructionCommand;
 import Model.MyModel;
 import Network.NetworkManager;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,6 +43,47 @@ public class MyController implements Observer {
     public void setModel(MyModel model) {
         this.model = model;
     }
+
+    public ArrayList<String> getFlightData(){
+        return this.model.getFlight();
+    }
+
+    public void CLI(String line){
+        String[] result = line.split(":");
+        if(result[0].equals("set"))
+        {
+            // check if the property is legit -------------------
+            instructionCommand c = (instructionCommand) this.getModel().getMyCommands().get("instructions");
+            c.setCommand(result[1]);
+            c.execute();
+            System.out.println("setter");
+            return;
+        }
+        if(result[0].equals("printstream"))
+        {
+            System.out.println("printstream:");
+            this.getModel().getMyCommands().get("printstream").execute();
+            return;
+
+        }
+        if(result[0].equals("analytic"))
+        {
+            System.out.println("analytics:");
+            this.getModel().getMyCommands().get("analytics").execute();
+            return;
+        }
+        if(result[0].equals("reset")){
+            System.out.println("reset:");
+            this.getModel().getMyCommands().get("reset").execute();
+            return;
+        }
+        if(result[0].equals("shutdown")){
+            System.out.println("shutdown:");
+            this.getModel().getMyCommands().get("shutdown").execute();
+            return;
+        }
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -98,10 +142,20 @@ public class MyController implements Observer {
                 {
                     this.model.setEndTime(data[1]);
                 }
-                else // Analytics
+                else if (data[1].startsWith("altitude"))// Analytics
                 {
                     this.model.sendAnalytic(data[1]);
+                    return;
                 }
+                else {
+                    CLI(data[1]);
+                }
+                //aileron,3,throttle,700
+                //set aileron
+            }
+            if (arg instanceof PlainData){
+                PlainData tempPlane = (PlainData) arg;
+                model.setPlainData(tempPlane);
             }
         }
     }
