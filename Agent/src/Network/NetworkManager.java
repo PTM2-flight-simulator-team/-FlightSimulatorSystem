@@ -2,6 +2,7 @@ package Network;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -42,16 +43,20 @@ public class NetworkManager extends Observable implements Observer{
         // res.RespondWith(socketHandler.GetResponse());
     }
 
-    public void ShutDown(){
-        this.socketHandler.ShutDown();
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String EndtTime = currentTime.format(timeFormatter);
-        notifyObservers("EndTime:"+EndtTime);
+    public void ShutDown(String analytic){
+        this.socketHandler.ShutDown(analytic);
+//        LocalDateTime currentTime = LocalDateTime.now();
+//        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//        String EndtTime = currentTime.format(timeFormatter);
+//        notifyObservers("EndTime:"+EndtTime);
     }
 
     public void PrintStream(){
         this.socketHandler.PrintStream();
+    }
+
+    public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
+        this.socketHandler.sendFlightDataToBackend(list);
     }
 
 }

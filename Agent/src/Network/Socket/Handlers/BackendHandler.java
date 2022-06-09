@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -97,5 +98,29 @@ public class BackendHandler extends  Observable implements Observer {
     public void update(Observable o, Object arg) {
         setChanged();
         notifyObservers(arg);
+    }
+
+    public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
+        try {
+            if (objectOutputStream != null){
+                objectOutputStream.writeObject(list);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendFinalAnalytics(String analytics) {
+        try {
+            if (objectOutputStream != null){
+                objectOutputStream.writeObject(analytics);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
