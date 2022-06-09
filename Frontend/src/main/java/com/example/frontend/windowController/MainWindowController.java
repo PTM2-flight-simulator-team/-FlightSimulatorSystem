@@ -1,10 +1,15 @@
 package com.example.frontend.windowController;
 
 import com.example.frontend.FxmlLoader;
+import com.example.frontend.Model;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -12,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,36 +32,64 @@ public class MainWindowController implements Initializable {
     @FXML
     private BorderPane mainPane;
 
+    @FXML
+    private Pane topPane;
+
+    @FXML
+    private AnchorPane mainAnchorPane;
+
     //Buttons
     @FXML
     private Button btnFleet;
 
     @FXML
     private Button btnMonitoring;
-
+    Model m;
     @FXML
     private void btnFleetOverview(ActionEvent event) {
-        FxmlLoader obj = new FxmlLoader();
-        Pane pane = obj.load("FleetOverview.fxml");
-        mainPane.setCenter(pane);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane fleetOverview = new Pane();
+        try {
+            fleetOverview = fxmlLoader.load(FxmlLoader.class.getResource("FleetOverview.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainPane.setCenter(fleetOverview);
     }
     @FXML
     private void btnMonitoring(ActionEvent event) {
-        FxmlLoader obj = new FxmlLoader();
-        Pane pane = obj.load("Monitoring.fxml");
-        mainPane.setCenter(pane);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane monitoring = new Pane();
+        try {
+            monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainPane.setCenter(monitoring);
+        MonitoringController mc = fxmlLoader.getController();
+        mc.setModel(m);
     }
     @FXML
     private void btnTeleoperation(ActionEvent event) {
-        FxmlLoader obj = new FxmlLoader();
-        Pane pane = obj.load("Teleoperation.fxml");
-        mainPane.setCenter(pane);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane teleopration = new Pane();
+        try {
+            teleopration = fxmlLoader.load(FxmlLoader.class.getResource("Teleoperation.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainPane.setCenter(teleopration);
     }
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
-        FxmlLoader obj = new FxmlLoader();
-        Pane pane = obj.load("TimeCapsule.fxml");
-        mainPane.setCenter(pane);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane timeCapsule = new Pane();
+        try {
+            timeCapsule = fxmlLoader.load(FxmlLoader.class.getResource("TimeCapsule.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mainPane.setCenter(timeCapsule);
     }
 
     @FXML
@@ -65,6 +99,9 @@ public class MainWindowController implements Initializable {
         }
     }
 
+    public void setModel(Model m){
+        this.m = m;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
