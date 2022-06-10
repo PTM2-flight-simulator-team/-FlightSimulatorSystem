@@ -24,7 +24,7 @@ public class Utils {
         commands.put("sleep", new ExpressionCommand(new SleepCommand(interpreter)));
         commands.put("=", new ExpressionCommand(new AssignCommand(interpreter)));
         commands.put("if", new ExpressionCommand(new ConditionCommand(interpreter)));
-        
+
     }
 
     public static Map<String, Variable> getSymTable() {

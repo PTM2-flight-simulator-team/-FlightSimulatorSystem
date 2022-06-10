@@ -75,7 +75,6 @@ public class Interpreter extends Observable {
 //        FGvars.put("/controls/flight/aileron", 0.0);
 //        FGvars.put("/instrumentation/attitude-indicator/internal-pitch-deg", 0.0);
 //        FGvars.put("/controls/flight/elevator", 0.0);
-//        FGvars.put("/instrumentation/altimeter/indicated-altitude-ft", 0.0);
 //
 //        Interpreter interpreter = new Interpreter();
 //        interpreter.setFGvars(FGvars);
