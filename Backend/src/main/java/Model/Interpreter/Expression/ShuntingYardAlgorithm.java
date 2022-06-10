@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ShuntingYardAlgorithm {
 
-    public static double calc(List<String> exp){
+    public static double calc(List<String> exp){//creating calculate tree
         LinkedList<String> queue = new LinkedList<>();
         Stack<String> stack = new Stack<>();
         int size = exp.size();
@@ -42,10 +42,10 @@ public class ShuntingYardAlgorithm {
             queue.addLast(stack.pop());
         }
 
-        return CalculateExpTree(queue).calculate(null, 0);
+        return CalculateExpTree(queue).calculate(null, 0);//calculate the result and return it
     }
 
-    public static Expression CalculateExpTree(LinkedList<String> queue){
+    public static Expression CalculateExpTree(LinkedList<String> queue){//calculate the tree
         Expression ret;
         if(queue.isEmpty())
             return new Number(0);
@@ -84,7 +84,7 @@ public class ShuntingYardAlgorithm {
 
         return ret;
     }
-    public static double ConditionParser(List<String> conditionExp){
+    public static double ConditionParser(List<String> conditionExp){//creating the condition tree
         LinkedList<String> queue = new LinkedList<>();
         Stack<String> stack = new Stack<>();
         int size = conditionExp.size();
@@ -134,7 +134,7 @@ public class ShuntingYardAlgorithm {
         Expression check = CheckCondition(queue);
         return check.calculate(null,0);
     }
-    public static Expression CheckCondition(LinkedList<String> queue){
+    public static Expression CheckCondition(LinkedList<String> queue){//check the condition returning 0 case that false else 1
         Expression ret;
         if(queue.isEmpty())
             return new Number(0);

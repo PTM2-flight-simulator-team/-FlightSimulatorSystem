@@ -13,7 +13,7 @@ public class Utils {
     public static Map<String, ExpressionCommand> commands = new HashMap<>();
     Interpreter interpreter;
 
-    public static void start(Interpreter interpreter) {
+    public static void initialize(Interpreter interpreter) {//initialize commands
         commands.put("condition", new ExpressionCommand(new ConditionCommand(interpreter)));
         commands.put("connect", new ExpressionCommand(new ConnectToServerCommand(interpreter)));
         commands.put("var", new ExpressionCommand(new DefineVarCommand(interpreter)));
@@ -23,11 +23,8 @@ public class Utils {
         commands.put("bind", new ExpressionCommand(new BindCommand(interpreter)));
         commands.put("sleep", new ExpressionCommand(new SleepCommand(interpreter)));
         commands.put("=", new ExpressionCommand(new AssignCommand(interpreter)));
-
-
-//        symTable.put("h0", new Variable(null, 100));
-//        symTable.put("heading", new Variable("/instrumentation/heading-indicator/offset-deg", 1000));
-//        symTable.put("alt", new Variable("/instrumentation/altimeter/indicated-altitude-ft ", 900));
+        commands.put("if", new ExpressionCommand(new ConditionCommand(interpreter)));
+        
     }
 
     public static Map<String, Variable> getSymTable() {
