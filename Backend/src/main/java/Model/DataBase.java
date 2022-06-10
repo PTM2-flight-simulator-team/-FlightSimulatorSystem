@@ -3,18 +3,23 @@ package Model;
 import com.mongodb.client.*;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.util.Collection;
 import java.util.List;
 
 public class DataBase {
     MongoClient client;
-    MongoDatabase database;
-    MongoIterable<String> list;
+    public MongoDatabase database;
+    static int i =0;
+
     public DataBase(String connectionURL, String dbName ){
        this.client = MongoClients.create(connectionURL);
        this.database = this.client.getDatabase(dbName);
-       this.list = this.database.listCollectionNames();
+
+    }
+
+    public MongoIterable<String> getColList(){
+        return this.database.listCollectionNames();
     }
     public void createCollection(String colName){
         this.database.createCollection(colName);
@@ -22,11 +27,7 @@ public class DataBase {
 //        col.insertOne(sampleDoc);
 
     }
-    public List<String> getCollections(){
-        List<String> connectionList = new ArrayList<>();
-        this.list.forEach(connectionList::add);
-        return connectionList;
-    }
+
     public void addDocument(String colName, Document doc){
         this.database.getCollection(colName).insertOne(doc);
     }
@@ -39,11 +40,11 @@ public class DataBase {
         return this.database.getCollection(colName).find(doc);
     }
 
-    public FindIterable<Document> getById(String colName, Integer id){
+    public FindIterable<Document> getDocById(String colName, Integer id){
         return this.database.getCollection(colName).find(new Document().append("_id",id));
     }
 
-    public FindIterable<Document> getByName(String colName, String name){
+    public FindIterable<Document> getDocByName(String colName, String name){
         return this.database.getCollection(colName).find(new Document().append("name",name));
     }
 
@@ -51,8 +52,24 @@ public class DataBase {
         return this.database.getCollection(colName).findOneAndDelete(doc);
     }
 
-    public Document deleteById(String colName, Integer id){
-        return this.database.getCollection(colName).findOneAndDelete(new Document().append("_id", id));
+    public void deleteDocById(String colName, Integer id){
+        this.database.getCollection(colName).findOneAndDelete(new Document().append("_id", id));
+    }
+
+    public void deleteCol(String colName){
+        this.database.getCollection(colName).drop();
+    }
+
+    public MongoCollection<Document> getColl(String colName){
+        return this.database.getCollection(colName);
+    }
+
+    public void savePlainData(List<List<String>> ts){
+
+
+        Document doc = new Document();
+        doc.append("_id",i++).append("ts",ts);
+        this.addDocument("Flights",doc);
     }
 
 }
