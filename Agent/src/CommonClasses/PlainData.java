@@ -1,11 +1,13 @@
 package CommonClasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
-    private String plainName;
+//    private String ID;
+//    private String plainName;
     private String aileron;
     private String elevator;
     private String rudder;
@@ -22,9 +24,9 @@ public class PlainData implements Serializable{
     private String heading;
     private String turnCoordinator; // didnt find
 
-    public String getPlainName() {
-        return plainName;
-    }
+//    public String getPlainName() {
+//        return plainName;
+//    }
 
     public String getAileron() {
         return aileron;
@@ -86,31 +88,45 @@ public class PlainData implements Serializable{
         return turnCoordinator;
     }
 
-    public PlainData(String name, HashMap<String,String> map){
-        this.plainName = name;
+    public PlainData(HashMap<String,String> map){
+//        this.plainName = name;
         this.aileron = map.get("aileron");
         this.elevator = map.get("elevator");
         this.rudder = map.get("rudder");
         this.longitude = map.get("longitude-deg");
         this.latitude = map.get("latitude-deg");
-//        this.airSpeed_kt = map.get("airspeed-kt");
         this.airSpeed_kt = map.get("airspeed-indicator_indicated-speed-kt");
         this.vertSpeed = map.get("vertical-speed-fps");
         this.throttle_0 = map.get("throttle_0");
         this.throttle_1 = map.get("throttle_1");
-//        this.altitude = map.get("altitude-ft");
         this.altitude = map.get("altimeter_indicated-altitude-ft");
-//        this.pitchDeg = map.get("pitch-deg");
         this.pitchDeg = map.get("attitude-indicator_internal-pitch-deg");
-//        this.rollDeg = map.get("roll-deg");
         this.rollDeg = map.get("attitude-indicator_indicated-roll-deg");
-//        this.heading = map.get("heading-deg");
         this.heading = map.get("indicated-heading-deg");
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = map.get("side-slip-deg");
     }
 
+    public ArrayList<String> PlainDataToString(){
+        ArrayList<String> data = new ArrayList<>();
+        data.add(this.aileron);
+        data.add(this.elevator);
+        data.add(this.rudder);
+        data.add(this.longitude);
+        data.add(this.latitude);
+        data.add(this.airSpeed_kt);
+        data.add(this.vertSpeed);
+
+        data.add(this.throttle_0);
+        data.add(this.throttle_1);
+        data.add(this.altitude);
+        data.add(this.pitchDeg);
+        data.add(this.rollDeg);
+        data.add(this.heading);
+        data.add(this.turnCoordinator);
+        return data;
+    }
     public void Print(){
         System.out.println(
                 "aileron:"+this.aileron +",elevator:" + this.elevator +",rudder:" + this.rudder+",longitude-deg:" + this.longitude+",latitude-deg:" + this.latitude
