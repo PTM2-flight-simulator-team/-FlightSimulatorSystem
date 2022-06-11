@@ -12,7 +12,7 @@ public class ConditionCommand extends AbstractCommand{
     public ConditionCommand(Interpreter interpreter) {super(interpreter,1);}
 
     @Override
-    public int execute(List<String> args, int index) throws ScopeException {
+    public int execute(List<String> args, int index) throws Exception {
         List<String> condition = new LinkedList<>();
         int jumps;
         int i = 1;

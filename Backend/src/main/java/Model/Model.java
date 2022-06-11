@@ -22,7 +22,7 @@ public class Model extends Observable implements Observer {
         this.DB = new DataBase(URLconnection, DbName);
         interpreter.addObserver(this);
     }
-    public void interpret(String filePath){//execute code
+    public void interpret(String filePath) throws Exception {//execute code
         this.interpreter.interpret(filePath);
     }
 

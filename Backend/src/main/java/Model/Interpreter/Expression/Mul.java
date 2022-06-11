@@ -9,7 +9,7 @@ public class Mul extends BinaryExpression {
 	}
 
 	@Override
-	public double calculate(List<String> args, int index) {
+	public double calculate(List<String> args, int index) throws Exception {
 		return left.calculate(args, index)*right.calculate(args, index);
 	}
 

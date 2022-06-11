@@ -20,7 +20,7 @@ public class Interpreter extends Observable {
         this.parser = new Parser();
     }
 
-    public void interpret(String filePath){
+    public void interpret(String filePath) throws Exception {
         Utils.initialize(this);//initialize Utils commands map
         StringBuilder sb = new StringBuilder("");
         try {

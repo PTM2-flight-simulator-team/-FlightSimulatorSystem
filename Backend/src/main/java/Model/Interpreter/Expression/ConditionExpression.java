@@ -10,7 +10,7 @@ public class ConditionExpression extends BinaryExpression{
     }
 
     @Override
-    public double calculate(List<String> args, int index) {//case to each operator
+    public double calculate(List<String> args, int index) throws Exception {//case to each operator
         switch (operator){
             case "<":{
                 if(left.calculate(null,0) < right.calculate(null, 0))
