@@ -64,12 +64,18 @@ public class DataBase {
         return this.database.getCollection(colName);
     }
 
-    public void savePlainData(List<List<String>> ts){
-
-
+    public void savePlainTimeSeries(String plainId,String plainName, List<List<String>> ts){
         Document doc = new Document();
-        doc.append("_id",i++).append("ts",ts);
+        doc.append("_id",plainId).append("plainName",plainName).append("ts",ts);
         this.addDocument("Flights",doc);
+    }
+
+    public FindIterable<Document> getTSbyID(String id){
+        return this.database.getCollection("Flights").find(new Document().append("_id",id));
+    }
+
+    public FindIterable<Document> getTSbyPlainName(String name){
+        return this.database.getCollection("Flights").find(new Document().append("plainName",name));
     }
 
 }
