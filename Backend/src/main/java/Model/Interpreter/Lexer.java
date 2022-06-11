@@ -10,7 +10,7 @@ public class Lexer {
         List<String> tokens = new LinkedList<>();
         Scanner sc = new Scanner(code);
 
-        while (sc.hasNextLine()) {
+        while (sc.hasNextLine()) {//creating tokens list
             String line = sc.nextLine() + " \n";
             String[] arr = line.split(" ");
             tokens.addAll(Arrays.stream(arr).toList());;

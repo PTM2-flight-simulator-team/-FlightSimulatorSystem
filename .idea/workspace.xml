@@ -4,17 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bfac50e5-4c33-43e6-a6f0-7818e83f56ae" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Agent/src/Model/Commands/FlightDataCommand.java" afterDir="false" />
+    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlainVar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/NullVar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/ScopeException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/VarIsAlreadyDefined.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/properties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/properties.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlainData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AbstractCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AbstractCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AssignCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AssignCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/BindCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/BindCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConditionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConditionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConnectToServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConnectToServerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/DefineVarCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/DefineVarCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/OpenServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/OpenServerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/PrintCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/PrintCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/SleepCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/SleepCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/WhileCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/WhileCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ConditionExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ConditionExpression.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ExpressionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ExpressionCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ShuntingYardAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ShuntingYardAlgorithm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Interpreter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Variable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Model.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,34 +53,30 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="29WavyU13Jntv5cUjszNSEvgINB" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+    &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+    }
+    }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\User\Documents\GitHub\FlightSimulatorSystem\Agent\src" />
+      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Agent">
-    <configuration name="Agent" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="AgentMain" />
-      <module name="Agent" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="MainController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Controller.MainController" />
       <module name="Backend" />
@@ -76,10 +90,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.Agent" />
-      <item itemvalue="Application.MainController" />
-    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainController" />
@@ -89,7 +99,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bfac50e5-4c33-43e6-a6f0-7818e83f56ae" name="Changes" comment="" />
+      <changelist id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="" />
       <created>1653231530285</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -98,6 +108,8 @@
       <workItem from="1654623763538" duration="96000" />
       <workItem from="1654623907139" duration="71000" />
       <workItem from="1654624038669" duration="319000" />
+      <workItem from="1654754792539" duration="82000" />
+      <workItem from="1654846163447" duration="7559000" />
     </task>
     <servers />
   </component>
@@ -114,6 +126,17 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlightSimulatorSystem$Interpreter.ic" NAME="Interpreter Coverage Results" MODIFIED="1654019815497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Model.Interpreter.*</FILTER>
+    </SUITE>
   </component>
 </project>

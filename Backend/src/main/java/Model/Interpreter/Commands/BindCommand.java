@@ -19,9 +19,4 @@ public class BindCommand extends AbstractCommand{
         Utils.setSymbol(args.get(index-2), value);
         return numOfArgs;
     }
-
-    @Override
-    public void validParams() {
-
-    }
 }

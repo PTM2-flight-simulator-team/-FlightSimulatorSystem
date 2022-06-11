@@ -4,7 +4,7 @@ import Model.Interpreter.Commands.AbstractCommand;
 
 import java.util.List;
 
-public class ExpressionCommand implements Expression{
+public class ExpressionCommand implements Expression{//object adapter
 
     AbstractCommand c;
 

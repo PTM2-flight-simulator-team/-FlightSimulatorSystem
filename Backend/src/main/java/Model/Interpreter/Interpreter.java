@@ -16,21 +16,20 @@ public class Interpreter extends Observable {
 
     public Interpreter() {
         doCommand = null;
+        this.lexer = new Lexer();
+        this.parser = new Parser();
     }
 
-    public void interpret(){
-        Utils.start(this);
-        Lexer lexer = new Lexer();
-        Parser parser = new Parser();
-        String code = "";
+    public void interpret(String filePath){
+        Utils.initialize(this);//initialize Utils commands map
         StringBuilder sb = new StringBuilder("");
         try {
-            BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\shaha\\OneDrive\\Documents\\GitHub\\FlightSimulatorSystem\\Backend\\src\\main\\java\\Model\\Interpreter\\Commands\\code.txt"));
+            BufferedReader bf = new BufferedReader(new FileReader(filePath));//reading the code file
             String line ="";
             while((line = bf.readLine()) != null){
                 sb.append(line + "\n");
             }
-            sb.replace(sb.length()-1, sb.length(), "");
+            sb.replace(sb.length()-1, sb.length(), "");//delete a blank end line
             code = sb.toString();
 
         } catch (FileNotFoundException e) {
@@ -40,8 +39,8 @@ public class Interpreter extends Observable {
         }
 
         System.out.println(code + "\n");
-        List<String> tokens = lexer.lexer(code);
-        parser.parse(tokens);
+        List<String> tokens = lexer.lexer(code);//turn code string to tokens
+        parser.parse(tokens);//tokens to commands
         System.out.println("finish");
     }
 
@@ -49,7 +48,7 @@ public class Interpreter extends Observable {
         return doCommand;
     }
 
-    public  void setDoCommand(String Command){
+    public  void setDoCommand(String Command){//pass the commands to the Model
         doCommand = Command;
         System.out.println(doCommand);
         setChanged();
@@ -58,11 +57,11 @@ public class Interpreter extends Observable {
     }
     public Map<String, Double> getFGvars() {
         return FGvars;
-    }
+    }//get the FG data
 
     public void setFGvars(Map<String, Double> FGvars) {
         this.FGvars = FGvars;
-    }
+    }///set the FG data
 
 //    public static void main(String[] args)
 //    {
@@ -76,7 +75,6 @@ public class Interpreter extends Observable {
 //        FGvars.put("/controls/flight/aileron", 0.0);
 //        FGvars.put("/instrumentation/attitude-indicator/internal-pitch-deg", 0.0);
 //        FGvars.put("/controls/flight/elevator", 0.0);
-//        FGvars.put("/instrumentation/altimeter/indicated-altitude-ft", 0.0);
 //
 //        Interpreter interpreter = new Interpreter();
 //        interpreter.setFGvars(FGvars);
