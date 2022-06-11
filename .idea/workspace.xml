@@ -5,24 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/CommonClasses/PlainData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/GetFromDBCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenCliCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/ClientHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/GetHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/MyHttpServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/MyNetworkStatic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/PostHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Commands.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/ClientHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,9 +40,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Backend/src" />
+    <property name="last_opened_file_path" value="$USER_HOME$/IdeaProjects/httpEx" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="Controller.ServerConnection.FrontConnection" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
@@ -75,7 +82,8 @@
       <workItem from="1653231534049" duration="1508000" />
       <workItem from="1654623763538" duration="96000" />
       <workItem from="1654623907139" duration="71000" />
-      <workItem from="1654624038669" duration="319000" />
+      <workItem from="1654624038669" duration="554000" />
+      <workItem from="1654624740442" duration="9558000" />
     </task>
     <servers />
   </component>

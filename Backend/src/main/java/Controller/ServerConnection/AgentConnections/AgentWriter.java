@@ -1,4 +1,4 @@
-package Controller.ServerConnection;
+package Controller.ServerConnection.AgentConnections;
 
 import java.io.*;
 import java.net.Socket;
