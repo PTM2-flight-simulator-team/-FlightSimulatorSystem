@@ -18,7 +18,7 @@ public class Parser {
     }
 
 
-    public void parse(List<String> tokens) {//iterate over the tokens and executing the code commands
+    public void parse(List<String> tokens) throws Exception {//iterate over the tokens and executing the code commands
         int len = tokens.size();
         int num = -1;
         System.out.println("code is running");

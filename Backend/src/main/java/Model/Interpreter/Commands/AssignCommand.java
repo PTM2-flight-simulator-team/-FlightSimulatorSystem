@@ -16,7 +16,7 @@ public class AssignCommand extends AbstractCommand {
     }
 
     @Override
-    public int execute(List<String> args, int index) throws NullVar {
+    public int execute(List<String> args, int index) throws Exception {
         if(args.get(index+1).equals("bind"))
             return 0;
         int i = 1;

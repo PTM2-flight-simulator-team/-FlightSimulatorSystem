@@ -9,7 +9,7 @@ public class And extends BinaryExpression{
     }
 
     @Override
-    public double calculate(List<String> args, int index) {
+    public double calculate(List<String> args, int index) throws Exception {
         if((left.calculate(args, index) == 1) &&(right.calculate(args,0) == 1))
             return 1;
         return 0;

@@ -13,7 +13,7 @@ public class ExpressionCommand implements Expression{//object adapter
     }
 
     @Override
-    public double calculate(List<String> args, int index) {
+    public double calculate(List<String> args, int index) throws Exception {
         return c.execute(args, index);
     }
 }
