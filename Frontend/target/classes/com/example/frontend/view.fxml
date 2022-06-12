@@ -8,10 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1117.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.MainWindowController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1117.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.MainWindowController">
     <children>
         <BorderPane prefHeight="753.0" prefWidth="1117.0">
             <left>
@@ -71,33 +72,31 @@
             <top>
                 <HBox prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #707DF5;" stylesheets="@css/styling.css" BorderPane.alignment="CENTER">
                     <children>
-                        <ImageView fitHeight="31.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                            <image>
-                                <Image url="@../../../icons/logo.png" />
-                            </image>
-                        </ImageView>
-                        <Label prefHeight="27.0" prefWidth="140.0" text="Flight Simulator" textFill="WHITE">
-                            <font>
-                                <Font name="Calibri Light" size="20.0" />
-                            </font>
-                            <opaqueInsets>
-                                <Insets />
-                            </opaqueInsets>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Label>
-                        <ImageView id="btnExit" fx:id="btnExit" fitHeight="23.0" fitWidth="29.0" onMouseClicked="#exitButton" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../../icons/xIcon.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets left="910.0" top="1.0" />
-                            </HBox.margin>
-                        </ImageView>
+                  <Pane fx:id="topPane">
+                     <children>
+                              <ImageView fitHeight="31.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../../icons/logo.png" />
+                                  </image>
+                              </ImageView>
+                              <Label layoutX="24.0" prefHeight="27.0" prefWidth="140.0" text="Flight Simulator" textFill="WHITE">
+                                  <font>
+                                      <Font name="Calibri Light" size="20.0" />
+                                  </font>
+                                  <opaqueInsets>
+                                      <Insets />
+                                  </opaqueInsets>
+                                  <padding>
+                                      <Insets left="10.0" />
+                                  </padding>
+                              </Label>
+                              <ImageView id="btnExit" fx:id="btnExit" fitHeight="23.0" fitWidth="29.0" layoutX="1074.0" layoutY="1.0" onMouseClicked="#exitButton" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../../icons/xIcon.png" />
+                                  </image>
+                              </ImageView>
+                     </children>
+                  </Pane>
                     </children>
                     <padding>
                         <Insets left="10.0" top="5.0" />

@@ -10,12 +10,7 @@ public class ConnectToServerCommand extends AbstractCommand {
     @Override
     public int execute(List<String> args, int index) {
         int port =  Integer.parseInt(args.get(index + 2));
-        interpreter.setDoCommand("Connect " + args.get(index+1) + " " + port);
+        interpreter.setDoCommand("Connect " + args.get(index+1) + " " + port);//send set connection to the Model
         return numOfArgs;
-    }
-
-    @Override
-    public void validParams() {
-
     }
 }

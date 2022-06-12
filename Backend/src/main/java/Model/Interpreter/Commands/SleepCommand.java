@@ -14,9 +14,4 @@ public class SleepCommand extends AbstractCommand{
         }catch (InterruptedException e) {}
         return 1;
     }
-
-    @Override
-    public void validParams() {
-
-    }
 }

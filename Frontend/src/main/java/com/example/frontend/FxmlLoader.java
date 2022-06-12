@@ -15,4 +15,12 @@ public class FxmlLoader {
         }
         return null;
     }
+    public static FXMLLoader load1(String fxmlFile) {
+        try {
+            return FXMLLoader.load(FxmlLoader.class.getResource(fxmlFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

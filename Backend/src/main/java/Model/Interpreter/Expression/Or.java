@@ -8,7 +8,7 @@ public class Or extends BinaryExpression{
     }
 
     @Override
-    public double calculate(List<String> args, int index) {
+    public double calculate(List<String> args, int index) throws Exception {
         if((left.calculate(args, index) == 0) &&(right.calculate(args,0) == 0))
             return 0;
         return 1;

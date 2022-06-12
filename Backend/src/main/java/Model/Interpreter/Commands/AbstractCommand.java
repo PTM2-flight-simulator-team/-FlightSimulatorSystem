@@ -1,5 +1,6 @@
 package Model.Interpreter.Commands;
 
+import Model.Interpreter.Errors.ScopeException;
 import Model.Interpreter.Interpreter;
 
 import java.util.List;
@@ -14,13 +15,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     @Override
-    public int execute(List<String> args, int index) {
+    public int execute(List<String> args, int index) throws Exception {
         return -1;
     }
-
-    @Override
-    public void validParams() throws Exception {
-
-    }
-
 }

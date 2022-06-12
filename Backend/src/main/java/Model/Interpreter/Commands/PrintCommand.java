@@ -10,14 +10,17 @@ public class PrintCommand extends AbstractCommand{
     @Override
     public int execute(List<String> args, int index) {
         if(Utils.isSymbol(args.get(index + 1))){
-            System.out.println(Utils.getSymbol(args.get(index+1)).getValue());
-        }else
-            System.out.println(args.get(index+1));
+            System.out.println(Utils.getSymbol(args.get(index+1)).getValue());//print var value
+        }else{
+            String arg = args.get(index+1);
+            String toPrint = "";
+            for(int i = 0; i<arg.length(); i++){//replace '"' for print
+                if(arg.charAt(i) != '"'){
+                    toPrint += arg.charAt(i);
+                }
+            }
+            System.out.println(toPrint);
+        }
         return 1;
-    }
-
-    @Override
-    public void validParams() {
-
     }
 }
