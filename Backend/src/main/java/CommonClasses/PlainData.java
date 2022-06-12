@@ -9,6 +9,7 @@ public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
 
     List<PlainVar> plainVarList = new ArrayList<>();
+    private String id;
     private PlainVar aileron;
     private PlainVar elevator;
     private PlainVar rudder;
@@ -88,6 +89,17 @@ public class PlainData implements Serializable{
         return plainVarList;
     }
 
+    public String getId() {
+        return id;
+    }
     public PlainData() {
+    }
+
+    public void Print(){
+        System.out.println(
+                "aileron:"+this.aileron.value +",elevator:" + this.elevator.value +",rudder:" + this.rudder.value+",longitude-deg:" + this.longitude.value+",latitude-deg:" + this.latitude.value
+                        +",airspeed-kt:" + this.airSpeed_kt.value+",vertical-speed-fps:" + this.vertSpeed.value+",throttle_0:" + this.throttle_0.value+",throttle_1:" + this.throttle_1.value
+                        +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
+                        +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
     }
 }

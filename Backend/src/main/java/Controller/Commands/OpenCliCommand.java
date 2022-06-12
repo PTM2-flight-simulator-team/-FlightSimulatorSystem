@@ -1,6 +1,8 @@
 package Controller.Commands;
 
-public class OpenCliCommand implements Command{
+import java.util.Observable;
+
+public class OpenCliCommand extends Observable implements Command{
 
     @Override
     public void execute() {}
