@@ -5,34 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlainVar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/NullVar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/ScopeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Errors/VarIsAlreadyDefined.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/GetHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/MyHttpServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/MyNetworkStatic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/FrontConnection/PostHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlainData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AbstractCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AbstractCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AssignCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/AssignCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/BindCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/BindCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConditionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConditionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConnectToServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/ConnectToServerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/DefineVarCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/DefineVarCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/OpenServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/OpenServerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/PrintCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/PrintCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/SleepCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/SleepCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/WhileCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Commands/WhileCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ConditionExpression.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ConditionExpression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ExpressionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ExpressionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ShuntingYardAlgorithm.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Expression/ShuntingYardAlgorithm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Lexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Interpreter/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Commands/OpenServerCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/ClientHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,31 +31,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="ProjectId" id="29WavyU13Jntv5cUjszNSEvgINB" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-    &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
-    }
-    }</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/IdeaProjects/httpEx" />
+  </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="Controller.ServerConnection.FrontConnection" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
   <component name="RunManager">
@@ -107,36 +82,12 @@
       <workItem from="1653231534049" duration="1508000" />
       <workItem from="1654623763538" duration="96000" />
       <workItem from="1654623907139" duration="71000" />
-      <workItem from="1654624038669" duration="319000" />
-      <workItem from="1654754792539" duration="82000" />
-      <workItem from="1654846163447" duration="7559000" />
+      <workItem from="1654624038669" duration="554000" />
+      <workItem from="1654624740442" duration="9558000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="XDebuggerManager">
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
-      </pinned-members>
-    </pin-to-top-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/FlightSimulatorSystem$Interpreter.ic" NAME="Interpreter Coverage Results" MODIFIED="1654019815497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>Model.Interpreter.*</FILTER>
-    </SUITE>
   </component>
 </project>

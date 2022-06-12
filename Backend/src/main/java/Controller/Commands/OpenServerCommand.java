@@ -1,7 +1,6 @@
 package Controller.Commands;
 
-import Controller.ServerConnection.AgentListener;
-import Controller.ServerConnection.ClientHandler;
+import Controller.ServerConnection.AgentConnections.ClientHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
