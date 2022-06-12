@@ -1,4 +1,7 @@
-package Controller.ServerConnection;
+package Controller.ServerConnection.AgentConnections;
+
+import Controller.ServerConnection.AgentConnections.AgentListener;
+import Controller.ServerConnection.AgentConnections.AgentWriter;
 
 import java.io.IOException;
 import java.net.Socket;
