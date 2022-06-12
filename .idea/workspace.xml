@@ -6,16 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bfac50e5-4c33-43e6-a6f0-7818e83f56ae" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/Commands/instructionCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/Commands/instructionCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/PlaneData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/PlaneData.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +77,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="" />
+      <changelist id="bfac50e5-4c33-43e6-a6f0-7818e83f56ae" name="Changes" comment="" />
       <created>1653231530285</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
