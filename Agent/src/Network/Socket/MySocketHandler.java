@@ -35,7 +35,7 @@ public class MySocketHandler extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
-        if(o instanceof FlightgearHandler){
+        if(o.getClass().equals(fgHandler.getClass())){
             if(arg instanceof String){
                 setChanged();
                 notifyObservers(arg);
@@ -46,14 +46,14 @@ public class MySocketHandler extends Observable implements Observer {
             if(data != null)
             {
                 backHandler.SendPlainData(data);
-                String Analytic = "Analytic:" +"altitude "+ data.getAltitude() + " speed " + data.getAirSpeed_kt(); // add all the data you want to compare
-                setChanged();
-                notifyObservers(Analytic);
+//                String Analytic = "Analytic:" +"altitude "+ data.getAltitude() + " speed " + data.getAirSpeed_kt(); // add all the data you want to compare
+//                setChanged();
+//                notifyObservers(Analytic);
                 setChanged();
                 notifyObservers(data);
             }
         }
-        if(o instanceof BackendHandler){
+        if(o.getClass().equals(backHandler.getClass())){
             setChanged();
             notifyObservers(arg);
         }
@@ -80,6 +80,9 @@ public class MySocketHandler extends Observable implements Observer {
 
     public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
         this.backHandler.sendFlightDataToBackend(list);
+    }
+    public void sendAnalyticsToBack(String data){
+        this.backHandler.sendFinalAnalytics(data);
     }
 
 }

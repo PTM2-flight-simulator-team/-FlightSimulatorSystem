@@ -10,6 +10,8 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import CommonClasses.PlainData;
+import Network.CommandAction;
+import Network.NetworkCommand;
 
 public class BackendHandler extends  Observable implements Observer {
 
@@ -96,6 +98,10 @@ public class BackendHandler extends  Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        NetworkCommand c= (NetworkCommand) arg;
+        if (c.action == CommandAction.Get) {
+            c.outObj = this;
+        }
         setChanged();
         notifyObservers(arg);
     }

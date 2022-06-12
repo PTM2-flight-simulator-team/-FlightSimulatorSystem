@@ -58,5 +58,8 @@ public class NetworkManager extends Observable implements Observer{
     public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
         this.socketHandler.sendFlightDataToBackend(list);
     }
+    public void sendAnalyticsToBack(String data){
+        this.socketHandler.sendAnalyticsToBack(data);
+    }
 
 }
