@@ -45,7 +45,7 @@ public class AnalyticsHandler {
             firstStart = false;
             setFrom(plainData.getLongitude(), plainData.getLatitude());
         }
-        timeSeries.add(plainData.PlainDataToString());
+        timeSeries.add(plainData.PlainDataToList());
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }
     public ArrayList<ArrayList<String>> GetFlight(){

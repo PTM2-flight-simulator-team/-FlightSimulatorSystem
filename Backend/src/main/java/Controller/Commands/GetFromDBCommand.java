@@ -1,6 +1,8 @@
 package Controller.Commands;
 
-public class GetFromDBCommand implements Command{
+import java.util.Observable;
+
+public class GetFromDBCommand extends Observable implements Command{
 
     @Override
     public void execute() {}

@@ -1,5 +1,8 @@
 package Controller.ServerConnection.AgentConnections;
 
+import CommonClasses.PlainData;
+import Controller.Controller;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -8,6 +11,7 @@ public class AgentListener implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private boolean running;
+    private PlainData plainData;
 
     public AgentListener(Socket client) {
         this.client = client;
@@ -23,6 +27,7 @@ public class AgentListener implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("inside agentListener, id" + Thread.currentThread().getId());
         this.running = true;
         while (this.running) {
             try {
@@ -30,9 +35,13 @@ public class AgentListener implements Runnable {
 
                 Object fromAgent = in.readObject();// plaindata
 
-                if (fromAgent != null) {
-                    String strFromAgent = (String) fromAgent;
-                    System.out.println(strFromAgent);
+                if (fromAgent instanceof PlainData) {
+                    plainData = (PlainData)fromAgent;
+                    Controller.plainDataMap.put(plainData.getId(),plainData);
+                    plainData.Print();
+                }
+                else{
+                    //t.s
                 }
             }catch (SocketException se){
                 this.stopListening();
@@ -43,6 +52,7 @@ public class AgentListener implements Runnable {
     }
 
     public void stopListening() {
+        Controller.plainDataMap.remove(this.plainData.getId());
         this.running = false;
         try {
             in.close();

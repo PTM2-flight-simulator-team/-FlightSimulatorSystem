@@ -6,133 +6,131 @@ import java.util.HashMap;
 
 public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
-//    private String ID;
+    //    private String ID;
 //    private String plainName;
-    private String aileron;
-    private String elevator;
-    private String rudder;
-    private String flaps;
-    private String longitude;
-    private String latitude;
-    private String airSpeed_kt;
-    private String vertSpeed;
-    private String throttle_0;
-    private String throttle_1;
-    private String altitude; // height
-    private String pitchDeg;
-    private String rollDeg; 
-    private String heading;
-    private String turnCoordinator; // didnt find
+    private PlainVar aileron;
+    private PlainVar elevator;
+    private PlainVar rudder;
+    private PlainVar flaps;
+    private PlainVar longitude;
+    private PlainVar latitude;
+    private PlainVar airSpeed_kt;
+    private PlainVar vertSpeed;
+    private PlainVar throttle_0;
+    private PlainVar throttle_1;
+    private PlainVar altitude; // height
+    private PlainVar pitchDeg;
+    private PlainVar rollDeg;
+    private PlainVar heading;
+    private PlainVar turnCoordinator; // didnt find
 
 //    public String getPlainName() {
 //        return plainName;
 //    }
 
     public String getAileron() {
-        return aileron;
+        return aileron.value;
     }
 
     public String getElevator() {
-        return elevator;
+        return elevator.value;
     }
 
     public String getRudder() {
-        return rudder;
+        return rudder.value;
     }
 
     public String getFlaps() {
-        return flaps;
+        return flaps.value;
     }
 
     public String getLongitude() {
-        return longitude;
+        return longitude.value;
     }
 
     public String getLatitude() {
-        return latitude;
+        return latitude.value;
     }
 
-    public String getAirSpeed_kt() {
-        return airSpeed_kt;
-    }
+    public String getAirSpeed_kt() { return airSpeed_kt.value;}
 
     public String getVertSpeed() {
-        return vertSpeed;
+        return vertSpeed.value;
     }
 
     public String getThrottle_0() {
-        return throttle_0;
+        return throttle_0.value;
     }
 
     public String getThrottle_1() {
-        return throttle_1;
+        return throttle_1.value;
     }
 
     public String getAltitude() {
-        return altitude;
+        return altitude.value;
     }
 
     public String getPitchDeg() {
-        return pitchDeg;
+        return pitchDeg.value;
     }
 
     public String getRollDeg() {
-        return rollDeg;
+        return rollDeg.value;
     }
 
     public String getHeading() {
-        return heading;
+        return heading.value;
     }
 
     public String getTurnCoordinator() {
-        return turnCoordinator;
+        return turnCoordinator.value;
     }
 
     public PlainData(HashMap<String,String> map){
 //        this.plainName = name;
-        this.aileron = map.get("aileron");
-        this.elevator = map.get("elevator");
-        this.rudder = map.get("rudder");
-        this.longitude = map.get("longitude-deg");
-        this.latitude = map.get("latitude-deg");
-        this.airSpeed_kt = map.get("airspeed-indicator_indicated-speed-kt");
-        this.vertSpeed = map.get("vertical-speed-fps");
-        this.throttle_0 = map.get("throttle_0");
-        this.throttle_1 = map.get("throttle_1");
-        this.altitude = map.get("altimeter_indicated-altitude-ft");
-        this.pitchDeg = map.get("attitude-indicator_internal-pitch-deg");
-        this.rollDeg = map.get("attitude-indicator_indicated-roll-deg");
-        this.heading = map.get("indicated-heading-deg");
+        this.aileron = new PlainVar("/controls/flight/aileron[0]","aileron",map.get("aileron")) ;
+        this.elevator = new PlainVar("/controls/flight/elevator","elevator",map.get("elevator"));
+        this.rudder = new PlainVar("/controls/flight/rudder","rudder",map.get("rudder"));
+        this.longitude = new PlainVar("/position/longitude-deg","longitude-deg",map.get("longitude-deg"));
+        this.latitude = new PlainVar("/position/latitude-deg","latitude-deg",map.get("latitude-deg"));
+        this.airSpeed_kt =new PlainVar("/instrumentation/airspeed-indicator/indicated-speed-kt","airspeed-indicator_indicated-speed-kt",map.get("airspeed-indicator_indicated-speed-kt"));
+        this.vertSpeed = new PlainVar("/velocities/vertical-speed-fps","vertical-speed",map.get("vertical-speed-fps"));
+        this.throttle_0 = new PlainVar("/controls/engines/current-engine/throttle","throttle_0",map.get("throttle_0"));
+        this.throttle_1 = new PlainVar("/controls/engines/engine[1]/throttle","throttle_1",map.get("throttle_1"));
+        this.altitude = new PlainVar("/instrumentation/altimeter/indicated-altitude-ft","altitude",map.get("altimeter_indicated-altitude-ft"));
+        this.pitchDeg = new PlainVar("/instrumentation/attitude-indicator/internal-pitch-deg","pitchDeg",map.get("attitude-indicator_internal-pitch-deg"));
+        this.rollDeg = new PlainVar("instrumentation/attitude-indicator/indicated-roll-deg","rollDeg",map.get("attitude-indicator_indicated-roll-deg"));
+        this.heading = new PlainVar("/instrumentation/heading-indicator/offset-deg","heading",map.get("indicated-heading-deg"));
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
-        this.turnCoordinator = map.get("side-slip-deg");
+        this.turnCoordinator = new PlainVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
     }
 
-    public ArrayList<String> PlainDataToString(){
+    public ArrayList<String> PlainDataToList(){
         ArrayList<String> data = new ArrayList<>();
-        data.add(this.aileron);
-        data.add(this.elevator);
-        data.add(this.rudder);
-        data.add(this.longitude);
-        data.add(this.latitude);
-        data.add(this.airSpeed_kt);
-        data.add(this.vertSpeed);
+        data.add(this.aileron.value);
+        data.add(this.elevator.value);
+        data.add(this.rudder.value);
+        data.add(this.longitude.value);
+        data.add(this.latitude.value);
+        data.add(this.airSpeed_kt.value);
+        data.add(this.vertSpeed.value);
 
-        data.add(this.throttle_0);
-        data.add(this.throttle_1);
-        data.add(this.altitude);
-        data.add(this.pitchDeg);
-        data.add(this.rollDeg);
-        data.add(this.heading);
-        data.add(this.turnCoordinator);
+        data.add(this.throttle_0.value);
+        data.add(this.throttle_1.value);
+        data.add(this.altitude.value);
+        data.add(this.pitchDeg.value);
+        data.add(this.rollDeg.value);
+        data.add(this.heading.value);
+        data.add(this.turnCoordinator.value);
         return data;
     }
     public void Print(){
         System.out.println(
-                "aileron:"+this.aileron +",elevator:" + this.elevator +",rudder:" + this.rudder+",longitude-deg:" + this.longitude+",latitude-deg:" + this.latitude
-                        +",airspeed-kt:" + this.airSpeed_kt+",vertical-speed-fps:" + this.vertSpeed+",throttle_0:" + this.throttle_0+",throttle_1:" + this.throttle_1
-                        +",altitude-ft:" + this.altitude +",pitch-deg:" + this.pitchDeg+",roll-deg:" + this.rollDeg
-                        +",heading-deg:" + this.heading+",side-slip-deg:" + this.turnCoordinator);
+                "aileron:"+this.aileron.value +",elevator:" + this.elevator.value +",rudder:" + this.rudder.value+",longitude-deg:" + this.longitude.value+",latitude-deg:" + this.latitude.value
+                        +",airspeed-kt:" + this.airSpeed_kt.value+",vertical-speed-fps:" + this.vertSpeed.value+",throttle_0:" + this.throttle_0.value+",throttle_1:" + this.throttle_1.value
+                        +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
+                        +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
     }
-    
+
 }
