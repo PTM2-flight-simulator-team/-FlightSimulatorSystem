@@ -20,7 +20,7 @@ public class PlainVar implements Serializable {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
     public String getPath() {
         return path;
     }
@@ -28,4 +28,6 @@ public class PlainVar implements Serializable {
     public String getNickName() {
         return nickName;
     }
+
 }
+

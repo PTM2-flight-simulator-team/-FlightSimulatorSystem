@@ -1,6 +1,8 @@
 package CommonClasses;
 
-public class PlainVar {
+import java.io.Serializable;
+
+public class PlainVar implements Serializable {
     String path;
     String nickName;
     String value;

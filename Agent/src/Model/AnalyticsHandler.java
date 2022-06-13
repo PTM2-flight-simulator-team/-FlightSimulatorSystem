@@ -48,12 +48,16 @@ public class AnalyticsHandler {
             firstStart = false;
             setFrom(plainData.getLongitude(), plainData.getLatitude());
         }
+
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String time = currentTime.format(timeFormatter);
         ArrayList<String> tsElement = plainData.PlainDataToList();
         tsElement.add(time);
         timeSeries.add(tsElement);
+
+
+        timeSeries.add(plainData.PlainDataToList());
 
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }

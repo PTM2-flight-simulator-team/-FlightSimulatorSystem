@@ -2,14 +2,11 @@ package Model;
 
 import com.mongodb.client.*;
 import org.bson.Document;
-
-
-import java.util.Collection;
 import java.util.List;
 
 public class DataBase {
     MongoClient client;
-    public MongoDatabase database;
+    MongoDatabase database;
     static int i =0;
 
     public DataBase(String connectionURL, String dbName ){
@@ -18,16 +15,16 @@ public class DataBase {
 
     }
 
+    public MongoDatabase getDatabase(){
+        return this.database;
+    }
+
     public MongoIterable<String> getColList(){
         return this.database.listCollectionNames();
     }
     public void createCollection(String colName){
         this.database.createCollection(colName);
-//        Document sampleDoc = new Document("id", 1).append("name", "Yossi Smith");
-//        col.insertOne(sampleDoc);
-
     }
-
     public void addDocument(String colName, Document doc){
         this.database.getCollection(colName).insertOne(doc);
     }
@@ -70,7 +67,7 @@ public class DataBase {
         this.addDocument("Flights",doc);
     }
 
-    public FindIterable<Document> getTSbyID(String id){
+    public FindIterable<Document> getTSbyPlainID(String id){
         return this.database.getCollection("Flights").find(new Document().append("_id",id));
     }
 

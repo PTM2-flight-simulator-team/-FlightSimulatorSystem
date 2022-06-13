@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
-//    private String ID;
+    //    private String ID;
 //    private String plainName;
     private PlainVar aileron;
     private PlainVar elevator;
@@ -132,5 +132,5 @@ public class PlainData implements Serializable{
                         +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
                         +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
     }
-    
+
 }

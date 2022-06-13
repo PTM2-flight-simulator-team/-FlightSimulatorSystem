@@ -9,6 +9,7 @@ public class AgentWriter{
     private String outToAgent;
 
     public AgentWriter(Socket client) {
+
         this.client = client;
         try {
             out = new PrintWriter(new OutputStreamWriter(client.getOutputStream()), true);
@@ -18,7 +19,20 @@ public class AgentWriter{
     }
 
     public void outToAgent(String outToAgent) {
+        System.out.println("inside agentWriter outToAgent, id" + Thread.currentThread().getId());
         this.outToAgent = outToAgent;
         out.println(outToAgent);
+    }
+    public void closeWriter(){
+        out.close();
+        try {
+            client.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void shutDown(){
+        this.outToAgent("shutdown");
     }
 }
