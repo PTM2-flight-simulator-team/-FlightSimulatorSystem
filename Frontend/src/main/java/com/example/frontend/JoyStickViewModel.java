@@ -1,5 +1,6 @@
 package com.example.frontend;
 
+import Model.Model;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -14,7 +15,6 @@ public class JoyStickViewModel extends Observable implements Observer {
     public JoyStickViewModel(Model m){
         this.m = m;
         m.addObserver(this);
-        System.out.println("this is my print = " + m);
         this.throttle = new SimpleDoubleProperty();
         this.rudder = new SimpleDoubleProperty();
         this.aileron = new SimpleDoubleProperty();
@@ -25,6 +25,6 @@ public class JoyStickViewModel extends Observable implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         setChanged();
-        notifyObservers();
+        notifyObservers(arg);
     }
 }

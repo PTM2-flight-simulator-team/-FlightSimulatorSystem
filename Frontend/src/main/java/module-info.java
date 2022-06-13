@@ -7,4 +7,6 @@ module com.example.frontend {
     exports com.example.frontend;
     exports com.example.frontend.windowController;
     opens com.example.frontend.windowController to javafx.fxml;
+    exports Model;
+    opens Model to javafx.fxml;
 }
