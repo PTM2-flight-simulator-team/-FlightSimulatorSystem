@@ -31,9 +31,9 @@ public class AgentListener implements Runnable {
         this.running = true;
         while (this.running) {
             try {
-                System.out.println("running");
+                System.out.println("running inside agentListener");
 
-                Object fromAgent = in.readObject();// plaindata
+                Object fromAgent = in.readObject();// plaindata or shimi in testing
 
                 if (fromAgent instanceof PlainData) {
                     plainData = (PlainData)fromAgent;
@@ -42,7 +42,7 @@ public class AgentListener implements Runnable {
                     plainData.Print();
                 }
                 else{
-                    //t.s
+                    System.out.println((String) fromAgent);
                 }
             }catch (SocketException se){
                 this.stopListening();
