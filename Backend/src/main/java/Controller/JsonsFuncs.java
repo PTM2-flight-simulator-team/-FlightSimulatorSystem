@@ -11,10 +11,10 @@ import java.util.List;
 
 
 public class JsonsFuncs {
-    public static JSONObject plainDataToJson(PlaneData plainData){
+    public static JSONObject plainDataToJson(PlaneData planeData){
         JSONObject json = new JSONObject();
-        for(PlaneVar plainVar: plainData.getAllVars()){
-            json.put(plainVar.getNickName(),plainVar.getValue());
+        for(PlaneVar planeVar: planeData.getAllVars()){
+            json.put(planeVar.getNickName(),planeVar.getValue());
         }
         return json;
     }
