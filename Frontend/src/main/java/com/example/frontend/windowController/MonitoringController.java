@@ -94,7 +94,7 @@ public class MonitoringController implements Initializable {
         NumberAxis bigX = new NumberAxis();
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
-        TimeSeries ts = new TimeSeries("C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\file1.csv");
+        TimeSeries ts = new TimeSeries("D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\file1.csv");
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
         sad.learnNormal(ts);
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
