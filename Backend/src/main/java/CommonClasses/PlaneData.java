@@ -87,7 +87,7 @@ public class PlaneData implements Serializable{
         return turnCoordinator;
     }
     public List<PlaneVar> getAllVars() {
-        return plainVarList;
+        return PlaneVarList;
     }
 
     public String getId() {
@@ -102,5 +102,9 @@ public class PlaneData implements Serializable{
                         +",airspeed-kt:" + this.airSpeed_kt.value+",vertical-speed-fps:" + this.vertSpeed.value+",throttle_0:" + this.throttle_0.value+",throttle_1:" + this.throttle_1.value
                         +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
                         +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
+    }
+
+    public String getName() {
+        return this.PlaneName;
     }
 }
