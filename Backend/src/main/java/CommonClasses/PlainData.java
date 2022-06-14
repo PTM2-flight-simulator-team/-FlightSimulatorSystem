@@ -9,7 +9,8 @@ public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
 
     List<PlainVar> plainVarList = new ArrayList<>();
-    private String id;
+    private String ID;
+    private String plainName;
     private PlainVar aileron;
     private PlainVar elevator;
     private PlainVar rudder;
@@ -90,7 +91,7 @@ public class PlainData implements Serializable{
     }
 
     public String getId() {
-        return id;
+        return ID;
     }
     public PlainData() {
     }
