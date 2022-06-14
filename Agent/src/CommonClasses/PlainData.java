@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 public class PlainData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
-    //    private String ID;
-//    private String plainName;
+    private String ID;
+    private String plainName;
     private PlainVar aileron;
     private PlainVar elevator;
     private PlainVar rudder;
@@ -84,6 +84,14 @@ public class PlainData implements Serializable{
 
     public String getTurnCoordinator() {
         return turnCoordinator.value;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setPlainName(String plainName) {
+        this.plainName = plainName;
     }
 
     public PlainData(HashMap<String,String> map){
