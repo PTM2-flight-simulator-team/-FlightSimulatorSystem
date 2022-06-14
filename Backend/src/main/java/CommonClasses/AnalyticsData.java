@@ -98,6 +98,14 @@ public class AnalyticsData implements Serializable {
     public void setMaxSpeed(String maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
+    
+    public String getMiles(){
+        return miles;
+    }
+    
+    public boolean getState(){
+        return state;
+    }
 
     public void print(){
         System.out.println("StartLongitude:" +StartLongitude +" StartLatitude:" + StartLatitude + " EndLongitude:" + EndLongitude + " EndLatitude:" +EndLatitude + " startTime:" + startTime + " endTime:" + endTime + " maxAltitude:" + maxAltitude + " maxSpeed:" +maxSpeed);
