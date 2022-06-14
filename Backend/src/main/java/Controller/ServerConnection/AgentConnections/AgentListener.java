@@ -1,17 +1,22 @@
 package Controller.ServerConnection.AgentConnections;
 
-import CommonClasses.PlainData;
+import CommonClasses.AnalyticsData;
+import CommonClasses.PlaneData;
 import Controller.Controller;
+import Model.Model;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 public class AgentListener implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private boolean running;
-    private PlainData plainData;
+    private PlaneData plainData;
+    private List<List<String>> tsList;
+
 
     public AgentListener(Socket client) {
         this.client = client;
@@ -31,18 +36,21 @@ public class AgentListener implements Runnable {
         this.running = true;
         while (this.running) {
             try {
-                System.out.println("running inside agentListener");
+                System.out.println("running");
 
-                Object fromAgent = in.readObject();// plaindata or shimi in testing
+                Object fromAgent = in.readObject();// plaindata
 
-                if (fromAgent instanceof PlainData) {
-                    plainData = (PlainData)fromAgent;
-                    Controller.plainDataMap.put(plainData.getId(),plainData);
-                    System.out.println("Agent id is: " + plainData.getId());
+                if (fromAgent instanceof PlaneData) {
+                    plainData = (PlaneData)fromAgent;
+                    Controller.planeDataMap.put(plainData.getId(),plainData);
                     plainData.Print();
                 }
+                else if(fromAgent instanceof AnalyticsData){//check if plane exists
+
+                }
                 else{
-                    System.out.println((String) fromAgent);
+                    tsList = (List<List<String>>)fromAgent;
+                    Controller.model.DB.savePlainTimeSeries(plainData.getId() ,plainData.getName() ,tsList);
                 }
             }catch (SocketException se){
                 this.stopListening();
@@ -53,7 +61,7 @@ public class AgentListener implements Runnable {
     }
 
     public void stopListening() {
-        Controller.plainDataMap.remove(this.plainData.getId());
+        Controller.planeDataMap.remove(this.plainData.getId());
         this.running = false;
         try {
             in.close();
@@ -63,4 +71,3 @@ public class AgentListener implements Runnable {
     }
 
 }
-
