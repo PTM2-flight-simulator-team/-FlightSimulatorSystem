@@ -28,4 +28,6 @@ public class PlainVar implements Serializable {
     public String getNickName() {
         return nickName;
     }
+
 }
+

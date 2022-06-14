@@ -38,6 +38,7 @@ public class AgentListener implements Runnable {
                 if (fromAgent instanceof PlainData) {
                     plainData = (PlainData)fromAgent;
                     Controller.plainDataMap.put(plainData.getId(),plainData);
+                    System.out.println("Agent id is: " + plainData.getId());
                     plainData.Print();
                 }
                 else{

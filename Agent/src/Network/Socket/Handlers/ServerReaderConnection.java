@@ -1,5 +1,8 @@
 package Network.Socket.Handlers;
 
+import Network.CommandAction;
+import Network.NetworkCommand;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -31,8 +34,29 @@ public class ServerReaderConnection extends Observable implements Runnable {
         while (!stop){
             try {
                 String line = in.readLine();
+                String[] words = line.split(" ");
+
+                if (words.length < 2)
+                    continue;
+
+                NetworkCommand c = new NetworkCommand();
+                c.fromObj = this;
+                c.fullArg = line;
+                c.path = words[1];
+                if (words[0].toLowerCase().equals("set"))
+                {
+                    c.action = CommandAction.Set;
+                    c.value = words[2];
+                }
+                else if(words[0].toLowerCase().equals("get")){
+                    c.action = CommandAction.Get;
+                }
+                else{
+                    c.action = CommandAction.Do;
+                }
+
                 setChanged();
-                notifyObservers(line);
+                notifyObservers(c);
             }catch (SocketException e) {
                 Stop();
                 System.out.println("Server Error: Disconnected");

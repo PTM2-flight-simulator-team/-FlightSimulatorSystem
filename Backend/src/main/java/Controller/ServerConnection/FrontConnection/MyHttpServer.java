@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,8 +22,8 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
         PostHandler ph = new PostHandler();
         gh.addObserver(this);
         ph.addObserver(this);
-        httpServer.createContext("/Get", gh);
-        httpServer.createContext("/Post",ph);
+        httpServer.createContext("/GET", gh);
+        httpServer.createContext("/POST",ph);
         httpServer.setExecutor(null);
     }
 
@@ -36,5 +37,9 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
     public void update(Observable o, Object arg) {
         setChanged();
         notifyObservers(arg);
+        List<String> list = (List<String>) arg;
+        for(String s: list){
+            System.out.println(s);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.frontend.windowController;
 
 import com.example.frontend.JoyStickViewModel;
-import com.example.frontend.Model;
+import Model.Model;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -12,6 +12,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -111,6 +112,7 @@ public class JoyStickController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        setValues((double)arg,0);
+        List<Double> list = (List<Double>)arg;
+        setValues(list.get(0).doubleValue(),list.get(1).doubleValue());
     }
 }
