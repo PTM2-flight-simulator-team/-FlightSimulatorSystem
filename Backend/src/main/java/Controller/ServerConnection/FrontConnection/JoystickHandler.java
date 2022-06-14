@@ -23,13 +23,12 @@ public class JoystickHandler extends Observable implements HttpHandler{
         MyNetworkStatic.parseQuery(query, param);//parse query parameters into map
         List<String> args = new ArrayList<>();
         args.add("joystick");//args[0] = joystick
-        args.add((String) param.get("plane_name"));//args[1] is the plain name
-        args.add((String) param.get("plane_id"));//args[2] is the plain id
+        args.add((String) param.get("plane_id"));//args[1] is the plain id
         Scanner sc = new Scanner(he.getRequestBody());
         StringBuilder code = new StringBuilder();
         while(sc.hasNext())code.append(sc.next());
         JsonObject jsonObject = new JsonParser().parse(code.toString()).getAsJsonObject();
-        args.add(JsonsFuncs.JoystickJsonToAgentCommands(jsonObject));//args[3] is the joystick commands
+        args.add(JsonsFuncs.JoystickJsonToAgentCommands(jsonObject));//args[2] is the joystick commands
         setChanged();
         notifyObservers(args);//sending up list of args
     }
