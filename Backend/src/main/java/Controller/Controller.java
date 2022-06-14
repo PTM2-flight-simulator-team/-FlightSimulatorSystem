@@ -7,6 +7,7 @@ import Controller.Commands.Command;
 import Controller.Commands.GetFromDBCommand;
 import Controller.Commands.OpenCliCommand;
 import Controller.Commands.OpenServerCommand;
+import Controller.ServerConnection.FrontConnection.MyHttpServer;
 import Model.Model;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
@@ -20,17 +21,21 @@ public class Controller implements Observer {
    Map<String, Command> mapCommand;
    public static Model model;
    ExecutorService executor;
-   public static volatile Map<String, PlaneData> planeDataMap;
+   public static volatile Map<String, PlaneData> planeDataMap;//map from plane id to his plane data
 
    public Controller() {
-
       System.out.println("Thread id:" + Thread.currentThread().getId());
       this.mapCommand = new HashMap<>();
       this.executor = Executors.newFixedThreadPool(10);
-     OpenServerCommand openServerCommand = new OpenServerCommand();
-     openServerCommand.addObserver(this);
-     this.executor.execute(openServerCommand);
-     planeDataMap = new HashMap<>();
+      OpenServerCommand openServerCommand = new OpenServerCommand();
+      openServerCommand.addObserver(this);
+      MyHttpServer httpServer = new MyHttpServer();
+      httpServer.addObserver(this);
+      this.executor.execute(httpServer);
+      this.executor.execute(openServerCommand);
+      planeDataMap = new HashMap<>();
+      model = new Model("FlightFleet",
+              "mongodb+srv://fleetManagement:r7uRtk!ytxGbVrR@flightfleet.aerzo.mongodb.net/?retryWrites=true&w=majority");
 //      model.addObserver(this);
 
    }
@@ -70,5 +75,8 @@ public class Controller implements Observer {
       this.executor.execute(new OpenServerCommand());
    }
 
+   public void setPlaneDataValue(String id, PlaneData planeData) {
+      planeDataMap.put(id, planeData);
+   }
 }
 //Threadpool;

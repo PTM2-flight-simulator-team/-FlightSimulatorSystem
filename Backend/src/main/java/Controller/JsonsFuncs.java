@@ -3,6 +3,8 @@ import CommonClasses.PlaneData;
 import CommonClasses.PlaneVar;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -51,5 +53,31 @@ public class JsonsFuncs {
             json.addProperty(var.getNickName(), var.getValue());
         }
         return json;
+    }
+
+    public static String getTimeSeries(String pid){
+        FindIterable<Document> documentsList = Controller.getTimeSeries(pid);
+        Document ts = null;
+        if(documentsList.first() != null)
+            ts = documentsList.first();
+        return ts.toString().replaceAll("Document", "");
+    }
+
+    public static String getAnalytics(){
+        FindIterable<Document> documentsList = Controller.getAnalytics();
+        StringBuilder sb = new StringBuilder();
+        if(documentsList == null)
+            return "document list is null";
+        documentsList.forEach((d)->{
+            String tmp = "";
+            if(d != null)
+                tmp = d.toString();
+            else
+                return;
+            String document = tmp;
+            sb.append(document);
+        });
+
+        return sb.toString().replaceAll("Document", "");
     }
 }

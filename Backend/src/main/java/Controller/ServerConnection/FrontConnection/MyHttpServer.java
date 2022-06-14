@@ -19,11 +19,15 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
             e.printStackTrace();
         }
         GetPlaneDataHandler gpdh = new GetPlaneDataHandler();//  /GET/PlaneData
+        GetTsHandler gtsh = new GetTsHandler();// /GET/TS
+        GetAnalyticsHandler gah = new GetAnalyticsHandler();
         JoystickHandler jh = new JoystickHandler();//    /POST/Joystick
         CodeHandler ch = new CodeHandler();//  /POST/Code
         jh.addObserver(this);
         ch.addObserver(this);
         httpServer.createContext("/GET/PlaneData", gpdh);
+        httpServer.createContext("/GET/Analytics", gah);
+        httpServer.createContext("/GET/TS", gtsh);
         httpServer.createContext("/POST/Code",ch);
         httpServer.createContext("/POST/Joystick",jh);
         httpServer.setExecutor(null);
