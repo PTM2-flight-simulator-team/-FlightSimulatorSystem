@@ -1,17 +1,22 @@
 package Controller.ServerConnection.AgentConnections;
 
+import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
 import Controller.Controller;
+import Model.Model;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 public class AgentListener implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private boolean running;
-    private PlaneData plainData;
+    private PlaneData planeData;
+    private List<List<String>> tsList;
+
 
     public AgentListener(Socket client) {
         this.client = client;
@@ -36,12 +41,16 @@ public class AgentListener implements Runnable {
                 Object fromAgent = in.readObject();// plaindata
 
                 if (fromAgent instanceof PlaneData) {
-                    plainData = (PlaneData)fromAgent;
-                    Controller.planeDataMap.put(plainData.getId(),plainData);
-                    plainData.Print();
+                    planeData = (PlaneData)fromAgent;
+                    Controller.planeDataMap.put(planeData.getId(),planeData);
+                    planeData.Print();
+                }
+                else if(fromAgent instanceof AnalyticsData){//check if plane exists
+
                 }
                 else{
-                    //t.s
+                    tsList = (List<List<String>>)fromAgent;
+                    Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getName() ,tsList);
                 }
             }catch (SocketException se){
                 this.stopListening();
@@ -52,7 +61,7 @@ public class AgentListener implements Runnable {
     }
 
     public void stopListening() {
-        Controller.planeDataMap.remove(this.plainData.getId());
+        Controller.planeDataMap.remove(this.planeData.getId());
         this.running = false;
         try {
             in.close();
@@ -62,4 +71,3 @@ public class AgentListener implements Runnable {
     }
 
 }
-
