@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import Model.ModelTools.AnomalyReport;
 import Model.ModelTools.CorrelatedFeatures;
 import Model.ModelTools.SimpleAnomalyDetector;
 import Model.ModelTools.TimeSeries;
@@ -35,35 +36,21 @@ public class MonitoringController implements Initializable {
     @FXML
     private MenuItem pitch;
     @FXML
-    private CategoryAxis x;
-    @FXML
-    private NumberAxis y;
-    @FXML
-    private LineChart<?, ?> anomalyGraph;
-    @FXML
     private BorderPane joyStickBorderPane;
     @FXML
+    private BorderPane clocksBorderPane;
+    @FXML
     private BorderPane bigChartBorderPane;
-
-//    @FXML
-//    private LineChart<?, ?> bigChart;
-//
-//    @FXML
-//    private CategoryAxis bigX;
-//
-//    @FXML
-//    private NumberAxis bigY;
-
+    @FXML
+    private BorderPane leftAreaChartBorderPane;
+    @FXML
+    private BorderPane rightAreaChartBorderPane;
     Model m;
     //.........................................//
 
     @FXML
     void pitch(ActionEvent event) {
     }
-
-//        anomalyGraph.getXAxis().setTickLabelsVisible(false);
-//        anomalyGraph.setCreateSymbols(false);
-
 
     public void setModel(Model m) {
         this.m = m;
@@ -78,6 +65,7 @@ public class MonitoringController implements Initializable {
         }
         return max;
     }
+
     public double min(Vector<Double> v) {
         double min = v.get(0);
         for (int i = 1; i < v.size(); i++) {
@@ -88,36 +76,79 @@ public class MonitoringController implements Initializable {
         return min;
     }
 
-
     public void createLineCharts() {
         //.................Create line charts.................//
         NumberAxis bigX = new NumberAxis();
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
-        TimeSeries ts = new TimeSeries("C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\file1.csv");
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
+        TimeSeries ts = new TimeSeries(
+                "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
         sad.learnNormal(ts);
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
-        Vector<Double> s1 = ts.getColByName(correlatedFeatures.get(1).feature1);
-        Vector<Double> s2 = ts.getColByName(correlatedFeatures.get(1).feature2);
+
+        TimeSeries ts2 = new TimeSeries(
+                "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\test.csv");
+        sad.detect(ts2);
+        List<AnomalyReport> reports = sad.listOfExp;
+        double maxCorrelation = Double.MIN_VALUE;
+        int index = 0;
+        for (int i = 0; i < correlatedFeatures.size(); i++) {
+            if (correlatedFeatures.get(i).correlation > maxCorrelation) {
+                index = i;
+                maxCorrelation = correlatedFeatures.get(i).correlation;
+            }
+        }
+        //CorrelatedFeatures cf = correlatedFeatures.get(index); //if not exist then need to be fixed
+        CorrelatedFeatures cf = correlatedFeatures.get(1);
+        Vector<Double> v1 = ts.getColByName(cf.feature1);
+        Vector<Double> v2 = ts.getColByName(cf.feature2);
         int len = ts.getArray().size();
         XYChart.Series seriesBigChart = new XYChart.Series<>();
         seriesBigChart.setName("Big Chart");
         for (int i = 0; i < len; i++) {
-//            seriesBigChart.getData().add(new XYChart.Data<>(s1.get(i), s2.get(i)));
-            seriesBigChart.getData().add(new XYChart.Data<>(ts.getColByName("A").get(i), ts.getColByName("B").get(i)));
+            seriesBigChart.getData().add(new XYChart.Data<>(v1.get(i), v2.get(i)));
         }
-        //bigChart.getXAxis().setTickLabelsVisible(false);
-        XYChart.Series series2 = new XYChart.Series();
-        double max = max(s1);
-        double min = min(s1);
-//
-//        series2.getData().add(new XYChart.Data(String.valueOf(0), correlatedFeatures.get(1).lin_reg.f((float)min)));
-//
-//        series2.getData().add(new XYChart.Data(String.valueOf(450), correlatedFeatures.get(1).lin_reg.f((float)max)));
-        bigChart.getData().addAll(seriesBigChart);
+        XYChart.Series linearRegressionSeries = new XYChart.Series();
+        linearRegressionSeries.setName("Linear Regression");
+        double max = max(v1);
+        double min = min(v1);
+        linearRegressionSeries.getData().add(new XYChart.Data<>(min, cf.lin_reg.f((float)min)));
+        linearRegressionSeries.getData().add(new XYChart.Data<>(max, cf.lin_reg.f((float)max)));
+        XYChart.Series anomalyPointsSeries = new XYChart.Series();
+        anomalyPointsSeries.setName("Anomaly Points");
+        for(int i = 0; i < sad.anomalyPoints.size(); i++){
+            anomalyPointsSeries.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
+        }
+        bigChart.getData().addAll(seriesBigChart, linearRegressionSeries, anomalyPointsSeries);
         bigChartBorderPane.setCenter(bigChart);
-
+        //.................Create area charts.................//
+        NumberAxis leftX = new NumberAxis();
+        NumberAxis leftY = new NumberAxis();
+        AreaChart leftAreaChart = new AreaChart(leftX, leftY);
+        leftAreaChart.setCreateSymbols(false);
+        NumberAxis rightX = new NumberAxis();
+        NumberAxis rightY = new NumberAxis();
+        AreaChart rightAreaChart = new AreaChart(rightX, rightY);
+        rightAreaChart.setCreateSymbols(false);
+        XYChart.Series seriesLeftAreaChart = new XYChart.Series<>();
+        seriesLeftAreaChart.setName("Left Area Chart");
+        XYChart.Series seriesRightAreaChart = new XYChart.Series<>();
+        seriesRightAreaChart.setName("Right Area Chart");
+        for (int i = 0; i < len; i++) {
+            seriesLeftAreaChart.getData().add(new XYChart.Data<>(i, v1.get(i))); //the x need to be the column of time
+            seriesRightAreaChart.getData().add(new XYChart.Data<>(i, v2.get(i)));
+        }
+        leftX.setAutoRanging(false);
+        leftX.setLowerBound(len -20);
+        leftX.setUpperBound(len);
+        rightX.setAutoRanging(false);
+        rightX.setLowerBound(len -20);
+        rightX.setUpperBound(len);
+        leftAreaChart.getData().addAll(seriesLeftAreaChart);
+        rightAreaChart.getData().addAll(seriesRightAreaChart);
+        leftAreaChartBorderPane.setCenter(leftAreaChart);
+        rightAreaChartBorderPane.setCenter(rightAreaChart);
     }
 
 
@@ -133,6 +164,19 @@ public class MonitoringController implements Initializable {
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
         //joyStick.disableJoyStick();
         joyStick.initViewModel(m);
+    }
+
+    public void createClocks() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane clocksPane = new Pane();
+        try {
+            clocksPane = fxmlLoader.load(FxmlLoader.class.getResource("Clocks.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clocksBorderPane.setCenter(clocksPane);
+        ClocksController clocks = (ClocksController) fxmlLoader.getController();
+        //clocks.initViewModel(m);
     }
 
     @Override

@@ -64,6 +64,7 @@ public class MainWindowController implements Initializable {
         mc.setModel(m);
         mc.createJoyStick();
         mc.createLineCharts();
+        mc.createClocks();
 
     }
     @FXML
