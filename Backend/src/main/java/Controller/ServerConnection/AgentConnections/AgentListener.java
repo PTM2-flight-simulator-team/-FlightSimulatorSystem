@@ -3,11 +3,11 @@ package Controller.ServerConnection.AgentConnections;
 import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
 import Controller.Controller;
-import Model.Model;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.time.Month;
 import java.util.List;
 
 public class AgentListener implements Runnable {
@@ -16,7 +16,6 @@ public class AgentListener implements Runnable {
     private boolean running;
     private PlaneData planeData;
     private List<List<String>> tsList;
-
 
     public AgentListener(Socket client) {
         this.client = client;
@@ -45,12 +44,33 @@ public class AgentListener implements Runnable {
                     Controller.planeDataMap.put(planeData.getId(),planeData);
                     planeData.Print();
                 }
-                else if(fromAgent instanceof AnalyticsData){//check if plane exists
+                else if(fromAgent instanceof AnalyticsData){
+                    AnalyticsData tempAnalytics = (AnalyticsData)fromAgent;
+                    int month;
+                    Month strMonth;
+                    String[] date = tempAnalytics.getEndTime().split("-");//example--> 14-06-2022
+                    if(date[1].startsWith("0")){
+                        month = date[1].charAt(1);
+                        strMonth = Month.of(month);
+                    }
+                    else{
+                        month = date[1].charAt(0);
+                        strMonth = Month.of(month);
+                    }
+                    String tempPlaneId = this.planeData.getId();
+                    if(Controller.model.DB.doesPlaneExists(tempPlaneId)){//check if plane exists
+                        Controller.model.DB.updateMilesById(tempPlaneId , Double.valueOf(tempAnalytics.getMiles()), strMonth);
+                        Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
+                    }
+                    else {
 
+                        Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
+                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() );
+                    }
                 }
                 else{
                     tsList = (List<List<String>>)fromAgent;
-                    Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getName() ,tsList);
+                    Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
                 }
             }catch (SocketException se){
                 this.stopListening();
@@ -70,4 +90,5 @@ public class AgentListener implements Runnable {
         }
     }
 
+}
 }
