@@ -13,6 +13,9 @@ public class AnalyticsHandler {
     private HashMap<String,String> analytics;
     private ArrayList<ArrayList<String>> timeSeries;
     private boolean firstStart = true;
+    private PlainData LastPlainData = null;
+    private static double Nautical_Mile = 0;
+    private boolean firstPlaneData = true;
 
     public AnalyticsHandler(){
         analytics = new HashMap<>();
@@ -43,6 +46,16 @@ public class AnalyticsHandler {
     }
 
     public void AddPlainDataToArrayList(PlainData plainData){
+        // lat2/lon2 is the new plaindata and lat1/lon1 is old plaingdata
+//        if(firstPlaneData == true)
+//            firstStart = false;
+        if(LastPlainData != null){
+//            System.out.println(LastPlainData.getLatitude());
+//            System.out.println(plainData.getLatitude());
+            double Nautical_Mile_Result = getDistanceFromLatLonInKm(Double.parseDouble(LastPlainData.getLatitude()), Double.parseDouble(LastPlainData.getLongitude()),Double.parseDouble(plainData.getLatitude()), Double.parseDouble(plainData.getLongitude()));
+            Nautical_Mile += Nautical_Mile_Result;
+        }
+        LastPlainData = plainData;
         if(firstStart == true)
         {
             firstStart = false;
@@ -88,8 +101,16 @@ public class AnalyticsHandler {
     }
 
     public void setTo(String longitude,String latitude){
-        analytics.put("EndLongitude",longitude);
-        analytics.put("EndLatitude",latitude);
+        if(analytics.containsKey("EndLongitude") && analytics.containsKey("EndLatitude"))
+        {
+            analytics.replace("EndLongitude",longitude);
+            analytics.replace("EndLatitude",latitude);
+            return;
+        }
+        else {
+            analytics.put("EndLongitude", longitude);
+            analytics.put("EndLatitude", latitude);
+        }
     }
 
     public void setStartTime(String time){
@@ -106,6 +127,26 @@ public class AnalyticsHandler {
         analyticsString.append(" EndLongitude:").append(analytics.get("EndLongitude")).append(" EndLatitude:").append(analytics.get("EndLatitude"));
         analyticsString.append(" startTime:").append(analytics.get("StartTime")).append(" endTime:").append(analytics.get("EndTime"));
         analyticsString.append(" maxAlt:").append(analytics.get("altitude")).append(" maxSpeed:").append(analytics.get("speed"));
+        analyticsString.append(" Nautical_Mile:").append(Nautical_Mile);
+        System.out.println("Nautical_Mile is: " + Nautical_Mile);
         return analyticsString.toString();
+    }
+
+    public double getDistanceFromLatLonInKm(double lat1,double lon1,double lat2,double lon2) {
+        double R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(lat2-lat1);  // deg2rad below
+        double dLon = deg2rad(lon2-lon1);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c * 0.54; // Distance in Nautical_Mile
+        return d;
+    }
+
+    public double deg2rad(double deg) {
+        return deg * (Math.PI/180);
     }
 }
