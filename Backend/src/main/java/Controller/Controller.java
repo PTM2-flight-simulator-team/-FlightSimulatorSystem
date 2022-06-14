@@ -1,34 +1,36 @@
 package Controller;
 
 
-import CommonClasses.PlainData;
+import CommonClasses.AnalyticsData;
+import CommonClasses.PlaneData;
 import Controller.Commands.Command;
 import Controller.Commands.GetFromDBCommand;
 import Controller.Commands.OpenCliCommand;
 import Controller.Commands.OpenServerCommand;
 import Model.Model;
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Stream;
 
 public class Controller implements Observer {
    Map<String, Command> mapCommand;
-   Model model;
+   public static Model model;
    ExecutorService executor;
-   public static volatile Map<String, PlainData> plainDataMap;
+   public static volatile Map<String, PlaneData> planeDataMap;
 
    public Controller() {
+
       System.out.println("Thread id:" + Thread.currentThread().getId());
       this.mapCommand = new HashMap<>();
       this.executor = Executors.newFixedThreadPool(10);
      OpenServerCommand openServerCommand = new OpenServerCommand();
      openServerCommand.addObserver(this);
      this.executor.execute(openServerCommand);
-     plainDataMap = new HashMap<>();
+     planeDataMap = new HashMap<>();
 //      model.addObserver(this);
 
    }
@@ -45,19 +47,28 @@ public class Controller implements Observer {
       System.out.println("r class: " + r.getClass());
       this.executor.execute(r);
    }
-//   private void addCommands(){
-//      OpenServerCommand openServer = new OpenServerCommand();
-//      //openServer.addObserver(this);
-////      GetFromDBCommand getFromDBCommand = new GetFromDBCommand();
-////      getFromDBCommand.addObserver(this);
-////      OpenCliCommand openCliCommand = new OpenCliCommand();
-////      openCliCommand.addObserver(this);
-//
-//   }
+   private void addCommands(){
+      GetFromDBCommand getFromDBCommand = new GetFromDBCommand();
+      getFromDBCommand.addObserver(this);
+      this.mapCommand.put("getFromDBCommand" , getFromDBCommand );
+      OpenCliCommand openCliCommand = new OpenCliCommand();
+      openCliCommand.addObserver(this);
+      this.mapCommand.put("openCliCommand" , openCliCommand );
+
+   }
+
+   public static FindIterable<Document> getAnalytics(){
+      return model.DB.GetPlanes();
+   }
+
+   public static FindIterable<Document> getTimeSeries(String id){
+      return model.DB.getTSbyPlaneID(id);
+   }
+
+
    private void openServer(){
       this.executor.execute(new OpenServerCommand());
    }
 
-
 }
-//Threadpool;
+
