@@ -1,17 +1,19 @@
 package Controller;
-import CommonClasses.PlainData;
-import CommonClasses.PlainVar;
+import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
 import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class JsonsFuncs {
-    public static JSONObject plainDataToJson(PlainData plainData){
+    public static JSONObject plainDataToJson(PlaneData plainData){
         JSONObject json = new JSONObject();
-        for(PlainVar plainVar: plainData.getAllVars()){
+        for(PlaneVar plainVar: plainData.getAllVars()){
             json.put(plainVar.getNickName(),plainVar.getValue());
         }
         return json;
@@ -34,8 +36,20 @@ public class JsonsFuncs {
     }
 
     public static String codeJsonToString(JsonObject json){
+        JsonObject code = json.getAsJsonObject("code");//getting the code json
         StringBuilder sb = new StringBuilder();
-        sb.append(json.get("code"));
-        return sb.toString();
+        for(String key: code.keySet()){//reading the lines and parse them to string
+            sb.append(code.get(key).getAsString() + "\n");
+        }
+        return sb.toString();//return the code as string
+    }
+
+    public static JsonObject getPlainData(String pid) throws IOException {
+        JsonObject json = new JsonObject();
+        List<PlaneVar> planeData = Controller.planeDataMap.get(pid).getAllVars();//add exception if not find
+        for (PlaneVar var: planeData){
+            json.addProperty(var.getNickName(), var.getValue());
+        }
+        return json;
     }
 }

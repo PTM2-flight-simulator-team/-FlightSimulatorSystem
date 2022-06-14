@@ -12,10 +12,9 @@ import java.util.Map;
 import java.util.Observable;
 
 public class GetHandler extends Observable implements HttpHandler {
-    private MyHttpServer server;
 
-    public GetHandler(MyHttpServer server) {
-        this.server = server;
+    public GetHandler() {
+
     }
 
     @Override

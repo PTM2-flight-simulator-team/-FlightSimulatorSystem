@@ -18,12 +18,14 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        GetHandler gh = new GetHandler(this);
-        PostHandler ph = new PostHandler();
-        gh.addObserver(this);
-        ph.addObserver(this);
-        httpServer.createContext("/GET", gh);
-        httpServer.createContext("/POST",ph);
+        GetPlaneDataHandler gpdh = new GetPlaneDataHandler();//  /GET/PlaneData
+        JoystickHandler jh = new JoystickHandler();//    /POST/Joystick
+        CodeHandler ch = new CodeHandler();//  /POST/Code
+        jh.addObserver(this);
+        ch.addObserver(this);
+        httpServer.createContext("/GET/PlaneData", gpdh);
+        httpServer.createContext("/POST/Code",ch);
+        httpServer.createContext("/POST/Joystick",jh);
         httpServer.setExecutor(null);
     }
 

@@ -1,6 +1,6 @@
 package Controller.ServerConnection.AgentConnections;
 
-import CommonClasses.PlainData;
+import CommonClasses.PlaneData;
 import Controller.Controller;
 
 import java.io.*;
@@ -11,7 +11,7 @@ public class AgentListener implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private boolean running;
-    private PlainData plainData;
+    private PlaneData plainData;
 
     public AgentListener(Socket client) {
         this.client = client;
@@ -35,9 +35,9 @@ public class AgentListener implements Runnable {
 
                 Object fromAgent = in.readObject();// plaindata
 
-                if (fromAgent instanceof PlainData) {
-                    plainData = (PlainData)fromAgent;
-                    Controller.plainDataMap.put(plainData.getId(),plainData);
+                if (fromAgent instanceof PlaneData) {
+                    plainData = (PlaneData)fromAgent;
+                    Controller.planeDataMap.put(plainData.getId(),plainData);
                     plainData.Print();
                 }
                 else{
@@ -52,7 +52,7 @@ public class AgentListener implements Runnable {
     }
 
     public void stopListening() {
-        Controller.plainDataMap.remove(this.plainData.getId());
+        Controller.planeDataMap.remove(this.plainData.getId());
         this.running = false;
         try {
             in.close();
