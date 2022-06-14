@@ -9,7 +9,10 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 
+import CommonClasses.AnalyticsData;
 import CommonClasses.PlainData;
+import Network.CommandAction;
+import Network.NetworkCommand;
 
 public class BackendHandler extends  Observable implements Observer {
 
@@ -18,9 +21,12 @@ public class BackendHandler extends  Observable implements Observer {
     int port;
     ObjectOutputStream objectOutputStream;
     ServerReaderConnection serverReader;
+    String AgentID;
+    String AgentName;
     public BackendHandler(String backendIP, int port){
         this.backendIP = backendIP;
         this.port = port;
+        getIDAndName();
         new Thread(){
             public void run(){
                 ConnectToServer();
@@ -28,7 +34,25 @@ public class BackendHandler extends  Observable implements Observer {
         }.start();
     }
 
+    public void getIDAndName(){
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new FileReader("Agent/src/PlaneData.txt"));
+            String[] firstrow =  scanner.nextLine().split("=");
+            String id = firstrow[1];
+            this.AgentID = id;
+            String[] secondRow = scanner.nextLine().split("=");
+            String name = secondRow[1];
+            this.AgentName = name;
+            System.out.println("Setted id and name");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void SendPlainData(PlainData data){
+        data.setID(AgentID);
+        data.setPlainName(AgentName);
         try {
             if(objectOutputStream != null)
                 objectOutputStream.writeObject(data);
@@ -44,8 +68,10 @@ public class BackendHandler extends  Observable implements Observer {
             Scanner scanner = new Scanner(new FileReader("Agent/src/PlaneData.txt"));
             String[] firstrow =  scanner.nextLine().split("=");
             String id = firstrow[1];
+            this.AgentID = id;
             String[] secondRow = scanner.nextLine().split("=");
             String name = secondRow[1];
+            this.AgentName = name;
             if (objectOutputStream != null){
                 objectOutputStream.writeObject(id + "," + name);
             }
@@ -96,6 +122,10 @@ public class BackendHandler extends  Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        NetworkCommand c= (NetworkCommand) arg;
+        if (c.action == CommandAction.Get) {
+            c.outObj = this;
+        }
         setChanged();
         notifyObservers(arg);
     }
@@ -112,7 +142,7 @@ public class BackendHandler extends  Observable implements Observer {
         }
     }
 
-    public void sendFinalAnalytics(String analytics) {
+    public void sendFinalAnalytics(AnalyticsData analytics) {
         try {
             if (objectOutputStream != null){
                 objectOutputStream.writeObject(analytics);

@@ -3,6 +3,8 @@ package Controller;
 import CommonClasses.PlainData;
 import Model.Commands.instructionCommand;
 import Model.MyModel;
+import Network.CommandAction;
+import Network.NetworkCommand;
 import Network.NetworkManager;
 
 import java.time.LocalDateTime;
@@ -46,45 +48,52 @@ public class MyController implements Observer {
         return this.model.getFlight();
     }
 
-    public void CLI(String line){
-        String[] result = line.split(":");
-        if(result[0].contains("set"))
+    public void CLI(NetworkCommand networkCommand){
+//        String[] result = line.split(":");
+        if(networkCommand.action == CommandAction.Set)
         {
             // check if the property is legit -------------------
             instructionCommand c = (instructionCommand) this.getModel().getMyCommands().get("instructions");
-            c.setCommand(result[1]);
+            c.setCommand(networkCommand.path + " " + networkCommand.value);
             c.execute();
             System.out.println("setter");
             return;
         }
-        if(result[0].contains("printstream"))
+        if(networkCommand.action == CommandAction.Do)
         {
-            System.out.println("printstream:");
-            this.getModel().getMyCommands().get("printstream").execute();
-            return;
+            if(networkCommand.path.contains("printstream"))
+            {
+                System.out.println("printstream:");
+                this.getModel().getMyCommands().get("printstream").execute();
+                return;
+            }
+            if(networkCommand.path.contains("reset")){
+                System.out.println("reset:");
+                this.getModel().getMyCommands().get("reset").execute();
+                return;
+            }
+            if(networkCommand.path.contains("shutdown")){
+                System.out.println("shutdown:");
+                this.getModel().getMyCommands().get("analytics").execute();
+                this.getModel().getMyCommands().get("shutdown").execute();
+                return;
+            }
+
 
         }
-        if(result[0].contains("analytic"))
-        {
-            System.out.println("analytics:");
-            this.getModel().getMyCommands().get("analytics").execute();
-            return;
-        }
-        if(result[0].contains("reset")){
-            System.out.println("reset:");
-            this.getModel().getMyCommands().get("reset").execute();
-            return;
-        }
-        if(result[0].contains("shutdown")){
-            System.out.println("shutdown:");
-            this.getModel().getMyCommands().get("analytics").execute();
-            this.getModel().getMyCommands().get("shutdown").execute();
-            return;
-        }
-        if(result[0].contains("FlightDataCommand")){
-            System.out.println("FlightDataCommand");
-            this.getModel().getMyCommands().get("FlightDataCommand").execute();
-            return;
+        if(networkCommand.action == CommandAction.Get){
+            if(networkCommand.path.contains("FlightData")){
+                System.out.println("FlightDataCommand");
+                this.getModel().getMyCommands().get("FlightDataCommand").execute();
+                return;
+            }
+            if(networkCommand.path.contains("analytic"))
+            {
+                System.out.println("analytics:");
+                this.getModel().getMyCommands().get("analytics").execute();
+                return;
+            }
+
         }
     }
 
@@ -92,6 +101,9 @@ public class MyController implements Observer {
         this.networkManager.sendFlightDataToBackend(list);
     }
 
+    private void sendAnalyticsToBack(String data){
+        this.networkManager.sendAnalyticsToBack(data);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -111,6 +123,7 @@ public class MyController implements Observer {
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String EndtTime = currentTime.format(timeFormatter);
                 this.model.getAnalyticsHandler().setEndTime(EndtTime);
+//                sendAnalyticsToBack(this.model.getFinalAnalytics());
                 // send analytics to the backend
                 return;
             }
@@ -120,7 +133,8 @@ public class MyController implements Observer {
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String EndTime = currentTime.format(timeFormatter);
                 this.model.setEndTime(EndTime);
-                this.networkManager.ShutDown(this.model.getAnalyticsHandler().getFinalAnalytics());
+                ArrayList<ArrayList<String>> flightData = getFlightData();
+                this.networkManager.ShutDown(this.model.getAnalyticsHandler().getFinalAnalytics(),flightData);
                 // need to check if something is broken because we close everything
                 return;
             }
@@ -158,21 +172,26 @@ public class MyController implements Observer {
                 {
                     this.model.setEndTime(data[1]);
                 }
-                else if (data.length > 1 && data[1].startsWith("altitude"))// Analytics
-                {
-                    this.model.sendAnalytic(data[1]);
-                    return;
-                }
+//                else if (data.length > 1 && data[1].startsWith("altitude"))// Analytics
+//                {
+//                    this.model.sendAnalytic(data[1]);
+//                    return;
+//                }
                 else {
                     System.out.println(arg);
-                    CLI((String) arg);
+//                    CLI((String) arg);
                 }
                 //aileron,3,throttle,700
                 //set aileron
             }
+            if(arg instanceof NetworkCommand){
+                NetworkCommand c = (NetworkCommand) arg;
+                CLI(c);
+            }
             if (arg instanceof PlainData){
                 PlainData tempPlane = (PlainData) arg;
                 model.setPlainData(tempPlane);
+                model.sendAnalytic(tempPlane);
             }
         }
     }

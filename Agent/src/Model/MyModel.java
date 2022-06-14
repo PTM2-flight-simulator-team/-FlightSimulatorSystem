@@ -87,8 +87,8 @@ public class MyModel extends Observable {
 //        this.analyticsHandler.setTo(to);
 //    }
 
-    public void sendAnalytic(String analytic){
-        this.analyticsHandler.compareAnalytics(analytic);
+    public void sendAnalytic(PlainData analytic){
+        this.analyticsHandler.InsertAnalytics(analytic);
     }
 
     public String getFinalAnalytics(){
