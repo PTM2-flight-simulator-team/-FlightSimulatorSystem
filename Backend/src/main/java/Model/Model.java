@@ -14,7 +14,7 @@ public class Model extends Observable implements Observer {
     public DataBase DB;
     private  String DbName;
     private String URLconnection;
-    private PlaneData planeData;
+    private PlaneData plainData;
     public Model(String dbName, String urLconnection) {
         DbName = dbName;
         URLconnection = urLconnection;
@@ -34,7 +34,7 @@ public class Model extends Observable implements Observer {
     }
 
     public void setPlainData(PlaneData plainData) {
-        this.planeData = plainData;
+        this.plainData = plainData;
         this.setFgVarsInInterpreter(plainData);
     }
 
