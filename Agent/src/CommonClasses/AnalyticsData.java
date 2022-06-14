@@ -12,6 +12,8 @@ public class AnalyticsData implements Serializable {
     private String endTime;
     private String maxAltitude;
     private String maxSpeed;
+    private String miles;
+    private boolean state = true;
 
     public AnalyticsData(String analytics){
         String[] dataMembers = analytics.split(" ");
@@ -19,10 +21,12 @@ public class AnalyticsData implements Serializable {
         this.setStartLatitude((dataMembers[1].split(":")[1]));
         this.setEndLongitude((dataMembers[2].split(":")[1]));
         this.setEndLatitude((dataMembers[3].split(":")[1]));
-        this.setStartTime((dataMembers[4].split(":")[1]));
-        this.setEndTime((dataMembers[5].split(":")[1]));
-        this.setMaxAltitude((dataMembers[6].split(":")[1]));
-        this.setMaxSpeed((dataMembers[7].split(":")[1]));
+        this.setStartTime((dataMembers[4].split(":")[1]) + " " +  dataMembers[5]);
+        this.setEndTime((dataMembers[5].split(":")[1]) + " " + dataMembers[7]);
+        this.setMaxAltitude((dataMembers[8].split(":")[1]));
+        this.setMaxSpeed((dataMembers[9].split(":")[1]));
+        double mi = Double.parseDouble((dataMembers[10].split(":")[1]));
+        this.setMiles((String.format("%.3f", mi)));
     }
 
     public String getStartLongitude() {
@@ -89,7 +93,24 @@ public class AnalyticsData implements Serializable {
         this.maxSpeed = maxSpeed;
     }
 
+    public String getMiles() {
+        return miles;
+    }
+
+    public void setMiles(String miles) {
+        this.miles = miles;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
+
     public void print(){
-        System.out.println("StartLongitude:" +StartLongitude +" StartLatitude:" + StartLatitude + " EndLongitude:" + EndLongitude + " EndLatitude:" +EndLatitude + " startTime:" + startTime + " endTime:" + endTime + " maxAltitude:" + maxAltitude + " maxSpeed:" +maxSpeed);
+        System.out.println("StartLongitude:" +StartLongitude +" StartLatitude:" + StartLatitude + " EndLongitude:" + EndLongitude + " EndLatitude:" +EndLatitude + " startTime:" + startTime + " endTime:" + endTime + " maxAltitude:" + maxAltitude + " maxSpeed:" +maxSpeed + " miles:" + miles);
     }
 }
