@@ -1,28 +1,25 @@
 package com.example.frontend.windowController;
 
+import Model.ModelTools.CorrelatedFeatures;
+import Model.ModelTools.SimpleAnomalyDetector;
+import Model.ModelTools.TimeSeries;
 import com.example.frontend.FxmlLoader;
-import com.example.frontend.Model;
+import Model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import tools.Clocks;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MonitoringController implements Initializable {
     //................Data members.................//
@@ -45,45 +42,86 @@ public class MonitoringController implements Initializable {
     private LineChart<?, ?> anomalyGraph;
     @FXML
     private BorderPane joyStickBorderPane;
+    @FXML
+    private BorderPane bigChartBorderPane;
+
+//    @FXML
+//    private LineChart<?, ?> bigChart;
+//
+//    @FXML
+//    private CategoryAxis bigX;
+//
+//    @FXML
+//    private NumberAxis bigY;
+
     Model m;
     //.........................................//
 
     @FXML
     void pitch(ActionEvent event) {
-        fillListTest();
-        showPoints(list);
     }
 
-    public void fillListTest() {
-        list.add(new Point2D(0, 0));
-        list.add(new Point2D(1, 1));
-        list.add(new Point2D(2, 2));
-        list.add(new Point2D(3, 3));
-        list.add(new Point2D(4, 4));
-        list.add(new Point2D(5, 5));
-    }
+//        anomalyGraph.getXAxis().setTickLabelsVisible(false);
+//        anomalyGraph.setCreateSymbols(false);
 
-    public void showPoints(List<Point2D> list) {
-        anomalyGraph.getData().clear();
-        XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data("hi", 0));
-        series.getData().add(new XYChart.Data("hi", 1));
-        series.getData().add(new XYChart.Data("hello", 2));
-        series.getData().add(new XYChart.Data("bye", 3));
-        series.getData().add(new XYChart.Data("sex", 4));
-        series.getData().add(new XYChart.Data("dfgija", 5));
 
-        anomalyGraph.getXAxis().setTickLabelsVisible(false);
-        anomalyGraph.setCreateSymbols(false);
-        anomalyGraph.getData().add(series);
-    }
-
-    public void setModel(Model m){
+    public void setModel(Model m) {
         this.m = m;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public double max(Vector<Double> v) {
+        double max = v.get(0);
+        for (int i = 1; i < v.size(); i++) {
+            if (v.get(i) > max) {
+                max = v.get(i);
+            }
+        }
+        return max;
+    }
+    public double min(Vector<Double> v) {
+        double min = v.get(0);
+        for (int i = 1; i < v.size(); i++) {
+            if (v.get(i) < min) {
+                min = v.get(i);
+            }
+        }
+        return min;
+    }
+
+
+    public void createLineCharts() {
+        //.................Create line charts.................//
+        NumberAxis bigX = new NumberAxis();
+        NumberAxis bigY = new NumberAxis();
+        LineChart bigChart = new LineChart(bigX, bigY);
+        TimeSeries ts = new TimeSeries("C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\file1.csv");
+        SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
+        sad.learnNormal(ts);
+        List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
+        Vector<Double> s1 = ts.getColByName(correlatedFeatures.get(1).feature1);
+        Vector<Double> s2 = ts.getColByName(correlatedFeatures.get(1).feature2);
+        int len = ts.getArray().size();
+        XYChart.Series seriesBigChart = new XYChart.Series<>();
+        seriesBigChart.setName("Big Chart");
+        for (int i = 0; i < len; i++) {
+//            seriesBigChart.getData().add(new XYChart.Data<>(s1.get(i), s2.get(i)));
+            seriesBigChart.getData().add(new XYChart.Data<>(ts.getColByName("A").get(i), ts.getColByName("B").get(i)));
+        }
+        //bigChart.getXAxis().setTickLabelsVisible(false);
+        XYChart.Series series2 = new XYChart.Series();
+        double max = max(s1);
+        double min = min(s1);
+//
+//        series2.getData().add(new XYChart.Data(String.valueOf(0), correlatedFeatures.get(1).lin_reg.f((float)min)));
+//
+//        series2.getData().add(new XYChart.Data(String.valueOf(450), correlatedFeatures.get(1).lin_reg.f((float)max)));
+        bigChart.getData().addAll(seriesBigChart);
+        bigChartBorderPane.setCenter(bigChart);
+
+    }
+
+
+    public void createJoyStick() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane joyStickPane = new Pane();
         try {
@@ -93,10 +131,12 @@ public class MonitoringController implements Initializable {
         }
         joyStickBorderPane.setCenter(joyStickPane);
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
-        joyStick.disableJoyStick();
+        //joyStick.disableJoyStick();
         joyStick.initViewModel(m);
+    }
 
-        Clocks clock = new Clocks(altLine);
-        clock.rotateAltClock();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

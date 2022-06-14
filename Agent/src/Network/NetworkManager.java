@@ -43,8 +43,8 @@ public class NetworkManager extends Observable implements Observer{
         // res.RespondWith(socketHandler.GetResponse());
     }
 
-    public void ShutDown(String analytic){
-        this.socketHandler.ShutDown(analytic);
+    public void ShutDown(String analytic, ArrayList<ArrayList<String>> flightData){
+        this.socketHandler.ShutDown(analytic,flightData);
 //        LocalDateTime currentTime = LocalDateTime.now();
 //        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 //        String EndtTime = currentTime.format(timeFormatter);
@@ -57,6 +57,9 @@ public class NetworkManager extends Observable implements Observer{
 
     public void sendFlightDataToBackend(ArrayList<ArrayList<String>> list) {
         this.socketHandler.sendFlightDataToBackend(list);
+    }
+    public void sendAnalyticsToBack(String data){
+        this.socketHandler.sendAnalyticsToBack(data);
     }
 
 }

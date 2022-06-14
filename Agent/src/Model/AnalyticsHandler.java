@@ -3,6 +3,8 @@ package Model;
 import CommonClasses.PlainData;
 import Network.NetworkManager;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,20 +25,21 @@ public class AnalyticsHandler {
     }
 
     private void AddHeaders(ArrayList<String> headers) {
-        headers.add("aileron");
-        headers.add("elevator");
-        headers.add("rudder");
-        headers.add("longitude");
-        headers.add("latitude");
-        headers.add("airSpeed_kt");
-        headers.add("vertSpeed");
-        headers.add("throttle_0");
-        headers.add("throttle_1");
-        headers.add("altitude");
-        headers.add("pitchDeg");
-        headers.add("rollDeg");
-        headers.add("heading");
-        headers.add("turnCoordinator");
+        headers.add("Aileron");
+        headers.add("Elevator");
+        headers.add("Rudder");
+        headers.add("Longitude");
+        headers.add("Latitude");
+        headers.add("AirSpeed_kt");
+        headers.add("VertSpeed");
+        headers.add("Throttle_0");
+        headers.add("Throttle_1");
+        headers.add("Altitude");
+        headers.add("PitchDeg");
+        headers.add("RollDeg");
+        headers.add("Heading");
+        headers.add("TurnCoordinator");
+        headers.add("Time");
     }
 
     public void AddPlainDataToArrayList(PlainData plainData){
@@ -45,13 +48,24 @@ public class AnalyticsHandler {
             firstStart = false;
             setFrom(plainData.getLongitude(), plainData.getLatitude());
         }
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String time = currentTime.format(timeFormatter);
+        ArrayList<String> tsElement = plainData.PlainDataToList();
+        tsElement.add(time);
+        timeSeries.add(tsElement);
+
+
         timeSeries.add(plainData.PlainDataToList());
+
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }
     public ArrayList<ArrayList<String>> GetFlight(){
         return timeSeries;
     }
-    public void compareAnalytics(String FGanalytics){
+    public void InsertAnalytics(PlainData plainData){
+        String FGanalytics = "altitude "+ plainData.getAltitude() + " speed " + plainData.getAirSpeed_kt(); // add all the data you want to compare
         String[] data = FGanalytics.split(" ");
         int size = data.length;
         for(int i=0;i<size;i+=2){

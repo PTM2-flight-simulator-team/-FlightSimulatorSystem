@@ -1,16 +1,13 @@
 package com.example.frontend;
 
+import Model.Model;
 import com.example.frontend.windowController.MainWindowController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class Application extends javafx.application.Application {
     double x,y = 0;
@@ -24,6 +21,7 @@ public class Application extends javafx.application.Application {
         MainWindowController mwc = loader.getController();
        JoyStickViewModel vm = new JoyStickViewModel(m);
         mwc.setModel(m);
+        root.getStylesheets().add(getClass().getResource("css/chart.css").toExternalForm());
         //stage.initStyle(StageStyle.UNDECORATED);
         //Mouse move around
 //        root.setOnMousePressed(mouseEvent -> {

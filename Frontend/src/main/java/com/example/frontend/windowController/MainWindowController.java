@@ -1,21 +1,15 @@
 package com.example.frontend.windowController;
 
 import com.example.frontend.FxmlLoader;
-import com.example.frontend.Model;
+import Model.Model;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,6 +62,9 @@ public class MainWindowController implements Initializable {
         mainPane.setCenter(monitoring);
         MonitoringController mc = fxmlLoader.getController();
         mc.setModel(m);
+        mc.createJoyStick();
+        mc.createLineCharts();
+
     }
     @FXML
     private void btnTeleoperation(ActionEvent event) {

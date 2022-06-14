@@ -2,14 +2,15 @@ package CommonClasses;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
 
-    List<PlaneVar> planeVarList = new ArrayList<>();
+    List<PlaneVar> PlaneVarList = new ArrayList<>();
     private String ID;
-    private String planeName;
+    private String PlaneName;
     private PlaneVar aileron;
     private PlaneVar elevator;
     private PlaneVar rudder;
@@ -26,7 +27,13 @@ public class PlaneData implements Serializable{
     private PlaneVar heading;
     private PlaneVar turnCoordinator; // didnt find
 
-    public String getName() {return planeName;}
+    public String getId() {
+        return ID;
+    }
+
+    public String getPlaneName() {
+        return PlaneName;
+    }
 
     public PlaneVar getAileron() {
         return aileron;
@@ -88,12 +95,9 @@ public class PlaneData implements Serializable{
         return turnCoordinator;
     }
     public List<PlaneVar> getAllVars() {
-        return planeVarList;
+        return PlaneVarList;
     }
 
-    public String getId() {
-        return ID;
-    }
     public PlaneData() {
     }
 
