@@ -71,9 +71,8 @@ public class AgentListener implements Runnable {
                         Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
                     }
                     else {
-
                         Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() );
+                                ,this.planeData.getPlaneName(), strMonth ,Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState(),this.planeData );
                     }
                 }
                 else{
