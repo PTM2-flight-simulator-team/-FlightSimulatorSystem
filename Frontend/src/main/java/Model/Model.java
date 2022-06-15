@@ -18,16 +18,16 @@ public class Model extends Observable implements Observer {
     public Model(){
         myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
         myHttpHandler.addObserver(this);
-        new Thread("New Thread") {
-            public void run(){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                update(null,null);
-            }
-        }.start();
+//        new Thread("New Thread") {
+//            public void run(){
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                update(null,null);
+//            }
+//        }.start();
         //update(this,null);
     }
 
@@ -42,6 +42,7 @@ public class Model extends Observable implements Observer {
         if (o.getClass().equals(MyResponse.class)){
             setChanged();
             notifyObservers(arg);
+            return;
         }
         setJoyStickData(120,120);
         setChanged();

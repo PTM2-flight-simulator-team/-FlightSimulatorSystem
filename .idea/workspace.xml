@@ -5,33 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/JoystickData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/MyResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/PlaneData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/ResonseType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/TeleoperationsData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/PlaneAnalytic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/Frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Frontend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/MyHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/dataHolder/PlaneData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +36,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true"
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/User/Documents/GitHub/FlightSimulatorSystem",
+    "settings.editor.selected.configurable": "preferences.general"
   }
 }]]></component>
   <component name="RecentsManager">
