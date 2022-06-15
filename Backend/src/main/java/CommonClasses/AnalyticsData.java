@@ -12,6 +12,8 @@ public class AnalyticsData implements Serializable {
     private String endTime;
     private String maxAltitude;
     private String maxSpeed;
+    private String miles;
+    private boolean state;
 
     public AnalyticsData(String analytics){
         String[] dataMembers = analytics.split(" ");
@@ -87,6 +89,14 @@ public class AnalyticsData implements Serializable {
 
     public void setMaxSpeed(String maxSpeed) {
         this.maxSpeed = maxSpeed;
+    }
+    
+    public String getMiles(){
+        return miles;
+    }
+    
+    public boolean getState(){
+        return state;
     }
 
     public void print(){

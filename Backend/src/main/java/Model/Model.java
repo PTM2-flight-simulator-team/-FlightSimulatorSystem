@@ -33,9 +33,9 @@ public class Model extends Observable implements Observer {
         notifyObservers(passToController);
     }
 
-    public void setPlainData(PlaneData plainData) {
-        this.plainData = plainData;
-        this.setFgVarsInInterpreter(plainData);
+    public void setPlainData(PlaneData planeData) {
+        this.plainData = planeData;
+        this.setFgVarsInInterpreter(planeData);
     }
 
     public void setFgVarsInInterpreter(PlaneData data){
