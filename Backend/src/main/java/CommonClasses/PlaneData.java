@@ -195,6 +195,14 @@ public class PlaneData implements Serializable{
         PlaneVarList.add(turnCoordinator);
     }
 
+    public List<PlaneVar> getPlaneVarList() {
+        return PlaneVarList;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
     public String getPlaneName() {
         return PlaneName;
     }
