@@ -1,19 +1,17 @@
 package Model;
 
-import CommonClasses.PlainData;
-import Network.NetworkManager;
+import CommonClasses.PlaneData;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class AnalyticsHandler {
     private HashMap<String,String> analytics;
     private ArrayList<ArrayList<String>> timeSeries;
     private boolean firstStart = true;
-    private PlainData LastPlainData = null;
+    private PlaneData LastPlainData = null;
     private static double Nautical_Mile = 0;
     private boolean firstPlaneData = true;
 
@@ -45,7 +43,7 @@ public class AnalyticsHandler {
         headers.add("Time");
     }
 
-    public void AddPlainDataToArrayList(PlainData plainData){
+    public void AddPlainDataToArrayList(PlaneData plainData){
         // lat2/lon2 is the new plaindata and lat1/lon1 is old plaingdata
 //        if(firstPlaneData == true)
 //            firstStart = false;
@@ -77,7 +75,7 @@ public class AnalyticsHandler {
     public ArrayList<ArrayList<String>> GetFlight(){
         return timeSeries;
     }
-    public void InsertAnalytics(PlainData plainData){
+    public void InsertAnalytics(PlaneData plainData){
         String FGanalytics = "altitude "+ plainData.getAltitude() + " speed " + plainData.getAirSpeed_kt(); // add all the data you want to compare
         String[] data = FGanalytics.split(" ");
         int size = data.length;
