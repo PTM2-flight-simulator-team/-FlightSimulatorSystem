@@ -4,25 +4,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlainData implements Serializable{
+public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
     private String plainName;
-    private PlainVar aileron;
-    private PlainVar elevator;
-    private PlainVar rudder;
-    private PlainVar flaps;
-    private PlainVar longitude;
-    private PlainVar latitude;
-    private PlainVar airSpeed_kt;
-    private PlainVar vertSpeed;
-    private PlainVar throttle_0;
-    private PlainVar throttle_1;
-    private PlainVar altitude; // height
-    private PlainVar pitchDeg;
-    private PlainVar rollDeg;
-    private PlainVar heading;
-    private PlainVar turnCoordinator; // didnt find
+    private PlaneVar aileron;
+    private PlaneVar elevator;
+    private PlaneVar rudder;
+    private PlaneVar flaps;
+    private PlaneVar longitude;
+    private PlaneVar latitude;
+    private PlaneVar airSpeed_kt;
+    private PlaneVar vertSpeed;
+    private PlaneVar throttle_0;
+    private PlaneVar throttle_1;
+    private PlaneVar altitude; // height
+    private PlaneVar pitchDeg;
+    private PlaneVar rollDeg;
+    private PlaneVar heading;
+    private PlaneVar turnCoordinator; // didnt find
 
 //    public String getPlainName() {
 //        return plainName;
@@ -94,24 +94,24 @@ public class PlainData implements Serializable{
         this.plainName = plainName;
     }
 
-    public PlainData(HashMap<String,String> map){
+    public PlaneData(HashMap<String,String> map){
 //        this.plainName = name;
-        this.aileron = new PlainVar("/controls/flight/aileron[0]","aileron",map.get("aileron")) ;
-        this.elevator = new PlainVar("/controls/flight/elevator","elevator",map.get("elevator"));
-        this.rudder = new PlainVar("/controls/flight/rudder","rudder",map.get("rudder"));
-        this.longitude = new PlainVar("/position/longitude-deg","longitude-deg",map.get("longitude-deg"));
-        this.latitude = new PlainVar("/position/latitude-deg","latitude-deg",map.get("latitude-deg"));
-        this.airSpeed_kt =new PlainVar("/instrumentation/airspeed-indicator/indicated-speed-kt","airspeed-indicator_indicated-speed-kt",map.get("airspeed-indicator_indicated-speed-kt"));
-        this.vertSpeed = new PlainVar("/velocities/vertical-speed-fps","vertical-speed",map.get("vertical-speed-fps"));
-        this.throttle_0 = new PlainVar("/controls/engines/current-engine/throttle","throttle_0",map.get("throttle_0"));
-        this.throttle_1 = new PlainVar("/controls/engines/engine[1]/throttle","throttle_1",map.get("throttle_1"));
-        this.altitude = new PlainVar("/instrumentation/altimeter/indicated-altitude-ft","altitude",map.get("altimeter_indicated-altitude-ft"));
-        this.pitchDeg = new PlainVar("/instrumentation/attitude-indicator/internal-pitch-deg","pitchDeg",map.get("attitude-indicator_internal-pitch-deg"));
-        this.rollDeg = new PlainVar("instrumentation/attitude-indicator/indicated-roll-deg","rollDeg",map.get("attitude-indicator_indicated-roll-deg"));
-        this.heading = new PlainVar("/instrumentation/heading-indicator/offset-deg","heading",map.get("indicated-heading-deg"));
+        this.aileron = new PlaneVar("/controls/flight/aileron[0]","aileron",map.get("aileron")) ;
+        this.elevator = new PlaneVar("/controls/flight/elevator","elevator",map.get("elevator"));
+        this.rudder = new PlaneVar("/controls/flight/rudder","rudder",map.get("rudder"));
+        this.longitude = new PlaneVar("/position/longitude-deg","longitude-deg",map.get("longitude-deg"));
+        this.latitude = new PlaneVar("/position/latitude-deg","latitude-deg",map.get("latitude-deg"));
+        this.airSpeed_kt =new PlaneVar("/instrumentation/airspeed-indicator/indicated-speed-kt","airspeed-indicator_indicated-speed-kt",map.get("airspeed-indicator_indicated-speed-kt"));
+        this.vertSpeed = new PlaneVar("/velocities/vertical-speed-fps","vertical-speed",map.get("vertical-speed-fps"));
+        this.throttle_0 = new PlaneVar("/controls/engines/current-engine/throttle","throttle_0",map.get("throttle_0"));
+        this.throttle_1 = new PlaneVar("/controls/engines/engine[1]/throttle","throttle_1",map.get("throttle_1"));
+        this.altitude = new PlaneVar("/instrumentation/altimeter/indicated-altitude-ft","altitude",map.get("altimeter_indicated-altitude-ft"));
+        this.pitchDeg = new PlaneVar("/instrumentation/attitude-indicator/internal-pitch-deg","pitchDeg",map.get("attitude-indicator_internal-pitch-deg"));
+        this.rollDeg = new PlaneVar("instrumentation/attitude-indicator/indicated-roll-deg","rollDeg",map.get("attitude-indicator_indicated-roll-deg"));
+        this.heading = new PlaneVar("/instrumentation/heading-indicator/offset-deg","heading",map.get("indicated-heading-deg"));
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
-        this.turnCoordinator = new PlainVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
+        this.turnCoordinator = new PlaneVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
     }
 
     public ArrayList<String> PlainDataToList(){
