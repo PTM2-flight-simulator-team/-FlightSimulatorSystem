@@ -10,8 +10,9 @@ import java.net.SocketException;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class AgentListener implements Runnable {
+public class AgentListener extends Observable implements Runnable {
     private Socket client;
     private ObjectInputStream in;
     private boolean running;
@@ -36,8 +37,6 @@ public class AgentListener implements Runnable {
         this.running = true;
         while (this.running) {
             try {
-                System.out.println("running");
-
                 Object fromAgent = in.readObject();// plaindata
 
                 if(fromAgent instanceof String)
@@ -50,15 +49,20 @@ public class AgentListener implements Runnable {
                 if (fromAgent instanceof PlaneData) {
                     planeData = (PlaneData)fromAgent;
                     Controller.planeDataMap.put(planeData.getId(),planeData);
-                    planeData.Print();
+                    String id = planeData.getID();
+                    setChanged();
+                    notifyObservers(planeData);
+//                    planeData.Print();
                 }
                 else if(fromAgent instanceof AnalyticsData){
+                    System.out.println("got analytics");
                     AnalyticsData tempAnalytics = (AnalyticsData)fromAgent;
                     int month;
                     Month strMonth;
                     String[] date = tempAnalytics.getEndTime().split("-");//example--> 14-06-2022
+                    System.out.println(date);
                     if(date[1].startsWith("0")){
-                        month = date[1].charAt(1);
+                        month = Integer.parseInt(String.valueOf(date[1].charAt(1)));
                         strMonth = Month.of(month);
                     }
                     else{
@@ -71,22 +75,30 @@ public class AgentListener implements Runnable {
                         Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
                     }
                     else {
+
                         Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                ,this.planeData.getPlaneName(), strMonth ,Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState(),this.planeData );
+                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() );
+                        this.stopListening();
                     }
+                    tempAnalytics.print();
                 }
                 else{
                     List<List<String>> tsList = (List<List<String>>) fromAgent;
 
                     if(tsList != null){
+                        System.out.println(tsList.toString());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
                     }
 
-                }
-            }catch (SocketException se){
+                    }
+            }catch (StreamCorruptedException sce){
+                this.stopListening();
+                break;
+            }
+            catch (SocketException se){
                 this.stopListening();
             } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
     }
@@ -97,7 +109,7 @@ public class AgentListener implements Runnable {
         try {
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
