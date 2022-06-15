@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
-import CommonClasses.PlainData;
+import CommonClasses.PlaneData;
 import Model.Commands.*;
 
 public class MyModel extends Observable {
@@ -87,7 +87,7 @@ public class MyModel extends Observable {
 //        this.analyticsHandler.setTo(to);
 //    }
 
-    public void sendAnalytic(PlainData analytic){
+    public void sendAnalytic(PlaneData analytic){
         this.analyticsHandler.InsertAnalytics(analytic);
     }
 
@@ -114,7 +114,7 @@ public class MyModel extends Observable {
         notifyObservers(arg);
     }
 
-    public void setPlainData(PlainData tempPlane) {
+    public void setPlainData(PlaneData tempPlane) {
         this.analyticsHandler.AddPlainDataToArrayList(tempPlane);
     }
 

@@ -1,13 +1,9 @@
 package Network.Socket;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.ObjectStreamConstants;
 import java.util.*;
 
 import CommonClasses.AnalyticsData;
-import CommonClasses.PlainData;
+import CommonClasses.PlaneData;
 import Network.Socket.Handlers.BackendHandler;
 import Network.Socket.Handlers.FlightgearHandler;
 
@@ -43,7 +39,7 @@ public class MySocketHandler extends Observable implements Observer {
             }
             //System.out.println("Airplane Data Sent...");
             //backHandler.SendAirplaneData();
-            PlainData data =  (PlainData)arg;
+            PlaneData data =  (PlaneData)arg;
             if(data != null)
             {
                 backHandler.SendPlainData(data);

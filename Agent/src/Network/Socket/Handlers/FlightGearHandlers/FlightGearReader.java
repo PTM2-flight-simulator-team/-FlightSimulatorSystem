@@ -1,6 +1,6 @@
 package Network.Socket.Handlers.FlightGearHandlers;
 
-import CommonClasses.PlainData;
+import CommonClasses.PlaneData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class FlightGearReader extends Observable {
     ServerSocket server;
     Socket serverAccept;
     Thread serverThread;
-    PlainData myData;
+    PlaneData myData;
     volatile boolean stop;
 
     public  FlightGearReader(List<String> l){
@@ -49,7 +49,7 @@ public class FlightGearReader extends Observable {
                 for(int i = 0; i < vals.length; i++){
                     newData.put(l.get(i), vals[i]);
                 }
-                PlainData data = new PlainData(newData); // ailreron 1 ,,,,,,
+                PlaneData data = new PlaneData(newData); // ailreron 1 ,,,,,,
                 myData = data;
 //                data.Print();
                 setChanged();
@@ -68,7 +68,7 @@ public class FlightGearReader extends Observable {
         }
     }
 
-    public PlainData getMyData() {
+    public PlaneData getMyData() {
         return myData;
     }
 
