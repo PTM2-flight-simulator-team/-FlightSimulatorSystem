@@ -62,7 +62,7 @@ public class AgentListener implements Runnable {
                         strMonth = Month.of(month);
                     }
                     else{
-                        month = date[1].charAt(0);
+                        month = Integer.parseInt(date[1]);
                         strMonth = Month.of(month);
                     }
                     String tempPlaneId = this.planeData.getId();
