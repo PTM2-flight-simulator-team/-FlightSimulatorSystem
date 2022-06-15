@@ -194,4 +194,8 @@ public class PlaneData implements Serializable{
         this.turnCoordinator = turnCoordinator;
         PlaneVarList.add(turnCoordinator);
     }
+
+    public String getPlaneName() {
+        return PlaneName;
+    }
 }
