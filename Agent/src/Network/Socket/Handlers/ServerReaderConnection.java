@@ -34,6 +34,7 @@ public class ServerReaderConnection extends Observable implements Runnable {
         while (!stop){
             try {
                 String line = in.readLine();
+                System.out.println(line);
                 String[] words = line.split(" ");
 
                 if (words.length < 2)
