@@ -62,7 +62,7 @@ public class AgentListener implements Runnable {
                         strMonth = Month.of(month);
                     }
                     else{
-                        month = date[1].charAt(0);
+                        month = Integer.parseInt(date[1]);
                         strMonth = Month.of(month);
                     }
                     String tempPlaneId = this.planeData.getId();
@@ -82,7 +82,7 @@ public class AgentListener implements Runnable {
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
                     }
 
-                    }
+                }
             }catch (SocketException se){
                 this.stopListening();
             } catch (ClassNotFoundException | IOException e) {
@@ -102,4 +102,3 @@ public class AgentListener implements Runnable {
     }
 
 }
-

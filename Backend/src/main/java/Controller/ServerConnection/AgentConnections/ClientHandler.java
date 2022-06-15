@@ -22,9 +22,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         System.out.println("client handler , id: " + Thread.currentThread().getId());
-//        myThread = new Thread(this.agentListener);
-//        myThread.start();
-        this.agentListener.run();
+        myThread = new Thread(this.agentListener);
+        myThread.start();
         this.agentWriter.outToAgent("response from server");
     }
 
@@ -35,10 +34,11 @@ public class ClientHandler implements Runnable {
     public void closeClient(){
         this.agentWriter.shutDown();
         try {
-
+            Thread.sleep(3000);
+            //go to sleep for 3 seconds...enough time to get Analytics or timeSeries from Agent
             this.agentListener.stopListening();
             this.socket.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
