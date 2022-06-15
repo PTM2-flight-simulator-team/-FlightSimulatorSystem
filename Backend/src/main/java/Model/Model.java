@@ -1,7 +1,7 @@
 package Model;
 
-import CommonClasses.PlainData;
-import CommonClasses.PlainVar;
+import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
 import Model.Interpreter.Interpreter;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class Model extends Observable implements Observer {
     public DataBase DB;
     private  String DbName;
     private String URLconnection;
-    private PlainData plainData;
+    private PlaneData plainData;
     public Model(String dbName, String urLconnection) {
         DbName = dbName;
         URLconnection = urLconnection;
@@ -33,14 +33,14 @@ public class Model extends Observable implements Observer {
         notifyObservers(passToController);
     }
 
-    public void setPlainData(PlainData plainData) {
-        this.plainData = plainData;
-        this.setFgVarsInInterpreter(plainData);
+    public void setPlainData(PlaneData planeData) {
+        this.plainData = planeData;
+        this.setFgVarsInInterpreter(planeData);
     }
 
-    public void setFgVarsInInterpreter(PlainData data){
+    public void setFgVarsInInterpreter(PlaneData data){
         Map<String, Double> FgVars = new HashMap<>();
-        for(PlainVar var: data.getAllVars()){
+        for(PlaneVar var: data.getAllVars()){
             FgVars.put(var.getPath(), Double.parseDouble(var.getValue()));
         }
         interpreter.setFGvars(FgVars);

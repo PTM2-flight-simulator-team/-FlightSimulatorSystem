@@ -123,7 +123,7 @@ public class MyController implements Observer {
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String EndtTime = currentTime.format(timeFormatter);
                 this.model.getAnalyticsHandler().setEndTime(EndtTime);
-                sendAnalyticsToBack(this.model.getFinalAnalytics());
+//                sendAnalyticsToBack(this.model.getFinalAnalytics());
                 // send analytics to the backend
                 return;
             }
@@ -133,7 +133,8 @@ public class MyController implements Observer {
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String EndTime = currentTime.format(timeFormatter);
                 this.model.setEndTime(EndTime);
-                this.networkManager.ShutDown(this.model.getAnalyticsHandler().getFinalAnalytics());
+                ArrayList<ArrayList<String>> flightData = getFlightData();
+                this.networkManager.ShutDown(this.model.getAnalyticsHandler().getFinalAnalytics(),flightData);
                 // need to check if something is broken because we close everything
                 return;
             }
