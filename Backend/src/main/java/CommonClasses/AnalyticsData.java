@@ -3,7 +3,7 @@ package CommonClasses;
 import java.io.Serializable;
 
 public class AnalyticsData implements Serializable {
-    //    private static final long serialVersionUID = 6529685098267757690L;
+    private static final long serialVersionUID = 8468838128889418316L;
     private String StartLongitude;
     private String StartLatitude;
     private String EndLongitude;
@@ -25,14 +25,6 @@ public class AnalyticsData implements Serializable {
         this.setEndTime((dataMembers[5].split(":")[1]));
         this.setMaxAltitude((dataMembers[6].split(":")[1]));
         this.setMaxSpeed((dataMembers[7].split(":")[1]));
-    }
-
-    public String getMiles() {
-        return miles;
-    }
-
-    public boolean getState() {
-        return state;
     }
 
     public String getStartLongitude() {
@@ -99,6 +91,25 @@ public class AnalyticsData implements Serializable {
         this.maxSpeed = maxSpeed;
     }
     
+    public String getMiles(){
+        return miles;
+    }
+    
+    public boolean getState(){
+        return state;
+    }
+
+    public void setMiles(String miles) {
+        this.miles = miles;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
 
     public void print(){
         System.out.println("StartLongitude:" +StartLongitude +" StartLatitude:" + StartLatitude + " EndLongitude:" + EndLongitude + " EndLatitude:" +EndLatitude + " startTime:" + startTime + " endTime:" + endTime + " maxAltitude:" + maxAltitude + " maxSpeed:" +maxSpeed);
