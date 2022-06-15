@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/MyHttpHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/dataHolder/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/JoystickData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/MyResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/PlaneData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/ResonseType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/TeleoperationsData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/MyHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/dataHolder/PlaneData.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/AnalyticsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/AnalyticsData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +45,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
@@ -121,7 +132,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
