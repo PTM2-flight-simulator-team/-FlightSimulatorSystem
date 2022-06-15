@@ -41,20 +41,21 @@
             </BarChart>
             <PieChart fx:id="myPie" layoutX="759.0" layoutY="505.0" prefHeight="206.0" prefWidth="220.0" />
             <Canvas height="468.0" layoutX="1.0" layoutY="1.0" width="976.0" />
-            <ImageView fitHeight="488.0" fitWidth="976.0" layoutX="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img1" fitHeight="500.0" fitWidth="1000.0" layoutX="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
-<!--                  <Image url="@../../../icons/planesmap.gif" />-->
+                  <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/planesmap.gif" />
+
                </image>
             </ImageView>
-            <ImageView fitHeight="59.0" fitWidth="24.0" layoutX="183.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true" rotate="65.1">
+            <ImageView fx:id="airp" fitHeight="59.0" fitWidth="24.0" layoutX="183.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true" rotate="65.1">
                <image>
 <!--                  <Image url="@../../../icons/airplaneSymbol.png" />-->
-<!--                   <Image url="@../../../icons/airplaneSymbol.png" />-->
+                   <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/airplaneSymbol.png" />
                </image>
             </ImageView>
             <ImageView fx:id="refreshBtn" fitHeight="36.0" fitWidth="38.0" layoutX="21.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-<!--                  <Image url="@../../../icons/refreshBtn.png" />-->
+                  <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/refreshBtn.png" />
                </image>
             </ImageView>
          </children>

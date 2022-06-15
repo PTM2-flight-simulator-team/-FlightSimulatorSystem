@@ -7,9 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static java.util.Map.Entry.comparingByValue;
@@ -37,10 +40,50 @@ public class FleetOverviewController implements Initializable {
     @FXML
     private LineChart lineC;
 
+    @FXML
+    private ImageView img1;
+
+    @FXML
+    private ImageView airp;
+
+    private int[][] coordinates;
+    private  final  int NORMAL=10;
+
+    private  Timer timer=new Timer();
+
+
+
 
     public FleetOverviewController() {
 
 
+        TimerTask getAirplanePos =new TimerTask() {
+            @Override
+            public void run() {
+                airp.setLayoutX(airp.getLayoutX()+5);
+            }
+        };
+        timer.schedule(getAirplanePos,1000L,1000L);
+
+
+//        String imagePath=Paths.get("").toAbsolutePath().toString()+"\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
+//        imagePath= imagePath.replace("\\","/");
+//
+//        System.out.println("path "+imagePath);
+//        File f=new File(imagePath);
+//        if(f.exists())
+//        {
+//
+//            img1 = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+//        }else {
+//
+//            System.out.println("file not exist "+imagePath);
+//        }
+
+
+        //System.out.println(getClass().getResource("planesmap.gif").toExternalForm());
+//        javafx.scene.image.Image image = new javafx.scene.image.Image(getClass().getResource("planesmap.gif").toExternalForm());
+//        ImageView iv = new ImageView(image);
     }
 
 
@@ -181,6 +224,24 @@ public class FleetOverviewController implements Initializable {
         multipleSortedMiles(test2);
 
         lineChart(test);
+
+//        String imagePath=Paths.get("").toAbsolutePath().toString()+"\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
+//        imagePath= imagePath.replace("\\","/");
+//
+//        System.out.println("path "+imagePath);
+//        File f=new File(imagePath);
+//        if(f.exists())
+//        {
+//
+//            img1 = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+//        }else {
+//
+//            System.out.println("file not exist "+imagePath);
+//        }
+
+        double h=img1.getFitHeight()*NORMAL;//1000 0
+        double w=img1.getFitWidth()*NORMAL;//500 0
+        coordinates=new int[(int)w][(int)h];
     }
 
 

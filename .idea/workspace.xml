@@ -7,7 +7,6 @@
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +31,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/17.0.0.1/javafx-fxml-17.0.0.1-win.jar!/javafx/fxml/FXMLLoader.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -163,6 +165,11 @@
           <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java</url>
           <line>48</line>
           <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java</url>
+          <line>243</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
