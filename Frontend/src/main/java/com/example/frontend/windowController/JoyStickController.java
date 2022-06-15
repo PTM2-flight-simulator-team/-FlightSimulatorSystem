@@ -6,6 +6,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
@@ -107,7 +108,8 @@ public class JoyStickController implements Initializable, Observer {
     }
 
     private boolean isInCircle(double x, double y) {
-        return (Math.pow((x - circle.getCenterX()), 2) + Math.pow((y - circle.getCenterY()), 2)) <= Math.pow(circle.getRadius() - 30, 2);
+
+        return (Math.pow((x - (circle.getCenterX())-100), 2) + Math.pow((y - (circle.getCenterX())-100), 2)) <= Math.pow(circle.getRadius() - 35, 2);
     }
 
     @FXML
@@ -116,26 +118,28 @@ public class JoyStickController implements Initializable, Observer {
         if (mousePushed) {
             jx = me.getX();
             jy = me.getY();
+
             if (!(isInCircle(jx, jy))) {
                 jx = prevX;
                 jy = prevY;
             } else {
+                System.out.println("in circle");
                 prevX = jx;
                 prevY = jy;
             }
             //threshold
-            if (me.getX() > 175) {
-                jx = 175;
-            }
-            if (me.getX() < 25) {
-                jx = 25;
-            }
-            if (me.getY() > 175) {
-                jy = 175;
-            }
-            if (me.getY() < 25) {
-                jy = 25;
-            }
+//            if (me.getX() > 175) {
+//                jx = 175;
+//            }
+//            if (me.getX() < 25) {
+//                jx = 25;
+//            }
+//            if (me.getY() > 175) {
+//                jy = 175;
+//            }
+//            if (me.getY() < 25) {
+//                jy = 25;
+//            }
             double normalizedX = 2 * ((jx - 25) / (175 - 25)) - 1;
             double normalizedY = -1 * (2 * ((jy - 25) / (175 - 25)) - 1); // invert y axis
 

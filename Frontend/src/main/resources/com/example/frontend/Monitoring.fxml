@@ -9,14 +9,24 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <SplitMenuButton alignment="CENTER" layoutX="14.0" layoutY="60.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Features list">
-              <items>
-                <MenuItem fx:id="pitch" mnemonicParsing="false" onAction="#pitch" text="pitch" />
-                  <MenuItem fx:id="aileron" mnemonicParsing="false" text="aileron" />
-                  <MenuItem fx:id="height" mnemonicParsing="false" text="height" />
-                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                <MenuItem mnemonicParsing="false" text="matias" />
-              </items>
+            <SplitMenuButton fx:id="splitMenuItem" alignment="CENTER" layoutX="14.0" layoutY="60.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Features list">
+               <items>
+                  <MenuItem fx:id="aileron" mnemonicParsing="false" onAction="#aileron" text="aileron" />
+                  <MenuItem fx:id="elevator" mnemonicParsing="false" text="elevator" />
+                  <MenuItem fx:id="rudder" mnemonicParsing="false" text="rudder" />
+                  <MenuItem fx:id="flaps" mnemonicParsing="false" text="flaps" />
+                  <MenuItem fx:id="longitude" mnemonicParsing="false" text="longitude" />
+                  <MenuItem fx:id="latitude" mnemonicParsing="false" text="latitude" />
+                  <MenuItem fx:id="airSpeed_kt" mnemonicParsing="false" onAction="#airSpeed_kt" text="airSpeed_kt" />
+                  <MenuItem fx:id="vertSpeed" mnemonicParsing="false" text="vertSpeed" />
+                  <MenuItem fx:id="throttle_0" mnemonicParsing="false" text="throttle_0" />
+                  <MenuItem fx:id="throttle_1" mnemonicParsing="false" text="throttle_1" />
+                  <MenuItem fx:id="altitude" mnemonicParsing="false" text="altitude" />
+                  <MenuItem fx:id="pitchDeg" mnemonicParsing="false" text="pitchDeg" />
+                  <MenuItem fx:id="rollDeg" mnemonicParsing="false" text="rollDeg" />
+                  <MenuItem fx:id="heading" mnemonicParsing="false" text="heading" />
+                  <MenuItem fx:id="turnCoordinator" mnemonicParsing="false" text="turnCoordinator" />
+               </items>
             </SplitMenuButton>
             <BorderPane fx:id="leftAreaChartBorderPane" layoutX="164.0" layoutY="72.0" prefHeight="191.0" prefWidth="204.0" />
             <BorderPane fx:id="rightAreaChartBorderPane" layoutX="368.0" layoutY="72.0" prefHeight="191.0" prefWidth="204.0" />

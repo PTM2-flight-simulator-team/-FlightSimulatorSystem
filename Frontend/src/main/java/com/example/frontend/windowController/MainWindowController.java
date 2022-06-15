@@ -63,9 +63,9 @@ public class MainWindowController implements Initializable {
         MonitoringController mc = fxmlLoader.getController();
         mc.setModel(m);
         mc.createJoyStick();
-        mc.createLineCharts();
+        //mc.createLineCharts();
+        mc.createCircleGraph();
         mc.createClocks();
-
     }
     @FXML
     private void btnTeleoperation(ActionEvent event) {
