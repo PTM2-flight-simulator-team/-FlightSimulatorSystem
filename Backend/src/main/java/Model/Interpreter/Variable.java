@@ -1,9 +1,9 @@
 package Model.Interpreter;
 
-public class Variable {
+public class Variable {//class that represent code var
 
     public double value;
-    public String bindTo;
+    public String bindTo;//indicate if the var is bind to FG var
 
     public Variable(double value) {
         this.value = value;
@@ -11,7 +11,7 @@ public class Variable {
     }
     public Variable(String bind, double value) {
         this.value = value;
-        this.bindTo = null;
+        this.bindTo = bind;
     }
 
     public double getValue() {

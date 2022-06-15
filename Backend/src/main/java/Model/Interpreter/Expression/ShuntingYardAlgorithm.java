@@ -1,12 +1,12 @@
 package Model.Interpreter.Expression;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import Model.Interpreter.Utils;
+
+import java.util.*;
 
 public class ShuntingYardAlgorithm {
 
-    public static double calc(List<String> exp){
+    public static double calc(List<String> exp) throws Exception {//creating calculate tree
         LinkedList<String> queue = new LinkedList<>();
         Stack<String> stack = new Stack<>();
         int size = exp.size();
@@ -42,10 +42,10 @@ public class ShuntingYardAlgorithm {
             queue.addLast(stack.pop());
         }
 
-        return CalculateExpTree(queue).calculate(null, 0);
+        return CalculateExpTree(queue).calculate(null, 0);//calculate the result and return it
     }
 
-    public static Expression CalculateExpTree(LinkedList<String> queue){
+    public static Expression CalculateExpTree(LinkedList<String> queue){//calculate the tree
         Expression ret;
         if(queue.isEmpty())
             return new Number(0);
@@ -83,5 +83,95 @@ public class ShuntingYardAlgorithm {
         }
 
         return ret;
+    }
+    public static double ConditionParser(List<String> conditionExp) throws Exception {//creating the condition tree
+        LinkedList<String> queue = new LinkedList<>();
+        Stack<String> stack = new Stack<>();
+        int size = conditionExp.size();
+        String tmp ="";
+        List<String> condition = new ArrayList<>();
+        for(int i = 0; i<size; i++){
+            if(Utils.isSymbol(conditionExp.get(i)))
+                tmp = String.valueOf(Utils.getSymbol(conditionExp.get(i)).getValue());
+            else
+                tmp = conditionExp.get(i);
+            condition.add(tmp);
+        }
+        HashSet<String> operators = new HashSet<>();
+        operators.add(">");
+        operators.add("<");
+        operators.add(">=");
+        operators.add("<=");
+        operators.add("==");
+
+        for(int i = 0; i<size; i++){
+            switch (condition.get(i)) {
+                case ">":
+                case ">=":
+                case "<":
+                case "<=":
+                case "==": {
+                    stack.push(condition.get(i));
+                    break;
+                }
+                case "&&":
+                case "||":{
+                    while (!stack.isEmpty() && operators.contains(stack.peek())) {
+                        queue.addLast(stack.pop());
+                    }
+                    stack.push(condition.get(i));
+                    break;
+                }
+                default: {
+                    queue.addLast(condition.get(i));
+                    break;
+                }
+            }
+        }
+        while (!stack.isEmpty()){
+            queue.addLast(stack.pop());
+        }
+        Expression check = CheckCondition(queue);
+        return check.calculate(null,0);
+    }
+    public static Expression CheckCondition(LinkedList<String> queue){//check the condition returning 0 case that false else 1
+        Expression ret;
+        if(queue.isEmpty())
+            return new Number(0);
+        String currentExp = queue.pollLast();
+
+        switch (currentExp){
+            case ">":
+            case ">=":
+            case "<":
+            case "<=":
+            case "==": {
+                Expression right = CheckCondition(queue);
+                Expression left = CheckCondition(queue);
+                ConditionExpression tmp = new ConditionExpression(left, right);
+                tmp.setOperator(currentExp);
+                ret = tmp;
+                break;
+            }
+            case "&&":{
+                Expression right = CheckCondition(queue);
+                Expression left = CheckCondition(queue);
+                ret = new And(left, right);
+                break;
+            }
+            case "||":{
+                Expression right = CheckCondition(queue);
+                Expression left = CheckCondition(queue);
+                ret = new Or(left, right);
+                break;
+            }
+            default:{
+                ret = new Number(Double.parseDouble(currentExp));
+                break;
+            }
+        }
+
+        return ret;
+
     }
 }

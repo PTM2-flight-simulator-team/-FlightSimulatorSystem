@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
-import Model.Commands.Command;
+import CommonClasses.PlaneData;
+import Model.Commands.*;
 
 public class MyModel extends Observable {
     private HashMap<String,String> properties;
@@ -18,11 +19,13 @@ public class MyModel extends Observable {
     private HashMap<String,Command> myCommands;
     private AnalyticsHandler analyticsHandler;
 
+
     public MyModel() {
         this.myCommands = new HashMap<>();
         this.properties = new HashMap<>();
         this.propertiesNamesList = new ArrayList<>();
         this.analyticsHandler = new AnalyticsHandler();
+        this.setCommands();
 
         //read properties.txt
         try {
@@ -60,7 +63,62 @@ public class MyModel extends Observable {
         return analyticsHandler;
     }
 
+    public HashMap<String, String> getProperties() {
+        return properties;
+    }
+
     public void setAnalyticsHandler(AnalyticsHandler analyticsHandler) {
         this.analyticsHandler = analyticsHandler;
+    }
+
+    public void setStartTime(String time){
+        this.analyticsHandler.setStartTime(time);
+    }
+
+    public void setEndTime(String time){
+        this.analyticsHandler.setEndTime(time);
+    }
+
+//    public void setFrom(String from){
+//        this.analyticsHandler.setFrom(from);
+//    }
+
+//    public void setTo(String to){
+//        this.analyticsHandler.setTo(to);
+//    }
+
+    public void sendAnalytic(PlaneData analytic){
+        this.analyticsHandler.InsertAnalytics(analytic);
+    }
+
+    public String getFinalAnalytics(){
+        return this.analyticsHandler.getFinalAnalytics();
+    }
+
+    public HashMap<String, Command> getMyCommands() {
+        return myCommands;
+    }
+
+    public void setCommands(){
+        myCommands.put("instructions",new instructionCommand(this));
+//        myCommands.put("livestream",new LiveStreamCommand(this));
+        myCommands.put("printstream",new PrintStreamCommand(this));
+        myCommands.put("reset",new ResetCommand(this));
+        myCommands.put("shutdown",new ShutDownCommand(this));
+        myCommands.put("analytics",new AnalyticSenderCommand(this));
+        myCommands.put("FlightDataCommand",new FlightDataCommand(this));
+    }
+
+    public void modelNotify(Object arg){
+        setChanged();
+        notifyObservers(arg);
+    }
+
+    public void setPlainData(PlaneData tempPlane) {
+        this.analyticsHandler.AddPlainDataToArrayList(tempPlane);
+    }
+
+    public ArrayList<ArrayList<String>> getFlight() {
+        return this.analyticsHandler.GetFlight();
     }
 }
