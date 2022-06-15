@@ -42,6 +42,9 @@ public class AgentListener implements Runnable {
                 if (fromAgent instanceof PlaneData) {
                     planeData = (PlaneData)fromAgent;
                     Controller.planeDataMap.put(planeData.getId(),planeData);
+//                    if(ClientHandler.Id.isEmpty()){
+//                           ClientHandler.Id = planeData.getId();
+//                    }
                     planeData.Print();
                 }
                 else if(fromAgent instanceof AnalyticsData){
@@ -65,7 +68,7 @@ public class AgentListener implements Runnable {
                     else {
 
                         Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() );
+                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData );
                     }
                 }
                 else{
