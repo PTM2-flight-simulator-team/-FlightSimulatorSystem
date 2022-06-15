@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/PlaneAnalytic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/dataHolder/AnalyticsData.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +34,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/User/Documents/GitHub/FlightSimulatorSystem",
+    "settings.editor.selected.configurable": "preferences.general"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
@@ -51,12 +50,21 @@
       <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Agent">
+  <component name="RunManager" selected="Application.Front">
     <configuration name="Agent" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="AgentMain" />
       <module name="Agent" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Front" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.example.frontend.Application" />
+      <module name="Frontend" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -75,6 +83,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Front" />
       <item itemvalue="Application.Agent" />
       <item itemvalue="Application.MainController" />
     </list>
@@ -114,7 +123,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
