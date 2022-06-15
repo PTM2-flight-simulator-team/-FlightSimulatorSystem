@@ -22,9 +22,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         System.out.println("client handler , id: " + Thread.currentThread().getId());
-//        myThread = new Thread(this.agentListener);
-//        myThread.start();
-        this.agentListener.run();
+        myThread = new Thread(this.agentListener);
+        myThread.start();
         this.agentWriter.outToAgent("response from server");
     }
 
