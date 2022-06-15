@@ -18,8 +18,8 @@ public class DataBase {
     static int i =0;
 
     public DataBase(String connectionURL, String dbName ){
-       this.client = MongoClients.create(connectionURL);
-       this.database = this.client.getDatabase(dbName);
+        this.client = MongoClients.create(connectionURL);
+        this.database = this.client.getDatabase(dbName);
 
     }
 
@@ -91,20 +91,20 @@ public class DataBase {
     }
     public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
         HashMap<String,Double> hashMap = new HashMap<>();
-       hashMap.put(Month.JANUARY.toString(),0.0);
-       hashMap.put(Month.FEBRUARY.toString(),0.0);
-       hashMap.put(Month.MARCH.toString(),0.0);
-       hashMap.put(Month.APRIL.toString(),0.0);
-       hashMap.put(Month.MAY.toString(),0.0);
-       hashMap.put(Month.JUNE.toString(),0.0);
-       hashMap.put(Month.JULY.toString(),0.0);
-       hashMap.put(Month.AUGUST.toString(),0.0);
-       hashMap.put(Month.SEPTEMBER.toString(),0.0);
-       hashMap.put(Month.OCTOBER.toString(),0.0);
-       hashMap.put(Month.NOVEMBER.toString(),0.0);
-       hashMap.put(Month.DECEMBER.toString(),0.0);
+        hashMap.put(Month.JANUARY.toString(),0.0);
+        hashMap.put(Month.FEBRUARY.toString(),0.0);
+        hashMap.put(Month.MARCH.toString(),0.0);
+        hashMap.put(Month.APRIL.toString(),0.0);
+        hashMap.put(Month.MAY.toString(),0.0);
+        hashMap.put(Month.JUNE.toString(),0.0);
+        hashMap.put(Month.JULY.toString(),0.0);
+        hashMap.put(Month.AUGUST.toString(),0.0);
+        hashMap.put(Month.SEPTEMBER.toString(),0.0);
+        hashMap.put(Month.OCTOBER.toString(),0.0);
+        hashMap.put(Month.NOVEMBER.toString(),0.0);
+        hashMap.put(Month.DECEMBER.toString(),0.0);
 
-       hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
+        hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
 
         Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active).append("planeData" ,planeData);
         this.addDocument("AirCrafts",d);
@@ -161,7 +161,7 @@ public class DataBase {
         updateObject.put("$set",newDoc);
         database.getCollection("AirCrafts").updateOne(query,updateObject);
     }
-    
+
     public boolean doesPlaneExists(String id){
         FindIterable<Document> d = this.getDocById("AirCrafts", id);
         AtomicBoolean b = new AtomicBoolean(false);
@@ -171,6 +171,6 @@ public class DataBase {
         });
         return b.get();
     }
-    
+
 
 }
