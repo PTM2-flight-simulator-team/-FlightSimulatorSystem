@@ -1,5 +1,6 @@
 package Model;
 
+import CommonClasses.PlaneData;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import org.bson.Document;
@@ -84,10 +85,11 @@ public class DataBase {
 
 
 
+
     public FindIterable<Document> getTSbyPlaneName(String name){
         return this.database.getCollection("TimeSeries").find(new Document().append("planeName",name));
     }
-    public void saveNewPlaneAnalytics(String id, String name,Month month, Double miles, Boolean active){
+    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
         HashMap<String,Double> hashMap = new HashMap<>();
        hashMap.put(Month.JANUARY.toString(),0.0);
        hashMap.put(Month.FEBRUARY.toString(),0.0);
@@ -104,7 +106,7 @@ public class DataBase {
 
        hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
 
-        Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active);
+        Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active).append("planeData" ,planeData);
         this.addDocument("AirCrafts",d);
     }
 
@@ -147,6 +149,19 @@ public class DataBase {
         database.getCollection("AirCrafts").updateOne(query,updateObject);
 
     }
+
+    public void changePlaneData(String id, PlaneData planeData){
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id",id);
+
+        BasicDBObject newDoc = new BasicDBObject();
+        newDoc.put("planeData",planeData);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set",newDoc);
+        database.getCollection("AirCrafts").updateOne(query,updateObject);
+    }
+    
     public boolean doesPlaneExists(String id){
         FindIterable<Document> d = this.getDocById("AirCrafts", id);
         AtomicBoolean b = new AtomicBoolean(false);

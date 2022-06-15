@@ -34,10 +34,11 @@ public class ClientHandler implements Runnable {
     public void closeClient(){
         this.agentWriter.shutDown();
         try {
-
+            Thread.sleep(3000);
+            //go to sleep for 3 seconds...enough time to get Analytics or timeSeries from Agent
             this.agentListener.stopListening();
             this.socket.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
