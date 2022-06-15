@@ -1,22 +1,32 @@
 package Controller.ServerConnection.AgentConnections;
 
+import CommonClasses.PlaneData;
+import Controller.Controller;
 import Controller.ServerConnection.AgentConnections.AgentListener;
 import Controller.ServerConnection.AgentConnections.AgentWriter;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler extends Observable implements Runnable, Observer {
     Socket socket;
     AgentListener agentListener;
     AgentWriter agentWriter;
     Thread myThread;
+    String ID = null;
+    public boolean activeInterpreter;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
-
+        this.activeInterpreter = false;
         this.agentListener = new AgentListener(socket);
+        agentListener.addObserver(this);
         this.agentWriter = new AgentWriter(socket);
+//        this.ID = "2";
+//        Controller.clientMap.put(ID,this);
+
     }
 
     @Override
@@ -40,5 +50,23 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(o instanceof AgentListener){
+            PlaneData planeData = (PlaneData) arg;
+            if(ID == null){
+                ID = planeData.getID();
+                Controller.clientMap.put(ID,this);
+            }
+            setChanged();
+            notifyObservers(arg);
+
+        }
+    }
+
+    public String getID() {
+        return ID;
     }
 }
