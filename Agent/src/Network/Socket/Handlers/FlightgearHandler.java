@@ -1,8 +1,16 @@
 package Network.Socket.Handlers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import CommonClasses.PlaneData;
+import CommonClasses.PlainData;
 import Network.Socket.Handlers.FlightGearHandlers.FlightGearReader;
 import Network.Socket.Handlers.FlightGearHandlers.FlightGearWriter;
 
@@ -20,7 +28,7 @@ public class FlightgearHandler extends Observable implements Observer  {
         flightGearWriter.WriteToFG(command);
     }
 
-    public PlaneData getMyData() {
+    public PlainData getMyData() {
         return flightGearReader.getMyData();
     }
 
@@ -37,7 +45,7 @@ public class FlightgearHandler extends Observable implements Observer  {
             if (arg.toString().equals("startWriter")){
                 flightGearWriter = new FlightGearWriter();
                 flightGearWriter.addObserver(this);
-            } else if(arg instanceof PlaneData){
+            } else if(arg instanceof PlainData){
                 setChanged();
                 notifyObservers(arg);
             }

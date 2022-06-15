@@ -1,6 +1,6 @@
 package Controller;
 
-import CommonClasses.PlaneData;
+import CommonClasses.PlainData;
 import Model.Commands.instructionCommand;
 import Model.MyModel;
 import Network.CommandAction;
@@ -188,8 +188,8 @@ public class MyController implements Observer {
                 NetworkCommand c = (NetworkCommand) arg;
                 CLI(c);
             }
-            if (arg instanceof PlaneData){
-                PlaneData tempPlane = (PlaneData) arg;
+            if (arg instanceof PlainData){
+                PlainData tempPlane = (PlainData) arg;
                 model.setPlainData(tempPlane);
                 model.sendAnalytic(tempPlane);
             }

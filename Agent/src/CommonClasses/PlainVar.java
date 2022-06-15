@@ -2,12 +2,12 @@ package CommonClasses;
 
 import java.io.Serializable;
 
-public class PlaneVar implements Serializable {
+public class PlainVar implements Serializable {
     String path;
     String nickName;
     String value;
 
-    public PlaneVar(String path, String nickName, String value) {
+    public PlainVar(String path, String nickName, String value) {
         this.path = path;
         this.nickName = nickName;
         this.value = value;

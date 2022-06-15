@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlainVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Controller/MyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/AnalyticsData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/AnalyticsData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightgearHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,6 +109,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />

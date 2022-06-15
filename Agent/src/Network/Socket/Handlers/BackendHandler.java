@@ -10,7 +10,7 @@ import java.util.Observer;
 import java.util.Scanner;
 
 import CommonClasses.AnalyticsData;
-import CommonClasses.PlaneData;
+import CommonClasses.PlainData;
 import Network.CommandAction;
 import Network.NetworkCommand;
 
@@ -50,7 +50,7 @@ public class BackendHandler extends  Observable implements Observer {
         }
     }
 
-    public void SendPlainData(PlaneData data){
+    public void SendPlainData(PlainData data){
         data.setID(AgentID);
         data.setPlainName(AgentName);
         try {
