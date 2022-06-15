@@ -23,6 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -98,6 +99,7 @@ public class MonitoringController implements Initializable {
     public void setModel(Model m) {
         this.m = m;
     }
+
 
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
     TimeSeries ts = new TimeSeries(
@@ -259,7 +261,6 @@ public class MonitoringController implements Initializable {
         circle.setStroke(Color.RED);
         circle.setFill(Color.TRANSPARENT);
         //add effect
-        circle.setEffect(new Lighting());
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
         ScatterChart chart = new ScatterChart(xAxis, yAxis);
@@ -278,9 +279,11 @@ public class MonitoringController implements Initializable {
         //circle.setCenterX(x);
         //circle.setCenterY(y);
         System.out.println(x + " " + y);
+
         chart.getData().add(series1);
+
         bigChartBorderPane.setCenter(chart);
-        bigChartBorderPane.getChildren().add(circle);
+        //bigChartBorderPane.getChildren().add(circle);
     }
 
     public void createLineCharts(List<CorrelatedFeatures> cf) {
@@ -372,7 +375,7 @@ public class MonitoringController implements Initializable {
         }
         joyStickBorderPane.setCenter(joyStickPane);
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
-        //joyStick.disableJoyStick();
+        joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
 
@@ -391,6 +394,10 @@ public class MonitoringController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+//        LineChart emptyChart = new LineChart(new NumberAxis(), new NumberAxis());
+//
+//        emptyChart.setShape(new Circle(360, 360, 360));
+//        bigChartBorderPane.setCenter(emptyChart);
 
     }
 }

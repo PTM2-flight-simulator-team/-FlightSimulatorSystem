@@ -1,5 +1,7 @@
 package com.example.frontend.windowController;
 
+import Model.dataHolder.MyResponse;
+import Model.dataHolder.PlaneData;
 import com.example.frontend.JoyStickViewModel;
 import Model.Model;
 import javafx.beans.property.DoubleProperty;
@@ -51,16 +53,11 @@ public class JoyStickController implements Initializable, Observer {
     public void initViewModel(Model m) {
         this.vm = new JoyStickViewModel(m);
         vm.addObserver(this);
+        vm.throttle.bindBidirectional(throttle.valueProperty());
+        vm.rudder.bindBidirectional(rudder.valueProperty());
+        vm.aileron.bindBidirectional(aileron);
+        vm.elevators.bindBidirectional(elevators);
     }
-
-//    void init(JoyStickViewModel vm) {
-//        this.vm = vm;
-//        vm.addObserver(this);
-//        vm.throttle.bind(throttle.valueProperty());
-//        vm.rudder.bind(rudder.valueProperty());
-//        vm.aileron.bind(aileron);
-//        vm.elevators.bind(elevators);
-//    }
 
     public void printJoyStick() {
         GraphicsContext gc = joyStick.getGraphicsContext2D();
@@ -156,7 +153,7 @@ public class JoyStickController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        List<Double> list = (List<Double>) arg;
-        setValues(list.get(0).doubleValue(), list.get(1).doubleValue());
+        MyResponse<PlaneData> data = (MyResponse<PlaneData>)arg;
+        setValues(aileron.doubleValue(), elevators.doubleValue());
     }
 }
