@@ -77,7 +77,7 @@ public class AgentListener extends Observable implements Runnable {
                     else {
 
                         Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() );
+                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
                         this.stopListening();
                     }
                     tempAnalytics.print();
