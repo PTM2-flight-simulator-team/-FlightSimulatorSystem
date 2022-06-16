@@ -1,13 +1,11 @@
 package Model;
 
-import Model.dataHolder.JoystickData;
+import Model.dataHolder.*;
 
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import Model.dataHolder.MyResponse;
-import Model.dataHolder.TeleoperationsData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,17 +16,23 @@ public class Model extends Observable implements Observer {
     public Model(){
         myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
         myHttpHandler.addObserver(this);
-//        new Thread("New Thread") {
-//            public void run(){
-//                try {
-//                    Thread.sleep(5000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                update(null,null);
-//            }
-//        }.start();
-        //update(this,null);
+        PlaneData planeData = new PlaneData();
+        planeData.throttle_0 = "0.5";
+        planeData.rudder = "0.5";
+        planeData.aileron = "0.5";
+        planeData.elevator = "0.5";
+        MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
+
+        new Thread("New Thread") {
+            public void run(){
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                update(null,response);
+            }
+        }.start();
     }
 
     public void setJoyStickData(double d1, double d2) {
@@ -39,14 +43,12 @@ public class Model extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o.getClass().equals(MyResponse.class)){
+//        if (o.getClass().equals(Model.class)){
             setChanged();
             notifyObservers(arg);
             return;
-        }
-        setJoyStickData(120,120);
-        setChanged();
-        notifyObservers(joyStickData);
+//        }
+
     }
 
     //networking related code
