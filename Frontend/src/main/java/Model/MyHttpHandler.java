@@ -101,8 +101,8 @@ public class MyHttpHandler extends Observable {
         return null;
     }
     public Object HandleGetTS(HttpResponse<String> response){
-        AnalyticsData data = new Gson().fromJson(response.body(),AnalyticsData.class);
-        MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.TS);
+        List<List<String>> ts = new Gson().fromJson(response.body(),new TypeToken<List<List<String>>>(){}.getType());
+        MyResponse<List<List<String>>> res = new MyResponse<>(ts, ResonseType.TS);
         setChanged();
         notifyObservers(res);
 

@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import Model.dataHolder.MyResponse;
+import Model.dataHolder.PlaneData;
 import Model.dataHolder.TeleoperationsData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,7 +60,7 @@ public class Model extends Observable implements Observer {
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Analytics");
         cf.thenApply((response) -> myHttpHandler.HandleGetAnalytics(response));
     }
-    public void SendGetAnalyticData(String PlaneID){
+    public void SendGetTSData(String PlaneID){
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
     }
