@@ -8,9 +8,17 @@ import static Model.ModelTools.StatLib.*;
 
 public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
 
-    private static float thresholdCorr = (float) 0.9;
+    private static float thresholdCorr;
     public List<CorrelatedFeatures> listOfPairs;
     public List<AnomalyReport> listOfExp;
+    public List<Point> anomalyPoints;
+
+    public SimpleAnomalyDetector(){
+        listOfPairs = new ArrayList<>();
+        listOfExp = new ArrayList<>();
+        thresholdCorr = (float) 0.9;
+        anomalyPoints = new ArrayList<>();
+    }
 
     @Override
     public void learnNormal(TimeSeries ts) {
@@ -72,6 +80,7 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
             for (int i = 0; i < points.length; i++) {
                 tempDis = dev(points[i], line);
                 if (tempDis > c.threshold) {
+                    this.anomalyPoints.add(points[i]);
                     String str = c.feature1 + "-" + c.feature2;
                     AnomalyReport AR = new AnomalyReport(str, i + 1);
                     listOfExp.add(AR);

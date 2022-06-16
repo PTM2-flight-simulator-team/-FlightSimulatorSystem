@@ -1,48 +1,47 @@
 package Model;
 
-import CommonClasses.PlainData;
-import CommonClasses.PlainVar;
+import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
 import Model.Interpreter.Interpreter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class Model extends Observable implements Observer {
-    private Interpreter interpreter;
+    private static List<Interpreter> interpreters;
     public DataBase DB;
     private  String DbName;
     private String URLconnection;
-    private PlainData plainData;
+    private PlaneData plainData;
     public Model(String dbName, String urLconnection) {
         DbName = dbName;
         URLconnection = urLconnection;
-        this.interpreter = new Interpreter();
+        interpreters = new ArrayList<>();
         this.DB = new DataBase(URLconnection, DbName);
-        interpreter.addObserver(this);
+//        interpreter.addObserver(this);
     }
-    public void interpret(String filePath) throws Exception {//execute code
-        this.interpreter.interpret(filePath);
+    public void interpret(String code, String id) throws Exception {//execute code
+        Interpreter interpreter = new Interpreter(id);
+        interpreter.addObserver(this);
+        interpreters.add(interpreter);
+        interpreter.interpret(code);
     }
 
     @Override
     public void update(Observable o, Object arg) {//send the commands up to controller
-        String passToController = interpreter.getDoCommand();
         setChanged();
-        notifyObservers(passToController);
+        notifyObservers(arg);
     }
 
-    public void setPlainData(PlainData plainData) {
-        this.plainData = plainData;
-        this.setFgVarsInInterpreter(plainData);
-    }
-
-    public void setFgVarsInInterpreter(PlainData data){
+    public void setFgVarsInInterpreter(PlaneData data, String id){
         Map<String, Double> FgVars = new HashMap<>();
-        for(PlainVar var: data.getAllVars()){
+        for(PlaneVar var: data.getAllVars()){
+            System.out.println(var.getPath() + "    " + var.getValue());
             FgVars.put(var.getPath(), Double.parseDouble(var.getValue()));
         }
-        interpreter.setFGvars(FgVars);
+        for (Interpreter i: interpreters){
+            if(i.id.equals(id)){
+                i.setFGvars(FgVars);
+            }
+        }
     }
 }

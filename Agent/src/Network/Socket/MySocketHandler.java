@@ -1,12 +1,9 @@
 package Network.Socket;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.ObjectStreamConstants;
 import java.util.*;
 
-import CommonClasses.PlainData;
+import CommonClasses.AnalyticsData;
+import CommonClasses.PlaneData;
 import Network.Socket.Handlers.BackendHandler;
 import Network.Socket.Handlers.FlightgearHandler;
 
@@ -42,7 +39,7 @@ public class MySocketHandler extends Observable implements Observer {
             }
             //System.out.println("Airplane Data Sent...");
             //backHandler.SendAirplaneData();
-            PlainData data =  (PlainData)arg;
+            PlaneData data =  (PlaneData)arg;
             if(data != null)
             {
                 backHandler.SendPlainData(data);
@@ -64,9 +61,12 @@ public class MySocketHandler extends Observable implements Observer {
         this.fgHandler.WriteToFG(command);
     }
 
-    public void ShutDown(String analytic){
+    public void ShutDown(String analytic, ArrayList<ArrayList<String>> flightData){
         this.fgHandler.Stop();
-        this.backHandler.sendFinalAnalytics(analytic);
+        this.sendFlightDataToBackend(flightData);
+        AnalyticsData analyticsData = new AnalyticsData(analytic);
+        this.backHandler.sendFinalAnalytics(analyticsData);
+//        this.backHandler.sendFinalAnalytics(analytic);
         System.out.println("sent Final Analytics");
         System.out.println("The analytics are:");
         System.out.println(analytic);
@@ -82,7 +82,8 @@ public class MySocketHandler extends Observable implements Observer {
         this.backHandler.sendFlightDataToBackend(list);
     }
     public void sendAnalyticsToBack(String data){
-        this.backHandler.sendFinalAnalytics(data);
+        AnalyticsData analyticsData = new AnalyticsData(data);
+        this.backHandler.sendFinalAnalytics(analyticsData);
     }
 
 }

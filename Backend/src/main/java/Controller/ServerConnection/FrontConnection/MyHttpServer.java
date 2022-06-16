@@ -18,12 +18,21 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        GetHandler gh = new GetHandler(this);
-        PostHandler ph = new PostHandler();
-        gh.addObserver(this);
-        ph.addObserver(this);
-        httpServer.createContext("/GET", gh);
-        httpServer.createContext("/POST",ph);
+        GetPlaneDataHandler gpdh = new GetPlaneDataHandler();//  /GET/PlaneData
+        GetTsHandler gtsh = new GetTsHandler();// /GET/TS
+        GetAnalyticsHandler gah = new GetAnalyticsHandler();
+        JoystickHandler jh = new JoystickHandler();//    /POST/Joystick
+        CodeHandler ch = new CodeHandler();//  /POST/Code
+        ShutDownHandler sh = new ShutDownHandler();//  /POST/Shutdown
+        jh.addObserver(this);
+        ch.addObserver(this);
+        sh.addObserver(this);
+        httpServer.createContext("/GET/PlaneData", gpdh);
+        httpServer.createContext("/GET/Analytics", gah);
+        httpServer.createContext("/GET/TS", gtsh);
+        httpServer.createContext("/POST/Code",ch);
+        httpServer.createContext("/POST/Shutdown",sh);
+        httpServer.createContext("/POST/Joystick",jh);
         httpServer.setExecutor(null);
     }
 
@@ -35,6 +44,7 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println(o.getClass() + " inside http update");
         setChanged();
         notifyObservers(arg);
         List<String> list = (List<String>) arg;

@@ -6,8 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/JoyStickViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/JoyStickViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,30 +28,19 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/17.0.0.1/javafx-fxml-17.0.0.1-win.jar!/javafx/fxml/FXMLLoader.class" root0="SKIP_INSPECTION" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="29WavyU13Jntv5cUjszNSEvgINB" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -55,13 +48,12 @@
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\GitHub\FlightSimulatorSystem\Frontend\src\main\resources\icons" />
       <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Application">
+  <component name="RunManager" selected="Application.Front">
     <configuration name="Agent" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="AgentMain" />
       <module name="Agent" />
@@ -69,15 +61,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Front" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.example.frontend.Application" />
       <module name="Frontend" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.frontend.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -96,13 +84,12 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Front" />
       <item itemvalue="Application.Agent" />
       <item itemvalue="Application.MainController" />
-      <item itemvalue="Application.Application" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Application" />
         <item itemvalue="Application.MainController" />
       </list>
     </recent_temporary>
@@ -121,6 +108,7 @@
       <workItem from="1654624038669" duration="319000" />
       <workItem from="1654754792539" duration="82000" />
       <workItem from="1654846163447" duration="7559000" />
+      <workItem from="1655305051561" duration="5362000" />
     </task>
     <servers />
   </component>
@@ -137,34 +125,15 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/ServerReaderConnection.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java</url>
-          <line>276</line>
-          <option name="timeStamp" value="23" />
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
