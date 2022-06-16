@@ -74,8 +74,10 @@ public class DataBase {
     }
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
+        //System.out.println("planeId:" + planeId + "ts: " + ts);
         Document doc = new Document();
         doc.append("plainID",planeId).append("PlaneName",planeName).append("ts",ts);
+        System.out.println(doc);
         this.addDocument("TimeSeries",doc);
     }
 
@@ -86,11 +88,10 @@ public class DataBase {
 
 
 
-
     public FindIterable<Document> getTSbyPlaneName(String name){
         return this.database.getCollection("TimeSeries").find(new Document().append("planeName",name));
     }
-    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData plainData){
+    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
         HashMap<String,Double> hashMap = new HashMap<>();
        hashMap.put(Month.JANUARY.toString(),0.0);
        hashMap.put(Month.FEBRUARY.toString(),0.0);
@@ -107,7 +108,7 @@ public class DataBase {
 
        hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
 
-        Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active).append("planeData",plainData);
+        Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active).append("planeData" ,planeData);
         this.addDocument("AirCrafts",d);
     }
 
@@ -162,6 +163,7 @@ public class DataBase {
         updateObject.put("$set",newDoc);
         database.getCollection("AirCrafts").updateOne(query,updateObject);
     }
+    
     public boolean doesPlaneExists(String id){
         FindIterable<Document> d = this.getDocById("AirCrafts", id);
         AtomicBoolean b = new AtomicBoolean(false);
