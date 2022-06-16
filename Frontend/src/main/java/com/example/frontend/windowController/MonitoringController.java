@@ -103,7 +103,7 @@ public class MonitoringController implements Initializable {
 
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
     TimeSeries ts = new TimeSeries(
-            "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
+            "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
 
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
@@ -296,7 +296,7 @@ public class MonitoringController implements Initializable {
             return;  //if there are no correlated features, maybe we should show a message to the user
         }
         TimeSeries ts2 = new TimeSeries(
-                "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\test.csv");
+                "D:\\GitHub\\FlightSimulatorSystem\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\test.csv");
 
         double maxCorr = Double.MIN_VALUE;
         int index = 0;

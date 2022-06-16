@@ -26,6 +26,8 @@ public class MainWindowController implements Initializable {
     @FXML
     private BorderPane mainPane;
 
+    public  static  BorderPane mainPaneStatic;
+
     @FXML
     private Pane topPane;
 
@@ -39,6 +41,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private Button btnMonitoring;
     Model m;
+    public  static  Model modelStatic;
     @FXML
     private void btnFleetOverview(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -99,9 +102,13 @@ public class MainWindowController implements Initializable {
 
     public void setModel(Model m){
         this.m = m;
+        modelStatic=m;
     }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        mainPaneStatic=mainPane;
+        modelStatic=m;
     }
 }
