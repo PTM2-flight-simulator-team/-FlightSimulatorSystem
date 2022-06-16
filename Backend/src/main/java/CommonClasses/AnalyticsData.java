@@ -3,7 +3,7 @@ package CommonClasses;
 import java.io.Serializable;
 
 public class AnalyticsData implements Serializable {
-//    private static final long serialVersionUID = 6529685098267757690L;
+    private static final long serialVersionUID = 8468838128889418316L;
     private String StartLongitude;
     private String StartLatitude;
     private String EndLongitude;
@@ -97,6 +97,18 @@ public class AnalyticsData implements Serializable {
     
     public boolean getState(){
         return state;
+    }
+
+    public void setMiles(String miles) {
+        this.miles = miles;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     public void print(){

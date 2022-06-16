@@ -1,9 +1,11 @@
 package CommonClasses;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class AnalyticsData implements Serializable {
-//    private static final long serialVersionUID = 6529685098267757690L;
+    private static final long serialVersionUID = 8468838128889418316L;
     private String StartLongitude;
     private String StartLatitude;
     private String EndLongitude;
@@ -22,7 +24,12 @@ public class AnalyticsData implements Serializable {
         this.setEndLongitude((dataMembers[2].split(":")[1]));
         this.setEndLatitude((dataMembers[3].split(":")[1]));
         this.setStartTime((dataMembers[4].split(":")[1]) + " " +  dataMembers[5]);
-        this.setEndTime((dataMembers[5].split(":")[1]) + " " + dataMembers[7]);
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String time = currentTime.format(timeFormatter);
+        System.out.println("end time is: "+time);
+//        this.setEndTime((dataMembers[4].split(":")[1]) + " " + dataMembers[7]);
+        this.setEndTime(time);
         this.setMaxAltitude((dataMembers[8].split(":")[1]));
         this.setMaxSpeed((dataMembers[9].split(":")[1]));
         double mi = Double.parseDouble((dataMembers[10].split(":")[1]));

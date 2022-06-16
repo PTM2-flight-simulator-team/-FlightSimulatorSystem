@@ -27,6 +27,10 @@ public class PlaneData implements Serializable{
     private PlaneVar heading;
     private PlaneVar turnCoordinator; // didnt find
 
+    public String getPlaneName() {
+        return PlaneName;
+    }
+
     public PlaneVar getAileron() {
         return aileron;
     }
