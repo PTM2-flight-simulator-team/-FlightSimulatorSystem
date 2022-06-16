@@ -82,7 +82,7 @@ public class DataBase {
     }
 
     public FindIterable<Document> getTSbyPlaneID(String id){
-        return this.database.getCollection("TimeSeries").find(new Document().append("_id",id));
+        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
     }
 
 
