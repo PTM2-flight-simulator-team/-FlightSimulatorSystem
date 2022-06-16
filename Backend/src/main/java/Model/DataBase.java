@@ -74,8 +74,10 @@ public class DataBase {
     }
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
+        //System.out.println("planeId:" + planeId + "ts: " + ts);
         Document doc = new Document();
-        doc.append("_id",planeId).append("PlaneName",planeName).append("ts",ts);
+        doc.append("plainID",planeId).append("PlaneName",planeName).append("ts",ts);
+        System.out.println(doc);
         this.addDocument("TimeSeries",doc);
     }
 

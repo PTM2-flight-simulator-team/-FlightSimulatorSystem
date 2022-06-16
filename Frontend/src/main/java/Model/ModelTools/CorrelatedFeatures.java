@@ -14,4 +14,11 @@ public class CorrelatedFeatures {
         this.threshold = threshold;
     }
 
+    public String getFeature1() {
+        return feature1;
+    }
+
+    public String getFeature2() {
+        return feature2;
+    }
 }
