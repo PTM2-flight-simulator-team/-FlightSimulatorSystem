@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.Label?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.FleetOverviewController">
    <center>
       <Pane prefHeight="481.0" prefWidth="470.0" BorderPane.alignment="CENTER">
@@ -41,13 +42,13 @@
             </BarChart>
             <PieChart fx:id="myPie" layoutX="759.0" layoutY="505.0" prefHeight="206.0" prefWidth="220.0" />
             <Canvas height="468.0" layoutX="1.0" layoutY="1.0" width="976.0" />
-            <ImageView fx:id="img1" fitHeight="500.0" fitWidth="1000.0" layoutX="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img1" fitHeight="500.0" layoutX="75.0" onMousePressed="#clickPlane" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/planesmap.gif" />
 
                </image>
             </ImageView>
-            <ImageView fx:id="airp" fitHeight="59.0" fitWidth="24.0" layoutX="183.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true" rotate="65.1">
+            <ImageView fx:id="airp" fitHeight="59.0" fitWidth="24.0" layoutX="75.0" layoutY="0.0" onMousePressed="#clickPlane" pickOnBounds="true" preserveRatio="true" rotate="65.1">
                <image>
 <!--                  <Image url="@../../../icons/airplaneSymbol.png" />-->
                    <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/airplaneSymbol.png" />
@@ -58,6 +59,7 @@
                   <Image url="D:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/refreshBtn.png" />
                </image>
             </ImageView>
+             <Label text="blh blh" layoutX="75" layoutY="0"></Label>
          </children>
       </Pane>
    </center>
