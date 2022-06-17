@@ -1,5 +1,9 @@
 package com.example.frontend.windowController;
 
+import Model.ModelTools.Point;
+import Model.dataHolder.AnalyticsData;
+import Model.dataHolder.PlaneAnalytic;
+import Model.dataHolder.PlaneData;
 import com.example.frontend.FxmlLoader;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -18,6 +22,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +63,9 @@ public class FleetOverviewController implements Initializable {
     @FXML
     private ImageView airp;
 
+    @FXML
+    private Pane worldMapPane;
+
 //    @FXML
 //    private Label lbl;
 
@@ -71,29 +79,90 @@ public class FleetOverviewController implements Initializable {
     int prev_i = 0, prev_j = 0;
     double angle = 0;
 
+//---------------------------------------Charts-------------------------------------------//:
+
+    // active planes compared to inactive planes
+    public void activePlanes(int avg) {
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList(
+                new PieChart.Data("Active Planes", 50), // avg - active ones
+                new PieChart.Data("NonActive", 30) // 100% - avg - non active ones
+        );
+        myPie.setData(data);
+    }
+
+
+    // sorted accumulated nautical miles for individual plane since the beginning of the month
+    public void singleSortedMiles(HashMap<Integer, Integer> airplaneToMiles) {
+
+        var data = new XYChart.Series<String, Number>();
+        for (Map.Entry<Integer, Integer> e : airplaneToMiles.entrySet().stream().sorted(comparingByValue()).toList()) {
+            data.getData().add(new XYChart.Data<>(e.getKey() + "", e.getValue()));
+
+        }
+
+        myBar.getData().clear();
+        myBar.getData().addAll(data);
+    }
+
+
+    // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
+    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
+        HashMap<Integer, Integer> sums = new HashMap<>();
+        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
+            int sum = e.getValue().stream().mapToInt(a -> a).sum();
+            sums.put(e.getKey(), sum);
+        }
+        Map<Integer, Integer> sorted = sums
+                .entrySet()
+                .stream()
+                .sorted(comparingByValue())
+                .collect(
+                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+                                LinkedHashMap::new));
+
+
+        var data = new XYChart.Series<String, Number>();
+        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
+            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
+        }
+        myBar2.getData().clear();
+        myBar2.getData().addAll(data);
+    }
+
+    // presents the fleet size relative to time
+    public void lineChart(HashMap<Integer, Integer> airplaneList) {
+        var data = new XYChart.Series<String, Number>();
+
+
+        for (Map.Entry<Integer, Integer> e : airplaneList.entrySet()) {
+            data.getData().add(new LineChart.Data<>(e.getKey() + "", e.getValue()));
+        }
+        lineC.getData().clear();
+        lineC.getData().add(data);
+    }
+    //-------------------------------------------------------------------------------------------
+
+    public Pair<Double,Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
+        final float fe = 180;
+        float radius = mapWidth / (float) (2 * Math.PI);
+        float latRad = degreesToRadians(latitude);
+        float lonRad = degreesToRadians(longitude + fe);
+        double x = lonRad * radius;
+        double yFromEquator = radius * Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+        double y = mapHeight / 2 - yFromEquator;
+        System.out.println("x" + x);
+        System.out.println("y" + y);
+
+        return new Pair<Double,Double>(x,y);
+    }
+
+    public float degreesToRadians(float degrees) {
+        return (float) (degrees * Math.PI) / 180;
+    }
+
 
     public FleetOverviewController() {
         refreshMap();
-
-
-//        String imagePath=Paths.get("").toAbsolutePath().toString()+"\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
-//        imagePath= imagePath.replace("\\","/");
-//
-//        System.out.println("path "+imagePath);
-//        File f=new File(imagePath);
-//        if(f.exists())
-//        {
-//
-//            img1 = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
-//        }else {
-//
-//            System.out.println("file not exist "+imagePath);
-//        }
-
-
-        //System.out.println(getClass().getResource("planesmap.gif").toExternalForm());
-//        javafx.scene.image.Image image = new javafx.scene.image.Image(getClass().getResource("planesmap.gif").toExternalForm());
-//        ImageView iv = new ImageView(image);
 
 
     }
@@ -101,6 +170,7 @@ public class FleetOverviewController implements Initializable {
     public void setInitPlaneLocation(int i, int j) {
         current_j = j;
         current_i = i;
+
         airp.setLayoutY(current_j);
         airp.setLayoutX(current_i);
         airp.setRotate(angle);
@@ -136,7 +206,7 @@ public class FleetOverviewController implements Initializable {
         test.put(7, Arrays.asList(r.nextInt(10), r.nextInt(10), r.nextInt(10)));
 
 
-       // singleSortedMiles(test);
+        // singleSortedMiles(test);
 
         HashMap<Integer, List<Integer>> test2 = new HashMap<>();
         test2.put(4, Arrays.asList(1, r.nextInt(10), 3));
@@ -153,17 +223,57 @@ public class FleetOverviewController implements Initializable {
         lineChart(testLineChart);
     }
 
-    // presenting a single plane information by clicking it once
-//    public void singlePlaneInfo(String name, int direction, int altitude, int velocity) {
-//        // name of the plane
-//        // flight direction (in degrees)
-//        // altitude (kilo feet - kft)
-//        // speed (knots - kn)
-//    }
+    public void updateVisuals(AnalyticsData ad) {
+
+    }
 
 
-    //zoom in / out?
+    public void addSingleClick(ImageView plane, PlaneData pd) {
+        Label lbl = new Label(pd.ID);
+        lbl.setVisible(false);
+        plane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+               // System.out.println("test");
+                lbl.setVisible(true);
+                lbl.setLayoutX(plane.getLayoutX());
+                lbl.setLayoutY(plane.getLayoutY() + 25);
+                lbl.setVisible(true);
 
+            }
+        });
+    }
+
+    public void addDoubleClick(ImageView plane) {
+
+        plane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
+                        System.out.println("Double clicked");
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        Pane monitoring = new Pane();
+                        try {
+                            monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        MainWindowController.mainPaneStatic.setCenter(monitoring);
+                        MonitoringController mc = fxmlLoader.getController();
+                        mc.setModel(MainWindowController.modelStatic);
+                        mc.createJoyStick();
+
+                        //mc.createLineCharts();
+                        mc.createCircleGraph();
+                        mc.createClocks();
+
+                    }
+                }
+            }
+        });
+    }
 
     // changing and presenting plane icon direction towards its location
     public void direction(int longitude, int latitude) {
@@ -178,110 +288,83 @@ public class FleetOverviewController implements Initializable {
     }
 
 
-    //Charts-------------------------------------------//:
-
-    // active planes compared to inactive planes
-    public void activePlanes(int avg) {
-        ObservableList<PieChart.Data> data = FXCollections.observableArrayList(
-                new PieChart.Data("Active Planes", 50), // avg - active ones
-                new PieChart.Data("NonActive", 30) // 100% - avg - non active ones
-        );
-        myPie.setData(data);
-    }
-
-    // sorted accumulated nautical miles for individual plane since the beginning of the month
-//    public void singleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
-//        HashMap<Integer, Integer> sums = new HashMap<>();
-//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-//            sums.put(e.getKey(), sum);
-//        }
-//
-//        Map<Integer, Integer> sorted = sums
-//                .entrySet()
-//                .stream()
-//                .sorted(comparingByValue())
-//                .collect(
-//                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-//                                LinkedHashMap::new));
-//
-//        var data = new XYChart.Series<String, Number>();
-//
-//
-//        for (Map.Entry<Integer, Integer> e : sorted.entrySet()) {
-//            data.getData().add(new XYChart.Data<>(e.getKey() + "", e.getValue()));
-//        }
-//        myBar.getData().clear();
-//        myBar.getData().addAll(data);
-//    }
-
-    public void singleSortedMiles(HashMap<Integer,Integer> airplaneToMiles) {
-
-
-        var data = new XYChart.Series<String, Number>();
-        for (Map.Entry<Integer, Integer> e : airplaneToMiles.entrySet().stream().sorted(comparingByValue()).toList())
-        {
-            data.getData().add(new XYChart.Data<>(e.getKey() + "", e.getValue()));
-        }
-        myBar.getData().clear();
-        myBar.getData().addAll(data);
-    }
-
-    // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
-    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
-        HashMap<Integer, Integer> sums = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-            sums.put(e.getKey(), sum);
-        }
-
-        Map<Integer, Integer> sorted = sums
-                .entrySet()
-                .stream()
-                .sorted(comparingByValue())
-                .collect(
-                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-                                LinkedHashMap::new));
-
-        var data = new XYChart.Series<String, Number>();
-
-        for (Map.Entry<Integer, Integer> e : sorted.entrySet()) {
-            data.getData().add(new XYChart.Data<>(e.getKey() + "", e.getValue()));
-        }
-        myBar2.getData().clear();
-        myBar2.getData().addAll(data);
-    }
-
-    // presents the fleet size relative to time
-//    public void lineChart(HashMap<Integer, List<Integer>> airplaneList) {
-//        var data = new XYChart.Series<String, Number>();
-//
-//
-//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-//            data.getData().add(new LineChart.Data<>(e.getKey() + "", sum));
-//        }
-//        lineC.getData().clear();
-//        lineC.getData().add(data);
-//    }
-    public void lineChart(HashMap<Integer, Integer> airplaneList) {
-        var data = new XYChart.Series<String, Number>();
-
-
-        for (Map.Entry<Integer, Integer> e : airplaneList.entrySet()) {
-            data.getData().add(new LineChart.Data<>(e.getKey() + "", e.getValue()));
-        }
-        lineC.getData().clear();
-        lineC.getData().add(data);
-    }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        HashMap<String, Integer> testMap = new HashMap<>();
+//        testMap.put("1",3000);
+//        testMap.put("2",5000);
+        AnalyticsData ad = new AnalyticsData();
+        ArrayList<PlaneAnalytic> list = new ArrayList<>();
 
+        ad.analyticList = list;
+        PlaneAnalytic p1 = new PlaneAnalytic();
+        PlaneAnalytic p2 = new PlaneAnalytic();
+        p1._id = "0";
+        p1.Name = "pilot0";
+        p2._id = "1";
+        p2.Name = "pilot1";
+
+        //  p1.miles.;
+
+        p1.planeData = new PlaneData();
+        p2.planeData = new PlaneData();
+        p1.planeData.altitude = "61.524010";
+        p1.planeData.longitude = "105.318756";
+        p2.planeData.altitude = "41.524010";
+        p2.planeData.longitude = "85.318756";
+
+        String path2 = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        ImageView testPlane1 = new ImageView(new Image(path2));
+        ImageView testPlane2 = new ImageView(new Image(path2));
+        worldMapPane.getChildren().add(testPlane1);
+        worldMapPane.getChildren().add(testPlane2);
+
+        Pair<Double,Double> testPair  =  latLongToOffsets(Float.parseFloat(p1.planeData.altitude),Float.parseFloat(p1.planeData.longitude),780,625);
+        testPlane1.relocate(testPair.getKey(),testPair.getValue());
+        Pair<Double,Double> testPair2  =  latLongToOffsets(Float.parseFloat(p2.planeData.altitude),Float.parseFloat(p2.planeData.longitude),780,625);
+        testPlane2.relocate(testPair2.getKey(),testPair2.getValue());
+     //   addSingleClick(testPlane1,p1.planeData);
+        addSingleClick(testPlane2,p2.planeData);
+        testPlane1.setLayoutX(testPair.getKey());
+        testPlane1.setLayoutY(testPair.getValue());
+//            iv.setLayoutY(r.nextInt(500 - 20));
+
+        Label lbl = new Label(p1.planeData.ID);
+        worldMapPane.getChildren().add(lbl);
+        lbl.setVisible(false);
+        testPlane1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                // System.out.println("test");
+                lbl.setVisible(true);
+                lbl.setLayoutX(testPlane1.getLayoutX());
+                lbl.setLayoutY(testPlane1.getLayoutY() + 25);
+                lbl.setVisible(true);
+
+            }
+        });
+
+
+        // p1.planeData = new PlaneData().altitude;
+        //list.add(new PlaneAnalytic())
+
+//        double h = img1.getFitHeight() * NORMAL;//1000 0
+//        double w = img1.getFitWidth() * NORMAL;//500 0
+//        System.out.println("width" + img1.getFitWidth());
+//        System.out.println("height" + img1.getFitHeight());
+
+        latLongToOffsets(61.524010f, 105.318756f, 780, 625);
+
+
+        ImageView iv2 = new ImageView(new Image(path2));
+        worldMapPane.getChildren().add(iv2);
+        iv2.relocate(618, 141);
         activePlanes(0);
 
+
+
+        //----Gprahs tests
         //-----singleSortedMiles Test----------//
 
         HashMap<Integer, List<Integer>> test = new HashMap<>();
@@ -293,7 +376,7 @@ public class FleetOverviewController implements Initializable {
         //20 planes
         // plane ID -> Miles from the beginning of the month
 
-       // singleSortedMiles(test);
+        // singleSortedMiles(test);
 
         //---------singleSortedMiles Test2----------//
         HashMap<Integer, Integer> test1New = new HashMap<>();
@@ -319,97 +402,91 @@ public class FleetOverviewController implements Initializable {
         lineChart(testLineChart);
 
         System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
-        double h = img1.getFitHeight() * NORMAL;//1000 0
-        double w = img1.getFitWidth() * NORMAL;//500 0
-        coordinates = new int[(int) w][(int) h];
 
-        Random r = new Random();
-        for (int i = 0; i < 10; i++) {
-            String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-            ImageView iv = new ImageView(new Image(path));
-            iv.setLayoutX(r.nextInt(1000 - 20) + 75);
-            iv.setLayoutY(r.nextInt(500 - 20));
-            Label lbl = new Label("kkk\nyyyy");
-            lbl.setVisible(false);
-            iv.setRotate(r.nextDouble(360) - 180);
-            iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("test");
-                    lbl.setVisible(true);
-                    lbl.setLayoutX(iv.getLayoutX());
-                    lbl.setLayoutY(iv.getLayoutY() + 20);
-                    lbl.setVisible(true);
+     //   coordinates = new int[(int) w][(int) h];
 
-                }
-            });
+ //       Random r = new Random();
+//        for (int i = 0; i < 10; i++) {
+//            String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+//            ImageView iv = new ImageView(new Image(path));
+//            iv.setLayoutX(r.nextInt(1000 - 20) + 75);
+//            iv.setLayoutY(r.nextInt(500 - 20));
+//            Label lbl = new Label("kkk\nyyyy");
+//            lbl.setVisible(false);
+//            iv.setRotate(r.nextDouble(360) - 180);
+//            iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent mouseEvent) {
+//                    System.out.println("test");
+//                    lbl.setVisible(true);
+//                    lbl.setLayoutX(iv.getLayoutX());
+//                    lbl.setLayoutY(iv.getLayoutY() + 20);
+//                    lbl.setVisible(true);
+//
+//                }
+//            });
 
-            iv.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                        if (mouseEvent.getClickCount() == 2) {
-                            System.out.println("Double clicked");
-                            FXMLLoader fxmlLoader = new FXMLLoader();
-                            Pane monitoring = new Pane();
-                            try {
-                                monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            MainWindowController.mainPaneStatic.setCenter(monitoring);
-                            MonitoringController mc = fxmlLoader.getController();
-                            mc.setModel(MainWindowController.modelStatic);
-                            mc.createJoyStick();
-
-                            //mc.createLineCharts();
-                            mc.createCircleGraph();
-                            mc.createClocks();
-
-                        }
-                    }
-
-                }
-            });
-            pane.getChildren().add(iv);
-            pane.getChildren().add(lbl);
-        }
+//            iv.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+//            {
+//                @Override
+//                public void handle(MouseEvent mouseEvent)
+//                {
+//                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+//                        if (mouseEvent.getClickCount() == 2) {
+//                            System.out.println("Double clicked");
+//                            FXMLLoader fxmlLoader = new FXMLLoader();
+//                            Pane monitoring = new Pane();
+//                            try {
+//                                monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            MainWindowController.mainPaneStatic.setCenter(monitoring);
+//                            MonitoringController mc = fxmlLoader.getController();
+//                            mc.setModel(MainWindowController.modelStatic);
+//                            mc.createJoyStick();
+//
+//                            //mc.createLineCharts();
+//                            mc.createCircleGraph();
+//                            mc.createClocks();
+//
+//                        }
+//                    }
+//
+//                }
+//            });
+//            pane.getChildren().add(iv);
+//            pane.getChildren().add(lbl);
+//        }
 
 
     }
 
-    public void clickPlane(MouseEvent e) {
-        System.out.println("test");
-//        lbl.setVisible(true);
-//        lbl.setLayoutX(airp.getLayoutX());
-//        lbl.setLayoutY(airp.getLayoutY() + 20);
-//        lbl.setText("kkkk\nmmmm");
-//    cm.show(new AnchorPane(),e.getScreenX(),e.getScreenY());
-    }
 
-    public void mousePlaneClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-            if (mouseEvent.getClickCount() == 2) {
-                System.out.println("Double clicked");
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Pane monitoring = new Pane();
-                try {
-                    monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                MainWindowController.mainPaneStatic.setCenter(monitoring);
-                MonitoringController mc = fxmlLoader.getController();
-                mc.setModel(MainWindowController.modelStatic);
-                mc.createJoyStick();
-
-                //mc.createLineCharts();
-                mc.createCircleGraph();
-                mc.createClocks();
-
-            }
-        }
-    }
+//            public void mousePlaneClick(MouseEvent mouseEvent) {
+//                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+//                    if (mouseEvent.getClickCount() == 2) {
+//                        System.out.println("Double clicked");
+//                        FXMLLoader fxmlLoader = new FXMLLoader();
+//                        Pane monitoring = new Pane();
+//                        try {
+//                            monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        MainWindowController.mainPaneStatic.setCenter(monitoring);
+//                        MonitoringController mc = fxmlLoader.getController();
+//                        mc.setModel(MainWindowController.modelStatic);
+//                        mc.createJoyStick();
+//
+//                        //mc.createLineCharts();
+//                        mc.createCircleGraph();
+//                        mc.createClocks();
+//
+//                    }
+//                }
+//            }
+    //      }
 }
