@@ -24,16 +24,7 @@ public class Application extends javafx.application.Application {
         root.getStylesheets().add(getClass().getResource("css/chart.css").toExternalForm());
         //stage.initStyle(StageStyle.UNDECORATED);
         //Mouse move around
-        root.setOnMousePressed(mouseEvent -> {
-            x=mouseEvent.getSceneX();
-            y=mouseEvent.getSceneY();
-        });
-
-        root.setOnMouseDragged(mouseEvent -> {
-            stage.setX(mouseEvent.getScreenX() - x);
-            stage.setY(mouseEvent.getScreenY() - y);
-
-        });
+//
         stage.setScene(scene);
         stage.show();
     }
