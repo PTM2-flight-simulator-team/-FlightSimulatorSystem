@@ -67,29 +67,23 @@ public class FleetOverviewController implements Initializable, Observer {
     @FXML
     private Pane worldMapPane;
 
-//    @FXML
-//    private Label lbl;
-
-    private int[][] coordinates;
-    private final int NORMAL = 10;
-
     private Timer timer = new Timer();
 
-
+    //For airplane direction
     double current_i = 75, current_j = 0;
     double prev_i = 0, prev_j = 0;
     double angle = 0;
 
+    //Static Map Sizes
     final int mapWidth = 780;
     final int mapHeight = 625;
 
     public FleetOverviewController() {
 
 
-
     }
 
-//---------------------------------------Charts-------------------------------------------//:
+//---------------------------------------Charts-------------------------------------------//
 
     // active planes compared to inactive planes
     public void activePlanes(int avg) {
@@ -139,10 +133,9 @@ public class FleetOverviewController implements Initializable, Observer {
 //        myBar2.getData().addAll(data);
 //    }
 
-    public void multipleSortedMiles2(HashMap<Integer, List<Integer>> airplaneList)
-    {
+    public void multipleSortedMiles2(HashMap<Integer, List<Integer>> airplaneList) {
         List<Double> averages = new ArrayList<>();
-        for (Integer month: airplaneList.keySet()) {
+        for (Integer month : airplaneList.keySet()) {
             averages.add(airplaneList.get(month).stream().mapToDouble(a -> a).average().getAsDouble());
         }
         averages = averages.stream().sorted().collect(Collectors.toList());
@@ -167,7 +160,7 @@ public class FleetOverviewController implements Initializable, Observer {
         lineC.getData().clear();
         lineC.getData().add(data);
     }
-    //-------------------------------------------------------------------------------------------
+    //-------------------------------Functions-------------------------------//
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
@@ -188,27 +181,8 @@ public class FleetOverviewController implements Initializable, Observer {
     }
 
 
-
-
-    public void setInitPlaneLocation(int i, int j) {
-        current_j = j;
-        current_i = i;
-
-        airp.setLayoutY(current_j);
-        airp.setLayoutX(current_i);
-        airp.setRotate(angle);
-    }
-    //Features:
-
-    // redirecting to "Monitoring" tab for additional information about specific airplane
-
-
-    // refreshing all airplanes locations presented in the map
-
-
     // manual refresh button of all the graphs
-    public void refreshButton(MouseEvent e)
-    {
+    public void refreshButton(MouseEvent e) {
         activePlanes(0);
 
         Random r = new Random();
@@ -218,11 +192,10 @@ public class FleetOverviewController implements Initializable, Observer {
         test.put(7, Arrays.asList(r.nextInt(10), r.nextInt(10), r.nextInt(10)));
 
 
-
         HashMap<Integer, Integer> testSingleSortedMiles = new HashMap<>();
-        testSingleSortedMiles.put(1,49);
-        testSingleSortedMiles.put(2,5);
-        testSingleSortedMiles.put(3,30);
+        testSingleSortedMiles.put(1, 49);
+        testSingleSortedMiles.put(2, 5);
+        testSingleSortedMiles.put(3, 30);
         singleSortedMiles(testSingleSortedMiles);
 
 
@@ -242,15 +215,13 @@ public class FleetOverviewController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        AnalyticsData ad = (AnalyticsData)arg;
+        AnalyticsData ad = (AnalyticsData) arg;
         updateVisuals(ad);
     }
 
 
-    public void updateVisuals(AnalyticsData ad)
-    {
-        for(int i=0;i<ad.analyticList.size();i++)
-        {
+    public void updateVisuals(AnalyticsData ad) {
+        for (int i = 0; i < ad.analyticList.size(); i++) {
             float lati = Float.parseFloat(ad.analyticList.get(i).planeData.latitude);
             float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
             Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
@@ -261,12 +232,12 @@ public class FleetOverviewController implements Initializable, Observer {
 
     public void createPlaneView(PlaneData pd, Pair<Double, Double> pair) {
 
-       // String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        // String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         ImageView planeIMG = new ImageView(new Image(path)); // russia
         airp = planeIMG; // needs to be done for all the planes (not just one) - Testing plane direction
         planeIMG.relocate(pair.getKey(), pair.getValue());
-        Tooltip tooltip = new Tooltip( pd.PlaneName + "\n" +pd.heading + "\n"+ pd.altitude +"\n" + pd.airSpeed_kt);
+        Tooltip tooltip = new Tooltip(pd.PlaneName + "\n" + pd.heading + "\n" + pd.altitude + "\n" + pd.airSpeed_kt);
         Tooltip.install(planeIMG, tooltip);
         tooltip.setShowDelay(Duration.seconds(0.5));
         worldMapPane.getChildren().add(planeIMG);
@@ -315,75 +286,56 @@ public class FleetOverviewController implements Initializable, Observer {
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
 
-
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        HashMap<String, Integer> testMap = new HashMap<>();
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
         ad.analyticList = list;
 
         PlaneAnalytic p1 = new PlaneAnalytic();
         PlaneAnalytic p2 = new PlaneAnalytic();
+
         p1._id = "PILOT0TESTING";
         p1.Name = "pilot0";
         p2._id = "PILOT1TESTING";
         p2.Name = "pilot1";
 
-        //  p1.miles.;
 
         p1.planeData = new PlaneData();
         p2.planeData = new PlaneData();
+
         p1.planeData.latitude = "61.524010"; //Russia
         p1.planeData.longitude = "105.318756"; //Russia
-        p2.planeData.latitude = "21.546700";
-        p2.planeData.longitude = "39.194839";
+        p2.planeData.latitude = "21.546700"; //Lebanon
+        p2.planeData.longitude = "39.194839"; //Lebanon
 
 
         p1.planeData.PlaneName = "Plane 0";
-        p1.planeData.heading ="312.332";
+        p1.planeData.heading = "312.332";
         p1.planeData.altitude = "1231312";
-        p1.planeData.airSpeed_kt ="33333";
+        p1.planeData.airSpeed_kt = "33333";
 
 
         p2.planeData.PlaneName = "Plane 1";
-        p2.planeData.heading ="312.332";
+        p2.planeData.heading = "312.332";
         p2.planeData.altitude = "1231312";
-        p2.planeData.airSpeed_kt ="33333";
+        p2.planeData.airSpeed_kt = "33333";
         list.add(p1);
         list.add(p2);
 
+        //-----Testing Drawing Planes-----//
         updateVisuals(ad);
         latLongToOffsets(61.524010f, 105.318756f, 780, 625);
-        direction(21.546700,39.194839);
+
+
+        //----------Testing direction function----------//
+        direction(21.546700, 39.194839);
         airp.setRotate(angle);
 
-//        ImageView iv2 = new ImageView(new Image(path2));
-//        worldMapPane.getChildren().add(iv2);
-//        iv2.relocate(618, 141);
-//        activePlanes(0);
+        //----------------------------Graphs tests----------------------------//
 
-
-        //----Graphs tests------------------------------------------------------------------------
-        //-----singleSortedMiles Test----------//
-
-        HashMap<Integer, List<Integer>> test = new HashMap<>();
-//        test.put(5, Arrays.asList(1, 2, 3));
-//        test.put(8, Arrays.asList(9, 9, 9));
-//        test.put(7, Arrays.asList(1, 1, 1));
-        //...
-        //..
-        //20 planes
-        // plane ID -> Miles from the beginning of the month
-
-        // singleSortedMiles(test);
-
-
-        //---------singleSortedMiles Test2----------//
+        //---------singleSortedMiles Test2----------// Mapping plane id to miles
         HashMap<Integer, Integer> test1New = new HashMap<>();
         test1New.put(5, 250);
         test1New.put(8, 50);
@@ -398,8 +350,7 @@ public class FleetOverviewController implements Initializable, Observer {
         multipleSortedMiles2(test2);
 
 
-
-        //------Testing Line Chart-------// Mapping month number to fleet size
+        //---------Line Chart----------// Mapping month number to fleet size
         HashMap<Integer, Integer> testLineChart = new HashMap<>();
         testLineChart.put(5, 250);
         testLineChart.put(8, 50);
@@ -409,93 +360,5 @@ public class FleetOverviewController implements Initializable, Observer {
         activePlanes(0);
 
         System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
-
-        //   coordinates = new int[(int) w][(int) h];
-
-        //       Random r = new Random();
-//        for (int i = 0; i < 10; i++) {
-//            String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-//            ImageView iv = new ImageView(new Image(path));
-//            iv.setLayoutX(r.nextInt(1000 - 20) + 75);
-//            iv.setLayoutY(r.nextInt(500 - 20));
-//            Label lbl = new Label("kkk\nyyyy");
-//            lbl.setVisible(false);
-//            iv.setRotate(r.nextDouble(360) - 180);
-//            iv.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-//                @Override
-//                public void handle(MouseEvent mouseEvent) {
-//                    System.out.println("test");
-//                    lbl.setVisible(true);
-//                    lbl.setLayoutX(iv.getLayoutX());
-//                    lbl.setLayoutY(iv.getLayoutY() + 20);
-//                    lbl.setVisible(true);
-//
-//                }
-//            });
-
-//            iv.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
-//            {
-//                @Override
-//                public void handle(MouseEvent mouseEvent)
-//                {
-//                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-//                        if (mouseEvent.getClickCount() == 2) {
-//                            System.out.println("Double clicked");
-//                            FXMLLoader fxmlLoader = new FXMLLoader();
-//                            Pane monitoring = new Pane();
-//                            try {
-//                                monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                            MainWindowController.mainPaneStatic.setCenter(monitoring);
-//                            MonitoringController mc = fxmlLoader.getController();
-//                            mc.setModel(MainWindowController.modelStatic);
-//                            mc.createJoyStick();
-//
-//                            //mc.createLineCharts();
-//                            mc.createCircleGraph();
-//                            mc.createClocks();
-//
-//                        }
-//                    }
-//
-//                }
-//            });
-//            pane.getChildren().add(iv);
-//            pane.getChildren().add(lbl);
-//        }
-
-
     }
-
-
-
-
-//            public void mousePlaneClick(MouseEvent mouseEvent) {
-//                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-//                    if (mouseEvent.getClickCount() == 2) {
-//                        System.out.println("Double clicked");
-//                        FXMLLoader fxmlLoader = new FXMLLoader();
-//                        Pane monitoring = new Pane();
-//                        try {
-//                            monitoring = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        MainWindowController.mainPaneStatic.setCenter(monitoring);
-//                        MonitoringController mc = fxmlLoader.getController();
-//                        mc.setModel(MainWindowController.modelStatic);
-//                        mc.createJoyStick();
-//
-//                        //mc.createLineCharts();
-//                        mc.createCircleGraph();
-//                        mc.createClocks();
-//
-//                    }
-//                }
-//            }
-    //      }
 }

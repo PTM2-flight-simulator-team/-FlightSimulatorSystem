@@ -103,7 +103,7 @@ public class MonitoringController implements Initializable {
 
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
     TimeSeries ts = new TimeSeries(
-            "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
+            "\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
 
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
