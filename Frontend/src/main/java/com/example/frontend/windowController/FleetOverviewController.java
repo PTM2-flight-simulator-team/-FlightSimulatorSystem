@@ -76,8 +76,8 @@ public class FleetOverviewController implements Initializable, Observer {
     private Timer timer = new Timer();
 
 
-    int current_i = 75, current_j = 0;
-    int prev_i = 0, prev_j = 0;
+    double current_i = 75, current_j = 0;
+    double prev_i = 0, prev_j = 0;
     double angle = 0;
 
     final int mapWidth = 780;
@@ -116,24 +116,41 @@ public class FleetOverviewController implements Initializable, Observer {
 
 
     // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
-    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
-        HashMap<Integer, Integer> sums = new HashMap<>();
-        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-            sums.put(e.getKey(), sum);
+//    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
+//        HashMap<Integer, Integer> sums = new HashMap<>();
+//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
+//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
+//            sums.put(e.getKey(), sum);
+//        }
+//        Map<Integer, Integer> sorted = sums
+//                .entrySet()
+//                .stream()
+//                .sorted(comparingByValue())
+//                .collect(
+//                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+//                                LinkedHashMap::new));
+//
+//
+//        var data = new XYChart.Series<String, Number>();
+//        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
+//            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
+//        }
+//        myBar2.getData().clear();
+//        myBar2.getData().addAll(data);
+//    }
+
+    public void multipleSortedMiles2(HashMap<Integer, List<Integer>> airplaneList)
+    {
+        List<Double> averages = new ArrayList<>();
+        for (Integer month: airplaneList.keySet()) {
+            averages.add(airplaneList.get(month).stream().mapToDouble(a -> a).average().getAsDouble());
         }
-        Map<Integer, Integer> sorted = sums
-                .entrySet()
-                .stream()
-                .sorted(comparingByValue())
-                .collect(
-                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-                                LinkedHashMap::new));
-
-
+        averages = averages.stream().sorted().collect(Collectors.toList());
+        int cnt = 1;
         var data = new XYChart.Series<String, Number>();
-        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
-            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
+        for (Double average : averages) {
+            data.getData().add(new XYChart.Data<>(cnt + "", average));
+            cnt++;
         }
         myBar2.getData().clear();
         myBar2.getData().addAll(data);
@@ -184,8 +201,7 @@ public class FleetOverviewController implements Initializable, Observer {
     //Features:
 
     // redirecting to "Monitoring" tab for additional information about specific airplane
-    public void doubleClick() {
-    }
+
 
     // refreshing all airplanes locations presented in the map
 
@@ -194,6 +210,7 @@ public class FleetOverviewController implements Initializable, Observer {
     public void refreshButton(MouseEvent e)
     {
         activePlanes(0);
+
         Random r = new Random();
         HashMap<Integer, List<Integer>> test = new HashMap<>();
         test.put(5, Arrays.asList(r.nextInt(10), r.nextInt(10), r.nextInt(10)));
@@ -201,15 +218,20 @@ public class FleetOverviewController implements Initializable, Observer {
         test.put(7, Arrays.asList(r.nextInt(10), r.nextInt(10), r.nextInt(10)));
 
 
-        // singleSortedMiles(test);
 
-        HashMap<Integer, List<Integer>> test2 = new HashMap<>();
-        test2.put(4, Arrays.asList(1, r.nextInt(10), 3));
-        test2.put(1, Arrays.asList(r.nextInt(10), 9, 9));
-        test2.put(6, Arrays.asList(1, r.nextInt(10), 1));
+        HashMap<Integer, Integer> testSingleSortedMiles = new HashMap<>();
+        testSingleSortedMiles.put(1,49);
+        testSingleSortedMiles.put(2,5);
+        testSingleSortedMiles.put(3,30);
+        singleSortedMiles(testSingleSortedMiles);
 
 
-        multipleSortedMiles(test2);
+        HashMap<Integer, List<Integer>> testMultipleSortedMiles = new HashMap<>();
+        testMultipleSortedMiles.put(4, Arrays.asList(1, r.nextInt(10), 3));
+        testMultipleSortedMiles.put(1, Arrays.asList(r.nextInt(10), 9, 9));
+        testMultipleSortedMiles.put(6, Arrays.asList(1, r.nextInt(10), 1));
+        multipleSortedMiles2(testMultipleSortedMiles);
+
 
         HashMap<Integer, Integer> testLineChart = new HashMap<>();
         testLineChart.put(5, 250);
@@ -239,10 +261,12 @@ public class FleetOverviewController implements Initializable, Observer {
 
     public void createPlaneView(PlaneData pd, Pair<Double, Double> pair) {
 
-        String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+       // String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         ImageView planeIMG = new ImageView(new Image(path)); // russia
+        airp = planeIMG; // needs to be done for all the planes (not just one) - Testing plane direction
         planeIMG.relocate(pair.getKey(), pair.getValue());
-        Tooltip tooltip = new Tooltip(pd.ID + "\n" +pd.PlaneName);
+        Tooltip tooltip = new Tooltip( pd.PlaneName + "\n" +pd.heading + "\n"+ pd.altitude +"\n" + pd.airSpeed_kt);
         Tooltip.install(planeIMG, tooltip);
         tooltip.setShowDelay(Duration.seconds(0.5));
         worldMapPane.getChildren().add(planeIMG);
@@ -281,13 +305,13 @@ public class FleetOverviewController implements Initializable, Observer {
     }
 
     // changing and presenting plane icon direction towards its location
-    public void direction(int longitude, int latitude) {
+    public void direction(double longitude, double latitude) {
         prev_i = current_i;
         prev_j = current_j;
         current_i = longitude;
         current_j = latitude;
-        int delta_x = Math.abs(current_j - prev_j);
-        int delta_y = Math.abs(current_i - prev_i);
+        double delta_x = Math.abs(current_j - prev_j);
+        double delta_y = Math.abs(current_i - prev_i);
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
 
@@ -299,8 +323,6 @@ public class FleetOverviewController implements Initializable, Observer {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         HashMap<String, Integer> testMap = new HashMap<>();
-//        testMap.put("1",3000);
-//        testMap.put("2",5000);
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
         ad.analyticList = list;
@@ -316,67 +338,29 @@ public class FleetOverviewController implements Initializable, Observer {
 
         p1.planeData = new PlaneData();
         p2.planeData = new PlaneData();
-        p1.planeData.latitude = "61.524010";
-        p1.planeData.longitude = "105.318756";
-        p2.planeData.latitude = "41.524010";
-        p2.planeData.longitude = "85.318756";
+        p1.planeData.latitude = "61.524010"; //Russia
+        p1.planeData.longitude = "105.318756"; //Russia
+        p2.planeData.latitude = "21.546700";
+        p2.planeData.longitude = "39.194839";
 
-        p1.planeData.ID = "0";
+
         p1.planeData.PlaneName = "Plane 0";
-        p2.planeData.ID = "1";
+        p1.planeData.heading ="312.332";
+        p1.planeData.altitude = "1231312";
+        p1.planeData.airSpeed_kt ="33333";
+
+
         p2.planeData.PlaneName = "Plane 1";
+        p2.planeData.heading ="312.332";
+        p2.planeData.altitude = "1231312";
+        p2.planeData.airSpeed_kt ="33333";
         list.add(p1);
         list.add(p2);
 
         updateVisuals(ad);
-//        String path2 = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-//        ImageView testPlane1 = new ImageView(new Image(path2)); // russia
-//        ImageView testPlane2 = new ImageView(new Image(path2)); // china
-
-//        worldMapPane.getChildren().add(testPlane1);
-//        worldMapPane.getChildren().add(testPlane2);
-
-//        Pair<Double, Double> testPair = latLongToOffsets(Float.parseFloat(p1.planeData.altitude), Float.parseFloat(p1.planeData.longitude), 780, 625);
-//        Pair<Double, Double> testPair2 = latLongToOffsets(Float.parseFloat(p2.planeData.altitude), Float.parseFloat(p2.planeData.longitude), 780, 625);
-//        createPlaneView(p1.planeData, testPair);
-
-
-        //        testPlane1.relocate(testPair.getKey(),testPair.getValue());
-//        testPlane2.relocate(testPair2.getKey(),testPair2.getValue());
-        //   addSingleClick(testPlane1,p1.planeData);
-        //   addSingleClick(testPlane2,p2.planeData);
-//        testPlane1.setLayoutX(testPair.getKey());
-//        testPlane1.setLayoutY(testPair.getValue());
-
-
-//            iv.setLayoutY(r.nextInt(500 - 20));
-
-//        Label lbl = new Label(p1.planeData.ID);
-//        worldMapPane.getChildren().add(lbl);
-//        lbl.setVisible(false);
-//        testPlane1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                // System.out.println("test");
-//                lbl.setVisible(true);
-//                lbl.setLayoutX(testPlane1.getLayoutX());
-//                lbl.setLayoutY(testPlane1.getLayoutY() + 25);
-//                lbl.setVisible(true);
-//
-//            }
-//        });
-//
-
-        // p1.planeData = new PlaneData().altitude;
-        //list.add(new PlaneAnalytic())
-
-//        double h = img1.getFitHeight() * NORMAL;//1000 0
-//        double w = img1.getFitWidth() * NORMAL;//500 0
-//        System.out.println("width" + img1.getFitWidth());
-//        System.out.println("height" + img1.getFitHeight());
-
         latLongToOffsets(61.524010f, 105.318756f, 780, 625);
-
+        direction(21.546700,39.194839);
+        airp.setRotate(angle);
 
 //        ImageView iv2 = new ImageView(new Image(path2));
 //        worldMapPane.getChildren().add(iv2);
@@ -384,7 +368,7 @@ public class FleetOverviewController implements Initializable, Observer {
 //        activePlanes(0);
 
 
-        //----Gprahs tests------------------------------------------------------------------------
+        //----Graphs tests------------------------------------------------------------------------
         //-----singleSortedMiles Test----------//
 
         HashMap<Integer, List<Integer>> test = new HashMap<>();
@@ -398,6 +382,7 @@ public class FleetOverviewController implements Initializable, Observer {
 
         // singleSortedMiles(test);
 
+
         //---------singleSortedMiles Test2----------//
         HashMap<Integer, Integer> test1New = new HashMap<>();
         test1New.put(5, 250);
@@ -407,12 +392,12 @@ public class FleetOverviewController implements Initializable, Observer {
 
         //Test for multiple bar
         HashMap<Integer, List<Integer>> test2 = new HashMap<>();
-        test2.put(4, Arrays.asList(1, 5, 3));
-        test2.put(1, Arrays.asList(77, 14, 9));
-        test2.put(6, Arrays.asList(1, 88, 1));
+        test2.put(4, Arrays.asList(44, 59, 39)); // 47.3
+        test2.put(1, Arrays.asList(77, 14, 9)); //33.3
+        test2.put(6, Arrays.asList(1, 8, 1)); //3.3
+        multipleSortedMiles2(test2);
 
 
-        multipleSortedMiles(test2);
 
         //------Testing Line Chart-------// Mapping month number to fleet size
         HashMap<Integer, Integer> testLineChart = new HashMap<>();
@@ -420,6 +405,8 @@ public class FleetOverviewController implements Initializable, Observer {
         testLineChart.put(8, 50);
         testLineChart.put(7, 100);
         lineChart(testLineChart);
+
+        activePlanes(0);
 
         System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
 
