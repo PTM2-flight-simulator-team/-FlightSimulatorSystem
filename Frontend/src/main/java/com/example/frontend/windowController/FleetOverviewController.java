@@ -242,7 +242,7 @@ public class FleetOverviewController implements Initializable, Observer {
         String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         ImageView planeIMG = new ImageView(new Image(path)); // russia
         planeIMG.relocate(pair.getKey(), pair.getValue());
-        Tooltip tooltip = new Tooltip(pd.ID);
+        Tooltip tooltip = new Tooltip(pd.ID + "\n" +pd.PlaneName);
         Tooltip.install(planeIMG, tooltip);
         tooltip.setShowDelay(Duration.seconds(0.5));
         worldMapPane.getChildren().add(planeIMG);
@@ -320,8 +320,11 @@ public class FleetOverviewController implements Initializable, Observer {
         p1.planeData.longitude = "105.318756";
         p2.planeData.latitude = "41.524010";
         p2.planeData.longitude = "85.318756";
-        p1.planeData.ID = "Plane 0";
-        p2.planeData.ID = "Plane 1";
+
+        p1.planeData.ID = "0";
+        p1.planeData.PlaneName = "Plane 0";
+        p2.planeData.ID = "1";
+        p2.planeData.PlaneName = "Plane 1";
         list.add(p1);
         list.add(p2);
 
