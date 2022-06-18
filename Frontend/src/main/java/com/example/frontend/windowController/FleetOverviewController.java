@@ -5,7 +5,6 @@ import Model.dataHolder.AnalyticsData;
 import Model.dataHolder.PlaneAnalytic;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.FxmlLoader;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -16,12 +15,14 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 import static java.util.Map.Entry.comparingByValue;
 import static java.util.stream.Collectors.toMap;
 
-public class FleetOverviewController implements Initializable {
+public class FleetOverviewController implements Initializable, Observer {
 
     @FXML
     private ImageView refreshBtn;
@@ -78,6 +79,15 @@ public class FleetOverviewController implements Initializable {
     int current_i = 75, current_j = 0;
     int prev_i = 0, prev_j = 0;
     double angle = 0;
+
+    final int mapWidth = 780;
+    final int mapHeight = 625;
+
+    public FleetOverviewController() {
+
+
+
+    }
 
 //---------------------------------------Charts-------------------------------------------//:
 
@@ -142,7 +152,7 @@ public class FleetOverviewController implements Initializable {
     }
     //-------------------------------------------------------------------------------------------
 
-    public Pair<Double,Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
+    public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
         float radius = mapWidth / (float) (2 * Math.PI);
         float latRad = degreesToRadians(latitude);
@@ -153,7 +163,7 @@ public class FleetOverviewController implements Initializable {
         System.out.println("x" + x);
         System.out.println("y" + y);
 
-        return new Pair<Double,Double>(x,y);
+        return new Pair<Double, Double>(x, y);
     }
 
     public float degreesToRadians(float degrees) {
@@ -161,11 +171,7 @@ public class FleetOverviewController implements Initializable {
     }
 
 
-    public FleetOverviewController() {
-        refreshMap();
 
-
-    }
 
     public void setInitPlaneLocation(int i, int j) {
         current_j = j;
@@ -182,22 +188,11 @@ public class FleetOverviewController implements Initializable {
     }
 
     // refreshing all airplanes locations presented in the map
-    public void refreshMap() {
-        TimerTask getAirplanePos = new TimerTask() {
-            @Override
-            public void run() {
-//                airp.setLayoutY(current_j);
-//                airp.setLayoutX(current_i);
-//                airp.setRotate(angle);
 
-
-            }
-        };
-        timer.schedule(getAirplanePos, 1000L, 1000L);
-    }
 
     // manual refresh button of all the graphs
-    public void refreshButton(MouseEvent e) {
+    public void refreshButton(MouseEvent e)
+    {
         activePlanes(0);
         Random r = new Random();
         HashMap<Integer, List<Integer>> test = new HashMap<>();
@@ -223,25 +218,35 @@ public class FleetOverviewController implements Initializable {
         lineChart(testLineChart);
     }
 
-    public void updateVisuals(AnalyticsData ad) {
-
+    @Override
+    public void update(Observable o, Object arg) {
+        AnalyticsData ad = (AnalyticsData)arg;
+        updateVisuals(ad);
     }
 
 
-    public void addSingleClick(ImageView plane, PlaneData pd) {
-        Label lbl = new Label(pd.ID);
-        lbl.setVisible(false);
-        plane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-               // System.out.println("test");
-                lbl.setVisible(true);
-                lbl.setLayoutX(plane.getLayoutX());
-                lbl.setLayoutY(plane.getLayoutY() + 25);
-                lbl.setVisible(true);
+    public void updateVisuals(AnalyticsData ad)
+    {
+        for(int i=0;i<ad.analyticList.size();i++)
+        {
+            float lati = Float.parseFloat(ad.analyticList.get(i).planeData.latitude);
+            float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
+            Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
+            createPlaneView(ad.analyticList.get(i).planeData, pair);
+        }
+    }
 
-            }
-        });
+
+    public void createPlaneView(PlaneData pd, Pair<Double, Double> pair) {
+
+        String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        ImageView planeIMG = new ImageView(new Image(path)); // russia
+        planeIMG.relocate(pair.getKey(), pair.getValue());
+        Tooltip tooltip = new Tooltip(pd.ID);
+        Tooltip.install(planeIMG, tooltip);
+        tooltip.setShowDelay(Duration.seconds(0.5));
+        worldMapPane.getChildren().add(planeIMG);
+        addDoubleClick(planeIMG);
     }
 
     public void addDoubleClick(ImageView plane) {
@@ -281,11 +286,13 @@ public class FleetOverviewController implements Initializable {
         prev_j = current_j;
         current_i = longitude;
         current_j = latitude;
-
         int delta_x = Math.abs(current_j - prev_j);
         int delta_y = Math.abs(current_i - prev_i);
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
+
+
+
 
 
     @Override
@@ -296,55 +303,66 @@ public class FleetOverviewController implements Initializable {
 //        testMap.put("2",5000);
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
-
         ad.analyticList = list;
+
         PlaneAnalytic p1 = new PlaneAnalytic();
         PlaneAnalytic p2 = new PlaneAnalytic();
-        p1._id = "0";
+        p1._id = "PILOT0TESTING";
         p1.Name = "pilot0";
-        p2._id = "1";
+        p2._id = "PILOT1TESTING";
         p2.Name = "pilot1";
 
         //  p1.miles.;
 
         p1.planeData = new PlaneData();
         p2.planeData = new PlaneData();
-        p1.planeData.altitude = "61.524010";
+        p1.planeData.latitude = "61.524010";
         p1.planeData.longitude = "105.318756";
-        p2.planeData.altitude = "41.524010";
+        p2.planeData.latitude = "41.524010";
         p2.planeData.longitude = "85.318756";
+        p1.planeData.ID = "Plane 0";
+        p2.planeData.ID = "Plane 1";
+        list.add(p1);
+        list.add(p2);
 
-        String path2 = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-        ImageView testPlane1 = new ImageView(new Image(path2));
-        ImageView testPlane2 = new ImageView(new Image(path2));
-        worldMapPane.getChildren().add(testPlane1);
-        worldMapPane.getChildren().add(testPlane2);
+        updateVisuals(ad);
+//        String path2 = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+//        ImageView testPlane1 = new ImageView(new Image(path2)); // russia
+//        ImageView testPlane2 = new ImageView(new Image(path2)); // china
 
-        Pair<Double,Double> testPair  =  latLongToOffsets(Float.parseFloat(p1.planeData.altitude),Float.parseFloat(p1.planeData.longitude),780,625);
-        testPlane1.relocate(testPair.getKey(),testPair.getValue());
-        Pair<Double,Double> testPair2  =  latLongToOffsets(Float.parseFloat(p2.planeData.altitude),Float.parseFloat(p2.planeData.longitude),780,625);
-        testPlane2.relocate(testPair2.getKey(),testPair2.getValue());
-     //   addSingleClick(testPlane1,p1.planeData);
-        addSingleClick(testPlane2,p2.planeData);
-        testPlane1.setLayoutX(testPair.getKey());
-        testPlane1.setLayoutY(testPair.getValue());
+//        worldMapPane.getChildren().add(testPlane1);
+//        worldMapPane.getChildren().add(testPlane2);
+
+//        Pair<Double, Double> testPair = latLongToOffsets(Float.parseFloat(p1.planeData.altitude), Float.parseFloat(p1.planeData.longitude), 780, 625);
+//        Pair<Double, Double> testPair2 = latLongToOffsets(Float.parseFloat(p2.planeData.altitude), Float.parseFloat(p2.planeData.longitude), 780, 625);
+//        createPlaneView(p1.planeData, testPair);
+
+
+        //        testPlane1.relocate(testPair.getKey(),testPair.getValue());
+//        testPlane2.relocate(testPair2.getKey(),testPair2.getValue());
+        //   addSingleClick(testPlane1,p1.planeData);
+        //   addSingleClick(testPlane2,p2.planeData);
+//        testPlane1.setLayoutX(testPair.getKey());
+//        testPlane1.setLayoutY(testPair.getValue());
+
+
 //            iv.setLayoutY(r.nextInt(500 - 20));
 
-        Label lbl = new Label(p1.planeData.ID);
-        worldMapPane.getChildren().add(lbl);
-        lbl.setVisible(false);
-        testPlane1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                // System.out.println("test");
-                lbl.setVisible(true);
-                lbl.setLayoutX(testPlane1.getLayoutX());
-                lbl.setLayoutY(testPlane1.getLayoutY() + 25);
-                lbl.setVisible(true);
-
-            }
-        });
-
+//        Label lbl = new Label(p1.planeData.ID);
+//        worldMapPane.getChildren().add(lbl);
+//        lbl.setVisible(false);
+//        testPlane1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                // System.out.println("test");
+//                lbl.setVisible(true);
+//                lbl.setLayoutX(testPlane1.getLayoutX());
+//                lbl.setLayoutY(testPlane1.getLayoutY() + 25);
+//                lbl.setVisible(true);
+//
+//            }
+//        });
+//
 
         // p1.planeData = new PlaneData().altitude;
         //list.add(new PlaneAnalytic())
@@ -357,14 +375,13 @@ public class FleetOverviewController implements Initializable {
         latLongToOffsets(61.524010f, 105.318756f, 780, 625);
 
 
-        ImageView iv2 = new ImageView(new Image(path2));
-        worldMapPane.getChildren().add(iv2);
-        iv2.relocate(618, 141);
-        activePlanes(0);
+//        ImageView iv2 = new ImageView(new Image(path2));
+//        worldMapPane.getChildren().add(iv2);
+//        iv2.relocate(618, 141);
+//        activePlanes(0);
 
 
-
-        //----Gprahs tests
+        //----Gprahs tests------------------------------------------------------------------------
         //-----singleSortedMiles Test----------//
 
         HashMap<Integer, List<Integer>> test = new HashMap<>();
@@ -403,9 +420,9 @@ public class FleetOverviewController implements Initializable {
 
         System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
 
-     //   coordinates = new int[(int) w][(int) h];
+        //   coordinates = new int[(int) w][(int) h];
 
- //       Random r = new Random();
+        //       Random r = new Random();
 //        for (int i = 0; i < 10; i++) {
 //            String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
 //            ImageView iv = new ImageView(new Image(path));
@@ -462,6 +479,8 @@ public class FleetOverviewController implements Initializable {
 
 
     }
+
+
 
 
 //            public void mousePlaneClick(MouseEvent mouseEvent) {
