@@ -1,6 +1,8 @@
 package com.example.frontend.windowController;
 
 import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.GaugeBuilder;
+import eu.hansolo.medusa.Section;
 import eu.hansolo.medusa.TickLabelOrientation;
 import eu.hansolo.medusa.skins.ModernSkin;
 import javafx.fxml.FXML;
@@ -13,34 +15,39 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 public class ClocksController implements Initializable {
     @FXML
     BorderPane bp = new BorderPane();
     @FXML
 
+
     public void paintClock() {
-        Gauge gauge = new Gauge();
-        gauge.setSkin(new ModernSkin(gauge));  //ModernSkin : you guys can change the skin
-        gauge.setTitle("COOL IT HELP");  //title
-        gauge.setUnit("Km / h");  //unit
-        gauge.setUnitColor(Color.WHITE);
-        gauge.setDecimals(0);
-        gauge.setValue(50); //deafult position of needle on gauage
-        gauge.setAnimated(true);
+        //create an air speed gauge
+
+        Gauge airSpeed = new Gauge();
+
+        airSpeed.setSkin(new ModernSkin(airSpeed));  //ModernSkin : you guys can change the skin
+        airSpeed.setTitle("AIRSPEED");  //title
+        airSpeed.setUnit("Km / h");  //unit
+        airSpeed.setUnitColor(Color.WHITE);
+        airSpeed.setDecimals(0);
+        airSpeed.setValue(50); //deafult position of needle on gauage
+        airSpeed.setAnimated(true);
         //gauge.setAnimationDuration(500);
 
-        gauge.setValueColor(Color.WHITE);
-        gauge.setTitleColor(Color.WHITE);
-        gauge.setSubTitleColor(Color.WHITE);
-        gauge.setBarColor(Color.rgb(0, 214, 215));
-        gauge.setNeedleColor(Color.RED);
-        gauge.setThresholdColor(Color.RED);  //color will become red if it crosses threshold value
-        gauge.setThreshold(85);
-        gauge.setThresholdVisible(true);
-        gauge.setTickLabelColor(Color.rgb(151, 151, 151));
-        gauge.setTickMarkColor(Color.WHITE);
-        gauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
-        bp.setCenter(gauge);
+        airSpeed.setValueColor(Color.WHITE);
+        airSpeed.setTitleColor(Color.WHITE);
+        airSpeed.setSubTitleColor(Color.WHITE);
+        airSpeed.setBarColor(Color.rgb(0, 214, 215));
+        airSpeed.setNeedleColor(Color.RED);
+        airSpeed.setThresholdColor(Color.RED);  //color will become red if it crosses threshold value
+        airSpeed.setThreshold(85);
+        airSpeed.setThresholdVisible(true);
+        airSpeed.setTickLabelColor(Color.rgb(151, 151, 151));
+        airSpeed.setTickMarkColor(Color.WHITE);
+        airSpeed.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+        bp.setCenter(airSpeed);
 
     }
 

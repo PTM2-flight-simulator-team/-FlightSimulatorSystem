@@ -5,27 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__eu_hansolo_Medusa_11_7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_11_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_11_0_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/Frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Frontend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/StatLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/StatLib.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/css/chart.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/css/chart.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/css/circleChart.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/css/circleChart.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Monitoring.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Monitoring.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/css/chart.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/css/chart.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/css/circleChart.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/css/circleChart.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="CSS File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -140,6 +126,7 @@
       <workItem from="1655383425396" duration="3892000" />
       <workItem from="1655389987752" duration="25181000" />
       <workItem from="1655551738195" duration="2606000" />
+      <workItem from="1655554522434" duration="17377000" />
     </task>
     <servers />
   </component>
@@ -159,15 +146,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java</url>
-          <line>155</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />

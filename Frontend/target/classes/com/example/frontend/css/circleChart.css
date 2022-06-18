@@ -16,3 +16,8 @@
     -fx-background-radius: 5px;
     -fx-padding: 4px;
 }
+.default-color2.chart-symbol {
+    -fx-background-color: black, yellow;
+    -fx-background-radius: 5px;
+    -fx-padding: 4px;
+}
