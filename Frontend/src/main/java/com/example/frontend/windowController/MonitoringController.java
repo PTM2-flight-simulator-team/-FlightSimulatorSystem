@@ -1,29 +1,22 @@
 package com.example.frontend.windowController;
 
-import Model.ModelTools.AnomalyReport;
-import Model.ModelTools.CorrelatedFeatures;
-import Model.ModelTools.SimpleAnomalyDetector;
-import Model.ModelTools.TimeSeries;
+import Model.ModelTools.*;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
+
+import com.example.frontend.SmallestEnclosingCircle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
-import javafx.scene.effect.Lighting;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -103,7 +96,7 @@ public class MonitoringController implements Initializable {
 
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
     TimeSeries ts = new TimeSeries(
-            "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\train.csv");
+            "Frontend/src/main/java/Model/ModelTools/train.csv");
 
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
@@ -116,118 +109,28 @@ public class MonitoringController implements Initializable {
         return correlatedFeatureOfWhatWeNeed;
     }
 
-    public void aileron(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("aileron");
-        if (event.getSource() == aileron) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
+//    public void aileron(ActionEvent event) {
+//        sad.learnNormal(ts);
+//        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("aileron");
+//        if (event.getSource() == aileron) {
+//            if(correlatedFeatureOfWhatWeNeed.get(0).threshold > 0.95)
+//                createLineCharts(correlatedFeatureOfWhatWeNeed);
+//            if(correlatedFeatureOfWhatWeNeed.get(0).threshold < 0.95 || correlatedFeatureOfWhatWeNeed.get(0).threshold > 0.5)
+//                createCircleGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+//    }
 
-    public void airSpeed_kt(ActionEvent event) {
+    public void feature(ActionEvent event){
         sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("airSpeed_kt");
-        if (event.getSource() == airSpeed_kt) {
+        String name = ((MenuItem) event.getSource()).getText();
+        System.out.println(name);
+        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(name);
+        if(correlatedFeatureOfWhatWeNeed.get(0).threshold > 0.95)
             createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
+        if(correlatedFeatureOfWhatWeNeed.get(0).threshold < 0.95 || correlatedFeatureOfWhatWeNeed.get(0).threshold > 0.5)
+            createCircleGraph(correlatedFeatureOfWhatWeNeed);
 
-    public void vertSpeed(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("vertSpeed");
-        if (event.getSource() == vertSpeed) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
     }
-
-    public void altitude(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("altitude");
-        if (event.getSource() == altitude) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void elevator(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("elevator");
-        if (event.getSource() == elevator) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void rudder(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("rudder");
-        if (event.getSource() == rudder) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void flaps(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("flaps");
-        if (event.getSource() == flaps) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void longitude(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("longitude");
-        if (event.getSource() == longitude) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void heading(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("heading");
-        if (event.getSource() == heading) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void latitude(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("latitude");
-        if (event.getSource() == latitude) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void pitchDeg(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("pitchDeg");
-        if (event.getSource() == pitchDeg) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void rollDeg(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("rollDeg");
-        if (event.getSource() == rollDeg) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void throttle_0(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("throttle_0");
-        if (event.getSource() == throttle_0) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
-    public void throttle_1(ActionEvent event) {
-        sad.learnNormal(ts);
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList("throttle_1");
-        if (event.getSource() == throttle_1) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-    }
-
 
     public double max(Vector<Double> v) {
         double max = v.get(0);
@@ -249,41 +152,64 @@ public class MonitoringController implements Initializable {
         return min;
     }
 
-    public void createCircleGraph(){
-        Circle circle = new Circle(1);
-        circle.setCenterX(45);
-        circle.setCenterY(338);
-        double x0 = 45;
-        double y0 = 338;
-        double lenX = 369;
-        double lenY = 363;
-        circle.setStrokeWidth(5);
-        circle.setStroke(Color.RED);
-        circle.setFill(Color.TRANSPARENT);
-        //add effect
+    public void createCircleGraph(List<CorrelatedFeatures> cf) {
+        List<Point> points = new ArrayList<>();
+        //populate the points randomly
+        for (int i = 0; i < 100; i++) {
+            Point p = new Point((float) Math.random() * 500, (float) Math.random() * 500);
+            points.add(p);
+        }
+        //create for loop that iterate points and find max and min from points
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        for (Point p : points) {
+            maxX = Math.max(maxX, p.x);
+            maxY = Math.max(maxY, p.y);
+        }
+        for (Point p : points) {
+            minX = Math.min(minX, p.x);
+            minY = Math.min(minY, p.y);
+        }
+        double zoom = 0.5;
+        double upperBoundX = maxX + (maxX - minX)*zoom;
+        double lowerBoundX = minX - (maxX - minX)*zoom;
+        double upperBoundY = maxY + (maxY - minY)*zoom;
+        double lowerBoundY = minY - (maxY - minY)*zoom;
+        double biggestUpperBoundXY = Math.max(upperBoundX, upperBoundY);
+        double smallestLowerBoundXY = Math.min(lowerBoundX, lowerBoundY);
+        upperBoundX = biggestUpperBoundXY;
+        lowerBoundX = smallestLowerBoundXY;
+        upperBoundY = biggestUpperBoundXY;
+        lowerBoundY = smallestLowerBoundXY;
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
         ScatterChart chart = new ScatterChart(xAxis, yAxis);
         chart.setTitle("Circle Chart");
+        xAxis.setAutoRanging(false);
+        xAxis.setLowerBound(lowerBoundX);
+        xAxis.setUpperBound(upperBoundX);
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(lowerBoundY);
+        yAxis.setUpperBound(upperBoundY);
         XYChart.Series series1 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(1.0, 2.0));
-        series1.getData().add(new XYChart.Data(0.9, 2.0));
-        double upperBoundX = 1.1;
-        double lowerBoundX = 0.0;
-        double upperBoundY = 2.25;
-        double lowerBoundY = 0.0;
-        double rangeX = upperBoundX - lowerBoundX;
-        double rangeY = upperBoundY - lowerBoundY;
-        double x = x0 + lenX * ((1.0)/rangeX);
-        double y = y0 - lenY * ((2.0)/rangeY);
-        //circle.setCenterX(x);
-        //circle.setCenterY(y);
-        System.out.println(x + " " + y);
-
-        chart.getData().add(series1);
-
+        for(int i = 0; i < points.size(); i++){
+            series1.getData().add(new XYChart.Data(points.get(i).x, points.get(i).y));
+        }
         bigChartBorderPane.setCenter(chart);
-        //bigChartBorderPane.getChildren().add(circle);
+        List<com.example.frontend.Point> points2 = new ArrayList<>();
+        for(Point p : points){
+            points2.add(new com.example.frontend.Point(p.x, p.y));
+        }
+        com.example.frontend.Circle circle2 = SmallestEnclosingCircle.makeCircle(points2);
+        XYChart.Series series2 = new XYChart.Series();
+        for(int i = 0; i < 1000; i++){
+            double x2 = circle2.c.x + circle2.r*Math.cos(2*Math.PI*i/1000);
+            double y2 = circle2.c.y + circle2.r*Math.sin(2*Math.PI*i/1000);
+            series2.getData().add(new XYChart.Data(x2, y2));
+        }
+        chart.getData().addAll(series2, series1);
     }
 
     public void createLineCharts(List<CorrelatedFeatures> cf) {
@@ -296,7 +222,7 @@ public class MonitoringController implements Initializable {
             return;  //if there are no correlated features, maybe we should show a message to the user
         }
         TimeSeries ts2 = new TimeSeries(
-                "C:\\Users\\roey\\IdeaProjects\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\test.csv");
+                "Frontend/src/main/java/Model/ModelTools/test.csv");
 
         double maxCorr = Double.MIN_VALUE;
         int index = 0;
@@ -306,7 +232,7 @@ public class MonitoringController implements Initializable {
                 maxCorr = cf.get(i).correlation;
             }
         }
-        for (CorrelatedFeatures correlatedFeatures: cf) {
+        for (CorrelatedFeatures correlatedFeatures : cf) {
             if (correlatedFeatures != cf.get(index)) {
                 cf.remove(correlatedFeatures);
             }
@@ -364,7 +290,6 @@ public class MonitoringController implements Initializable {
         rightAreaChartBorderPane.setCenter(rightAreaChart);
     }
 
-
     public void createJoyStick() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane joyStickPane = new Pane();
@@ -375,7 +300,7 @@ public class MonitoringController implements Initializable {
         }
         joyStickBorderPane.setCenter(joyStickPane);
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
-        joyStick.disableJoyStick();
+        //joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
 

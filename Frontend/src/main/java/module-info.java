@@ -3,6 +3,7 @@ module com.example.frontend {
     requires javafx.fxml;
     requires java.net.http;
     requires com.google.gson;
+    requires eu.hansolo.medusa;
 
 
     opens com.example.frontend to javafx.fxml;
@@ -12,4 +13,6 @@ module com.example.frontend {
     exports Model;
     opens Model to javafx.fxml;
     exports Model.dataHolder to com.google.gson;
+
+
 }

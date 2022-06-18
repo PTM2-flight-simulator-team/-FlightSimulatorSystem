@@ -1,32 +1,53 @@
 package com.example.frontend.windowController;
 
+import eu.hansolo.medusa.Gauge;
+import eu.hansolo.medusa.TickLabelOrientation;
+import eu.hansolo.medusa.skins.ModernSkin;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.shape.Line;
+
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClocksController implements Initializable {
     @FXML
-    Canvas speedClock;
+    BorderPane bp = new BorderPane();
     @FXML
-    Line dialog;
-    double mx, my;
-    public void paintClock() {
-        GraphicsContext gc = speedClock.getGraphicsContext2D();
 
-        mx = speedClock.getWidth() / 2;
-        my = speedClock.getHeight() / 2;
-        gc.clearRect(0, 0, speedClock.getWidth(), speedClock.getHeight());
-        //gc.setFill(javafx.scene.paint.Color.BLACK);
-        gc.strokeOval(mx - 50, my - 50, 100, 100);
+    public void paintClock() {
+        Gauge gauge = new Gauge();
+        gauge.setSkin(new ModernSkin(gauge));  //ModernSkin : you guys can change the skin
+        gauge.setTitle("COOL IT HELP");  //title
+        gauge.setUnit("Km / h");  //unit
+        gauge.setUnitColor(Color.WHITE);
+        gauge.setDecimals(0);
+        gauge.setValue(50); //deafult position of needle on gauage
+        gauge.setAnimated(true);
+        //gauge.setAnimationDuration(500);
+
+        gauge.setValueColor(Color.WHITE);
+        gauge.setTitleColor(Color.WHITE);
+        gauge.setSubTitleColor(Color.WHITE);
+        gauge.setBarColor(Color.rgb(0, 214, 215));
+        gauge.setNeedleColor(Color.RED);
+        gauge.setThresholdColor(Color.RED);  //color will become red if it crosses threshold value
+        gauge.setThreshold(85);
+        gauge.setThresholdVisible(true);
+        gauge.setTickLabelColor(Color.rgb(151, 151, 151));
+        gauge.setTickMarkColor(Color.WHITE);
+        gauge.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+        bp.setCenter(gauge);
+
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         paintClock();
+
     }
 }
