@@ -77,6 +77,8 @@ public class MainWindowController implements Initializable {
             e.printStackTrace();
         }
         mainPane.setCenter(teleopration);
+        TeleoperationController teleoperationController = fxmlLoader.getController();
+        teleoperationController.createJoyStick();
     }
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
