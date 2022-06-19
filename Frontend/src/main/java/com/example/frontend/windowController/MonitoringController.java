@@ -95,19 +95,16 @@ public class MonitoringController implements Initializable, Observer {
             System.out.println("No correlated features");
             return;
         }
-        //System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
-//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
-//            createLineCharts(correlatedFeatureOfWhatWeNeed);
-//        }
-//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
-//                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
-//            createCircleGraph(correlatedFeatureOfWhatWeNeed);
-//        }
-//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
-//            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
-//        }
-
-        createZScoreGraph(correlatedFeatureOfWhatWeNeed);
+        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
+            createLineCharts(correlatedFeatureOfWhatWeNeed);
+        }
+        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
+                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
+            createCircleGraph(correlatedFeatureOfWhatWeNeed);
+        }
+        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
+            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
+        }
     }
 
     public void createLineCharts(List<CorrelatedFeatures> cf) {
