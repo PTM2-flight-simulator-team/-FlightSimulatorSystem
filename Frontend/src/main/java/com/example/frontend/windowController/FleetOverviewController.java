@@ -11,11 +11,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -57,6 +55,9 @@ public class FleetOverviewController implements Initializable, Observer {
     private Pane pane;
     @FXML
     private LineChart lineC;
+
+    @FXML
+    private ScrollBar mapScrollBar;
 
     @FXML
     private ImageView img1;
@@ -288,6 +289,19 @@ public class FleetOverviewController implements Initializable, Observer {
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
 
+    public Slider zoomPlaneMap(MouseEvent mouseEvent)
+    {
+       Slider slider = new Slider();
+//        mapScrollBar.setMax(800);
+//        mapScrollBar.setMin(-400);
+//        mapScrollBar.setPrefWidth(300d);
+//        mapScrollBar.setLayoutX(-150);
+//        mapScrollBar.setLayoutY(200);
+//        slider.setShowTickLabels(true);
+//        slider.setStyle("-fx-base: black");
+       return slider;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -296,6 +310,7 @@ public class FleetOverviewController implements Initializable, Observer {
 
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
+
 
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();

@@ -6,7 +6,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -61,6 +61,7 @@
 <!--                  <Image url="C:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/refreshBtn.png" />-->
                </image>
             </ImageView>
+            <ScrollBar fx:id="mapScrollBar" layoutX="52.0" layoutY="199.0" onDragDetected="#zoomPlaneMap" orientation="VERTICAL" />
 <!--             <Label  fx:id="lbl" text="blh blh" layoutX="75" layoutY="0" visible="false"></Label>-->
          </children>
       </Pane>
