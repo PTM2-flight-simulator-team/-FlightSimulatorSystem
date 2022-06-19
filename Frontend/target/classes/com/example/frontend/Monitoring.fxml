@@ -5,27 +5,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.MonitoringController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.MonitoringController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <SplitMenuButton fx:id="splitMenuItem" alignment="CENTER" layoutX="14.0" layoutY="60.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="130.0" text="Features list">
                <items>
-                  <MenuItem fx:id="aileron" mnemonicParsing="false" onAction="#aileron" text="aileron" />
-                  <MenuItem fx:id="elevator" mnemonicParsing="false" text="elevator" />
-                  <MenuItem fx:id="rudder" mnemonicParsing="false" text="rudder" />
-                  <MenuItem fx:id="flaps" mnemonicParsing="false" text="flaps" />
-                  <MenuItem fx:id="longitude" mnemonicParsing="false" text="longitude" />
-                  <MenuItem fx:id="latitude" mnemonicParsing="false" text="latitude" />
-                  <MenuItem fx:id="airSpeed_kt" mnemonicParsing="false" onAction="#airSpeed_kt" text="airSpeed_kt" />
-                  <MenuItem fx:id="vertSpeed" mnemonicParsing="false" text="vertSpeed" />
-                  <MenuItem fx:id="throttle_0" mnemonicParsing="false" text="throttle_0" />
-                  <MenuItem fx:id="throttle_1" mnemonicParsing="false" text="throttle_1" />
-                  <MenuItem fx:id="altitude" mnemonicParsing="false" text="altitude" />
-                  <MenuItem fx:id="pitchDeg" mnemonicParsing="false" text="pitchDeg" />
-                  <MenuItem fx:id="rollDeg" mnemonicParsing="false" text="rollDeg" />
-                  <MenuItem fx:id="heading" mnemonicParsing="false" text="heading" />
-                  <MenuItem fx:id="turnCoordinator" mnemonicParsing="false" text="turnCoordinator" />
+                  <MenuItem fx:id="aileron" mnemonicParsing="false" onAction="#feature" text="aileron" />
+                  <MenuItem fx:id="elevator" mnemonicParsing="false" onAction="#feature" text="elevator" />
+                  <MenuItem fx:id="rudder" mnemonicParsing="false" onAction="#feature" text="rudder" />
+                  <MenuItem fx:id="flaps" mnemonicParsing="false" onAction="#feature" text="flaps" />
+                  <MenuItem fx:id="longitude" mnemonicParsing="false" onAction="#feature" text="longitude" />
+                  <MenuItem fx:id="latitude" mnemonicParsing="false" onAction="#feature" text="latitude" />
+                  <MenuItem fx:id="airSpeed_kt" mnemonicParsing="false" onAction="#feature" text="airSpeed_kt" />
+                  <MenuItem fx:id="vertSpeed" mnemonicParsing="false" onAction="#feature" text="vertSpeed" />
+                  <MenuItem fx:id="throttle_0" mnemonicParsing="false" onAction="#feature" text="throttle_0" />
+                  <MenuItem fx:id="throttle_1" mnemonicParsing="false" onAction="#feature" text="throttle_1" />
+                  <MenuItem fx:id="altitude" mnemonicParsing="false" onAction="#feature" text="altitude" />
+                  <MenuItem fx:id="pitchDeg" mnemonicParsing="false" onAction="#feature" text="pitchDeg" />
+                  <MenuItem fx:id="rollDeg" mnemonicParsing="false" onAction="#feature" text="rollDeg" />
+                  <MenuItem fx:id="heading" mnemonicParsing="false" onAction="#feature" text="heading" />
+                  <MenuItem fx:id="turnCoordinator" mnemonicParsing="false" onAction="#feature" text="turnCoordinator" />
                </items>
             </SplitMenuButton>
             <BorderPane fx:id="leftAreaChartBorderPane" layoutX="164.0" layoutY="72.0" prefHeight="191.0" prefWidth="204.0" />
