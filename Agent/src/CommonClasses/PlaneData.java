@@ -3,6 +3,7 @@ package CommonClasses;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
@@ -112,6 +113,7 @@ public class PlaneData implements Serializable{
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = new PlaneVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
+
     }
 
     public ArrayList<String> PlainDataToList(){

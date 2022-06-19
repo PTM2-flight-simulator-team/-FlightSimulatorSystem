@@ -9,8 +9,8 @@ public class PrintCommand extends AbstractCommand{
 
     @Override
     public int execute(List<String> args, int index) {
-        if(Utils.isSymbol(args.get(index + 1))){
-            System.out.println(Utils.getSymbol(args.get(index+1)).getValue());//print var value
+        if(interpreter.utils.isSymbol(args.get(index + 1))){
+            System.out.println(interpreter.utils.getSymbol(args.get(index+1)).getValue());//print var value
         }else{
             String arg = args.get(index+1);
             String toPrint = "";

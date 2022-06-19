@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -57,9 +58,14 @@ public class JsonsFuncs {
 
     public static String getTimeSeries(String pid){
         FindIterable<Document> documentsList = Controller.getTimeSeries(pid);
-        Document ts = null;
-        if(documentsList.first() != null)
-            ts = documentsList.first();
+        final Document ts = new Document();
+        String str = "ts number ";
+        int i = 1;
+        for (Document doc: documentsList){
+            System.out.println(i);
+            ts.append(str+ i, doc);
+            i++;
+        }
         return ts.toString().replaceAll("Document", "");
     }
 

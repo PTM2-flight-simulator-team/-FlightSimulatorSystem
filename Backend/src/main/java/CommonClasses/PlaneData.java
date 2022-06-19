@@ -1,5 +1,6 @@
 package CommonClasses;
 
+import javax.swing.text.Document;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import java.util.List;
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
 
-    List<PlaneVar> PlaneVarList = new ArrayList<>();
     private String ID;
     private String PlaneName;
     private PlaneVar aileron;
@@ -90,9 +90,6 @@ public class PlaneData implements Serializable{
     public PlaneVar getTurnCoordinator() {
         return turnCoordinator;
     }
-    public List<PlaneVar> getAllVars() {
-        return PlaneVarList;
-    }
 
     public String getId() {
         return ID;
@@ -109,10 +106,6 @@ public class PlaneData implements Serializable{
     }
 
 
-    public void setPlaneVarList(List<PlaneVar> planeVarList) {
-        PlaneVarList = planeVarList;
-    }
-
     public void setID(String ID) {
         this.ID = ID;
     }
@@ -123,91 +116,137 @@ public class PlaneData implements Serializable{
 
     public void setAileron(PlaneVar aileron) {
         this.aileron = aileron;
-        PlaneVarList.add(aileron);
     }
 
     public void setElevator(PlaneVar elevator) {
         this.elevator = elevator;
-        PlaneVarList.add(elevator);
-
     }
 
     public void setRudder(PlaneVar rudder) {
         this.rudder = rudder;
-        PlaneVarList.add(rudder);
 
     }
 
     public void setFlaps(PlaneVar flaps) {
         this.flaps = flaps;
-        PlaneVarList.add(flaps);
     }
 
     public void setLongitude(PlaneVar longitude) {
         this.longitude = longitude;
-        PlaneVarList.add(longitude);
     }
 
     public void setLatitude(PlaneVar latitude) {
         this.latitude = latitude;
-        PlaneVarList.add(latitude);
     }
 
     public void setAirSpeed_kt(PlaneVar airSpeed_kt) {
         this.airSpeed_kt = airSpeed_kt;
-        PlaneVarList.add(airSpeed_kt);
     }
 
     public void setVertSpeed(PlaneVar vertSpeed) {
         this.vertSpeed = vertSpeed;
-        PlaneVarList.add(vertSpeed);
     }
 
     public void setThrottle_0(PlaneVar throttle_0) {
         this.throttle_0 = throttle_0;
-        PlaneVarList.add(throttle_0);
     }
 
     public void setThrottle_1(PlaneVar throttle_1) {
         this.throttle_1 = throttle_1;
-        PlaneVarList.add(throttle_1);
-
     }
 
     public void setAltitude(PlaneVar altitude) {
         this.altitude = altitude;
-        PlaneVarList.add(altitude);
     }
 
     public void setPitchDeg(PlaneVar pitchDeg) {
         this.pitchDeg = pitchDeg;
-        PlaneVarList.add(pitchDeg);
     }
 
     public void setRollDeg(PlaneVar rollDeg) {
         this.rollDeg = rollDeg;
-        PlaneVarList.add(rollDeg);
     }
 
     public void setHeading(PlaneVar heading) {
         this.heading = heading;
-        PlaneVarList.add(heading);
     }
 
     public void setTurnCoordinator(PlaneVar turnCoordinator) {
         this.turnCoordinator = turnCoordinator;
-        PlaneVarList.add(turnCoordinator);
     }
-
-    public List<PlaneVar> getPlaneVarList() {
-        return PlaneVarList;
-    }
-
     public String getID() {
         return ID;
     }
 
-    public String getPlaneName() {
-        return PlaneName;
+    public double getValueByPath(String path){
+        List<PlaneVar> list = new ArrayList<>();
+        list.add(aileron);
+        list.add(elevator);
+        list.add(rudder);
+        list.add(flaps);
+        list.add(longitude);
+        list.add(latitude);
+        list.add(airSpeed_kt);
+        list.add(vertSpeed);
+        list.add(throttle_0);
+        list.add(throttle_1);
+        list.add(altitude); // height
+        list.add(pitchDeg);
+        list.add(rollDeg);
+        list.add(heading);
+        list.add(turnCoordinator); // didnt find
+        for (PlaneVar var: list){
+            if(var != null && var.path.equals(path)){
+                Double d = Double.parseDouble(var.getValue());
+                return d.doubleValue();
+            }
+        }
+        return Double.MIN_VALUE;
     }
+
+    public PlaneVar getPlaneVarByPath(String path){
+        List<PlaneVar> list = new ArrayList<>();
+        list.add(aileron);
+        list.add(elevator);
+        list.add(rudder);
+        list.add(flaps);
+        list.add(longitude);
+        list.add(latitude);
+        list.add(airSpeed_kt);
+        list.add(vertSpeed);
+        list.add(throttle_0);
+        list.add(throttle_1);
+        list.add(altitude); // height
+        list.add(pitchDeg);
+        list.add(rollDeg);
+        list.add(heading);
+        list.add(turnCoordinator); // didnt find
+        for (PlaneVar var: list){
+            if(var != null && var.path.equals(path)){
+                return var;
+            }
+        }
+        return null;
+    }
+
+    public List<PlaneVar> getAllVars(){
+        List<PlaneVar> list = new ArrayList<>();
+        list.add(aileron);
+        list.add(elevator);
+        list.add(rudder);
+        list.add(flaps);
+        list.add(longitude);
+        list.add(latitude);
+        list.add(airSpeed_kt);
+        list.add(vertSpeed);
+        list.add(throttle_0);
+        list.add(throttle_1);
+        list.add(altitude); // height
+        list.add(pitchDeg);
+        list.add(rollDeg);
+        list.add(heading);
+        list.add(turnCoordinator); // didnt find
+        return list;
+    }
+    
 }

@@ -34,6 +34,7 @@ public class DataBase {
         this.database.createCollection(colName);
     }
     public void addDocument(String colName, Document doc){
+
         this.database.getCollection(colName).insertOne(doc);
     }
 
@@ -74,15 +75,15 @@ public class DataBase {
     }
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
-        //System.out.println("planeId:" + planeId + "ts: " + ts);
+        System.out.println("inside saveTS planeId:" + planeId + "ts: " + ts);
         Document doc = new Document();
-        doc.append("plainID",planeId).append("PlaneName",planeName).append("ts",ts);
-        System.out.println(doc);
+        doc.append("planeID",planeId).append("PlaneName",planeName).append("ts",ts);
+//        System.out.println(doc);
         this.addDocument("TimeSeries",doc);
     }
 
     public FindIterable<Document> getTSbyPlaneID(String id){
-        return this.database.getCollection("TimeSeries").find(new Document().append("_id",id));
+        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
     }
 
 
