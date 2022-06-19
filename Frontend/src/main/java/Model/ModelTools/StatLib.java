@@ -4,6 +4,26 @@ import java.util.List;
 import java.util.Vector;
 
 public class StatLib {
+
+    public static double max(Vector<Double> v) {
+        double max = v.get(0);
+        for (int i = 1; i < v.size(); i++) {
+            if (v.get(i) > max) {
+                max = v.get(i);
+            }
+        }
+        return max;
+    }
+
+    public static double min(Vector<Double> v) {
+        double min = v.get(0);
+        for (int i = 1; i < v.size(); i++) {
+            if (v.get(i) < min) {
+                min = v.get(i);
+            }
+        }
+        return min;
+    }
     public static double avgZ(Vector<Double> x) {
         double sum = 0;
         for (int i = 0; i < x.size(); i++) {
