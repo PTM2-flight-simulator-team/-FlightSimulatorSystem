@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/FleetOverviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" afterDir="false" />
+    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="" />
+    <list default="true" id="54c84047-4281-484f-b768-7e0437ff5bb4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/train.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/train.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +28,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.jdks/corretto-17.0.3/lib/src.zip!/java.base/java/lang/Double.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/17.0.0.1/javafx-fxml-17.0.0.1-win.jar!/javafx/fxml/FXMLLoader.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/17.0.0.1/javafx-graphics-17.0.0.1-win.jar!/javafx/scene/Node.class" root0="SKIP_INSPECTION" />
   </component>
