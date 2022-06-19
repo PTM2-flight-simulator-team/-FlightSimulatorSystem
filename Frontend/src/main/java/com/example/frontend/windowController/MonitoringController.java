@@ -2,7 +2,7 @@ package com.example.frontend.windowController;
 
 import Model.ModelTools.*;
 import Model.dataHolder.MyResponse;
-import Model.dataHolder.PlaneData;
+
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 
@@ -32,53 +32,6 @@ public class MonitoringController implements Initializable, Observer {
 
     //................GUI..........................//
 
-    @FXML
-    private MenuItem aileron;
-
-    @FXML
-    private MenuItem airSpeed_kt;
-
-    @FXML
-    private MenuItem vertSpeed;
-
-    @FXML
-    private MenuItem altitude;
-
-    @FXML
-    private MenuItem elevator;
-
-    @FXML
-    private MenuItem rudder;
-
-    @FXML
-    private MenuItem flaps;
-
-    @FXML
-    private MenuItem longitude;
-
-    @FXML
-    private MenuItem heading;
-
-    @FXML
-    private MenuItem latitude;
-
-    @FXML
-    private MenuItem pitchDeg;
-
-    @FXML
-    private MenuItem rollDeg;
-
-    @FXML
-    private MenuItem throttle_0;
-
-    @FXML
-    private MenuItem throttle_1;
-
-    @FXML
-    private MenuItem turnCoordinator;
-
-    @FXML
-    private SplitMenuButton splitMenuItem;
     @FXML
     private BorderPane joyStickBorderPane;
     @FXML
@@ -138,16 +91,18 @@ public class MonitoringController implements Initializable, Observer {
             }
         }
         System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
-                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
-            createCircleGraph(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
-            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
-        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
+//            createLineCharts(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
+//                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
+//            createCircleGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
+//            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+
+        createZScoreGraph(correlatedFeatureOfWhatWeNeed);
     }
 
     public double max(Vector<Double> v) {
@@ -318,6 +273,7 @@ public class MonitoringController implements Initializable, Observer {
             }
         }
         zScoreChart.getData().addAll(trainPoints, anomalies);
+        bigChartBorderPane.setCenter(zScoreChart);
         createLittleGraph(v1, v2, v1.size());
     }
 
@@ -379,11 +335,21 @@ public class MonitoringController implements Initializable, Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        LineChart emptyChart = new LineChart(new NumberAxis(), new NumberAxis());
-//
-//        emptyChart.setShape(new Circle(360, 360, 360));
-//        bigChartBorderPane.setCenter(emptyChart);
-
+        NumberAxis x = new NumberAxis();
+        NumberAxis y = new NumberAxis();
+        LineChart chart = new LineChart(x, y);
+        LineChart chart2 = new LineChart(x, y);
+        LineChart chart3 = new LineChart(x, y);
+        chart.setAnimated(false);
+        x.setTickLabelsVisible(false);
+        x.setTickMarkVisible(false);
+        y.setTickLabelsVisible(false);
+        y.setTickMarkVisible(false);
+        chart2.setAnimated(false);
+        chart3.setAnimated(false);
+        bigChartBorderPane.setCenter(chart);
+        leftAreaChartBorderPane.setCenter(chart2);
+        rightAreaChartBorderPane.setCenter(chart3);
     }
 
     @Override
