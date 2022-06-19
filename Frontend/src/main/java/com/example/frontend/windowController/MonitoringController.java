@@ -90,7 +90,12 @@ public class MonitoringController implements Initializable, Observer {
                 maxCorr = correlatedFeatureOfWhatWeNeed.get(i).correlation;
             }
         }
-        System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
+        if (correlatedFeatureOfWhatWeNeed.isEmpty()) {
+            init();
+            System.out.println("No correlated features");
+            return;
+        }
+        //System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
 //        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
 //            createLineCharts(correlatedFeatureOfWhatWeNeed);
 //        }
@@ -105,35 +110,12 @@ public class MonitoringController implements Initializable, Observer {
         createZScoreGraph(correlatedFeatureOfWhatWeNeed);
     }
 
-    public double max(Vector<Double> v) {
-        double max = v.get(0);
-        for (int i = 1; i < v.size(); i++) {
-            if (v.get(i) > max) {
-                max = v.get(i);
-            }
-        }
-        return max;
-    }
-
-    public double min(Vector<Double> v) {
-        double min = v.get(0);
-        for (int i = 1; i < v.size(); i++) {
-            if (v.get(i) < min) {
-                min = v.get(i);
-            }
-        }
-        return min;
-    }
-
     public void createLineCharts(List<CorrelatedFeatures> cf) {
         //.................Create line charts.................//
         NumberAxis bigX = new NumberAxis();
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        if (cf.isEmpty()) {
-            return;  //if there are no correlated features, maybe we should show a message to the user
-        }
         TimeSeries ts2 = new TimeSeries(
                 "Frontend/src/main/java/Model/ModelTools/test.csv");
         sad.listOfPairs = cf;
@@ -149,8 +131,8 @@ public class MonitoringController implements Initializable, Observer {
         }
         XYChart.Series linearRegressionSeries = new XYChart.Series();
         linearRegressionSeries.setName("Linear Regression");
-        double max = max(v1);
-        double min = min(v1);
+        double max = StatLib.max(v1);
+        double min = StatLib.min(v1);
         linearRegressionSeries.getData().add(new XYChart.Data<>(min, cf.get(0).lin_reg.f((float) min)));
         linearRegressionSeries.getData().add(new XYChart.Data<>(max, cf.get(0).lin_reg.f((float) max)));
         XYChart.Series anomalyPointsSeries = new XYChart.Series();
@@ -333,8 +315,7 @@ public class MonitoringController implements Initializable, Observer {
         //clocks.initViewModel(m);
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void init(){
         NumberAxis x = new NumberAxis();
         NumberAxis y = new NumberAxis();
         LineChart chart = new LineChart(x, y);
@@ -350,6 +331,10 @@ public class MonitoringController implements Initializable, Observer {
         bigChartBorderPane.setCenter(chart);
         leftAreaChartBorderPane.setCenter(chart2);
         rightAreaChartBorderPane.setCenter(chart3);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        init();
     }
 
     @Override
