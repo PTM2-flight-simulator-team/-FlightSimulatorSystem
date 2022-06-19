@@ -2,7 +2,7 @@ package com.example.frontend.windowController;
 
 import Model.ModelTools.*;
 import Model.dataHolder.MyResponse;
-import Model.dataHolder.PlaneData;
+
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 
@@ -32,53 +32,6 @@ public class MonitoringController implements Initializable, Observer {
 
     //................GUI..........................//
 
-    @FXML
-    private MenuItem aileron;
-
-    @FXML
-    private MenuItem airSpeed_kt;
-
-    @FXML
-    private MenuItem vertSpeed;
-
-    @FXML
-    private MenuItem altitude;
-
-    @FXML
-    private MenuItem elevator;
-
-    @FXML
-    private MenuItem rudder;
-
-    @FXML
-    private MenuItem flaps;
-
-    @FXML
-    private MenuItem longitude;
-
-    @FXML
-    private MenuItem heading;
-
-    @FXML
-    private MenuItem latitude;
-
-    @FXML
-    private MenuItem pitchDeg;
-
-    @FXML
-    private MenuItem rollDeg;
-
-    @FXML
-    private MenuItem throttle_0;
-
-    @FXML
-    private MenuItem throttle_1;
-
-    @FXML
-    private MenuItem turnCoordinator;
-
-    @FXML
-    private SplitMenuButton splitMenuItem;
     @FXML
     private BorderPane joyStickBorderPane;
     @FXML
@@ -137,7 +90,11 @@ public class MonitoringController implements Initializable, Observer {
                 maxCorr = correlatedFeatureOfWhatWeNeed.get(i).correlation;
             }
         }
-        System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
+        if (correlatedFeatureOfWhatWeNeed.isEmpty()) {
+            init();
+            System.out.println("No correlated features");
+            return;
+        }
         if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
             createLineCharts(correlatedFeatureOfWhatWeNeed);
         }
@@ -150,35 +107,12 @@ public class MonitoringController implements Initializable, Observer {
         }
     }
 
-    public double max(Vector<Double> v) {
-        double max = v.get(0);
-        for (int i = 1; i < v.size(); i++) {
-            if (v.get(i) > max) {
-                max = v.get(i);
-            }
-        }
-        return max;
-    }
-
-    public double min(Vector<Double> v) {
-        double min = v.get(0);
-        for (int i = 1; i < v.size(); i++) {
-            if (v.get(i) < min) {
-                min = v.get(i);
-            }
-        }
-        return min;
-    }
-
     public void createLineCharts(List<CorrelatedFeatures> cf) {
         //.................Create line charts.................//
         NumberAxis bigX = new NumberAxis();
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        if (cf.isEmpty()) {
-            return;  //if there are no correlated features, maybe we should show a message to the user
-        }
         TimeSeries ts2 = new TimeSeries(
                 "Frontend/src/main/java/Model/ModelTools/test.csv");
         sad.listOfPairs = cf;
@@ -194,8 +128,8 @@ public class MonitoringController implements Initializable, Observer {
         }
         XYChart.Series linearRegressionSeries = new XYChart.Series();
         linearRegressionSeries.setName("Linear Regression");
-        double max = max(v1);
-        double min = min(v1);
+        double max = StatLib.max(v1);
+        double min = StatLib.min(v1);
         linearRegressionSeries.getData().add(new XYChart.Data<>(min, cf.get(0).lin_reg.f((float) min)));
         linearRegressionSeries.getData().add(new XYChart.Data<>(max, cf.get(0).lin_reg.f((float) max)));
         XYChart.Series anomalyPointsSeries = new XYChart.Series();
@@ -318,6 +252,7 @@ public class MonitoringController implements Initializable, Observer {
             }
         }
         zScoreChart.getData().addAll(trainPoints, anomalies);
+        bigChartBorderPane.setCenter(zScoreChart);
         createLittleGraph(v1, v2, v1.size());
     }
 
@@ -377,13 +312,26 @@ public class MonitoringController implements Initializable, Observer {
         //clocks.initViewModel(m);
     }
 
+    public void init(){
+        NumberAxis x = new NumberAxis();
+        NumberAxis y = new NumberAxis();
+        LineChart chart = new LineChart(x, y);
+        LineChart chart2 = new LineChart(x, y);
+        LineChart chart3 = new LineChart(x, y);
+        chart.setAnimated(false);
+        x.setTickLabelsVisible(false);
+        x.setTickMarkVisible(false);
+        y.setTickLabelsVisible(false);
+        y.setTickMarkVisible(false);
+        chart2.setAnimated(false);
+        chart3.setAnimated(false);
+        bigChartBorderPane.setCenter(chart);
+        leftAreaChartBorderPane.setCenter(chart2);
+        rightAreaChartBorderPane.setCenter(chart3);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        LineChart emptyChart = new LineChart(new NumberAxis(), new NumberAxis());
-//
-//        emptyChart.setShape(new Circle(360, 360, 360));
-//        bigChartBorderPane.setCenter(emptyChart);
-
+        init();
     }
 
     @Override
