@@ -237,9 +237,11 @@ public class FleetOverviewController implements Initializable, Observer {
         ImageView planeIMG = new ImageView(new Image(path)); // russia
         airp = planeIMG; // needs to be done for all the planes (not just one) - Testing plane direction
         planeIMG.relocate(pair.getKey(), pair.getValue());
-        Tooltip tooltip = new Tooltip(pd.PlaneName + "\n" + pd.heading + "\n" + pd.altitude + "\n" + pd.airSpeed_kt);
+        Tooltip tooltip = new Tooltip("Plane name: " + pd.PlaneName + "\n" +"Flight direction: "+ pd.heading + "\n" + "Altitude: " + pd.altitude + "\n" + "Speed (knots): "+ pd.airSpeed_kt);
         Tooltip.install(planeIMG, tooltip);
         tooltip.setShowDelay(Duration.seconds(0.5));
+        //tooltip.setFont();
+
         worldMapPane.getChildren().add(planeIMG);
         addDoubleClick(planeIMG);
     }
@@ -289,6 +291,12 @@ public class FleetOverviewController implements Initializable, Observer {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        String refreshBtnPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\refreshBtn.png";
+        refreshBtn.setImage(new Image(refreshBtnPath));
+
+        String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
+        img1.setImage(new Image(mapImgPath));
+
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
         ad.analyticList = list;
@@ -305,8 +313,8 @@ public class FleetOverviewController implements Initializable, Observer {
         p1.planeData = new PlaneData();
         p2.planeData = new PlaneData();
 
-        p1.planeData.latitude = "61.524010"; //Russia
-        p1.planeData.longitude = "105.318756"; //Russia
+        p1.planeData.latitude = "-19.015438"; //Russia
+        p1.planeData.longitude = "29.154858"; //Russia
         p2.planeData.latitude = "21.546700"; //Lebanon
         p2.planeData.longitude = "39.194839"; //Lebanon
 

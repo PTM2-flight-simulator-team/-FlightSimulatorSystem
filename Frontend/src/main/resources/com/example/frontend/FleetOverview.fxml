@@ -45,7 +45,7 @@
                <children>
                   <ImageView fx:id="img1" fitHeight="495.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="C:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/planesmap.gif" />
+<!--                        <Image url="C:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/planesmap.gif" />-->
 
                            </image>
                   </ImageView>
@@ -58,7 +58,7 @@
 <!--            </ImageView>-->
             <ImageView fx:id="refreshBtn" fitHeight="36.0" fitWidth="38.0" layoutX="21.0" layoutY="14.0" onMouseClicked="#refreshButton" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="C:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/refreshBtn.png" />
+<!--                  <Image url="C:/GitHub/FlightSimulatorSystem/Frontend/src/main/resources/icons/refreshBtn.png" />-->
                </image>
             </ImageView>
 <!--             <Label  fx:id="lbl" text="blh blh" layoutX="75" layoutY="0" visible="false"></Label>-->
