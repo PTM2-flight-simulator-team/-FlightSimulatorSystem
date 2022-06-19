@@ -1,6 +1,24 @@
 package Model.ModelTools;
 
+import java.util.List;
+import java.util.Vector;
+
 public class StatLib {
+    public static double avgZ(Vector<Double> x) {
+        double sum = 0;
+        for (int i = 0; i < x.size(); i++) {
+            sum += x.get(i);
+        }
+        return sum / x.size();
+    }
+    public static double stdZ(Vector<Double> x) {
+        double avg = avgZ(x);
+        double sum = 0;
+        for (int i = 0; i < x.size(); i++) {
+            sum += (x.get(i) - avg) * (x.get(i) - avg);
+        }
+        return Math.sqrt(sum / x.size());
+    }
     // simple average
     public static float avg(float[] x) {
         float sum = 0;
