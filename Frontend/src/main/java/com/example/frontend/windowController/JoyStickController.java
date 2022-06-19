@@ -41,7 +41,7 @@ public class JoyStickController implements Initializable, Observer {
 
     public JoyStickController() {
         circle = new Circle();
-        circle.setRadius(90);
+        circle.setRadius(95);
         prevX = circle.getCenterX();
         prevY = circle.getCenterY();
         jx = 0;
@@ -58,6 +58,7 @@ public class JoyStickController implements Initializable, Observer {
         vm.aileron.bindBidirectional(aileron);
         vm.elevators.bindBidirectional(elevators);
     }
+
 
     public void printJoyStick() {
         GraphicsContext gc = joyStick.getGraphicsContext2D();
@@ -112,7 +113,7 @@ public class JoyStickController implements Initializable, Observer {
     @FXML
     public void mouseMove(MouseEvent me) {
 
-        if (mousePushed) {
+        if(mousePushed) {
             jx = me.getX();
             jy = me.getY();
 
@@ -124,21 +125,9 @@ public class JoyStickController implements Initializable, Observer {
                 prevX = jx;
                 prevY = jy;
             }
-            //threshold
-//            if (me.getX() > 175) {
-//                jx = 175;
-//            }
-//            if (me.getX() < 25) {
-//                jx = 25;
-//            }
-//            if (me.getY() > 175) {
-//                jy = 175;
-//            }
-//            if (me.getY() < 25) {
-//                jy = 25;
-//            }
-            double normalizedX = 2 * ((jx - 25) / (175 - 25)) - 1;
-            double normalizedY = -1 * (2 * ((jy - 25) / (175 - 25)) - 1); // invert y axis
+
+            double normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
+            double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
             System.out.println("x: " + normalizedX + " y: " + normalizedY);
             printJoyStick();
