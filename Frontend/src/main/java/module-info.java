@@ -13,4 +13,6 @@ module com.example.frontend {
     exports Model;
     opens Model to javafx.fxml;
     exports Model.dataHolder to com.google.gson;
+
+
 }

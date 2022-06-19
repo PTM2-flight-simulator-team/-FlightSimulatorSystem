@@ -20,11 +20,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Canvas fx:id="speedClock" height="122.0" width="109.0" />
-               </children>
-            </Pane>
+            <BorderPane fx:id="bp" />
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <Canvas height="122.0" width="109.0" />
