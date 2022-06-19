@@ -5,14 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__eu_hansolo_Medusa_11_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Agent/src/Logs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Agent/src/MyLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_11_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_17_0_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_11_0_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/Frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/Frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/JoyStickViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/JoyStickViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/FleetOverview.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Teleoperation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Teleoperation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/FleetOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/FleetOverview.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Monitoring.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Monitoring.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Teleoperation.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Teleoperation.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +57,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/User/Documents/GitHub/FlightSimulatorSystem",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
@@ -52,9 +77,9 @@
       <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MainController">
+  <component name="RunManager" selected="Application.Agent">
     <configuration name="Agent" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="AgentMain" />
       <module name="Agent" />
@@ -126,7 +151,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
