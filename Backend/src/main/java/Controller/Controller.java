@@ -26,7 +26,7 @@ public class Controller implements Observer {
    public static volatile HashMap<String, ClientHandler> clientMap;
 
    public Controller() {
-      System.out.println("Thread id:" + Thread.currentThread().getId());
+//      System.out.println("Thread id:" + Thread.currentThread().getId());
       this.mapCommand = new HashMap<>();
       this.executor = Executors.newFixedThreadPool(10);
       OpenServerCommand openServerCommand = new OpenServerCommand();
@@ -39,15 +39,12 @@ public class Controller implements Observer {
       clientMap = new HashMap<>();
       model = new Model("FlightFleet",
               "mongodb+srv://fleetManagement:r7uRtk!ytxGbVrR@flightfleet.aerzo.mongodb.net/?retryWrites=true&w=majority");
-//      model.addObserver(this);
+      model.addObserver(this);
 
    }
 
    @Override
    public void update(Observable o, Object arg) {
-      System.out.println("Thread id:" + Thread.currentThread().getId());
-      System.out.println("Controller update, object: " + arg);
-      System.out.println(o.getClass() + " in controller update");
       if(o instanceof MyHttpServer){// case the data came from the http connection
          List<String> args= (List<String>) arg;
          if(args.get(0).equals("joystick")){// if the data is joystick command
@@ -56,33 +53,34 @@ public class Controller implements Observer {
             }
          }else if(args.get(0).equals("code")){// if the data is code that need to be interpreted
             try {
-               clientMap.get(args.get(1)).activeInterpreter = true;
-               model.interpret(args.get(2),args.get(1));
+               new Thread(()-> {
+                  try {
+                     model.interpret(args.get(2),args.get(1), planeDataMap.get(args.get(1)));//activate interpreter in separate thread
+                  } catch (Exception e) {
+                     throw new RuntimeException(e);
+                  }
+               }).start();
             } catch (Exception e) {
                e.printStackTrace();
             }
-         }else if(args.get(0).equals("shutdown")){
+         }else if (args.get(0).equals("shutdown")){
             clientMap.get(args.get(1)).writeToAgent("do " + args.get(0));
          }
       }else if(o instanceof Model){// case that the data came from the interpreter ib the model
          List<String> args = (List<String>)arg;
-         if(args.get(1).equals("finished")){
-            clientMap.get(args.get(0)).activeInterpreter = false;
-         }else
-            clientMap.get(args.get(0)).writeToAgent(args.get(1));
+         clientMap.get(args.get(0)).writeToAgent(args.get(1));//write the commands from the interpreter to the agent
       }else if (o instanceof ClientHandler){
-         ClientHandler client = (ClientHandler) o;
-         if(client.activeInterpreter){
-               model.setFgVarsInInterpreter((PlaneData) arg, client.getID());
-         }
+         model.setFgVarsInInterpreter((PlaneData) arg);//update the FG in model for pass it to interpreter
       }else if(o instanceof OpenServerCommand){// case that the data came from the agent server connection
          this.addHandler((Runnable) arg);
+         ClientHandler ch = (ClientHandler) arg;
+         ch.addObserver(this);
       }
    }
 
    private void addHandler(Runnable r){
-      System.out.println("add handler, id: " + Thread.currentThread().getId());
-      System.out.println("r class: " + r.getClass());
+//      System.out.println("add handler, id: " + Thread.currentThread().getId());
+//      System.out.println("r class: " + r.getClass());
       this.executor.execute(r);
    }
 //   private void addCommands(){
@@ -113,4 +111,3 @@ public class Controller implements Observer {
    }
 
 }
-//Threadpool;

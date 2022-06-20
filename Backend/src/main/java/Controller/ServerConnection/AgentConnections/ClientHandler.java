@@ -16,11 +16,9 @@ public class ClientHandler extends Observable implements Runnable, Observer {
     AgentWriter agentWriter;
     Thread myThread;
     String ID = null;
-    public boolean activeInterpreter;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
-        this.activeInterpreter = false;
         this.agentListener = new AgentListener(socket);
         agentListener.addObserver(this);
         this.agentWriter = new AgentWriter(socket);
@@ -44,10 +42,11 @@ public class ClientHandler extends Observable implements Runnable, Observer {
     public void closeClient(){
         this.agentWriter.shutDown();
         try {
-
+            Thread.sleep(3000);
+            //go to sleep for 3 seconds...enough time to get Analytics or timeSeries from Agent
             this.agentListener.stopListening();
             this.socket.close();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

@@ -5,12 +5,13 @@ import Model.MyLogger;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlaneData implements Serializable{
     // A serialVersionUID. It is used to identify the version of the class.
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
-    private String plainName;
+    private String PlaneName;
     private PlaneVar aileron;
     private PlaneVar elevator;
     private PlaneVar rudder;
@@ -94,7 +95,7 @@ public class PlaneData implements Serializable{
     }
 
     public void setPlainName(String plainName) {
-        this.plainName = plainName;
+        this.PlaneName = plainName;
     }
 
     // A constructor for the class PlaneData.
@@ -116,6 +117,7 @@ public class PlaneData implements Serializable{
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = new PlaneVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
+
     }
 
     /**

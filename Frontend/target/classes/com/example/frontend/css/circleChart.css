@@ -1,0 +1,23 @@
+
+.chart-symbol {
+    -fx-background-radius: 5px ;
+    -fx-padding: 2px ;;
+}
+
+.default-color0.chart-symbol{
+    -fx-background-color: red;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 2px;
+    -fx-padding: 1.5px;
+}
+.default-color1.chart-symbol{
+    -fx-background-color: #4c4ca9, #9492F7 ;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 4px;
+}
+.default-color2.chart-symbol {
+    -fx-background-color: black, yellow;
+    -fx-background-radius: 5px;
+    -fx-padding: 4px;
+}

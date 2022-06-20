@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 import javafx.event.ActionEvent;
@@ -26,6 +27,8 @@ public class MainWindowController implements Initializable {
     @FXML
     private BorderPane mainPane;
 
+    public  static  BorderPane mainPaneStatic;
+
     @FXML
     private Pane topPane;
 
@@ -39,6 +42,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private Button btnMonitoring;
     Model m;
+    public  static  Model modelStatic;
     @FXML
     private void btnFleetOverview(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -48,6 +52,8 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FleetOverviewController mc = fxmlLoader.getController();
+        mc.initVM(m);
         mainPane.setCenter(fleetOverview);
     }
     @FXML
@@ -63,8 +69,9 @@ public class MainWindowController implements Initializable {
         MonitoringController mc = fxmlLoader.getController();
         mc.setModel(m);
         mc.createJoyStick();
-        mc.createLineCharts();
-
+        //mc.createLineCharts();
+        //mc.createCircleGraph();
+        mc.createClocks();
     }
     @FXML
     private void btnTeleoperation(ActionEvent event) {
@@ -76,6 +83,10 @@ public class MainWindowController implements Initializable {
             e.printStackTrace();
         }
         mainPane.setCenter(teleopration);
+        TeleoperationController teleoperationController = fxmlLoader.getController();
+        teleoperationController.setModel(m);
+        teleoperationController.createJoyStick();
+        teleoperationController.initViewModel(m);
     }
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
@@ -98,9 +109,13 @@ public class MainWindowController implements Initializable {
 
     public void setModel(Model m){
         this.m = m;
+        modelStatic=m;
     }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        mainPaneStatic=mainPane;
+        modelStatic=m;
     }
 }

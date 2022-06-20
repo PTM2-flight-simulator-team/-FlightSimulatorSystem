@@ -50,6 +50,7 @@ public class FlightGearReader extends Observable {
                     newData.put(l.get(i), vals[i]);
                 }
                 PlaneData data = new PlaneData(newData); // ailreron 1 ,,,,,,
+//                System.out.println("alt is: " + data.getAltitude());
                 myData = data;
 //                data.Print();
                 setChanged();
