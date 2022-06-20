@@ -67,6 +67,7 @@ public class MonitoringController implements Initializable, Observer {
     TimeSeries ts = new TimeSeries(
             "Frontend/src/main/java/Model/ModelTools/train.csv");
 
+
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = new ArrayList<>();
@@ -95,16 +96,17 @@ public class MonitoringController implements Initializable, Observer {
             System.out.println("No correlated features");
             return;
         }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
-                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
-            createCircleGraph(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
-            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
-        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
+//            createLineCharts(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
+//                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
+//            createCircleGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
+//            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+        createZScoreGraph(correlatedFeatureOfWhatWeNeed);
     }
 
     public void createLineCharts(List<CorrelatedFeatures> cf) {
@@ -233,23 +235,56 @@ public class MonitoringController implements Initializable, Observer {
         double mean = StatLib.avgZ(v1);
         double std = StatLib.stdZ(v1);
         for (int i = 0; i < v1.size(); i++) {
-            double x0 = v1.get(i);
-            double z = (x0 - mean) / std;
-            maxtx = Math.max(maxtx, z);
-            trainPoints.getData().add(new XYChart.Data(x0, z));
+//            double x0 = v1.get(i);
+//            double z = (x0 - mean) / std;
+//            maxtx = Math.max(maxtx, z);
+//            trainPoints.getData().add(new XYChart.Data(x0, z));
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        Vector<Double> zScores = new Vector<>();
+        zScores.add(2.0);
+        zScores.add(2.0);
+        zScores.add(3.0);
+        zScores.add(2.0);
+        zScores.add(5.0);
+        zScores.add(1.0);
+        zScores.add(6.0);
+//        zScores.add(5.0);
+//        zScores.add(3.0);
+//        zScores.add(1.0);
+        HashMap<Double, Double> map = new HashMap<>();
+        double mean1 = StatLib.avgZ(zScores);
+        System.out.println("mean1: " + mean1);
+        double std1 = StatLib.stdZ(zScores);
+        System.out.println("std1: " + std1);
+        for (int i = 0; i < zScores.size(); i++){ // need to fix the frequency
+            if(map.containsKey(zScores.get(i))){
+                map.put(zScores.get(i), map.get(zScores.get(i)) + 1.0);
+            }else{
+                map.put(zScores.get(i), 1.0);
+            }
+        }
+        for(int i = 0; i < zScores.size(); i++){
+            double x0 = zScores.get(i);
+            double z = (x0 - mean1) / std1;
+            System.out.println("z: " + z);
+            maxtx = Math.max(maxtx, z);
+            trainPoints.getData().add(new XYChart.Data(z,map.get(x0).doubleValue()));
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         TimeSeries tsTest = new TimeSeries(
                 "Frontend/src/main/java/Model/ModelTools/test.csv");
         double meanTest = StatLib.avgZ(tsTest.getColByName(cf.get(0).getFeature1()));
         double stdTest = StatLib.stdZ(tsTest.getColByName(cf.get(0).getFeature1()));
         XYChart.Series anomalies = new XYChart.Series();
         anomalies.setName("Anomalies");
-        for (int i = 0; i < tsTest.getColByName(cf.get(0).getFeature1()).size(); i++) {
-            double x0 = tsTest.getColByName(cf.get(0).getFeature1()).get(i);
-            double z = (x0 - meanTest) / stdTest;
-            if (z > maxtx) {
-                anomalies.getData().add(new XYChart.Data(x0, z));
-            }
+        for (int i = 0; i < tsTest.getColByName(cf.get(0).getFeature1()).size(); i++) { // the anomaly points
+//            double x0 = tsTest.getColByName(cf.get(0).getFeature1()).get(i);
+//            double z = (x0 - meanTest) / stdTest;
+//            if (z > maxtx) {
+//                anomalies.getData().add(new XYChart.Data(x0, z));
+//            }
+
         }
         zScoreChart.getData().addAll(trainPoints, anomalies);
         bigChartBorderPane.setCenter(zScoreChart);
@@ -336,6 +371,7 @@ public class MonitoringController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        MyResponse<List<List<String>>> data = (MyResponse<List<List<String>>>) arg;
+        MyResponse<List<List<String>>> data = (MyResponse<List<List<String>>>)arg;
+        this.data = data.value;
     }
 }
