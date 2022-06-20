@@ -1,11 +1,11 @@
 package Model;
 
-import Model.dataHolder.AnalyticsData;
-import Model.dataHolder.MyResponse;
-import Model.dataHolder.PlaneData;
-import Model.dataHolder.ResonseType;
+import Model.dataHolder.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -85,6 +85,7 @@ public class MyHttpHandler extends Observable {
         return response;
     }
     public Object HandleGetPlaneData(HttpResponse<String> response){
+        System.out.println(response.body());
         PlaneData data = new Gson().fromJson(response.body(),PlaneData.class);
         MyResponse<PlaneData> res = new MyResponse<>(data, ResonseType.PlaneData);
         setChanged();
@@ -93,7 +94,7 @@ public class MyHttpHandler extends Observable {
     }
 
     public Object HandleGetAnalytics(HttpResponse<String> response){
-        AnalyticsData data = new Gson().fromJson(response.body(),AnalyticsData.class);
+        AnalyticsData data = new Gson().fromJson(response.body(), AnalyticsData.class);
         MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
@@ -101,8 +102,9 @@ public class MyHttpHandler extends Observable {
         return null;
     }
     public Object HandleGetTS(HttpResponse<String> response){
-        AnalyticsData data = new Gson().fromJson(response.body(),AnalyticsData.class);
-        MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.TS);
+        System.out.println(response.body());
+        List<List<String>> ts = new Gson().fromJson(response.body(),new TypeToken<List<List<String>>>(){}.getType());
+        MyResponse<List<List<String>>> res = new MyResponse<>(ts, ResonseType.TS);
         setChanged();
         notifyObservers(res);
 

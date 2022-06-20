@@ -3,11 +3,12 @@ package CommonClasses;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
-    private String plainName;
+    private String PlaneName;
     private PlaneVar aileron;
     private PlaneVar elevator;
     private PlaneVar rudder;
@@ -91,7 +92,7 @@ public class PlaneData implements Serializable{
     }
 
     public void setPlainName(String plainName) {
-        this.plainName = plainName;
+        this.PlaneName = plainName;
     }
 
     public PlaneData(HashMap<String,String> map){
@@ -112,6 +113,7 @@ public class PlaneData implements Serializable{
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = new PlaneVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
+
     }
 
     public ArrayList<String> PlainDataToList(){

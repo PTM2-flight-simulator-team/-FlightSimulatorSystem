@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 import javafx.event.ActionEvent;
@@ -51,6 +52,8 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FleetOverviewController mc = fxmlLoader.getController();
+        mc.initVM(m);
         mainPane.setCenter(fleetOverview);
     }
     @FXML
@@ -84,6 +87,7 @@ public class MainWindowController implements Initializable {
         teleoperationController.setModel(m);
         teleoperationController.createJoyStick();
         teleoperationController.createClocks();
+        teleoperationController.initViewModel(m);
     }
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
