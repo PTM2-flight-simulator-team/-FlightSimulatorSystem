@@ -160,7 +160,7 @@ public class JoyStickController implements Initializable, Observer {
         data.elevator = String.valueOf(normalizedY);
         data.throttle = String.valueOf(throttle.getValue());
         data.rudder = String.valueOf(rudder.getValue());
-        vm.sendJoystickData("4", data);
+        vm.sendJoystickData("1995", data);
 
     }
 

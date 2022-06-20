@@ -43,6 +43,9 @@ public class MonitoringViewModel extends Observable implements Observer {
     // ,"airspeed-indicator_indicated-speed-kt":"0.000000","vertical-speed":"-0.000000","throttle_0":"0.000000","throttle_1":"0.000000"
     // ,"altitude":"10.391782","pitchDeg":"0.000000","rollDeg":"40.000000","heading":"12.891746","turnCoordinator":"69.313248"}
 
+    public void startService(){
+        m.startGetPlaneData(100,"1995");
+    }
     public void buildTimeSeries(PlaneData planeData) {
         this.data.add(planeData.getPlaneDataAsList());
     }

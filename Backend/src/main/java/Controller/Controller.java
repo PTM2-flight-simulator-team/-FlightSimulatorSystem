@@ -1,11 +1,8 @@
 package Controller;
 
 
-import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
 import Controller.Commands.Command;
-import Controller.Commands.GetFromDBCommand;
-import Controller.Commands.OpenCliCommand;
 import Controller.Commands.OpenServerCommand;
 import Controller.ServerConnection.AgentConnections.ClientHandler;
 import Controller.ServerConnection.FrontConnection.MyHttpServer;
@@ -16,7 +13,6 @@ import org.bson.Document;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Stream;
 
 public class Controller implements Observer {
    Map<String, Command> mapCommand;
@@ -94,11 +90,20 @@ public class Controller implements Observer {
 //   }
 
    public static FindIterable<Document> getAnalytics(){
-      return model.DB.GetPlanes();
+      try {
+         return model.DB.GetPlanes();
+      } catch (Exception e) {
+         throw new RuntimeException(e);
+      }
    }
 
-   public static FindIterable<Document> getTimeSeries(String id){
-      return model.DB.getTSbyPlaneID(id);
+   public static List<List<String>> getTimeSeries(String id,int index){
+      try {
+         return model.DB.getTSbyPlaneID(id, index);
+      } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+
+      }
    }
 
 

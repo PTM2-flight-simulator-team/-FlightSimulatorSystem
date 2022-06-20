@@ -20,7 +20,7 @@ public class Application extends javafx.application.Application {
         Scene scene = new Scene(root);
         Model m = new Model();
         MainWindowController mwc = loader.getController();
-        JoyStickViewModel vm = new JoyStickViewModel(m);
+//        JoyStickViewModel vm = new JoyStickViewModel(m);
         mwc.setModel(m);
         root.getStylesheets().add(getClass().getResource("css/chart.css").toExternalForm());
         root.getStylesheets().add(getClass().getResource("css/circleChart.css").toExternalForm());
