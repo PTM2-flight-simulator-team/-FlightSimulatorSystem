@@ -21,8 +21,14 @@ public class Model extends Observable implements Observer {
         PlaneData planeData = new PlaneData();
         planeData.throttle_0 = "1.0";
         planeData.rudder = "0.5";
+
+        planeData.airSpeed_kt = "50";
+        planeData.vertSpeed = "-2";
+        planeData.heading = "200";
         planeData.aileron = "1.0";
         planeData.elevator = "1.0";
+
+      
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
