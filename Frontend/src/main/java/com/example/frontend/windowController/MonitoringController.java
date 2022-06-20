@@ -57,6 +57,7 @@ public class MonitoringController implements Initializable, Observer {
         this.viewModel = new MonitoringViewModel(m);
         viewModel.addObserver(this);
         this.data = new ArrayList<>();
+        viewModel.startService();
     }
 
     public void setModel(Model m) {

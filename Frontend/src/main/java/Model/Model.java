@@ -33,17 +33,17 @@ public class Model extends Observable implements Observer {
 //        tele.code = code;
 //        SendPostCode("4", tele);
 //        SendGetAnalyticData();
-        SendGetTSData("1995", "1");
-        new Thread("New Thread") {
-            public void run(){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                update(null,response);
-            }
-        }.start();
+//        SendGetTSData("1995", "1");
+//        new Thread("New Thread") {
+//            public void run(){
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                update(null,response);
+//            }
+//        }.start();
     }
 
     public void setJoyStickData(double d1, double d2) {
@@ -54,14 +54,13 @@ public class Model extends Observable implements Observer {
     public void startGetPlaneData(int miliseconds, String planeID){
         final Runnable sendGet = new Runnable() {
             public void run() {
-                System.out.println("here");
-                //SendGetPlaneData(planeID);
+                SendGetPlaneData(planeID);
             }
         };
 
 
         final ScheduledFuture<?> Handle =
-                scheduler.scheduleAtFixedRate(sendGet, 0, miliseconds, TimeUnit.SECONDS);
+                scheduler.scheduleAtFixedRate(sendGet, 0, miliseconds, TimeUnit.MILLISECONDS);
         scheduler.schedule(new Runnable() {
             public void run() {
                 Handle.cancel(true);
