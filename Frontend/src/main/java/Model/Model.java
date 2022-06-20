@@ -3,16 +3,19 @@ package Model;
 import Model.dataHolder.*;
 
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class Model extends Observable implements Observer {
     private List<Double> joyStickData = new ArrayList<>();
     MyHttpHandler myHttpHandler;
-
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public Model(){
         myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
         myHttpHandler.addObserver(this);
@@ -58,6 +61,23 @@ public class Model extends Observable implements Observer {
             return;
 //        }
 
+    }
+
+    //Services
+    public void startGetAnalyticService(int seconds){
+        final Runnable sendGet = new Runnable() {
+            public void run() {
+                System.out.println("here");
+                //SendGetAnalyticData();
+            }
+        };
+        final ScheduledFuture<?> Handle =
+                scheduler.scheduleAtFixedRate(sendGet, 0, seconds, SECONDS);
+        scheduler.schedule(new Runnable() {
+            public void run() {
+                Handle.cancel(true);
+            }
+        }, 60 * 600, SECONDS);
     }
 
     //networking related code
