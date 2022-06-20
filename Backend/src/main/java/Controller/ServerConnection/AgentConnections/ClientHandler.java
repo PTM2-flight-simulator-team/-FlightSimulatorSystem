@@ -16,11 +16,9 @@ public class ClientHandler extends Observable implements Runnable, Observer {
     AgentWriter agentWriter;
     Thread myThread;
     String ID = null;
-    public boolean activeInterpreter;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
-        this.activeInterpreter = false;
         this.agentListener = new AgentListener(socket);
         agentListener.addObserver(this);
         this.agentWriter = new AgentWriter(socket);

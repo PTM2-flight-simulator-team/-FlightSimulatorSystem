@@ -11,7 +11,6 @@ public class PlaneData {
     public String aileron;
     public String elevator;
     public String rudder;
-    public String flaps;
     public String longitude;
     public String latitude;
     public String airSpeed_kt;

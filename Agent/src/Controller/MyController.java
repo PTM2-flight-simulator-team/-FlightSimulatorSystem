@@ -56,7 +56,7 @@ public class MyController implements Observer {
             instructionCommand c = (instructionCommand) this.getModel().getMyCommands().get("instructions");
             c.setCommand(networkCommand.path + " " + networkCommand.value);
             c.execute();
-            System.out.println("setter");
+//            System.out.println("setter");
             return;
         }
         if(networkCommand.action == CommandAction.Do)
