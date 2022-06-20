@@ -46,8 +46,14 @@ public class DataBase {
         return this.database.getCollection(colName).find(doc);
     }
 
-    public FindIterable<Document> GetPlanes(){
-        return this.database.getCollection("AirCrafts").find();
+    public FindIterable<Document> GetPlanes() throws Exception{
+        Document doc = this.database.getCollection("AirCrafts").find().first();
+
+        if(doc != null)
+            return this.database.getCollection("AirCrafts").find();
+        else
+            throw new Exception("AirCrafts collection is empty");
+
     }
 
     public FindIterable<Document> getDocById(String colName, String id){
@@ -93,16 +99,16 @@ public class DataBase {
 
     }
 
-    public FindIterable<Document> getTSbyPlaneID(String id){
-        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+    public List<List<String>> getTSbyPlaneID(String id,int index) throws Exception{
+//        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            return list.get(index);
+        }else
+            throw new Exception("plane does not exists in TimeSeries collection");
     }
 
-
-
-
-    public FindIterable<Document> getTSbyPlaneName(String name){
-        return this.database.getCollection("TimeSeries").find(new Document().append("planeName",name));
-    }
     public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
         HashMap<String,Double> hashMap = new HashMap<>();
         hashMap.put(Month.JANUARY.toString(),0.0);

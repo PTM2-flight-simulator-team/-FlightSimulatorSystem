@@ -30,8 +30,8 @@ public class Model extends Observable implements Observer {
 //        TeleoperationsData tele = new TeleoperationsData();
 //        tele.code = code;
 //        SendPostCode("4", tele);
-        SendGetAnalyticData();
-
+//        SendGetAnalyticData();
+        SendGetTSData("1995", "1");
         new Thread("New Thread") {
             public void run(){
                 try {
@@ -70,8 +70,8 @@ public class Model extends Observable implements Observer {
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Analytics");
         cf.thenApply((response) -> myHttpHandler.HandleGetAnalytics(response));
     }
-    public void SendGetTSData(String PlaneID){
-        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID);
+    public void SendGetTSData(String PlaneID, String flightId){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID+ "&flightId=" + flightId);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
     }
 //    public void SendGetAllPlanes(){
@@ -94,7 +94,7 @@ public class Model extends Observable implements Observer {
     public void SendPostJoystick(String PlaneID, JoystickData data){
         String json = new Gson().toJson(data);
         System.out.println(json);
-        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID,json);
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID ,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
     }
 

@@ -23,7 +23,8 @@ public class GetTsHandler implements HttpHandler {
         String query = he.getRequestURI().getQuery();
         System.out.println(query);
         MyNetworkStatic.parseQuery(query, param);//parse query parameters into map
-        String response = JsonsFuncs.getTimeSeries((String) param.get("plane_id"));
+        int index = Integer.parseInt((String) param.get("flightId"));
+        String response = JsonsFuncs.getTimeSeries((String) param.get("plane_id"), index);
         he.sendResponseHeaders(200, response.length());
         OutputStream os = he.getResponseBody();
         os.write(response.getBytes());
