@@ -266,8 +266,9 @@ public class FleetOverviewController implements Initializable, Observer {
                         mc.createJoyStick();
 
                         //mc.createLineCharts();
-                        mc.createCircleGraph();
-                        mc.createClocks();
+                        //mc.createCircleGraph();
+                        //
+                        // mc.createClocks();
 
                     }
                 }
