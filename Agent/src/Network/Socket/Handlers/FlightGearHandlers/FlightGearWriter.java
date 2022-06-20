@@ -1,5 +1,7 @@
 package Network.Socket.Handlers.FlightGearHandlers;
 
+import Model.MyLogger;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -14,7 +16,7 @@ public class FlightGearWriter extends Observable {
 
 
     public FlightGearWriter(){
-        System.out.println("writer created...");
+        MyLogger.LogMessage("writer created...");
         stop = true;
         clientThread = new Thread("Newest Thread"){
             public void run(){
@@ -28,7 +30,7 @@ public class FlightGearWriter extends Observable {
         try {
             client = new Socket("127.0.0.1",clientPort);
             outToFG = new PrintWriter(client.getOutputStream());
-            System.out.println("Writing to fg ready...");
+            MyLogger.LogMessage("Writing to fg ready...");
             // WriteToFG("set /controls/flight/aileron[0] 1");
         } catch (IOException e) {
             // TODO Auto-generated catch block

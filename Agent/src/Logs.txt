@@ -1,0 +1,17 @@
+Setted id and name
+Connected to server
+Reading from fg ready...
+writer created...
+Writing to fg ready...
+printstream
+aileron:0.000000,elevator:0.000000,rudder:0.000000,longitude-deg:-22.6054575961,latitude-deg:63.9479147009,airspeed-kt:0.000000,vertical-speed-fps:0.000000,throttle_0:0.000000,throttle_1:0.000000,altitude-ft:109.306839,pitch-deg:0.000000,roll-deg:40.000000,heading-deg:12.869804,side-slip-deg:0.000000
+reset
+printstream
+aileron:0.000000,elevator:0.000000,rudder:0.000000,longitude-deg:-22.6051939642,latitude-deg:63.9506688010,airspeed-kt:66.192566,vertical-speed-fps:46.579491,throttle_0:0.750000,throttle_1:0.000000,altitude-ft:751.302673,pitch-deg:26.484592,roll-deg:3.976745,heading-deg:12.852207,side-slip-deg:0.263120
+shutdown
+Nautical_Mile is: 5.491484679872411
+end time is: 20-06-2022 11:36:13
+sent Final Analytics
+The analytics are:
+StartLongitude:-22.6054575961 StartLatitude:63.9479147009 EndLongitude:-22.6048911278 EndLatitude:63.9515113399 startTime:20-06-2022 11:34:53 endTime:20-06-2022 11:36:13 maxAlt:773.949524 maxSpeed:115.606621 Nautical_Mile:5.491484679872411
+Stopped everything

@@ -9,7 +9,6 @@ public class AgentMain {
     public static void main(String[] args) {
         MyModel model = new MyModel();
         MyController controller = new MyController(model);
-        System.out.println("main thread rip");
 //        String line;
 //        Scanner in = new Scanner(System.in);
 //        while(!(line = in.nextLine()).equals("stop"))

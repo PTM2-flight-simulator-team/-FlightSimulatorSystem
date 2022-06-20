@@ -48,8 +48,6 @@ public class AnalyticsHandler {
 //        if(firstPlaneData == true)
 //            firstStart = false;
         if(LastPlainData != null){
-//            System.out.println(LastPlainData.getLatitude());
-//            System.out.println(plainData.getLatitude());
             double Nautical_Mile_Result = getDistanceFromLatLonInKm(Double.parseDouble(LastPlainData.getLatitude()), Double.parseDouble(LastPlainData.getLongitude()),Double.parseDouble(plainData.getLatitude()), Double.parseDouble(plainData.getLongitude()));
             Nautical_Mile += Nautical_Mile_Result;
         }
@@ -126,7 +124,7 @@ public class AnalyticsHandler {
         analyticsString.append(" startTime:").append(analytics.get("StartTime")).append(" endTime:").append(analytics.get("EndTime"));
         analyticsString.append(" maxAlt:").append(analytics.get("altitude")).append(" maxSpeed:").append(analytics.get("speed"));
         analyticsString.append(" Nautical_Mile:").append(Nautical_Mile);
-        System.out.println("Nautical_Mile is: " + Nautical_Mile);
+        MyLogger.LogMessage("Nautical_Mile is: " + Nautical_Mile);
         return analyticsString.toString();
     }
 

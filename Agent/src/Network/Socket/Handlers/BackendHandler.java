@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
+import Model.MyLogger;
 import Network.CommandAction;
 import Network.NetworkCommand;
 
@@ -23,15 +24,22 @@ public class BackendHandler extends  Observable implements Observer {
     ServerReaderConnection serverReader;
     String AgentID;
     String AgentName;
+    Thread t;
     public BackendHandler(String backendIP, int port){
         this.backendIP = backendIP;
         this.port = port;
         getIDAndName();
-        new Thread(){
+        t = new Thread("New Thread") {
             public void run(){
                 ConnectToServer();
             }
-        }.start();
+        };
+        t.start();
+//        new Thread(){
+//            public void run(){
+//                ConnectToServer();
+//            }
+//        }.start();
     }
 
     public void getIDAndName(){
@@ -44,7 +52,7 @@ public class BackendHandler extends  Observable implements Observer {
             String[] secondRow = scanner.nextLine().split("=");
             String name = secondRow[1];
             this.AgentName = name;
-            System.out.println("Setted id and name");
+            MyLogger.LogMessage("Setted id and name");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -98,7 +106,7 @@ public class BackendHandler extends  Observable implements Observer {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ConnectException e) {
-            System.out.println("Connection to backend failed!");
+            MyLogger.LogMessage("Connection to backend failed!");
             try {
                 Thread.sleep(5000);
                 ConnectToServer();

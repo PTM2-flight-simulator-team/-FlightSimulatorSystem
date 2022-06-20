@@ -4,6 +4,10 @@ import java.util.*;
 
 import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
+import Model.MyLogger;
+import Network.CommandAction;
+import Network.NetworkCommand;
+import Network.SSHhandler;
 import Network.Socket.Handlers.BackendHandler;
 import Network.Socket.Handlers.FlightgearHandler;
 
@@ -11,12 +15,16 @@ public class MySocketHandler extends Observable implements Observer {
     
     private FlightgearHandler fgHandler;
     private BackendHandler backHandler;
+    public SSHhandler SSH;
     public MySocketHandler(List l){
         fgHandler = new FlightgearHandler(l);
         backHandler = new BackendHandler("127.0.0.1",5899);
+        SSH = new SSHhandler();
 
         fgHandler.addObserver(this);
         backHandler.addObserver(this);
+        SSH.addObserver(this);
+        SSH.runCli();
     }
 
     public String GetResponse(){
@@ -54,6 +62,14 @@ public class MySocketHandler extends Observable implements Observer {
             setChanged();
             notifyObservers(arg);
         }
+        if(o instanceof SSHhandler){
+            NetworkCommand c= (NetworkCommand) arg;
+            if (c.action == CommandAction.Get) {
+                c.outObj = this;
+            }
+            setChanged();
+            notifyObservers(arg);
+        }
         
     }
 
@@ -62,16 +78,19 @@ public class MySocketHandler extends Observable implements Observer {
     }
 
     public void ShutDown(String analytic, ArrayList<ArrayList<String>> flightData){
+
         this.fgHandler.Stop();
-        this.sendFlightDataToBackend(flightData);
         AnalyticsData analyticsData = new AnalyticsData(analytic);
         this.backHandler.sendFinalAnalytics(analyticsData);
+        this.sendFlightDataToBackend(flightData);
 //        this.backHandler.sendFinalAnalytics(analytic);
-        System.out.println("sent Final Analytics");
-        System.out.println("The analytics are:");
-        System.out.println(analytic);
+        MyLogger.LogMessage("sent Final Analytics");
+        MyLogger.LogMessage("The analytics are:");
+        MyLogger.LogMessage(analytic);
         this.backHandler.Stop();
-        System.out.println("Stopped everything");
+        this.SSH.Stop();
+        MyLogger.LogMessage("Stopped everything");
+//        System.exit(0);
     }
 
     public void PrintStream(){

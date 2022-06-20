@@ -1,6 +1,7 @@
 package Network.Socket.Handlers.FlightGearHandlers;
 
 import CommonClasses.PlaneData;
+import Model.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class FlightGearReader extends Observable {
         try {
             server = new ServerSocket(serverPort);
             serverAccept = server.accept();
-            System.out.println("Reading from fg ready...");
+            MyLogger.LogMessage("Reading from fg ready...");
             setChanged();
             notifyObservers("startWriter");
             // check
@@ -44,7 +45,6 @@ public class FlightGearReader extends Observable {
             String line;
             while(stop == true && (line = in.readLine())!=null)
             {
-                // System.out.println(line);
                 String[] vals =line.split(",");
                 for(int i = 0; i < vals.length; i++){
                     newData.put(l.get(i), vals[i]);
@@ -54,7 +54,6 @@ public class FlightGearReader extends Observable {
 //                data.Print();
                 setChanged();
                 notifyObservers(data);
-                // System.out.println(newData.toString());
             }
             in.close();
             serverAccept.close();

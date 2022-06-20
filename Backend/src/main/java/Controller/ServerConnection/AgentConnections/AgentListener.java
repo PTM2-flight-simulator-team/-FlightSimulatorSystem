@@ -88,6 +88,7 @@ public class AgentListener extends Observable implements Runnable {
                     if(tsList != null){
                         System.out.println(tsList.toString());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
+                        this.stopListening();
                     }
 
                     }
