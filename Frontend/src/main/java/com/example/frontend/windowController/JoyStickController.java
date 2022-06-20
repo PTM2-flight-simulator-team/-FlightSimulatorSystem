@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import Model.dataHolder.JoystickData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.JoyStickViewModel;
@@ -14,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.List;
@@ -67,7 +69,7 @@ public class JoyStickController implements Initializable, Observer {
         my = joyStick.getHeight() / 2;
         gc.clearRect(0, 0, joyStick.getWidth(), joyStick.getHeight());
         gc.strokeOval(mx - circle.getRadius(), my - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
-        gc.strokeOval(jx - 35, jy - 35, 70, 70);
+        gc.fillOval(jx - 35, jy - 35, 70, 70);
         aileron.set((jx - mx) / mx);
         elevators.set((my - jy) / my);
     }
@@ -105,10 +107,6 @@ public class JoyStickController implements Initializable, Observer {
         }
     }
 
-    private boolean isInCircle(double x, double y) {
-
-        return (Math.pow((x - (circle.getCenterX())-100), 2) + Math.pow((y - (circle.getCenterX())-100), 2)) <= Math.pow(circle.getRadius() - 35, 2);
-    }
 
     @FXML
     public void mouseMove(MouseEvent me) {
@@ -116,23 +114,33 @@ public class JoyStickController implements Initializable, Observer {
         if(mousePushed) {
             jx = me.getX();
             jy = me.getY();
-
-            if (!(isInCircle(jx, jy))) {
-                jx = prevX;
-                jy = prevY;
-            } else {
-                System.out.println("in circle");
-                prevX = jx;
-                prevY = jy;
+        }
+            if(jx >  160){
+                jx = 160;
+            }
+            if(jx < 40){
+                jx = 40;
+            }
+            if(jy >  160){
+                jy = 160;
+            }
+            if(jy < 40){
+                jy = 40;
             }
 
             double normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
             double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
             System.out.println("x: " + normalizedX + " y: " + normalizedY);
+            JoystickData data = new JoystickData();
+            data.aileron = String.valueOf(normalizedX);
+            data.elevator = String.valueOf(normalizedY);
+            data.throttle = String.valueOf(throttle.valueProperty().doubleValue());
+            data.rudder = String.valueOf(rudder.valueProperty().doubleValue());
+
+            vm.sendJoystickData("4",data);
             printJoyStick();
         }
-    }
 
     public void setValues(double jx, double jy) {
         this.jx = jx;

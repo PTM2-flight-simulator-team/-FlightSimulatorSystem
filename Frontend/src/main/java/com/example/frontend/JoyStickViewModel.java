@@ -1,6 +1,7 @@
 package com.example.frontend;
 
 import Model.Model;
+import Model.dataHolder.JoystickData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import javafx.beans.property.DoubleProperty;
@@ -33,5 +34,9 @@ public class JoyStickViewModel extends Observable implements Observer {
         this.elevators.set(Double.parseDouble(data.value.elevator));
         setChanged();
         notifyObservers(arg);
+    }
+
+    public void sendJoystickData(String planeID,JoystickData data) {
+        m.SendPostJoystick(planeID,data);
     }
 }
