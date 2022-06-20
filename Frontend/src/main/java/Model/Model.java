@@ -21,6 +21,9 @@ public class Model extends Observable implements Observer {
         planeData.rudder = "0.5";
         planeData.aileron = "0.5";
         planeData.elevator = "0.5";
+        planeData.airSpeed_kt = "50";
+        planeData.vertSpeed = "-2";
+        planeData.heading = "200";
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 
         new Thread("New Thread") {
