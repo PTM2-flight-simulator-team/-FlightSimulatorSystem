@@ -2,6 +2,7 @@ package Model;
 
 import CommonClasses.PlaneData;
 import Model.Interpreter.Expression.BinaryExpression;
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import org.bson.Document;
@@ -75,7 +76,9 @@ public class DataBase {
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
         //System.out.println("planeId:" + planeId + "ts: " + ts);
-        if(this.getDocById("TimeSeries",planeId).first() == null){
+        Document d = this.database.getCollection("TimeSeries").find(new Document().append("planeID",planeId)).first();
+        if(d == null){
+            System.out.println("plane does not exits");
             List<List<List<String>>> l = new ArrayList<>();
             l.add(ts);
             Document doc = new Document();
@@ -84,6 +87,7 @@ public class DataBase {
             this.addDocument("TimeSeries",doc);
         }
         else{
+            System.out.println("plane exists");
             this.addTs(planeId,ts);
         }
 
@@ -114,7 +118,9 @@ public class DataBase {
         hashMap.put(Month.NOVEMBER.toString(),0.0);
         hashMap.put(Month.DECEMBER.toString(),0.0);
         hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
-        Document d = new Document().append("_id",id).append("name", name).append("miles",hashMap).append("active",active).append("planeData" ,planeData);
+        planeData.Print();
+        String gson = new Gson().toJson(planeData);
+        Document d = new Document().append("_id",id).append("name", name).append("miles",hashMap).append("active",active).append("planeData" ,gson);
         this.addDocument("AirCrafts",d);
     }
 
@@ -194,9 +200,11 @@ public class DataBase {
 
     public void addTs(String id, List<List<String>> ts){
         BasicDBObject query = new BasicDBObject();
-        query.put("_id",id);
-        Document doc =  this.getDocById("TimeSeries",id).first();
+        query.put("planeID",id);
+//         Document doc =  this.getDocById("TimeSeries",id).first();
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
         if(doc != null){
+            System.out.println("doc != null");
             List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
             list.add(ts);
             BasicDBObject newDoc = new BasicDBObject();
@@ -210,4 +218,7 @@ public class DataBase {
 
     }
 
-}
+
+    }
+
+

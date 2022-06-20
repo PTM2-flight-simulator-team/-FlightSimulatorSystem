@@ -66,16 +66,16 @@ public class JsonsFuncs {
     }
 
     public static String getTimeSeries(String pid){
-        FindIterable<Document> documentsList = Controller.getTimeSeries(pid);
-        final Document ts = new Document();
-        String str = "ts number ";
-        int i = 1;
-        for (Document doc: documentsList){
-            System.out.println(i);
-            ts.append(str+ i, doc);
-            i++;
-        }
-        return ts.toString().replaceAll("Document", "");
+        FindIterable<Document> timeSeries = Controller.getTimeSeries(pid);
+//        final Document ts = new Document();
+//        String str = "ts number ";
+//        int i = 1;
+//        for (Document doc: documentsList){
+//            System.out.println(i);
+//            ts.append(str+ i, doc);
+//            i++;
+//        }
+        return timeSeries.first().get("tsList").toString();
     }
 
     public static String getAnalytics(){

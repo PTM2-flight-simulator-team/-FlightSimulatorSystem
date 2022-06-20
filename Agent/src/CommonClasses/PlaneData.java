@@ -8,7 +8,7 @@ import java.util.List;
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
-    private String plainName;
+    private String PlaneName;
     private PlaneVar aileron;
     private PlaneVar elevator;
     private PlaneVar rudder;
@@ -92,7 +92,7 @@ public class PlaneData implements Serializable{
     }
 
     public void setPlainName(String plainName) {
-        this.plainName = plainName;
+        this.PlaneName = plainName;
     }
 
     public PlaneData(HashMap<String,String> map){
