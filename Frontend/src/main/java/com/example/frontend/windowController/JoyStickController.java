@@ -131,6 +131,7 @@ public class JoyStickController implements Initializable, Observer {
         double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
         System.out.println("x: " + normalizedX + " y: " + normalizedY);
+//        System.out.println("x: " + jx + " y: " + jy);
         printJoyStick();
     }
 
@@ -143,7 +144,26 @@ public class JoyStickController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         MyResponse<PlaneData> data = (MyResponse<PlaneData>)arg;
-        
-        setValues(aileron.doubleValue(), elevators.doubleValue());
+        setValues(getMapedJoystickXYminus1to1(data.value.aileron), getMapedJoystickXYminus1to1inverted(data.value.elevator));
     }
+
+    private double getMapedJoystickXYminus1to1(String val)
+    {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = nd / 2 * 100;
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return  returnVal;
+
+    }
+    private double getMapedJoystickXYminus1to1inverted(String val)
+    {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = 100 - (nd / 2 * 100);
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return  returnVal;
+
+    }
+
 }

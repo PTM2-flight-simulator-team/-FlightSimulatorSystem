@@ -19,10 +19,10 @@ public class Model extends Observable implements Observer {
         myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
         myHttpHandler.addObserver(this);
         PlaneData planeData = new PlaneData();
-        planeData.throttle_0 = "0.0";
-        planeData.rudder = "0.0";
-        planeData.aileron = "0.0";
-        planeData.elevator = "0.0";
+        planeData.throttle_0 = "1.0";
+        planeData.rudder = "0.5";
+        planeData.aileron = "1.0";
+        planeData.elevator = "1.0";
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
