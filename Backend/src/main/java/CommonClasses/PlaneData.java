@@ -27,6 +27,9 @@ public class PlaneData implements Serializable{
     private PlaneVar heading;
     private PlaneVar turnCoordinator; // didnt find
 
+    public PlaneData() {
+    }
+
     public String getPlaneName() {
         return PlaneName;
     }
@@ -93,8 +96,6 @@ public class PlaneData implements Serializable{
 
     public String getId() {
         return ID;
-    }
-    public PlaneData() {
     }
 
     public void Print(){
@@ -234,7 +235,6 @@ public class PlaneData implements Serializable{
         list.add(aileron);
         list.add(elevator);
         list.add(rudder);
-        list.add(flaps);
         list.add(longitude);
         list.add(latitude);
         list.add(airSpeed_kt);
@@ -246,6 +246,7 @@ public class PlaneData implements Serializable{
         list.add(rollDeg);
         list.add(heading);
         list.add(turnCoordinator); // didnt find
+        System.out.println(list);
         return list;
     }
     

@@ -29,6 +29,7 @@ public class JoystickHandler extends Observable implements HttpHandler{
         while(sc.hasNext())joystick.append(sc.next());
         JsonObject jsonObject = new JsonParser().parse(joystick.toString()).getAsJsonObject();
         args.add(JsonsFuncs.JoystickJsonToAgentCommands(jsonObject));//args[2] is the joystick commands
+        System.out.println(JsonsFuncs.JoystickJsonToAgentCommands(jsonObject));
         setChanged();
         notifyObservers(args);//sending up list of args
     }

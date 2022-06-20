@@ -34,6 +34,7 @@ public class AgentListener extends Observable implements Runnable {
     @Override
     public void run() {
         System.out.println("inside agentListener, id" + Thread.currentThread().getId());
+        List<List<String>> tsList = null;
         this.running = true;
         while (this.running) {
             try {
@@ -73,23 +74,24 @@ public class AgentListener extends Observable implements Runnable {
                     if(Controller.model.DB.doesPlaneExists(tempPlaneId)){//check if plane exists
                         Controller.model.DB.updateMilesById(tempPlaneId , Double.valueOf(tempAnalytics.getMiles()), strMonth);
                         Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
+                        Controller.model.DB.addTs(tempPlaneId,tsList);
                     }
                     else {
 
-                        Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState(),this.planeData );
-                        this.stopListening();
+                            Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
+                                    ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
+                            this.stopListening();
+
                     }
                     tempAnalytics.print();
                 }
-                else{
-                    List<List<String>> tsList = (List<List<String>>) fromAgent;
+                else {
+                    tsList = (List<List<String>>) fromAgent;
+                }
 
                     if(tsList != null){
-                        System.out.println(tsList.toString());
+                        //System.out.println(tsList.toString());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
-                    }
-
                     }
             }catch (StreamCorruptedException sce){
                 this.stopListening();
