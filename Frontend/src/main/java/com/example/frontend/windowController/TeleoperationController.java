@@ -1,8 +1,11 @@
 package com.example.frontend.windowController;
 
 import Model.Model;
+import Model.dataHolder.CodeLine;
 import Model.dataHolder.TeleoperationsData;
 import com.example.frontend.FxmlLoader;
+import com.example.frontend.TeleoperationViewModel;
+import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -17,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class TeleoperationController {
@@ -36,6 +40,8 @@ public class TeleoperationController {
 
     @FXML
     private BorderPane joyStickBorderPane;
+
+    private TeleoperationViewModel vm;
 
 
 
@@ -58,12 +64,13 @@ public class TeleoperationController {
         TeleoperationsData toData = new TeleoperationsData();
         String text = textArea.getText();
         String[] lines = text.split("\n");
-        HashMap<String,String> hashMap = toData.code;
+        JsonObject code = toData.code;
         int i = 1;
         for (String s: lines) {
-            hashMap.put(Integer.toString(i),s);
+            code.addProperty(String.valueOf(i), s);
             i++;
         }
+        vm.sendCode("4",toData);
     }
 
     public void setModel(Model m) {
@@ -82,6 +89,10 @@ public class TeleoperationController {
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
         //joyStick.disableJoyStick();
         joyStick.initViewModel(m);
+    }
+
+    public void initViewModel(Model m){
+        this.vm = new TeleoperationViewModel(m);
     }
 
 

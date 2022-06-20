@@ -12,6 +12,6 @@ public class GetFromDBCommand extends Observable implements Command{
     public void execute() {}
 
     public FindIterable<Document> execute(String id){
-        return Controller.model.DB.getTSbyPlainID(id);
+        return Controller.model.DB.getTSbyPlaneID(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import Model.dataHolder.JoystickData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.JoyStickViewModel;
@@ -131,6 +132,13 @@ public class JoyStickController implements Initializable, Observer {
             double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
             System.out.println("x: " + normalizedX + " y: " + normalizedY);
+            JoystickData data = new JoystickData();
+            data.aileron = String.valueOf(normalizedX);
+            data.elevator = String.valueOf(normalizedY);
+            data.throttle = String.valueOf(throttle.valueProperty().doubleValue());
+            data.rudder = String.valueOf(rudder.valueProperty().doubleValue());
+
+            vm.sendJoystickData("4",data);
             printJoyStick();
         }
 

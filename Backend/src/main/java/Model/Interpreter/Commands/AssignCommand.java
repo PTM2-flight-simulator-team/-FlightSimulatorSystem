@@ -21,7 +21,8 @@ public class AssignCommand extends AbstractCommand {
             return 0;
         int i = 1;
         List<String> rightExpression = new ArrayList<>();
-        while(!Utils.isCommand(args.get(index + i)) && !args.get(index + i).equals("\n")){//insert all the expression after the '=' to rightExpression
+        interpreter.updateSymTabale();//update the binds vars in symTable to the current value in the flight gear
+        while(!interpreter.utils.isCommand(args.get(index + i)) && !args.get(index + i).equals("\n")){//insert all the expression after the '=' to rightExpression
             String tmp = args.get(index+i);
             String[] toadd = tmp.split("(?<=[-+*/()])|(?=[-+*/()])");
             int size = tmp.length();
@@ -29,25 +30,26 @@ public class AssignCommand extends AbstractCommand {
             i++;
         }
         for(int e = 0; e<rightExpression.size();e++){//if one of the expression in rightExpression in var replace him with his value
-            if(Utils.isSymbol(rightExpression.get(e))){
-                if(Utils.getSymbol(rightExpression.get(e)) == null){
+            if(interpreter.utils.isSymbol(rightExpression.get(e))){
+                if(interpreter.utils.getSymbol(rightExpression.get(e)) == null){
                     throw new NullVar(rightExpression.get(e));
                 }
-                String exp = Double.toString(Utils.getSymbol(rightExpression.get(e)).getValue());
+                String exp = Double.toString(interpreter.utils.getSymbol(rightExpression.get(e)).getValue());
                 rightExpression.set(e, exp);
             }
         }
-        if(!Utils.isSymbol(args.get(index-1))){//case: assign first time local var
-            Utils.setSymbol(args.get(index-1), new Variable(ShuntingYardAlgorithm.calc(rightExpression)));
+        if(interpreter.utils.isSymbol(args.get(index-1)) && interpreter.utils.getSymbol(args.get(index-1)) == null){//case: assign first time local var
+            interpreter.utils.setSymbol(args.get(index-1), new Variable(ShuntingYardAlgorithm.calc(rightExpression)));
         }else {
-            if(Utils.getSymbol(args.get(index-1)).getBindTo() == null){//case: change value of local var
-                Utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
+            if(interpreter.utils.getSymbol(args.get(index-1)).getBindTo() == null){//case: change value of local var
+                interpreter.utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
             }else {//case: change FG var values
-                Utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
-                interpreter.setDoCommand("set" + " " + Utils.getSymbol(args.get(index-1)).getBindTo() + " " +
-                        Utils.getSymbol(args.get(index-1)).getValue());//change the value on the FlightGear
+                interpreter.utils.getSymbol(args.get(index-1)).setValue(ShuntingYardAlgorithm.calc(rightExpression));
+                interpreter.setDoCommand("set" + " " + interpreter.utils.getSymbol(args.get(index-1)).getBindTo() + " " +
+                        interpreter.utils.getSymbol(args.get(index-1)).getValue());//change the value on the FlightGear
             }
         }
+//        System.out.println("alt: " + interpreter.getFGvars().getAltitude().getValue());
         i -= 1;//i moving forward one extra time
         return i;// returning the num of jumps in args list
     }
