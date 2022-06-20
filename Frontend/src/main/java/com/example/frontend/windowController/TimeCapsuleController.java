@@ -113,6 +113,7 @@ public class TimeCapsuleController implements Initializable {
     private Text speedTxt;
     private Thread thread;
     private volatile boolean stop = false;
+    private volatile int currenIndex;
 
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
@@ -414,8 +415,9 @@ public class TimeCapsuleController implements Initializable {
                             if (!stop) {
                                 pause.setVisible(true);
                                 speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
-                                mySlider.setValue(mySlider.getValue() + 100 * speed2 / 60);
+                                mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
                                 //System.out.println("Flying...");
+                                currenIndex = i;
                                 Thread.sleep((long) timeSleep);
                             }
 //                            if (i == _records.size()-1)
@@ -475,19 +477,26 @@ public class TimeCapsuleController implements Initializable {
                 String[] values = line.split(",");
                 _records.add(values);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        //double speed2 = Double.parseDouble(speed1.getText());
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-               /// int i = (int) ((mySlider.getValue() / 100) * ((_records.size()-1))) +1;
-             //   mySlider.setValue(mySlider.getValue() + 100 * speed2 / 60);*/
-
-                //timeTxt.setText(String.valueOf(mySlider.getValue()));
-                int i = (int) ((mySlider.getValue() / 100) * ((_records.size()-1))) +1;
-                speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
+                if (stop) {
+                    int i = (int) ((mySlider.getValue() / 100) * ((_records.size()) - 1)) + 1;
+                    int index;
+                    if (i > currenIndex) {
+                        index = i + currenIndex;
+                    }else{
+                        index = i;
+                    }
+                    System.out.println(i);
+                    System.out.println(index);
+                    speedTxt.setText(_records.get(index)[_records.get(index).length - 1]);
+                }
 
             }
         });
