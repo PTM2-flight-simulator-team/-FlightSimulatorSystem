@@ -1,5 +1,8 @@
 package Model.Interpreter;
 
+import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
+
 public class Variable {//class that represent code var
 
     public double value;

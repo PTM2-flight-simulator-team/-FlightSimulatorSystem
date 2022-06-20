@@ -1,14 +1,19 @@
 package Model.dataHolder;
 
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TeleoperationsData {
-    public HashMap<String,String> code = new HashMap<>();
+    public JsonObject code;
     public TeleoperationsData(){
-        code = new HashMap<>();
+        code = new JsonObject();
     }
 
-    public HashMap<String,String> GetMap() {
+    public JsonObject GetCode() {
         return code;
     }
 }

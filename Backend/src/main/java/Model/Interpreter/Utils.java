@@ -1,5 +1,6 @@
 package Model.Interpreter;
 
+import CommonClasses.PlaneVar;
 import Model.Interpreter.Commands.*;
 import Model.Interpreter.Expression.ExpressionCommand;
 import Model.Interpreter.Interpreter;
@@ -8,12 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Utils {
-
-    public static Map<String, Variable> symTable = new HashMap<>();
-    public static Map<String, ExpressionCommand> commands = new HashMap<>();
-    Interpreter interpreter;
-
-    public static void initialize(Interpreter interpreter) {//initialize commands
+    public boolean stop = false;
+    public volatile Map<String, Variable> symTable = new HashMap<>();
+    public Map<String, ExpressionCommand> commands = new HashMap<>();
+    public void initialize(Interpreter interpreter) {//initialize commands
         commands.put("condition", new ExpressionCommand(new ConditionCommand(interpreter)));
         commands.put("connect", new ExpressionCommand(new ConnectToServerCommand(interpreter)));
         commands.put("var", new ExpressionCommand(new DefineVarCommand(interpreter)));
@@ -24,34 +23,33 @@ public class Utils {
         commands.put("sleep", new ExpressionCommand(new SleepCommand(interpreter)));
         commands.put("=", new ExpressionCommand(new AssignCommand(interpreter)));
         commands.put("if", new ExpressionCommand(new ConditionCommand(interpreter)));
-
     }
 
-    public static Map<String, Variable> getSymTable() {
+    public Map<String, Variable> getSymTable() {
         return symTable;
     }
 
-    public static Map<String, ExpressionCommand> getCommands() {
+    public Map<String, ExpressionCommand> getCommands() {
         return commands;
     }
 
-    public static Variable getSymbol(String sym){
+    public Variable getSymbol(String sym){
         return symTable.get(sym);
     }
 
-    public static boolean isSymbol(String sym){
+    public boolean isSymbol(String sym){
         return symTable.containsKey(sym);
     }
 
-    public static void setSymbol(String sym, Variable value){
+    public void setSymbol(String sym, Variable value){
         symTable.put(sym, value);
     }
 
-    public static ExpressionCommand getCommand(String command){
+    public ExpressionCommand getCommand(String command){
         return commands.get(command);
     }
 
-    public static boolean isCommand(String command){
+    public boolean isCommand(String command){
         return commands.containsKey(command);
     }
 

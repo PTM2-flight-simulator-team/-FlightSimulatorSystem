@@ -19,10 +19,9 @@ public class GetPlaneDataHandler implements HttpHandler {
         // parse request
         Map<String, Object> param = new HashMap<>();
         String query = he.getRequestURI().getQuery();
-        System.out.println(query);
         MyNetworkStatic.parseQuery(query, param);//parse query parameters into map
         JsonObject planeData = JsonsFuncs.getPlainData((String) param.get("plane_id"));
-        String response = new Gson().toJson(planeData);
+        String response = new Gson().toJson(planeData).toString();
         he.sendResponseHeaders(200, response.length());
         OutputStream os = he.getResponseBody();
         os.write(response.getBytes());

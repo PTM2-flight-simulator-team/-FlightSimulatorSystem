@@ -28,7 +28,7 @@ public class JoystickData {
 
 
     public void setRudder(String rudder) {
-        this.aileron = rudder;
+        this.rudder = rudder;
     }
 
     public String getRudder() {

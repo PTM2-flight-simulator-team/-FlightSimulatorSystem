@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import Model.dataHolder.JoystickData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.JoyStickViewModel;
@@ -14,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.List;
@@ -38,6 +40,8 @@ public class JoyStickController implements Initializable, Observer {
     double jx, jy;
     double mx, my;
     double prevX, prevY;
+
+    double normalizedX, normalizedY;
 
     public JoyStickController() {
         circle = new Circle();
@@ -67,7 +71,7 @@ public class JoyStickController implements Initializable, Observer {
         my = joyStick.getHeight() / 2;
         gc.clearRect(0, 0, joyStick.getWidth(), joyStick.getHeight());
         gc.strokeOval(mx - circle.getRadius(), my - circle.getRadius(), circle.getRadius() * 2, circle.getRadius() * 2);
-        gc.strokeOval(jx - 35, jy - 35, 70, 70);
+        gc.fillOval(jx - 35, jy - 35, 70, 70);
         aileron.set((jx - mx) / mx);
         elevators.set((my - jy) / my);
     }
@@ -84,6 +88,22 @@ public class JoyStickController implements Initializable, Observer {
     }
 
     //.............joystick buttons.............//
+    @FXML
+    public void sliderVer(MouseEvent me) {
+        if (!mouseDisabled) {
+            throttle.setValue(throttle.getValue());
+            sendJoystick(normalizedX, normalizedY);
+        }
+    }
+
+    @FXML
+    public void sliderHor(MouseEvent me) {
+        if (!mouseDisabled) {
+            rudder.setValue(rudder.getValue());
+            sendJoystick(normalizedX, normalizedY);
+        }
+    }
+
     @FXML
     public void mouseDown(MouseEvent me) {
         if (!mouseDisabled) {
@@ -105,33 +125,43 @@ public class JoyStickController implements Initializable, Observer {
         }
     }
 
-    private boolean isInCircle(double x, double y) {
-
-        return (Math.pow((x - (circle.getCenterX())-100), 2) + Math.pow((y - (circle.getCenterX())-100), 2)) <= Math.pow(circle.getRadius() - 35, 2);
-    }
-
     @FXML
     public void mouseMove(MouseEvent me) {
 
-        if(mousePushed) {
+        if (mousePushed) {
             jx = me.getX();
             jy = me.getY();
-
-            if (!(isInCircle(jx, jy))) {
-                jx = prevX;
-                jy = prevY;
-            } else {
-                System.out.println("in circle");
-                prevX = jx;
-                prevY = jy;
-            }
-
-            double normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
-            double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
-
-            System.out.println("x: " + normalizedX + " y: " + normalizedY);
-            printJoyStick();
         }
+        if (jx > 160) {
+            jx = 160;
+        }
+        if (jx < 40) {
+            jx = 40;
+        }
+        if (jy > 160) {
+            jy = 160;
+        }
+        if (jy < 40) {
+            jy = 40;
+        }
+
+        normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
+        normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
+
+        sendJoystick(normalizedX, normalizedY);
+        System.out.println("x: " + normalizedX + " y: " + normalizedY);
+//        System.out.println("x: " + jx + " y: " + jy);
+        printJoyStick();
+    }
+
+    private void sendJoystick(double normalizedX, double normalizedY) {
+        JoystickData data = new JoystickData();
+        data.aileron = String.valueOf(normalizedX);
+        data.elevator = String.valueOf(normalizedY);
+        data.throttle = String.valueOf(throttle.getValue());
+        data.rudder = String.valueOf(rudder.getValue());
+        vm.sendJoystickData("1995", data);
+
     }
 
     public void setValues(double jx, double jy) {
@@ -142,7 +172,26 @@ public class JoyStickController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        MyResponse<PlaneData> data = (MyResponse<PlaneData>)arg;
-        setValues(aileron.doubleValue(), elevators.doubleValue());
+        MyResponse<PlaneData> data = (MyResponse<PlaneData>) arg;
+        setValues(getMapedJoystickXYminus1to1(data.value.aileron), getMapedJoystickXYminus1to1inverted(data.value.elevator));
     }
+
+    private double getMapedJoystickXYminus1to1(String val) {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = nd / 2 * 100;
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return returnVal;
+
+    }
+
+    private double getMapedJoystickXYminus1to1inverted(String val) {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = 100 - (nd / 2 * 100);
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return returnVal;
+
+    }
+
 }
