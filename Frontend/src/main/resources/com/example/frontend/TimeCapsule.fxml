@@ -42,9 +42,9 @@
                      <BorderPane fx:id="rightAreaChartBorderPane" layoutX="368.0" layoutY="72.0" prefHeight="80.0" prefWidth="204.0" />
                      <BorderPane fx:id="bigChartBorderPane" layoutX="164.0" layoutY="200.0" prefHeight="150.0" prefWidth="204.0" />
                      <BorderPane fx:id="joyStickBorderPane" layoutX="598.0" layoutY="63.0" prefHeight="40.0" prefWidth="80.0" />
-                     <BorderPane fx:id="clocksBorderPane" layoutX="600.5" layoutY="180.5" prefHeight="40.0" prefWidth="80.0" />
-                     <Text layoutX="33.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Flight Index" />
-                     <TextField layoutX="145.0" layoutY="32.0" prefHeight="26.0" prefWidth="51.0" />
+                     <BorderPane fx:id="clocksBorderPane" layoutX="600.5" layoutY="200.5" prefHeight="40.0" prefWidth="80.0" />
+                     <Text layoutX="14.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Flight Index" />
+                     <TextField layoutX="118.0" layoutY="32.0" prefHeight="26.0" prefWidth="51.0" />
                      <BorderPane fx:id="leftAreaChartBorderPane1" layoutX="174.0" layoutY="82.0" prefHeight="80.0" prefWidth="204.0" />
                   </children>
                </AnchorPane>

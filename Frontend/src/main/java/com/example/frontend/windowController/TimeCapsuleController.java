@@ -466,7 +466,6 @@ public class TimeCapsuleController implements Initializable {
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
 
-
         ArrayList<String[]> _records = new ArrayList<>();
         String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file2.csv";
         ArrayList<String> times = new ArrayList<>();
@@ -485,17 +484,16 @@ public class TimeCapsuleController implements Initializable {
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                int index;
                 if (stop) {
                     int i = (int) ((mySlider.getValue() / 100) * ((_records.size()) - 1)) + 1;
-                    int index;
-                    if (i > currenIndex) {
-                        index = i + currenIndex;
-                    }else{
-                        index = i;
-                    }
+//                    if (i > currenIndex) {
+//                        index = i + currenIndex;
+//                    }else{
+//                        index = i;
+//                    }
                     System.out.println(i);
-                    System.out.println(index);
-                    speedTxt.setText(_records.get(index)[_records.get(index).length - 1]);
+                    speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
                 }
 
             }
