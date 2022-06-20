@@ -99,8 +99,8 @@ public class FleetOverviewController implements Initializable, Observer {
     // active planes compared to inactive planes
     public void activePlanes(int avg) {
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList(
-                new PieChart.Data("Active Planes", 50), // avg - active ones
-                new PieChart.Data("NonActive", 30) // 100% - avg - non active ones
+                new PieChart.Data("Active Planes", avg), // avg - active ones
+                new PieChart.Data("NonActive", 100-avg) // 100% - avg - non active ones
         );
         myPie.setData(data);
     }
@@ -119,30 +119,6 @@ public class FleetOverviewController implements Initializable, Observer {
         myBar.getData().addAll(data);
     }
 
-
-    // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
-//    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
-//        HashMap<Integer, Integer> sums = new HashMap<>();
-//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-//            sums.put(e.getKey(), sum);
-//        }
-//        Map<Integer, Integer> sorted = sums
-//                .entrySet()
-//                .stream()
-//                .sorted(comparingByValue())
-//                .collect(
-//                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-//                                LinkedHashMap::new));
-//
-//
-//        var data = new XYChart.Series<String, Number>();
-//        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
-//            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
-//        }
-//        myBar2.getData().clear();
-//        myBar2.getData().addAll(data);
-//    }
 
     public void multipleSortedMiles2(HashMap<Integer, List<Integer>> airplaneList) {
         List<Double> averages = new ArrayList<>();
@@ -171,6 +147,31 @@ public class FleetOverviewController implements Initializable, Observer {
         lineC.getData().clear();
         lineC.getData().add(data);
     }
+
+    // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
+//    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
+//        HashMap<Integer, Integer> sums = new HashMap<>();
+//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
+//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
+//            sums.put(e.getKey(), sum);
+//        }
+//        Map<Integer, Integer> sorted = sums
+//                .entrySet()
+//                .stream()
+//                .sorted(comparingByValue())
+//                .collect(
+//                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
+//                                LinkedHashMap::new));
+//
+//
+//        var data = new XYChart.Series<String, Number>();
+//        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
+//            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
+//        }
+//        myBar2.getData().clear();
+//        myBar2.getData().addAll(data);
+//    }
+
     //-------------------------------Functions-------------------------------//
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
@@ -241,11 +242,14 @@ public class FleetOverviewController implements Initializable, Observer {
 
     public void updateVisuals(AnalyticsData ad) {
         for (int i = 0; i < ad.analyticList.size(); i++) {
+            //Planes
             float lati = Float.parseFloat(ad.analyticList.get(i).planeData.latitude);
             float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
             Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
             createPlaneView(ad.analyticList.get(i).planeData, pair);
         }
+
+
     }
 
 
