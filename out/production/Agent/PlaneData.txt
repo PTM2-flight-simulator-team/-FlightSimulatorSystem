@@ -1,2 +1,2 @@
-id=2
-name=shimi
+id=1995
+name=JLO

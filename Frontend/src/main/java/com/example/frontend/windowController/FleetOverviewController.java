@@ -1,9 +1,12 @@
 package com.example.frontend.windowController;
 
+import Model.Model;
 import Model.ModelTools.Point;
 import Model.dataHolder.AnalyticsData;
+import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneAnalytic;
 import Model.dataHolder.PlaneData;
+import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,11 +14,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -43,10 +45,14 @@ public class FleetOverviewController implements Initializable, Observer {
     private CategoryAxis x;
     @FXML
     private NumberAxis y;
-
+    @FXML
+    private Button minusBtn;
+    @FXML
+    private Button plusBtn;
     @FXML
     private PieChart myPie;
-
+    @FXML
+    private Canvas worldMapCanvas;
     @FXML
     private BarChart myBar;
 
@@ -57,6 +63,9 @@ public class FleetOverviewController implements Initializable, Observer {
     private Pane pane;
     @FXML
     private LineChart lineC;
+
+    @FXML
+    private ScrollBar mapScrollBar;
 
     @FXML
     private ImageView img1;
@@ -77,6 +86,8 @@ public class FleetOverviewController implements Initializable, Observer {
     //Static Map Sizes
     final int mapWidth = 780;
     final int mapHeight = 625;
+
+    FleetOverViewModel fvm;
 
     public FleetOverviewController() {
 
@@ -181,7 +192,9 @@ public class FleetOverviewController implements Initializable, Observer {
         return (float) (degrees * Math.PI) / 180;
     }
 
-
+    public void initVM(Model m){
+        this.fvm = new FleetOverViewModel(m);
+    }
     // manual refresh button of all the graphs
     public void refreshButton(MouseEvent e) {
         activePlanes(0);
@@ -216,8 +229,14 @@ public class FleetOverviewController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        AnalyticsData ad = (AnalyticsData) arg;
-        updateVisuals(ad);
+        try{
+            MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
+            updateVisuals(ad.value);
+        }
+        catch (ClassCastException e)
+        {
+            return;
+        }
     }
 
 
@@ -290,14 +309,39 @@ public class FleetOverviewController implements Initializable, Observer {
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
 
+    int zoomCounter =0;
+    GraphicsContext canvas;
+   public void zoomIn()
+   {
+       System.out.println("zoomIn");
+    //this.img1.setScaleX(1.1);
+    //this.img1.setScaleY(1.1);
+    this.canvas.scale(1.1,1.1);
+   }
+   public void zoomOut()
+   {
+       System.out.println("zoomOut");
+       if (zoomCounter<5)
+       {
+           this.canvas.clearRect(0,0,1000,1000);
+           this.canvas.scale(0.9,0.9);
+           //this.createPlaneView(mapHeight,mapWidth);
+       }
+        zoomCounter++;
+   }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.canvas = this.worldMapCanvas.getGraphicsContext2D();
+
 
         String refreshBtnPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\refreshBtn.png";
         refreshBtn.setImage(new Image(refreshBtnPath));
 
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
+
 
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
@@ -331,6 +375,8 @@ public class FleetOverviewController implements Initializable, Observer {
         p2.planeData.heading = "312.332";
         p2.planeData.altitude = "1231312";
         p2.planeData.airSpeed_kt = "33333";
+
+        //Adding Planes To the plane List
         list.add(p1);
         list.add(p2);
 

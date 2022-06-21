@@ -1,6 +1,7 @@
 package com.example.frontend;
 
 import Model.Model;
+import Model.dataHolder.JoystickData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import javafx.beans.property.DoubleProperty;
@@ -14,6 +15,7 @@ public class JoyStickViewModel extends Observable implements Observer {
 
     public DoubleProperty throttle,rudder,aileron,elevators;
 
+    static int counter = 0;
     public JoyStickViewModel(Model m){
         this.m = m;
         m.addObserver(this);
@@ -21,6 +23,8 @@ public class JoyStickViewModel extends Observable implements Observer {
         this.rudder = new SimpleDoubleProperty();
         this.aileron = new SimpleDoubleProperty();
         this.elevators = new SimpleDoubleProperty();
+//        counter++;
+//        System.out.println(counter);
     }
 
     @Override
@@ -33,5 +37,15 @@ public class JoyStickViewModel extends Observable implements Observer {
         this.elevators.set(Double.parseDouble(data.value.elevator));
         setChanged();
         notifyObservers(arg);
+    }
+
+    public void sendJoystickData(String planeID,JoystickData data) {
+        m.SendPostJoystick(planeID,data);
+    }
+
+    protected void finalize()
+    {
+//resources to be close
+
     }
 }
