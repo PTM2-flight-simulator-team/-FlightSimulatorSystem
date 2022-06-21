@@ -80,7 +80,7 @@ public class AgentListener extends Observable implements Runnable {
                             System.out.println("blabla");
                             Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
                                     ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
-                            this.stopListening();
+//                            this.stopListening();
 
                     }
                     tempAnalytics.print();
@@ -92,6 +92,7 @@ public class AgentListener extends Observable implements Runnable {
                     if(tsList != null){
                         //System.out.println(tsList.toString());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
+                        this.stopListening();
                     }
             }catch (StreamCorruptedException sce){
                 this.stopListening();
