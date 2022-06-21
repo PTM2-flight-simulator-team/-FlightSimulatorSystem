@@ -30,7 +30,7 @@ public class Model extends Observable implements Observer {
 
       
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
-//        SendGetAnalyticData();
+        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
 //        code.put("1", "var throttle = bind \"/controls/engines/current-engine/throttle\"");
 //        code.put("2", "var heading = bind \"/instrumentation/heading-indicator/offset-deg\"");
@@ -50,7 +50,7 @@ public class Model extends Observable implements Observer {
 //                update(null,response);
 //            }
 //        }.start();
-        SendGetTSData("1995","0");
+//        SendGetTSData("1995","0");
     }
 
     public void setJoyStickData(double d1, double d2) {

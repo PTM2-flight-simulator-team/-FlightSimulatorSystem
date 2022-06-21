@@ -75,7 +75,7 @@ public class JsonsFuncs {
         if(documentsList == null)
             return "document list is null";
         documentsList.forEach((d)->{
-//            String tmp = "";
+            d.remove("createdMonth");
             if(d != null) {
                 docList.add(d);
             }
