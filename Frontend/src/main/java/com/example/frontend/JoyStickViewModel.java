@@ -18,7 +18,7 @@ public class JoyStickViewModel extends Observable implements Observer {
     static int counter = 0;
     public JoyStickViewModel(Model m){
         this.m = m;
-        m.addObserver(this);
+        this.m.addObserver(this);
         this.throttle = new SimpleDoubleProperty();
         this.rudder = new SimpleDoubleProperty();
         this.aileron = new SimpleDoubleProperty();
