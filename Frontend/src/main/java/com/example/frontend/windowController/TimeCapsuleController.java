@@ -459,7 +459,7 @@ public class TimeCapsuleController implements Initializable {
     }
 
     public void ChangePlanePositionByTime(int indexInTimeSeries){
-
+        List<List<String>> ts;
     }
 
 
