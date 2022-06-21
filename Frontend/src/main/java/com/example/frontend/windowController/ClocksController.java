@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -152,15 +154,30 @@ public class ClocksController implements Initializable {
     }
 
     public void paintAttitude() {
-
+        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\Atitude.png";
+        ImageView imageView = new ImageView(new Image(path));
+        imageView.setFitHeight(bp2.getPrefHeight() / 2);
+        imageView.setFitWidth(bp2.getPrefWidth() / 2);
+        imageView.setRotate(0);
+        bp2.setCenter(imageView);
     }
 
+    public void paintTurnCoordinator() {
+        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\TurnCoordinator.png";
+        ImageView imageView = new ImageView(new Image(path));
+        imageView.setFitHeight(bp2.getPrefHeight() / 2);
+        imageView.setFitWidth(bp2.getPrefWidth() / 2);
+        imageView.setRotate(0);
+        bp4.setCenter(imageView);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        paintAttitude();
         paintAirSpeed();
         paintVerticalSpeed();
         paintCompass();
         paintAltimeter();
+        paintTurnCoordinator();
     }
 }
