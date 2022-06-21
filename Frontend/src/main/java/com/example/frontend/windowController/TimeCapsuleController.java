@@ -114,6 +114,7 @@ public class TimeCapsuleController implements Initializable {
     private Thread thread;
     private volatile boolean stop = false;
     private volatile int currenIndex;
+    private ImageView plane;
 
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
@@ -431,7 +432,7 @@ public class TimeCapsuleController implements Initializable {
             thread.start();
         }catch (Exception e){
             e.printStackTrace();
-        }
+            }
     }
 
 
@@ -457,7 +458,9 @@ public class TimeCapsuleController implements Initializable {
 
     }
 
+    public void ChangePlanePositionByTime(int indexInTimeSeries){
 
+    }
 
 
     @Override
@@ -465,6 +468,9 @@ public class TimeCapsuleController implements Initializable {
         // 50% size from the original map
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
+
+        String airplanePath = System.getProperty("user.dir") + "Frontend/src/main/resources/icons/airplaneSymbol.png";
+        plane = new ImageView(new Image(airplanePath));
 
         ArrayList<String[]> _records = new ArrayList<>();
         String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file2.csv";
@@ -492,7 +498,6 @@ public class TimeCapsuleController implements Initializable {
 //                    }else{
 //                        index = i;
 //                    }
-                    System.out.println(i);
                     speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
                 }
 
