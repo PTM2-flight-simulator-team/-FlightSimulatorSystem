@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -84,5 +85,9 @@ public class JsonsFuncs {
         Document retDoc = new Document();
         retDoc.append("analyticList", docList);
         return retDoc.toJson();
+    }
+
+    public static String fleetSize(){
+        return new Gson().toJson(Controller.getFleetSize());
     }
 }
