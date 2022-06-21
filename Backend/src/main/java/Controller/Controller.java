@@ -38,6 +38,9 @@ public class Controller implements Observer {
       model.addObserver(this);
 
    }
+   public static PlaneData getPlaneDataByPid(String pid){
+      return planeDataMap.get(pid);
+   }
 
    @Override
    public void update(Observable o, Object arg) {
@@ -66,6 +69,7 @@ public class Controller implements Observer {
          List<String> args = (List<String>)arg;
          clientMap.get(args.get(0)).writeToAgent(args.get(1));//write the commands from the interpreter to the agent
       }else if (o instanceof ClientHandler){
+         planeDataMap.put(((PlaneData) arg).getID(), (PlaneData) arg);
          model.setFgVarsInInterpreter((PlaneData) arg);//update the FG in model for pass it to interpreter
       }else if(o instanceof OpenServerCommand){// case that the data came from the agent server connection
          this.addHandler((Runnable) arg);

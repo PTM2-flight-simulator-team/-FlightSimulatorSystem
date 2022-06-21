@@ -49,8 +49,8 @@ public class AgentListener extends Observable implements Runnable {
 
                 if (fromAgent instanceof PlaneData) {
                     planeData = (PlaneData)fromAgent;
-                    Controller.planeDataMap.put(planeData.getId(),planeData);
-                    String id = planeData.getID();
+//                    Controller.planeDataMap.put(planeData.getId(),planeData);
+//                    String id = planeData.getID();
                     setChanged();
                     notifyObservers(planeData);
 //                    planeData.Print();
