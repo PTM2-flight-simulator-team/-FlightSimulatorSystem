@@ -15,6 +15,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -98,7 +99,6 @@ public class MyHttpHandler extends Observable {
         MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
-
         return null;
     }
     public Object HandleGetTS(HttpResponse<String> response){
@@ -111,6 +111,13 @@ public class MyHttpHandler extends Observable {
         return null;
     }
 
+    public Object HandleGetFleetSize(HttpResponse<String> response){
+        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
+        MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
+        setChanged();
+        notifyObservers(res);
+        return null;
+    }
 //    public Object HandleGetAllPlanes(HttpResponse<String> response){
 //        List<PlaneData> data = new Gson().fromJson(response.body(),new TypeToken<List<PlaneData>>(){}.getType());
 //        MyResponse<List<PlaneData>> res = new MyResponse<>(data,ResonseType.AllPlanes);

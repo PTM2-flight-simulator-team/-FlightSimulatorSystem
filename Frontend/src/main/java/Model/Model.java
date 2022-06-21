@@ -79,8 +79,9 @@ public class Model extends Observable implements Observer {
     public void startGetAnalyticService(int seconds){
         final Runnable sendGet = new Runnable() {
             public void run() {
-                System.out.println("here");
-                //SendGetAnalyticData();
+//                System.out.println("here");
+                SendGetAnalyticData();
+                SendGetFleetSizeByMonth();
             }
         };
 
@@ -117,6 +118,12 @@ public class Model extends Observable implements Observer {
     public void SendGetTSData(String PlaneID, String flightId){
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID+ "&flightId=" + flightId);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
+    }
+
+    public void SendGetFleetSizeByMonth(){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/FleetSize");
+        cf.thenApply((response) -> myHttpHandler.HandleGetFleetSize(response));
+
     }
 //    public void SendGetAllPlanes(){
 //        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Planes");

@@ -13,7 +13,6 @@ public class FleetOverViewModel extends Observable implements Observer {
 
     public FleetOverViewModel(Model model)
     {
-
         this.model = model;
         this.model.addObserver(this);
         this.model.startGetAnalyticService(seconds);
