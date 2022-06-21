@@ -1,11 +1,8 @@
 package Controller;
 
 
-import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
 import Controller.Commands.Command;
-import Controller.Commands.GetFromDBCommand;
-import Controller.Commands.OpenCliCommand;
 import Controller.Commands.OpenServerCommand;
 import Controller.ServerConnection.AgentConnections.ClientHandler;
 import Controller.ServerConnection.FrontConnection.MyHttpServer;
@@ -16,7 +13,6 @@ import org.bson.Document;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Stream;
 
 public class Controller implements Observer {
    Map<String, Command> mapCommand;
@@ -41,6 +37,9 @@ public class Controller implements Observer {
               "mongodb+srv://fleetManagement:r7uRtk!ytxGbVrR@flightfleet.aerzo.mongodb.net/?retryWrites=true&w=majority");
       model.addObserver(this);
 
+   }
+   public static PlaneData getPlaneDataByPid(String pid){
+      return planeDataMap.get(pid);
    }
 
    @Override
@@ -70,6 +69,7 @@ public class Controller implements Observer {
          List<String> args = (List<String>)arg;
          clientMap.get(args.get(0)).writeToAgent(args.get(1));//write the commands from the interpreter to the agent
       }else if (o instanceof ClientHandler){
+         planeDataMap.put(((PlaneData) arg).getID(), (PlaneData) arg);
          model.setFgVarsInInterpreter((PlaneData) arg);//update the FG in model for pass it to interpreter
       }else if(o instanceof OpenServerCommand){// case that the data came from the agent server connection
          this.addHandler((Runnable) arg);
@@ -94,11 +94,20 @@ public class Controller implements Observer {
 //   }
 
    public static FindIterable<Document> getAnalytics(){
-      return model.DB.GetPlanes();
+      try {
+         return model.DB.GetPlanes();
+      } catch (Exception e) {
+         throw new RuntimeException(e);
+      }
    }
 
-   public static FindIterable<Document> getTimeSeries(String id){
-      return model.DB.getTSbyPlaneID(id);
+   public static List<List<String>> getTimeSeries(String id,int index){
+      try {
+         return model.DB.getTSbyPlaneID(id, index);
+      } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+
+      }
    }
 
 

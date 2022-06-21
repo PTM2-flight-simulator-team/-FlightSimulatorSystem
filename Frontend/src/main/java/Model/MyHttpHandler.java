@@ -85,7 +85,7 @@ public class MyHttpHandler extends Observable {
         return response;
     }
     public Object HandleGetPlaneData(HttpResponse<String> response){
-        System.out.println(response.body());
+//        System.out.println(response.body());
         PlaneData data = new Gson().fromJson(response.body(),PlaneData.class);
         MyResponse<PlaneData> res = new MyResponse<>(data, ResonseType.PlaneData);
         setChanged();

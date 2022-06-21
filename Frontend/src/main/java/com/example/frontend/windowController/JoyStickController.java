@@ -41,6 +41,8 @@ public class JoyStickController implements Initializable, Observer {
     double mx, my;
     double prevX, prevY;
 
+    double normalizedX, normalizedY;
+
     public JoyStickController() {
         circle = new Circle();
         circle.setRadius(95);
@@ -87,6 +89,22 @@ public class JoyStickController implements Initializable, Observer {
 
     //.............joystick buttons.............//
     @FXML
+    public void sliderVer(MouseEvent me) {
+        if (!mouseDisabled) {
+            throttle.setValue(throttle.getValue());
+            sendJoystick(normalizedX, normalizedY);
+        }
+    }
+
+    @FXML
+    public void sliderHor(MouseEvent me) {
+        if (!mouseDisabled) {
+            rudder.setValue(rudder.getValue());
+            sendJoystick(normalizedX, normalizedY);
+        }
+    }
+
+    @FXML
     public void mouseDown(MouseEvent me) {
         if (!mouseDisabled) {
             if (!mousePushed) {
@@ -107,40 +125,44 @@ public class JoyStickController implements Initializable, Observer {
         }
     }
 
-
     @FXML
     public void mouseMove(MouseEvent me) {
 
-        if(mousePushed) {
+        if (mousePushed) {
             jx = me.getX();
             jy = me.getY();
         }
-            if(jx >  160){
-                jx = 160;
-            }
-            if(jx < 40){
-                jx = 40;
-            }
-            if(jy >  160){
-                jy = 160;
-            }
-            if(jy < 40){
-                jy = 40;
-            }
-
-            double normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
-            double normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
-
-            System.out.println("x: " + normalizedX + " y: " + normalizedY);
-            JoystickData data = new JoystickData();
-            data.aileron = String.valueOf(normalizedX);
-            data.elevator = String.valueOf(normalizedY);
-            data.throttle = String.valueOf(throttle.valueProperty().doubleValue());
-            data.rudder = String.valueOf(rudder.valueProperty().doubleValue());
-
-            vm.sendJoystickData("4",data);
-            printJoyStick();
+        if (jx > 160) {
+            jx = 160;
         }
+        if (jx < 40) {
+            jx = 40;
+        }
+        if (jy > 160) {
+            jy = 160;
+        }
+        if (jy < 40) {
+            jy = 40;
+        }
+
+        normalizedX = 2 * ((jx - 40) / (160 - 40)) - 1;
+        normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
+
+        sendJoystick(normalizedX, normalizedY);
+        System.out.println("x: " + normalizedX + " y: " + normalizedY);
+//        System.out.println("x: " + jx + " y: " + jy);
+        printJoyStick();
+    }
+
+    private void sendJoystick(double normalizedX, double normalizedY) {
+        JoystickData data = new JoystickData();
+        data.aileron = String.valueOf(normalizedX);
+        data.elevator = String.valueOf(normalizedY);
+        data.throttle = String.valueOf(throttle.getValue());
+        data.rudder = String.valueOf(rudder.getValue());
+        vm.sendJoystickData("1995", data);
+
+    }
 
     public void setValues(double jx, double jy) {
         this.jx = jx;
@@ -150,7 +172,26 @@ public class JoyStickController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        MyResponse<PlaneData> data = (MyResponse<PlaneData>)arg;
-        setValues(aileron.doubleValue(), elevators.doubleValue());
+        MyResponse<PlaneData> data = (MyResponse<PlaneData>) arg;
+        setValues(getMapedJoystickXYminus1to1(data.value.aileron), getMapedJoystickXYminus1to1inverted(data.value.elevator));
     }
+
+    private double getMapedJoystickXYminus1to1(String val) {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = nd / 2 * 100;
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return returnVal;
+
+    }
+
+    private double getMapedJoystickXYminus1to1inverted(String val) {
+        double d = Double.parseDouble(val);
+        double nd = d + 1;
+        double percentage = 100 - (nd / 2 * 100);
+        double returnVal = (percentage * (160 - 40) / 100) + 40;
+        return returnVal;
+
+    }
+
 }

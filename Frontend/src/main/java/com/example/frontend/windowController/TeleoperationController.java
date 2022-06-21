@@ -41,7 +41,11 @@ public class TeleoperationController {
     @FXML
     private BorderPane joyStickBorderPane;
 
+    @FXML
+    private BorderPane clocksBorderPane;
+
     private TeleoperationViewModel vm;
+
 
 
 
@@ -70,7 +74,7 @@ public class TeleoperationController {
             code.addProperty(String.valueOf(i), s);
             i++;
         }
-        vm.sendCode("4",toData);
+        vm.sendCode("1995",toData);
     }
 
     public void setModel(Model m) {
@@ -91,11 +95,21 @@ public class TeleoperationController {
         joyStick.initViewModel(m);
     }
 
-    public void initViewModel(Model m){
-        this.vm = new TeleoperationViewModel(m);
+
+    public void createClocks() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane clocksPane = new Pane();
+        try {
+            clocksPane = fxmlLoader.load(FxmlLoader.class.getResource("Clocks.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        clocksBorderPane.setCenter(clocksPane);
+        ClocksController clocks = (ClocksController) fxmlLoader.getController();
+        //clocks.initViewModel(m);
+    }        public void initViewModel (Model m){
+            this.vm = new TeleoperationViewModel(m);
+        }
+
+
     }
-
-
-
-
-}

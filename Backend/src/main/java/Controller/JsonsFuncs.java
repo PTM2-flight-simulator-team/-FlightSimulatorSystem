@@ -1,16 +1,14 @@
 package Controller;
 import CommonClasses.PlaneData;
 import CommonClasses.PlaneVar;
-import com.google.gson.JsonArray;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonWriter;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -51,8 +49,8 @@ public class JsonsFuncs {
 
     public static JsonObject getPlainData(String pid) throws IOException {
         JsonObject json = new JsonObject();
-        Controller.planeDataMap.get(pid).Print();
-        List<PlaneVar> planeData = Controller.planeDataMap.get(pid).getAllVars();//add exception if not find;
+        Controller.getPlaneDataByPid(pid).Print();
+        List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
         System.out.println(planeData);
         System.out.println("size: " + planeData.size());
         for (int i = 0; i<planeData.size(); i++){
@@ -65,17 +63,9 @@ public class JsonsFuncs {
         return json;
     }
 
-    public static String getTimeSeries(String pid){
-        FindIterable<Document> timeSeries = Controller.getTimeSeries(pid);
-//        final Document ts = new Document();
-//        String str = "ts number ";
-//        int i = 1;
-//        for (Document doc: documentsList){
-//            System.out.println(i);
-//            ts.append(str+ i, doc);
-//            i++;
-//        }
-        return timeSeries.first().get("tsList").toString();
+    public static String getTimeSeries(String pid, int index){
+        List<List<String>> list = Controller.getTimeSeries(pid,index);
+        return new Gson().toJson(Controller.getTimeSeries(pid,index));
     }
 
     public static String getAnalytics(){
