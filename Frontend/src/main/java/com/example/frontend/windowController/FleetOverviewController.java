@@ -303,7 +303,7 @@ public class FleetOverviewController implements Initializable, Observer {
         }
         singleSortedMiles(map1);
 
-    
+
         //lineChart(ad.analyticList.get(i),fleetSize);
         activePlanes(countActivePlanes);
     }
