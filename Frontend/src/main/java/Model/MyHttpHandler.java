@@ -112,8 +112,8 @@ public class MyHttpHandler extends Observable {
     }
 
     public Object HandleGetFleetSize(HttpResponse<String> response){
-        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<Map<Integer,Integer>>(){}.getType());
-        MyResponse<Map<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
+        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
+        MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
         return null;
