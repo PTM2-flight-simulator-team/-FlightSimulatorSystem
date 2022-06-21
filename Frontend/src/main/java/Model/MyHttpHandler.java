@@ -98,7 +98,6 @@ public class MyHttpHandler extends Observable {
         MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
-
         return null;
     }
     public Object HandleGetTS(HttpResponse<String> response){
