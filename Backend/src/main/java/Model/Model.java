@@ -8,14 +8,14 @@ import java.util.*;
 
 public class Model extends Observable implements Observer {
 
-    private static List<Interpreter> interpreters;
+    private volatile List<Interpreter> interpreters;
     public DataBase DB;
     private  String DbName;
     private String URLconnection;
     public Model(String dbName, String urLconnection) {
         DbName = dbName;
         URLconnection = urLconnection;
-        interpreters = new ArrayList<>();
+        this.interpreters = new ArrayList<>();
         this.DB = new DataBase(URLconnection, DbName);
     }
     public void interpret(String code, String id, PlaneData data) throws Exception {//execute code
@@ -26,13 +26,26 @@ public class Model extends Observable implements Observer {
             interpreter.interpret(code);
         }catch (Exception e){
             System.out.println("unexcepted exception");
+            for(int i = 0; i<this.interpreters.size(); i++){//remove the interpreter
+                if(this.interpreters.get(i).id == id)
+                    this.interpreters.remove(i);
+            }
         }
     }
 
     @Override
-    public void update(Observable o, Object arg) {//send the commands up to controller
-        setChanged();
-        notifyObservers(arg);
+    public void update(Observable o, Object arg) {
+        String interpCommand = (String) arg;
+        if(interpCommand.equals("finished")){//if the interpreter done the interpretation remove him
+            Interpreter interp = (Interpreter) o;
+            for(int i = 0; i<this.interpreters.size(); i++){
+                if(this.interpreters.get(i) == interp)
+                    this.interpreters.remove(i);
+            }
+        }else {//send the commands up to controller
+            setChanged();
+            notifyObservers(arg);
+        }
     }
 
     public void setFgVarsInInterpreter(PlaneData data){

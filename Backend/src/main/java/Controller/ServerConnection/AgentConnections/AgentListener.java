@@ -49,10 +49,8 @@ public class AgentListener extends Observable implements Runnable {
 
                 if (fromAgent instanceof PlaneData) {
                     planeData = (PlaneData)fromAgent;
-                    Controller.planeDataMap.put(planeData.getId(),planeData);
-                    String id = planeData.getID();
                     setChanged();
-                    notifyObservers(planeData);
+                    notifyObservers(planeData);//sending to the controller the plane data
 //                    planeData.Print();
                 }
                 else if(fromAgent instanceof AnalyticsData){
@@ -106,7 +104,8 @@ public class AgentListener extends Observable implements Runnable {
     }
 
     public void stopListening() {
-        Controller.planeDataMap.remove(this.planeData.getId());
+        setChanged();
+        notifyObservers(this.planeData.getId());
         this.running = false;
         try {
             in.close();

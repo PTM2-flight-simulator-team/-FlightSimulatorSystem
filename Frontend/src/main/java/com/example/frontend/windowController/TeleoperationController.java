@@ -107,6 +107,7 @@ public class TeleoperationController {
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
         //clocks.initViewModel(m);
+    }
 
     public void initViewModel(Model m){
         this.vm = new TeleoperationViewModel(m);

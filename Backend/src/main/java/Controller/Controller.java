@@ -18,7 +18,7 @@ public class Controller implements Observer {
    Map<String, Command> mapCommand;
    public static Model model;
    ExecutorService executor;
-   public static volatile Map<String, PlaneData> planeDataMap;//map from plane id to his plane data
+   public  volatile static Map<String, PlaneData> planeDataMap;//map from plane id to his plane data
    public static volatile HashMap<String, ClientHandler> clientMap;
 
    public Controller() {
@@ -37,6 +37,9 @@ public class Controller implements Observer {
               "mongodb+srv://fleetManagement:r7uRtk!ytxGbVrR@flightfleet.aerzo.mongodb.net/?retryWrites=true&w=majority");
       model.addObserver(this);
 
+   }
+   public static PlaneData getPlaneDataById(String pid){
+      return planeDataMap.get(pid);
    }
 
    @Override
@@ -67,6 +70,7 @@ public class Controller implements Observer {
          clientMap.get(args.get(0)).writeToAgent(args.get(1));//write the commands from the interpreter to the agent
       }else if (o instanceof ClientHandler){
          model.setFgVarsInInterpreter((PlaneData) arg);//update the FG in model for pass it to interpreter
+         this.planeDataMap.put(((PlaneData) arg).getID(),(PlaneData) arg);
       }else if(o instanceof OpenServerCommand){// case that the data came from the agent server connection
          this.addHandler((Runnable) arg);
          ClientHandler ch = (ClientHandler) arg;
