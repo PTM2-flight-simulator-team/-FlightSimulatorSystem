@@ -115,6 +115,8 @@ public class TimeCapsuleController implements Initializable {
     private volatile boolean stop = false;
     private volatile int currenIndex;
     private ImageView plane;
+    @FXML
+    private AnchorPane airpane;
 
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
@@ -419,6 +421,7 @@ public class TimeCapsuleController implements Initializable {
                                 mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
                                 //System.out.println("Flying...");
                                 currenIndex = i;
+                                ChangePlanePositionByTime(currenIndex);
                                 Thread.sleep((long) timeSleep);
                             }
 //                            if (i == _records.size()-1)
@@ -459,7 +462,29 @@ public class TimeCapsuleController implements Initializable {
     }
 
     public void ChangePlanePositionByTime(int indexInTimeSeries){
-        List<List<String>> ts;
+        ArrayList<ArrayList<String>> _records = new ArrayList<>();
+        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file1.csv";
+        File file = new File(csvName);
+        try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                ArrayList<String> values1 = new ArrayList<>();
+                for (int i=0; i<values.length; i++){
+                    values1.add(values[i]);
+                }
+                _records.add(values1);
+            }
+            //longitude = index 3
+            //latitude = index 4
+            float longitude = Float.parseFloat(_records.get(indexInTimeSeries).get(2));
+            float latitude =  Float.parseFloat(_records.get(indexInTimeSeries).get(3));
+            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,468,375);
+            plane.relocate(pair.getKey(),pair.getValue());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -469,11 +494,13 @@ public class TimeCapsuleController implements Initializable {
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
 
-        String airplanePath = System.getProperty("user.dir") + "Frontend/src/main/resources/icons/airplaneSymbol.png";
-        plane = new ImageView(new Image(airplanePath));
+        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        plane = new ImageView(new Image(path));
+
+        airpane.getChildren().add(plane);
 
         ArrayList<String[]> _records = new ArrayList<>();
-        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file2.csv";
+        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file1.csv";
         ArrayList<String> times = new ArrayList<>();
         File file = new File(csvName);
         try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
