@@ -117,7 +117,10 @@ public class TimeCapsuleController implements Initializable {
     private ImageView plane;
     @FXML
     private AnchorPane airpane;
-
+    @FXML
+    private Button load;
+    @FXML
+    private Button reset;
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
@@ -362,12 +365,14 @@ public class TimeCapsuleController implements Initializable {
     public void pauseFlight(){
         if (stop == false){
             pause.setText("RESUME");
+            reset.setVisible(true);
             stop = true;
 
         }else{
             pause.setText("PAUSE");
-            stop = false;
             pause.setVisible(false);
+            reset.setVisible(false);
+            stop = false;
         }
     }
 
@@ -375,8 +380,7 @@ public class TimeCapsuleController implements Initializable {
 
         public void startFlight(){
         ArrayList<String[]> _records = new ArrayList<>();
-        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file2.csv";
-        ArrayList<String> times = new ArrayList<>();
+        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
         File file = new File(csvName);
         try (BufferedReader br = new BufferedReader(new FileReader(csvName))){
             String line = "";
@@ -399,18 +403,16 @@ public class TimeCapsuleController implements Initializable {
                 }
             }
 
-
             double speed2 = Double.parseDouble(speed1.getText());
             int inc = (int) ((mySlider.getValue() / 100) * ((_records.size()-1))) +1;
             int finalStartIndex = startIndex;
             thread = new Thread(){
                 @Override
                 public void run() {
-
                     try {
                         SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                        Date date1 = s1.parse(_records.get(3)[_records.get(3).length - 1]);
-                        Date date2 = s1.parse(_records.get(2)[_records.get(2).length - 1]);
+                        Date date1 = s1.parse(_records.get(4)[_records.get(4).length - 1]);
+                        Date date2 = s1.parse(_records.get(3)[_records.get(3).length - 1]);
                         double dat1 = date1.getTime();
                         double dat2 = date2.getTime();
                         double timeSleep = (dat1 - dat2) * speed2;
@@ -463,7 +465,7 @@ public class TimeCapsuleController implements Initializable {
 
     public void ChangePlanePositionByTime(int indexInTimeSeries){
         ArrayList<ArrayList<String>> _records = new ArrayList<>();
-        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file1.csv";
+        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
         File file = new File(csvName);
         try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
             String line = "";
@@ -487,9 +489,33 @@ public class TimeCapsuleController implements Initializable {
 
     }
 
+    public void resetFlight(){
+        ArrayList<String[]> _records = new ArrayList<>();
+        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
+        ArrayList<String> times = new ArrayList<>();
+        File file = new File(csvName);
+        try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                _records.add(values);
+            }
+            stop = false;
+            speedTxt.setText(_records.get(1)[_records.get(1).length-1]);
+            mySlider.setValue(0);
+            pause.setVisible(false);
+            reset.setVisible(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        load.setStyle("-fx-background-color: black; -fx-text-fill: #FFFFFF; ");
+
         // 50% size from the original map
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
@@ -499,8 +525,11 @@ public class TimeCapsuleController implements Initializable {
 
         airpane.getChildren().add(plane);
 
+        pause.setVisible(false);
+        reset.setVisible(false);
+
         ArrayList<String[]> _records = new ArrayList<>();
-        String csvName = "C:\\Users\\user\\Desktop\\Frontend1\\src\\main\\java\\Model\\ModelTools\\file1.csv";
+        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
         ArrayList<String> times = new ArrayList<>();
         File file = new File(csvName);
         try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
@@ -513,18 +542,12 @@ public class TimeCapsuleController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //double speed2 = Double.parseDouble(speed1.getText());
+        speedTxt.setText(_records.get(1)[_records.get(1).length-1]);
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                int index;
-                if (stop) {
+                if (stop == false) {
                     int i = (int) ((mySlider.getValue() / 100) * ((_records.size()) - 1)) + 1;
-//                    if (i > currenIndex) {
-//                        index = i + currenIndex;
-//                    }else{
-//                        index = i;
-//                    }
                     speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
                 }
 
