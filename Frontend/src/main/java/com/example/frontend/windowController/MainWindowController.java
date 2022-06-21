@@ -14,6 +14,7 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
@@ -71,7 +72,7 @@ public class MainWindowController implements Initializable {
         mc.setModel(m);
         mc.createJoyStick();
         //mc.createLineCharts();
-        //mc.createCircleGraph();
+        //mc.createCircleGraph();;
         mc.createClocks();
         mc.initViewModel(m);
     }
