@@ -4,14 +4,16 @@ import Model.Model;
 import com.example.frontend.ClocksViewModel;
 import com.example.frontend.JoyStickViewModel;
 import eu.hansolo.medusa.*;
-import eu.hansolo.medusa.skins.ModernSkin;
+import eu.hansolo.medusa.skins.*;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 
@@ -36,7 +38,7 @@ public class ClocksController implements Initializable {
 
     ClocksViewModel vm;
 
-    DoubleProperty compassDegree,speed,verticalSpeed;
+    DoubleProperty compassDegree, speed, verticalSpeed;
 
     public ClocksController() {
         compassDegree = new SimpleDoubleProperty();
@@ -125,8 +127,32 @@ public class ClocksController implements Initializable {
                 .animationDuration(500)
                 .needleBehavior(Gauge.NeedleBehavior.OPTIMIZED)
                 .build();
-                compass.setValue(this.compassDegree.getValue());
+        compass.setValue(this.compassDegree.getValue());
         bp5.setCenter(compass);
+    }
+
+    public void paintAltimeter() {
+        Clock altimeter = new Clock();
+        altimeter.setSkin(new PlainClockSkin(altimeter));
+        altimeter.setTitle("ALTIMETER");
+        altimeter.setAlarmColor(Color.WHITE);
+        altimeter.setBorderPaint(Color.BLACK);
+        altimeter.setBackgroundPaint(Color.BLACK);
+        altimeter.setHourColor(Color.WHITE);
+        altimeter.setMinuteColor(Color.WHITE);
+        altimeter.setSecondColor(Color.WHITE);
+        altimeter.setTickLabelColor(Color.WHITE);
+        altimeter.setTitleColor(Color.WHITE);
+        altimeter.setHourTickMarkColor(Color.WHITE);
+        altimeter.setMinuteTickMarkColor(Color.WHITE);
+        altimeter.setTitleColor(Color.WHITE);
+        altimeter.setTitleVisible(true);
+        altimeter.setTimeMs(System.currentTimeMillis());
+        bp3.setCenter(altimeter);
+    }
+
+    public void paintAttitude() {
+
     }
 
 
@@ -135,5 +161,6 @@ public class ClocksController implements Initializable {
         paintAirSpeed();
         paintVerticalSpeed();
         paintCompass();
+        paintAltimeter();
     }
 }
