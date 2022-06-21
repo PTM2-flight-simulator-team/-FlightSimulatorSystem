@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -49,8 +50,8 @@ public class JsonsFuncs {
 
     public static JsonObject getPlainData(String pid) throws IOException {
         JsonObject json = new JsonObject();
-        Controller.planeDataMap.get(pid).Print();
-        List<PlaneVar> planeData = Controller.planeDataMap.get(pid).getAllVars();//add exception if not find;
+        Controller.getPlaneDataByPid(pid).Print();
+        List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
         System.out.println(planeData);
         System.out.println("size: " + planeData.size());
         for (int i = 0; i<planeData.size(); i++){
@@ -84,5 +85,9 @@ public class JsonsFuncs {
         Document retDoc = new Document();
         retDoc.append("analyticList", docList);
         return retDoc.toJson();
+    }
+
+    public static String fleetSize(){
+        return new Gson().toJson(Controller.getFleetSize());
     }
 }

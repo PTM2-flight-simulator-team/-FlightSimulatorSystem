@@ -31,8 +31,8 @@ public class Interpreter extends Observable {
         utils.initialize(this);//initialize Utils commands map
         List<String> tokens = lexer.lexer(code);//turn code string to tokens
         parser.parse(tokens, this);//tokens to commands
-//        setDoCommand("finished");
         System.out.println("interpreter " + id + " is finished");
+        setDoCommand("finished");
     }
 
     public  void setDoCommand(String Command){//pass the commands to the Model

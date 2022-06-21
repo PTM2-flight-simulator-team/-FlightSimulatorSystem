@@ -26,13 +26,27 @@ public class Model extends Observable implements Observer {
             interpreter.interpret(code);
         }catch (Exception e){
             System.out.println("unexcepted exception");
+            for (int i = 0; i<interpreters.size(); i++){
+                if(interpreters.get(i).id.equals(id)){
+                    interpreters.remove(i);
+                }
+            }
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {//send the commands up to controller
-        setChanged();
-        notifyObservers(arg);
+        List<String> fromInterpreter = (List<String>) arg;
+        if(fromInterpreter.get(1).equals("finished")){
+            for (int i = 0; i<interpreters.size(); i++){
+                if(interpreters.get(i).id.equals(fromInterpreter.get(0))){
+                    interpreters.remove(i);
+                }
+            }
+        }else{
+            setChanged();
+            notifyObservers(arg);
+        }
     }
 
     public void setFgVarsInInterpreter(PlaneData data){
