@@ -15,6 +15,7 @@ public class JoyStickViewModel extends Observable implements Observer {
 
     public DoubleProperty throttle,rudder,aileron,elevators;
 
+    static int counter = 0;
     public JoyStickViewModel(Model m){
         this.m = m;
         m.addObserver(this);
@@ -22,6 +23,8 @@ public class JoyStickViewModel extends Observable implements Observer {
         this.rudder = new SimpleDoubleProperty();
         this.aileron = new SimpleDoubleProperty();
         this.elevators = new SimpleDoubleProperty();
+//        counter++;
+//        System.out.println(counter);
     }
 
     @Override
@@ -38,5 +41,11 @@ public class JoyStickViewModel extends Observable implements Observer {
 
     public void sendJoystickData(String planeID,JoystickData data) {
         m.SendPostJoystick(planeID,data);
+    }
+
+    protected void finalize()
+    {
+//resources to be close
+
     }
 }

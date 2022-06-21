@@ -1,29 +1,34 @@
 package Model;
 
+import Model.ModelTools.TimeSeries;
 import Model.dataHolder.*;
 
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 public class Model extends Observable implements Observer {
     private List<Double> joyStickData = new ArrayList<>();
     MyHttpHandler myHttpHandler;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     public Model(){
         myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
         myHttpHandler.addObserver(this);
         PlaneData planeData = new PlaneData();
-        planeData.throttle_0 = "0.0";
-        planeData.rudder = "0.0";
-        planeData.aileron = "0.0";
-        planeData.elevator = "0.0";
+        planeData.throttle_0 = "1.0";
+        planeData.rudder = "0.5";
+
+        planeData.airSpeed_kt = "50";
+        planeData.vertSpeed = "-2";
+        planeData.heading = "200";
+        planeData.aileron = "1.0";
+        planeData.elevator = "1.0";
+
+      
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
@@ -33,18 +38,18 @@ public class Model extends Observable implements Observer {
 //        TeleoperationsData tele = new TeleoperationsData();
 //        tele.code = code;
 //        SendPostCode("4", tele);
-        SendGetAnalyticData();
-
-        new Thread("New Thread") {
-            public void run(){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                update(null,response);
-            }
-        }.start();
+//        SendGetAnalyticData();
+//        SendGetTSData("1995", "1");
+//        new Thread("New Thread") {
+//            public void run(){
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                update(null,response);
+//            }
+//        }.start();
     }
 
     public void setJoyStickData(double d1, double d2) {
@@ -52,6 +57,41 @@ public class Model extends Observable implements Observer {
         this.joyStickData.add(d2);
     }
 
+    public void startGetPlaneData(int miliseconds, String planeID){
+        final Runnable sendGet = new Runnable() {
+            public void run() {
+                SendGetPlaneData(planeID);
+            }
+        };
+
+
+        final ScheduledFuture<?> Handle =
+                scheduler.scheduleAtFixedRate(sendGet, 0, miliseconds, TimeUnit.MILLISECONDS);
+        scheduler.schedule(new Runnable() {
+            public void run() {
+                Handle.cancel(true);
+            }
+        }, 60 * 600, TimeUnit.SECONDS);
+
+    }
+
+    public void startGetAnalyticService(int seconds){
+        final Runnable sendGet = new Runnable() {
+            public void run() {
+                System.out.println("here");
+                //SendGetAnalyticData();
+            }
+        };
+
+
+        final ScheduledFuture<?> Handle =
+                scheduler.scheduleAtFixedRate(sendGet, 0, seconds, TimeUnit.SECONDS);
+        scheduler.schedule(new Runnable() {
+            public void run() {
+                Handle.cancel(true);
+            }
+        }, 60 * 600, TimeUnit.SECONDS);
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -61,23 +101,6 @@ public class Model extends Observable implements Observer {
             return;
 //        }
 
-    }
-
-    //Services
-    public void startGetAnalyticService(int seconds){
-        final Runnable sendGet = new Runnable() {
-            public void run() {
-                System.out.println("here");
-                //SendGetAnalyticData();
-            }
-        };
-        final ScheduledFuture<?> Handle =
-                scheduler.scheduleAtFixedRate(sendGet, 0, seconds, SECONDS);
-        scheduler.schedule(new Runnable() {
-            public void run() {
-                Handle.cancel(true);
-            }
-        }, 60 * 600, SECONDS);
     }
 
     //networking related code
@@ -90,8 +113,8 @@ public class Model extends Observable implements Observer {
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Analytics");
         cf.thenApply((response) -> myHttpHandler.HandleGetAnalytics(response));
     }
-    public void SendGetTSData(String PlaneID){
-        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID);
+    public void SendGetTSData(String PlaneID, String flightId){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID+ "&flightId=" + flightId);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
     }
 //    public void SendGetAllPlanes(){
@@ -114,7 +137,7 @@ public class Model extends Observable implements Observer {
     public void SendPostJoystick(String PlaneID, JoystickData data){
         String json = new Gson().toJson(data);
         System.out.println(json);
-        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID,json);
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID ,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
     }
 

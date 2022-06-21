@@ -22,7 +22,11 @@ public class Model extends Observable implements Observer {
         Interpreter interpreter = new Interpreter(id, data);
         interpreter.addObserver(this);
         interpreters.add(interpreter);
-        interpreter.interpret(code);
+        try {
+            interpreter.interpret(code);
+        }catch (Exception e){
+            System.out.println("unexcepted exception");
+        }
     }
 
     @Override
