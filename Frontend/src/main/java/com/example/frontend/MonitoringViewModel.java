@@ -55,8 +55,11 @@ public class MonitoringViewModel extends Observable implements Observer {
     }
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof PlaneData)
-            this.buildTimeSeries((PlaneData)arg);
+        MyResponse<PlaneData> pd = (MyResponse<PlaneData>) arg;
+        if(pd.value instanceof PlaneData){
+            this.buildTimeSeries(pd.value);
+
+        }
         setChanged();
         notifyObservers();
     }
