@@ -7,10 +7,9 @@ import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.json.JSONObject;
 
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class JsonsFuncs {
@@ -75,8 +74,19 @@ public class JsonsFuncs {
         if(documentsList == null)
             return "document list is null";
         documentsList.forEach((d)->{
-//            String tmp = "";
+            d.remove("createdMonth");
             if(d != null) {
+                if((boolean)d.get("active") == true){
+                    String id = (String) d.get("_id");
+                    PlaneData planeData = Controller.getPlaneDataByPid(id);
+                    HashMap<String,String> data = new HashMap<>();
+                    data.put("ID", planeData.getID());
+                    data.put("PlaneName", planeData.getPlaneName());
+                    for(PlaneVar var: planeData.getAllVars()){
+                        data.put(var.getNickName(), var.getValue());
+                    }
+                    d.replace("planeData", data);
+                }
                 docList.add(d);
             }
             else

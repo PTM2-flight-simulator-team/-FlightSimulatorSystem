@@ -42,6 +42,8 @@ public class Controller implements Observer {
       return planeDataMap.get(pid);
    }
 
+   public static Map<String,PlaneData> getActiveData(){return planeDataMap;}
+
    @Override
    public void update(Observable o, Object arg) {
       if(o instanceof MyHttpServer){// case the data came from the http connection

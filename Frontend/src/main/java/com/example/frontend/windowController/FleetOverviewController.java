@@ -7,6 +7,7 @@ import Model.dataHolder.PlaneAnalytic;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -130,8 +131,13 @@ public class FleetOverviewController implements Initializable, Observer {
 
         }
 
-        myBar.getData().clear();
-        myBar.getData().addAll(data);
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                myBar.getData().clear();
+//                myBar.getData().addAll(data);
+//            }
+//        });
     }
 
 
@@ -147,8 +153,13 @@ public class FleetOverviewController implements Initializable, Observer {
             data.getData().add(new XYChart.Data<>(cnt + "", average));
             cnt++;
         }
-        myBar2.getData().clear();
-        myBar2.getData().addAll(data);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                myBar2.getData().clear();
+                myBar2.getData().addAll(data);
+            }
+        });
     }
 
     // presents the fleet size relative to time
@@ -158,8 +169,13 @@ public class FleetOverviewController implements Initializable, Observer {
         for (Map.Entry<Integer, Integer> e : airplaneList.entrySet()) {
             data.getData().add(new LineChart.Data<>(e.getKey() + "", e.getValue()));
         }
-        lineC.getData().clear();
-        lineC.getData().add(data);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                lineC.getData().clear();
+                lineC.getData().add(data);
+            }
+        });
     }
 
     // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
@@ -250,14 +266,17 @@ public class FleetOverviewController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof AnalyticsData){
-            MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
-            lastAD = ad.value;
+        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
+        if(ad.value instanceof AnalyticsData){
             updateVisuals(ad.value);
+            System.out.println(ad.value.analyticList.get(0).planeData.longitude);
+            return;
         }
-        else{
-            HashMap<Integer,Integer> fleetSize = (HashMap<Integer,Integer>) arg;
-            lineChart(fleetSize);
+        MyResponse<HashMap<Integer,Integer>> hash = (MyResponse<HashMap<Integer,Integer>>)arg;
+        if(hash.value != null)
+        {
+            lineChart(hash.value);
+            return;
         }
     }
 
@@ -328,8 +347,15 @@ public class FleetOverviewController implements Initializable, Observer {
         tooltip.setShowDelay(Duration.seconds(0.5));
         //tooltip.setFont();
         planeImages.put(pd.ID,planeIMG);
-        worldMapPane.getChildren().add(planeIMG);
-        addDoubleClick(planeIMG);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                worldMapPane.getChildren().add(planeIMG);
+            }
+        });
+//        ImageView imv = new ImageView();
+//        imv = planeIMG;
+//        addDoubleClick(planeIMG);
     }
 
     public void addDoubleClick(ImageView plane) {
@@ -482,56 +508,56 @@ public class FleetOverviewController implements Initializable, Observer {
 //        String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
 //        img1.setImage(new Image(mapImgPath));
         zoomMap();
-        System.out.println(mapHeight);
-        System.out.println(mapWidth);
-        AnalyticsData ad = new AnalyticsData();
-        ArrayList<PlaneAnalytic> list = new ArrayList<>();
-        ad.analyticList = list;
-
-        PlaneAnalytic p1 = new PlaneAnalytic();
-        PlaneAnalytic p2 = new PlaneAnalytic();
-
-        p1._id = "0";
-        p1.Name = "pilot0";
-        p2._id = "1";
-        p2.Name = "pilot1";
-
-
-        p1.planeData = new PlaneData();
-        p2.planeData = new PlaneData();
-
-        p1.planeData.latitude = "51.507351"; //London
-        p1.planeData.longitude = "-0.127758"; //London
-        p2.planeData.latitude = "-14.235004"; //Lebanon
-        p2.planeData.longitude = "-51.925282"; //Lebanon
-
-
-        p1.planeData.ID = "0";
-        p1.planeData.PlaneName = "Plane 0";
-        p1.planeData.heading = "312.332";
-        p1.planeData.altitude = "1231312";
-        p1.planeData.airSpeed_kt = "33333";
-
-        p2.planeData.ID = "1";
-        p2.planeData.PlaneName = "Plane 1";
-        p2.planeData.heading = "312.332";
-        p2.planeData.altitude = "1231312";
-        p2.planeData.airSpeed_kt = "33333";
-
-        p1.miles = new HashMap<>();
-        p1.miles.put("May",30.6);
-        p1.miles.put("June",99.0);
-        p2.miles = new HashMap<>();
-        p2.miles.put("May",30.6);
-        p2.miles.put("June",99.0);
-
-        lastAD = ad;
-        //Adding Planes To the plane List
-        list.add(p1);
-        list.add(p2);
-
-        //-----Testing Drawing Planes-----//
-        updateVisuals(ad);
+//        System.out.println(mapHeight);
+//        System.out.println(mapWidth);
+//        AnalyticsData ad = new AnalyticsData();
+//        ArrayList<PlaneAnalytic> list = new ArrayList<>();
+//        ad.analyticList = list;
+//
+//        PlaneAnalytic p1 = new PlaneAnalytic();
+//        PlaneAnalytic p2 = new PlaneAnalytic();
+//
+//        p1._id = "0";
+//        p1.Name = "pilot0";
+//        p2._id = "1";
+//        p2.Name = "pilot1";
+//
+//
+//        p1.planeData = new PlaneData();
+//        p2.planeData = new PlaneData();
+//
+//        p1.planeData.latitude = "51.507351"; //London
+//        p1.planeData.longitude = "-0.127758"; //London
+//        p2.planeData.latitude = "-14.235004"; //Lebanon
+//        p2.planeData.longitude = "-51.925282"; //Lebanon
+//
+//
+//        p1.planeData.ID = "0";
+//        p1.planeData.PlaneName = "Plane 0";
+//        p1.planeData.heading = "312.332";
+//        p1.planeData.altitude = "1231312";
+//        p1.planeData.airSpeed_kt = "33333";
+//
+//        p2.planeData.ID = "1";
+//        p2.planeData.PlaneName = "Plane 1";
+//        p2.planeData.heading = "312.332";
+//        p2.planeData.altitude = "1231312";
+//        p2.planeData.airSpeed_kt = "33333";
+//
+//        p1.miles = new HashMap<>();
+//        p1.miles.put("May",30.6);
+//        p1.miles.put("June",99.0);
+//        p2.miles = new HashMap<>();
+//        p2.miles.put("May",30.6);
+//        p2.miles.put("June",99.0);
+//
+//        lastAD = ad;
+//        //Adding Planes To the plane List
+//        list.add(p1);
+//        list.add(p2);
+//
+//        //-----Testing Drawing Planes-----//
+//        updateVisuals(ad);
 //        latLongToOffsets(61.524010f, 105.318756f, 780, 625);
 
 
@@ -542,11 +568,11 @@ public class FleetOverviewController implements Initializable, Observer {
         //----------------------------Graphs tests----------------------------//
 
         //---------singleSortedMiles Test2----------// Mapping plane id to miles
-        HashMap<Integer, Double> test1New = new HashMap<>();
-        test1New.put(5, 250.0);
-        test1New.put(8, 50.0);
-        test1New.put(7, 100.0);
-        singleSortedMiles(test1New);
+//        HashMap<Integer, Double> test1New = new HashMap<>();
+//        test1New.put(5, 250.0);
+//        test1New.put(8, 50.0);
+//        test1New.put(7, 100.0);
+//        singleSortedMiles(test1New);
 
         //Test for multiple bar
 //        HashMap<Integer, List<Integer>> test2 = new HashMap<>();
@@ -557,13 +583,13 @@ public class FleetOverviewController implements Initializable, Observer {
 
 
         //---------Line Chart----------// Mapping month number to fleet size
-        HashMap<Integer, Integer> testLineChart = new HashMap<>();
-        testLineChart.put(5, 250);
-        testLineChart.put(8, 50);
-        testLineChart.put(7, 100);
-        lineChart(testLineChart);
-
-        activePlanes(0);
+//        HashMap<Integer, Integer> testLineChart = new HashMap<>();
+//        testLineChart.put(5, 250);
+//        testLineChart.put(8, 50);
+//        testLineChart.put(7, 100);
+//        lineChart(testLineChart);
+//
+//        activePlanes(0);
 
 //        System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
     }

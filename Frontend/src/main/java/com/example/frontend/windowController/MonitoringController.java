@@ -69,7 +69,6 @@ public class MonitoringController implements Initializable, Observer {
     public void setPlaneID(ActionEvent planeID) {
         String name = ((MenuItem) planeID.getSource()).getText();
         viewModel.startService(name);
-
     }
     public void setPlaneID(String id){
 
@@ -155,7 +154,9 @@ public class MonitoringController implements Initializable, Observer {
         LineChart bigChart = new LineChart(bigX, bigY);
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
         TimeSeries tsTest = new TimeSeries(
-                "Frontend/src/main/java/Model/ModelTools/test.csv");
+                data);
+
+        sad.listOfPairs = cf;
         sad.listOfPairs = cf;
         sad.detect(tsTest);
         List<AnomalyReport> reports = sad.listOfExp;
@@ -414,6 +415,7 @@ public class MonitoringController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         data = this.viewModel.getData();
+        reload("1995");
 
     }
 }

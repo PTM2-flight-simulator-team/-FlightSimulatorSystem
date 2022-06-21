@@ -109,7 +109,7 @@ public class DataBase {
             throw new Exception("plane does not exists in TimeSeries collection");
     }
 
-    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
+    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, HashMap<String ,String> planeData){
         LocalDate currentdate = LocalDate.now();
         HashMap<String,Double> metrics = new HashMap<>();
         Integer month1 = currentdate.getMonth().getValue();
@@ -126,9 +126,8 @@ public class DataBase {
         metrics.put(Month.NOVEMBER.toString(),0.0);
         metrics.put(Month.DECEMBER.toString(),0.0);
         metrics.put(month.toString(),metrics.get(month.toString())+miles);
-        planeData.Print();
-        String gson = new Gson().toJson(planeData);
-        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,gson).append("createdMonth", month1);
+//        String gson = new Gson().toJson(planeData);
+        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,planeData).append("createdMonth", month1);
         this.addDocument("AirCrafts",d);
     }
 

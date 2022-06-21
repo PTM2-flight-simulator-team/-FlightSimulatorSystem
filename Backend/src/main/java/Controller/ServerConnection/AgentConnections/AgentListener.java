@@ -2,6 +2,7 @@ package Controller.ServerConnection.AgentConnections;
 
 import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
 import Controller.Controller;
 
 import java.io.*;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
@@ -78,8 +80,14 @@ public class AgentListener extends Observable implements Runnable {
                     }
                     else {
                             System.out.println("blabla");
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("ID", planeData.getID());
+                        data.put("PlaneName", planeData.getPlaneName());
+                        for(PlaneVar var: planeData.getAllVars()){
+                            data.put(var.getNickName(), var.getValue());
+                        }
                             Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                    ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
+                                    ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , data);
 //                            this.stopListening();
 
                     }
