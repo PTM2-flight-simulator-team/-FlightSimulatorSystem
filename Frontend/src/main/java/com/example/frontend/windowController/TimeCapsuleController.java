@@ -503,6 +503,7 @@ public class TimeCapsuleController implements Initializable {
             stop = false;
             speedTxt.setText(_records.get(1)[_records.get(1).length-1]);
             mySlider.setValue(0);
+            speed1.setText("1");
             pause.setVisible(false);
             reset.setVisible(false);
         } catch (IOException e) {
