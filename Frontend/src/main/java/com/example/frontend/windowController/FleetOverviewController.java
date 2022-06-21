@@ -206,8 +206,10 @@ public class FleetOverviewController implements Initializable, Observer {
         return (float) (degrees * Math.PI) / 180;
     }
 
-    public void initVM(Model m) {
+    public void initVM(Model m)
+    {
         this.fvm = new FleetOverViewModel(m);
+        this.fvm.addObserver(this);
     }
 
     // manual refresh button of all the graphs

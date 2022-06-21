@@ -50,7 +50,7 @@ public class Model extends Observable implements Observer {
 //                update(null,response);
 //            }
 //        }.start();
-        SendGetTSData("1995","0");
+//        SendGetTSData("1995","0");
     }
 
     public void setJoyStickData(double d1, double d2) {
