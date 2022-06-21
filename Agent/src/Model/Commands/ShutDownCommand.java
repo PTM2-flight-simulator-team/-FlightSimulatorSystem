@@ -2,6 +2,9 @@ package Model.Commands;
 
 import Model.MyModel;
 
+/**
+ * The ShutDownCommand class implements the Command interface.
+ */
 public class ShutDownCommand implements Command{
 
     private MyModel model;
@@ -10,9 +13,11 @@ public class ShutDownCommand implements Command{
         this.model = model;
     }
 
+    /**
+     * The execute function is called when the user presses the shutdown command
+     */
     @Override
     public void execute() {
-//        model.notifyObservers("ShutDownCommand:");
         model.modelNotify("ShutDownCommand:");
     }
 }

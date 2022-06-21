@@ -10,26 +10,27 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Observable;
 
+/**
+ * > This class is an observable that runs a thread that reads from a socket and notifies observers when it receives a
+ * message
+ */
 public class ServerReaderConnection extends Observable implements Runnable {
     private Socket server;
     private BufferedReader in;
     volatile boolean stop = false;
+
     public ServerReaderConnection(Socket s){
         server = s;
         try {
-//            InputStream inputStream = server.getInputStream();
-//            InputStream bufferedIn = new BufferedInputStream(inputStream);
             in =  new BufferedReader(new InputStreamReader(server.getInputStream()));
-
             MyLogger.LogMessage("Connected to server");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
+    /**
+     * It reads a line from the socket, parses it, and then notifies the observers of the command
+     */
     @Override
     public void run() {
             while (!stop) {
@@ -67,6 +68,9 @@ public class ServerReaderConnection extends Observable implements Runnable {
 
     }
 
+    /**
+     * It closes the input stream and the server socket
+     */
     public void Stop(){
         try {
             this.stop = true;

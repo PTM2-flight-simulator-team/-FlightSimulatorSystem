@@ -1,28 +1,32 @@
 package Model;
 
 import CommonClasses.PlaneData;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * > This class is responsible for handling all analytics related tasks
+ */
 public class AnalyticsHandler {
+    // A hashmap that contains all the analytics data.
     private HashMap<String,String> analytics;
+    // An array of arrays that contains all the data of the flight.
     private ArrayList<ArrayList<String>> timeSeries;
     private boolean firstStart = true;
-    private PlaneData LastPlainData = null;
+    // Used to calculate the distance between the last location and the current location.
+    private PlaneData LastPlaneData = null;
     private static double Nautical_Mile = 0;
     private boolean firstPlaneData = true;
 
+    // This is the constructor of the class.
     public AnalyticsHandler(){
-        analytics = new HashMap<>();
-        timeSeries = new ArrayList<ArrayList<String>>();
-
+        this.analytics = new HashMap<>();
+        this.timeSeries = new ArrayList<ArrayList<String>>();
         ArrayList<String> headers = new ArrayList<String>();
         AddHeaders(headers);
-
-        timeSeries.add(headers);
+        this.timeSeries.add(headers);
     }
 
     private void AddHeaders(ArrayList<String> headers) {
@@ -43,36 +47,60 @@ public class AnalyticsHandler {
         headers.add("Time");
     }
 
+    /**
+     * This function adds the plain data to the array list, and calculates the distance between the last plane data and the
+     * current plane data
+     *
+     * @param plainData The data that we want to add to the array list.
+     */
     public void AddPlainDataToArrayList(PlaneData plainData){
-        // lat2/lon2 is the new plaindata and lat1/lon1 is old plaingdata
-//        if(firstPlaneData == true)
-//            firstStart = false;
-        if(LastPlainData != null){
-            double Nautical_Mile_Result = getDistanceFromLatLonInKm(Double.parseDouble(LastPlainData.getLatitude()), Double.parseDouble(LastPlainData.getLongitude()),Double.parseDouble(plainData.getLatitude()), Double.parseDouble(plainData.getLongitude()));
+        // This is checking if the last plane data is null, if it is not null, then it will calculate the distance between
+        // the last plane data and the current plane data.
+        if(LastPlaneData != null){
+            double Nautical_Mile_Result = getDistanceFromLatLonInKm(Double.parseDouble(LastPlaneData.getLatitude()), Double.parseDouble(LastPlaneData.getLongitude()),Double.parseDouble(plainData.getLatitude()), Double.parseDouble(plainData.getLongitude()));
             Nautical_Mile += Nautical_Mile_Result;
         }
-        LastPlainData = plainData;
+        // Setting the last plane data to the current plane data.
+        LastPlaneData = plainData;
+        // This is checking if the first plane data is the first plane data, if it is, then it will set the start location
+        // to the current location.
         if(firstStart == true)
         {
             firstStart = false;
             setFrom(plainData.getLongitude(), plainData.getLatitude());
         }
-
+        // This is getting the current time and formatting it to a specific format.
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String time = currentTime.format(timeFormatter);
+        // Converting the plain data to a list of strings.
         ArrayList<String> tsElement = plainData.PlainDataToList();
+        // Adding the current time to the array list.
         tsElement.add(time);
+        // Adding the current plane data to the array list.
         timeSeries.add(tsElement);
-
-
+        // Adding the plain data to the array list.
         timeSeries.add(plainData.PlainDataToList());
-
+        // This function is setting the end location to the current location.
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }
+
+    /**
+     * This function returns the timeSeries ArrayList
+     *
+     * @return The time series of the flight.
+     */
     public ArrayList<ArrayList<String>> GetFlight(){
         return timeSeries;
     }
+
+    /**
+     * The function takes a PlaneData object and splits the string into an array of strings. Then, it iterates over the
+     * array and checks if the key exists in the hashmap. If it does, it checks if the value is greater than the current
+     * value. If it is, it replaces the value. If it doesn't, it adds the key and value to the hashmap
+     *
+     * @param plainData The data that is being sent from the simulator.
+     */
     public void InsertAnalytics(PlaneData plainData){
         String FGanalytics = "altitude "+ plainData.getAltitude() + " speed " + plainData.getAirSpeed_kt(); // add all the data you want to compare
         String[] data = FGanalytics.split(" ");
@@ -91,11 +119,23 @@ public class AnalyticsHandler {
         }
     }
 
+    /**
+     * Sets the start location of the user.
+     *
+     * @param longitude The longitude of the starting point.
+     * @param latitude The latitude of the starting point.
+     */
     public void setFrom(String longitude,String latitude){
         analytics.put("StartLongitude",longitude);
         analytics.put("StartLatitude",latitude);
     }
 
+    /**
+     * This function is used to set the end location of the user's journey
+     *
+     * @param longitude The longitude of the destination
+     * @param latitude The latitude of the location.
+     */
     public void setTo(String longitude,String latitude){
         if(analytics.containsKey("EndLongitude") && analytics.containsKey("EndLatitude"))
         {
@@ -117,6 +157,11 @@ public class AnalyticsHandler {
         analytics.put("EndTime",time);
     }
 
+    /**
+     * This function is used to get the final analytics of the trip
+     *
+     * @return A string containing the analytics of the trip.
+     */
     public String getFinalAnalytics(){
         StringBuilder analyticsString = new StringBuilder();
         analyticsString.append("StartLongitude:").append(analytics.get("StartLongitude")).append(" StartLatitude:").append(analytics.get("StartLatitude"));
@@ -128,6 +173,16 @@ public class AnalyticsHandler {
         return analyticsString.toString();
     }
 
+    /**
+     * The Haversine formula determines the great-circle distance between two points on a sphere given their longitudes and
+     * latitudes
+     *
+     * @param lat1 Latitude of point 1 (in decimal degrees)
+     * @param lon1 longitude of the first point
+     * @param lat2 Latitude of the second point
+     * @param lon2 longitude of the second point
+     * @return The distance in Nautical Miles
+     */
     public double getDistanceFromLatLonInKm(double lat1,double lon1,double lat2,double lon2) {
         double R = 6371; // Radius of the earth in km
         double dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -142,6 +197,12 @@ public class AnalyticsHandler {
         return d;
     }
 
+    /**
+     * Convert degrees to radians.
+     *
+     * @param deg The latitude or longitude of the point, in degrees.
+     * @return The distance between two points on the earth.
+     */
     public double deg2rad(double deg) {
         return deg * (Math.PI/180);
     }

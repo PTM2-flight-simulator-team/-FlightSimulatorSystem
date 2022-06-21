@@ -2,12 +2,13 @@ package Model.Commands;
 
 import Model.MyModel;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * > This class implements the Command interface and is used to reset the FG
+ */
 public class ResetCommand implements Command{
 
     private MyModel model;
@@ -16,6 +17,9 @@ public class ResetCommand implements Command{
         this.model = model;
     }
 
+    /**
+     * It reads a file, parses the data, and then executes the commands
+     */
     @Override
     public void execute() {
         try {
