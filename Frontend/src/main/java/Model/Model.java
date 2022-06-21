@@ -118,6 +118,12 @@ public class Model extends Observable implements Observer {
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID+ "&flightId=" + flightId);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
     }
+
+    public void SendGetFleetSizeByMonth(){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/FleetSize");
+        cf.thenApply((response) -> myHttpHandler.HandleGetFleetSize(response));
+
+    }
 //    public void SendGetAllPlanes(){
 //        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Planes");
 //        cf.thenApply((response) -> myHttpHandler.HandleGotAllPlanes(response));

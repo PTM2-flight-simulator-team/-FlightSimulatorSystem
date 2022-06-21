@@ -110,6 +110,13 @@ public class MyHttpHandler extends Observable {
         return null;
     }
 
+    public Object HandleGetFleetSize(HttpResponse<String> response){
+        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
+        MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
+        setChanged();
+        notifyObservers(res);
+        return null;
+    }
 //    public Object HandleGetAllPlanes(HttpResponse<String> response){
 //        List<PlaneData> data = new Gson().fromJson(response.body(),new TypeToken<List<PlaneData>>(){}.getType());
 //        MyResponse<List<PlaneData>> res = new MyResponse<>(data,ResonseType.AllPlanes);

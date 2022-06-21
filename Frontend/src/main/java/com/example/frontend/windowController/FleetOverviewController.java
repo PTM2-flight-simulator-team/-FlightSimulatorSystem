@@ -85,8 +85,11 @@ public class FleetOverviewController implements Initializable, Observer {
     double angle = 0;
 
     //Map Sizes
-    double mapWidth = 750;
-    double mapHeight = 590;
+    double mapWidth = 750; //Real Siz
+    double mapHeight = 590;//Real Size
+//    double mapWidth = 825;
+//    double mapHeight = 649;
+
 
     FleetOverViewModel fvm;
 
@@ -245,12 +248,14 @@ public class FleetOverviewController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        try {
+        if (arg instanceof AnalyticsData){
             MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
             lastAD = ad.value;
             updateVisuals(ad.value);
-        } catch (ClassCastException e) {
-            return;
+        }
+        else{
+            HashMap<Integer,Integer> fleetSize = (HashMap<Integer,Integer>) arg;
+            lineChart(fleetSize);
         }
     }
 
@@ -401,9 +406,12 @@ public class FleetOverviewController implements Initializable, Observer {
         img1.setPreserveRatio(false);
         img1.setFitWidth(850);
         img1.setFitHeight(495);
+//        img1.setFitWidth(935);
+//        img1.setFitHeight(544.5);
+
         height = (int) source.getHeight();
         width = (int) source.getWidth();
-        System.out.println("height = "+height+"\nwidth = "+width);
+        System.out.println("height = "+height+"\n width = "+width);
         HBox zoom = new HBox(10);
         zoom.setAlignment(Pos.CENTER);
 
@@ -426,7 +434,7 @@ public class FleetOverviewController implements Initializable, Observer {
 
         zoomLvl.valueProperty().addListener(e->{
             zoomlvl = zoomLvl.getValue();
-            double newValue = (double)((int)(zoomlvl*10))/10;
+            double newValue = (zoomlvl*10)/10;
             value.setText(newValue+"");
             if(offSetX<(width/newValue)/2) {
                 offSetX = (width/newValue)/2;
@@ -440,13 +448,14 @@ public class FleetOverviewController implements Initializable, Observer {
             if(offSetY>height-((height/newValue)/2)) {
                 offSetY = height-((height/newValue)/2);
             }
-            mapHeight = 590 / newValue;
-            mapWidth = 750 / newValue;
+            mapHeight = 590 * newValue;
+            mapWidth = 750 * newValue;
 
             //update planes location
             updateVisuals(lastAD);
             Rectangle2D rec = new Rectangle2D(offSetX-((width/newValue)/2), offSetY-((height/newValue)/2), width/newValue, height/newValue);
-//            System.out.println(rec.getHeight());
+            System.out.println("X" + mapWidth);
+            System.out.println("Y" + mapHeight);
 //            System.out.println(rec.getWidth());
 
 
