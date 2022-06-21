@@ -79,8 +79,9 @@ public class Model extends Observable implements Observer {
     public void startGetAnalyticService(int seconds){
         final Runnable sendGet = new Runnable() {
             public void run() {
-                System.out.println("here");
-                //SendGetAnalyticData();
+//                System.out.println("here");
+                SendGetAnalyticData();
+                SendGetFleetSizeByMonth();
             }
         };
 

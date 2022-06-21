@@ -15,6 +15,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -111,8 +112,8 @@ public class MyHttpHandler extends Observable {
     }
 
     public Object HandleGetFleetSize(HttpResponse<String> response){
-        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
-        MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
+        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<Map<Integer,Integer>>(){}.getType());
+        MyResponse<Map<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
         return null;
