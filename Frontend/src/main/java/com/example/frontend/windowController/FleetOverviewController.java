@@ -173,6 +173,7 @@ public class FleetOverviewController implements Initializable, Observer {
     }
     //-------------------------------Functions-------------------------------//
 
+    //CPY
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
         float radius = mapWidth / (float) (2 * Math.PI);
@@ -186,7 +187,7 @@ public class FleetOverviewController implements Initializable, Observer {
 
         return new Pair<Double, Double>(x, y);
     }
-
+//CPY
     public float degreesToRadians(float degrees) {
         return (float) (degrees * Math.PI) / 180;
     }
@@ -248,7 +249,7 @@ public class FleetOverviewController implements Initializable, Observer {
         }
     }
 
-
+//CPY
     public void createPlaneView(PlaneData pd, Pair<Double, Double> pair) {
 
         // String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
@@ -296,6 +297,7 @@ public class FleetOverviewController implements Initializable, Observer {
         });
     }
 
+    //CPY
     // changing and presenting plane icon direction towards its location
     public void direction(double longitude, double latitude) {
         prev_i = current_i;
