@@ -49,8 +49,8 @@ public class JsonsFuncs {
 
     public static JsonObject getPlainData(String pid) throws IOException {
         JsonObject json = new JsonObject();
-        Controller.planeDataMap.get(pid).Print();
-        List<PlaneVar> planeData = Controller.planeDataMap.get(pid).getAllVars();//add exception if not find;
+        Controller.getPlaneDataByPid(pid).Print();
+        List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
         System.out.println(planeData);
         System.out.println("size: " + planeData.size());
         for (int i = 0; i<planeData.size(); i++){
