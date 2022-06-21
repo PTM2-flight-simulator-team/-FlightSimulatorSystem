@@ -78,6 +78,10 @@ public class Controller implements Observer {
       }
    }
 
+   public static HashMap<Integer,Integer> getFleetSize(){
+      return model.DB.getActivePlaneByMonth();
+   }
+
    private void addHandler(Runnable r){
 //      System.out.println("add handler, id: " + Thread.currentThread().getId());
 //      System.out.println("r class: " + r.getClass());
