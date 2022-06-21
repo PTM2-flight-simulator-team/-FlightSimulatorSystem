@@ -423,7 +423,7 @@ public class TimeCapsuleController implements Initializable {
                                 mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
                                 //System.out.println("Flying...");
                                 currenIndex = i;
-                                ChangePlanePositionByTime(currenIndex);
+                                ChangePlanePositionByTime(i);
                                 Thread.sleep((long) timeSleep);
                             }
 //                            if (i == _records.size()-1)
@@ -523,6 +523,8 @@ public class TimeCapsuleController implements Initializable {
 
         String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         plane = new ImageView(new Image(path));
+        plane.setFitHeight(20);
+        plane.setFitWidth(20);
 
         airpane.getChildren().add(plane);
 
