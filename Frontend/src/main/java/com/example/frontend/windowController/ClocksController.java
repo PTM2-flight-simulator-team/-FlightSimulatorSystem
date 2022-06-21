@@ -1,7 +1,7 @@
 package com.example.frontend.windowController;
 
 import Model.Model;
-//import com.example.frontend.ClocksViewModel;
+import com.example.frontend.ClocksViewModel;
 import com.example.frontend.JoyStickViewModel;
 import eu.hansolo.medusa.*;
 import eu.hansolo.medusa.skins.*;
@@ -36,7 +36,7 @@ public class ClocksController implements Initializable {
     @FXML
     BorderPane bp6 = new BorderPane();
 
-//    ClocksViewModel vm;
+    ClocksViewModel vm;
 
     DoubleProperty compassDegree, speed, verticalSpeed;
 
@@ -48,11 +48,11 @@ public class ClocksController implements Initializable {
     }
 
     public void initViewModel(Model m) {
-//        this.vm = new ClocksViewModel(m);
-//        vm.addObserver((Observer) this);
-//        vm.compassDegree.bindBidirectional(compassDegree);
-//        vm.verticalSpeed.bindBidirectional(verticalSpeed);
-//        vm.speed.bindBidirectional(speed);
+        this.vm = new ClocksViewModel(m);
+        vm.addObserver((Observer) this);
+        vm.compassDegree.bindBidirectional(compassDegree);
+        vm.verticalSpeed.bindBidirectional(verticalSpeed);
+        vm.speed.bindBidirectional(speed);
     }
 
     public void paintAirSpeed() {
