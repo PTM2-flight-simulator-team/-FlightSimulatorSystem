@@ -85,7 +85,6 @@ public class Model extends Observable implements Observer {
             }
         };
 
-
         final ScheduledFuture<?> Handle =
                 scheduler.scheduleAtFixedRate(sendGet, 0, seconds, TimeUnit.SECONDS);
         scheduler.schedule(new Runnable() {
@@ -95,6 +94,9 @@ public class Model extends Observable implements Observer {
         }, 60 * 600, TimeUnit.SECONDS);
     }
 
+    public void StopRunningService(){
+        scheduler.shutdown();
+    }
     @Override
     public void update(Observable o, Object arg) {
 //        if (o.getClass().equals(Model.class)){

@@ -47,14 +47,12 @@ public class TeleoperationController {
     private TeleoperationViewModel vm;
 
 
-
-
     @FXML
-    void getText(MouseEvent event){
+    void getText(MouseEvent event) {
         File file = fileChooser.showOpenDialog(new Stage());
         try {
             Scanner scanner = new Scanner(file);
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 textArea.appendText(scanner.nextLine() + "\n");
             }
         } catch (FileNotFoundException e) {
@@ -70,11 +68,11 @@ public class TeleoperationController {
         String[] lines = text.split("\n");
         JsonObject code = toData.code;
         int i = 1;
-        for (String s: lines) {
+        for (String s : lines) {
             code.addProperty(String.valueOf(i), s);
             i++;
         }
-        vm.sendCode("1995",toData);
+        vm.sendCode("1995", toData);
     }
 
     public void setModel(Model m) {
@@ -107,9 +105,10 @@ public class TeleoperationController {
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
         //clocks.initViewModel(m);
-    }        public void initViewModel (Model m){
+    }
+        public void initViewModel(Model m) {
             this.vm = new TeleoperationViewModel(m);
         }
-
-
     }
+
+
