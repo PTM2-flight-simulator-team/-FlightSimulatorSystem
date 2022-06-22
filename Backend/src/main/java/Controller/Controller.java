@@ -116,6 +116,15 @@ public class Controller implements Observer {
       }
    }
 
+   public static int getNumOfTimeSeries(String id){
+      try {
+         return model.DB.getTSIndexesByPlaneID(id);
+      } catch (Exception e) {
+         throw new RuntimeException(e.getMessage());
+
+      }
+   }
+
 
    private void openServer(){
       this.executor.execute(new OpenServerCommand());
