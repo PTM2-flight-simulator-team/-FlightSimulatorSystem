@@ -4,12 +4,10 @@ import Model.ModelTools.*;
 import Model.dataHolder.AnalyticsData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
-import com.example.frontend.FxmlLoader;
+import com.example.frontend.*;
 import Model.Model;
 
 import com.example.frontend.Point;
-import com.example.frontend.SmallestEnclosingCircle;
-import com.example.frontend.TimeCapsuleViewModel;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -128,10 +126,12 @@ public class TimeCapsuleController implements Initializable,Observer {
     private Button reset;
 
     @FXML
-    private ComboBox choosePlane,chooseflight;
+    private ComboBox choosePlane,chooseflight, featureComboBox;
     ClocksController clocks = new ClocksController();
 
     private List<List<String>> timeSeries;
+
+    SharedGraphs sg = new SharedGraphs();
 
 
     private TimeCapsuleViewModel vm;
@@ -206,145 +206,145 @@ public class TimeCapsuleController implements Initializable,Observer {
         return min;
     }
 
-    public void createLineCharts(List<CorrelatedFeatures> cf) {
-        //.................Create line charts.................//
-        NumberAxis bigX = new NumberAxis();
-        NumberAxis bigY = new NumberAxis();
-        LineChart bigChart = new LineChart(bigX, bigY);
-        SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        if (cf.isEmpty()) {
-            return;  //if there are no correlated features, maybe we should show a message to the user
-        }
-        TimeSeries ts2 = new TimeSeries("Frontend/src/main/java/Model/ModelTools/test.csv");
-
-        sad.listOfPairs = cf;
-        sad.detect(ts2);
-        List<AnomalyReport> reports = sad.listOfExp;
-        Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
-        Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
-        int len = ts.getArray().size();
-        XYChart.Series seriesBigChart = new XYChart.Series<>();
-        seriesBigChart.setName("Big Chart");
-        for (int i = 0; i < len; i++) {
-            seriesBigChart.getData().add(new XYChart.Data<>(v1.get(i), v2.get(i)));
-        }
-        XYChart.Series linearRegressionSeries = new XYChart.Series();
-        linearRegressionSeries.setName("Linear Regression");
-        double max = max(v1);
-        double min = min(v1);
-        linearRegressionSeries.getData().add(new XYChart.Data<>(min, cf.get(0).lin_reg.f((float) min)));
-        linearRegressionSeries.getData().add(new XYChart.Data<>(max, cf.get(0).lin_reg.f((float) max)));
-        XYChart.Series anomalyPointsSeries = new XYChart.Series();
-        anomalyPointsSeries.setName("Anomaly Points");
-        for (int i = 0; i < sad.anomalyPoints.size(); i++) {
-            anomalyPointsSeries.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
-        }
-        bigChart.getData().addAll(seriesBigChart, linearRegressionSeries, anomalyPointsSeries);
-        bigChartBorderPane.setCenter(bigChart);
-        //.................Create area charts.................//
-        createLittleGraph(v1, v2,len);
-    }
-
-    public void createCircleGraph(List<CorrelatedFeatures> cf) {
-        List<com.example.frontend.Point> points = new ArrayList<>();
-        //populate the points
-        SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        sad.listOfPairs = cf;
-        TimeSeries ts2 = new TimeSeries("Frontend/src/main/java/Model/ModelTools/test.csv");
-        sad.detect(ts2);
-        List<AnomalyReport> reports = sad.listOfExp;
-        Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
-        Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
-        for(int i = 0; i < v1.size(); i++){
-            points.add(new com.example.frontend.Point(v1.get(i), v2.get(i)));
-        }
-        int len = ts.getArray().size();
-        //create for loop that iterate points and find max and min from points
-        double maxX = Double.MIN_VALUE;
-        double maxY = Double.MIN_VALUE;
-        double minX = Double.MAX_VALUE;
-        double minY = Double.MAX_VALUE;
-        for (com.example.frontend.Point p : points) {
-            maxX = Math.max(maxX, p.x);
-            maxY = Math.max(maxY, p.y);
-            minX = Math.min(minX, p.x);
-            minY = Math.min(minY, p.y);
-        }
-        double zoom = 0.5;
-        double upperBoundX = maxX + (maxX - minX)*zoom;
-        double lowerBoundX = minX - (maxX - minX)*zoom;
-        double upperBoundY = maxY + (maxY - minY)*zoom;
-        double lowerBoundY = minY - (maxY - minY)*zoom;
-        double biggestUpperBoundXY = Math.max(upperBoundX, upperBoundY);
-        double smallestLowerBoundXY = Math.min(lowerBoundX, lowerBoundY);
-        upperBoundX = biggestUpperBoundXY;
-        lowerBoundX = smallestLowerBoundXY;
-        upperBoundY = biggestUpperBoundXY;
-        lowerBoundY = smallestLowerBoundXY;
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-        ScatterChart chart = new ScatterChart(xAxis, yAxis);
-        chart.setTitle("Circle Chart");
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(lowerBoundX);
-        xAxis.setUpperBound(upperBoundX);
-        yAxis.setAutoRanging(false);
-        yAxis.setLowerBound(lowerBoundY);
-        yAxis.setUpperBound(upperBoundY);
-        XYChart.Series series1 = new XYChart.Series();
-        for(int i = 0; i < points.size(); i++){
-            series1.getData().add(new XYChart.Data(v1.get(i), v2.get(i)));
-        }
-        bigChartBorderPane.setCenter(chart);
-        com.example.frontend.Circle circle2 = SmallestEnclosingCircle.makeCircle(points);
-        XYChart.Series series2 = new XYChart.Series();
-        for(int i = 0; i < 1000; i++){
-            double x2 = circle2.c.x + circle2.r*Math.cos(2*Math.PI*i/1000);
-            double y2 = circle2.c.y + circle2.r*Math.sin(2*Math.PI*i/1000);
-            series2.getData().add(new XYChart.Data(x2, y2));
-        }
-        XYChart.Series anomalyPointsSeriesCircle = new XYChart.Series();
-        anomalyPointsSeriesCircle.setName("Anomaly Points");
-        for (int i = 0; i < sad.anomalyPoints.size(); i++) {
-            com.example.frontend.Point p = new Point(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y);
-            double distance = Math.sqrt(Math.pow(p.x - circle2.c.x, 2) + Math.pow(p.y - circle2.c.y, 2));
-            if(distance > circle2.r){
-                anomalyPointsSeriesCircle.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
-            }
-        }
-        chart.getData().addAll(series2, series1, anomalyPointsSeriesCircle);
-        //.................Create area charts.................//
-        createLittleGraph(v1, v2,len);
-    }
-
-    public void createLittleGraph(Vector<Double> v1, Vector<Double> v2, int len) {
-        NumberAxis leftX = new NumberAxis();
-        NumberAxis leftY = new NumberAxis();
-        AreaChart leftAreaChart = new AreaChart(leftX, leftY);
-        leftAreaChart.setCreateSymbols(false);
-        NumberAxis rightX = new NumberAxis();
-        NumberAxis rightY = new NumberAxis();
-        AreaChart rightAreaChart = new AreaChart(rightX, rightY);
-        rightAreaChart.setCreateSymbols(false);
-        XYChart.Series seriesLeftAreaChart = new XYChart.Series<>();
-        seriesLeftAreaChart.setName("Left Area Chart");
-        XYChart.Series seriesRightAreaChart = new XYChart.Series<>();
-        seriesRightAreaChart.setName("Right Area Chart");
-        for (int i = 0; i < len; i++) {
-            seriesLeftAreaChart.getData().add(new XYChart.Data<>(i, v1.get(i))); //the x need to be the column of time
-            seriesRightAreaChart.getData().add(new XYChart.Data<>(i, v2.get(i)));
-        }
-        leftX.setAutoRanging(false);
-        leftX.setLowerBound(len - 20);
-        leftX.setUpperBound(len);
-        rightX.setAutoRanging(false);
-        rightX.setLowerBound(len - 20);
-        rightX.setUpperBound(len);
-        leftAreaChart.getData().addAll(seriesLeftAreaChart);
-        rightAreaChart.getData().addAll(seriesRightAreaChart);
-        leftAreaChartBorderPane.setCenter(leftAreaChart);
-        rightAreaChartBorderPane.setCenter(rightAreaChart);
-    }
+//    public void createLineCharts(List<CorrelatedFeatures> cf) {
+//        //.................Create line charts.................//
+//        NumberAxis bigX = new NumberAxis();
+//        NumberAxis bigY = new NumberAxis();
+//        LineChart bigChart = new LineChart(bigX, bigY);
+//        SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
+//        if (cf.isEmpty()) {
+//            return;  //if there are no correlated features, maybe we should show a message to the user
+//        }
+//        TimeSeries ts2 = new TimeSeries("Frontend/src/main/java/Model/ModelTools/test.csv");
+//
+//        sad.listOfPairs = cf;
+//        sad.detect(ts2);
+//        List<AnomalyReport> reports = sad.listOfExp;
+//        Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
+//        Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
+//        int len = ts.getArray().size();
+//        XYChart.Series seriesBigChart = new XYChart.Series<>();
+//        seriesBigChart.setName("Big Chart");
+//        for (int i = 0; i < len; i++) {
+//            seriesBigChart.getData().add(new XYChart.Data<>(v1.get(i), v2.get(i)));
+//        }
+//        XYChart.Series linearRegressionSeries = new XYChart.Series();
+//        linearRegressionSeries.setName("Linear Regression");
+//        double max = max(v1);
+//        double min = min(v1);
+//        linearRegressionSeries.getData().add(new XYChart.Data<>(min, cf.get(0).lin_reg.f((float) min)));
+//        linearRegressionSeries.getData().add(new XYChart.Data<>(max, cf.get(0).lin_reg.f((float) max)));
+//        XYChart.Series anomalyPointsSeries = new XYChart.Series();
+//        anomalyPointsSeries.setName("Anomaly Points");
+//        for (int i = 0; i < sad.anomalyPoints.size(); i++) {
+//            anomalyPointsSeries.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
+//        }
+//        bigChart.getData().addAll(seriesBigChart, linearRegressionSeries, anomalyPointsSeries);
+//        bigChartBorderPane.setCenter(bigChart);
+//        //.................Create area charts.................//
+//        createLittleGraph(v1, v2,len);
+//    }
+//
+//    public void createCircleGraph(List<CorrelatedFeatures> cf) {
+//        List<com.example.frontend.Point> points = new ArrayList<>();
+//        //populate the points
+//        SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
+//        sad.listOfPairs = cf;
+//        TimeSeries ts2 = new TimeSeries("Frontend/src/main/java/Model/ModelTools/test.csv");
+//        sad.detect(ts2);
+//        List<AnomalyReport> reports = sad.listOfExp;
+//        Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
+//        Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
+//        for(int i = 0; i < v1.size(); i++){
+//            points.add(new com.example.frontend.Point(v1.get(i), v2.get(i)));
+//        }
+//        int len = ts.getArray().size();
+//        //create for loop that iterate points and find max and min from points
+//        double maxX = Double.MIN_VALUE;
+//        double maxY = Double.MIN_VALUE;
+//        double minX = Double.MAX_VALUE;
+//        double minY = Double.MAX_VALUE;
+//        for (com.example.frontend.Point p : points) {
+//            maxX = Math.max(maxX, p.x);
+//            maxY = Math.max(maxY, p.y);
+//            minX = Math.min(minX, p.x);
+//            minY = Math.min(minY, p.y);
+//        }
+//        double zoom = 0.5;
+//        double upperBoundX = maxX + (maxX - minX)*zoom;
+//        double lowerBoundX = minX - (maxX - minX)*zoom;
+//        double upperBoundY = maxY + (maxY - minY)*zoom;
+//        double lowerBoundY = minY - (maxY - minY)*zoom;
+//        double biggestUpperBoundXY = Math.max(upperBoundX, upperBoundY);
+//        double smallestLowerBoundXY = Math.min(lowerBoundX, lowerBoundY);
+//        upperBoundX = biggestUpperBoundXY;
+//        lowerBoundX = smallestLowerBoundXY;
+//        upperBoundY = biggestUpperBoundXY;
+//        lowerBoundY = smallestLowerBoundXY;
+//        NumberAxis xAxis = new NumberAxis();
+//        NumberAxis yAxis = new NumberAxis();
+//        ScatterChart chart = new ScatterChart(xAxis, yAxis);
+//        chart.setTitle("Circle Chart");
+//        xAxis.setAutoRanging(false);
+//        xAxis.setLowerBound(lowerBoundX);
+//        xAxis.setUpperBound(upperBoundX);
+//        yAxis.setAutoRanging(false);
+//        yAxis.setLowerBound(lowerBoundY);
+//        yAxis.setUpperBound(upperBoundY);
+//        XYChart.Series series1 = new XYChart.Series();
+//        for(int i = 0; i < points.size(); i++){
+//            series1.getData().add(new XYChart.Data(v1.get(i), v2.get(i)));
+//        }
+//        bigChartBorderPane.setCenter(chart);
+//        com.example.frontend.Circle circle2 = SmallestEnclosingCircle.makeCircle(points);
+//        XYChart.Series series2 = new XYChart.Series();
+//        for(int i = 0; i < 1000; i++){
+//            double x2 = circle2.c.x + circle2.r*Math.cos(2*Math.PI*i/1000);
+//            double y2 = circle2.c.y + circle2.r*Math.sin(2*Math.PI*i/1000);
+//            series2.getData().add(new XYChart.Data(x2, y2));
+//        }
+//        XYChart.Series anomalyPointsSeriesCircle = new XYChart.Series();
+//        anomalyPointsSeriesCircle.setName("Anomaly Points");
+//        for (int i = 0; i < sad.anomalyPoints.size(); i++) {
+//            com.example.frontend.Point p = new Point(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y);
+//            double distance = Math.sqrt(Math.pow(p.x - circle2.c.x, 2) + Math.pow(p.y - circle2.c.y, 2));
+//            if(distance > circle2.r){
+//                anomalyPointsSeriesCircle.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
+//            }
+//        }
+//        chart.getData().addAll(series2, series1, anomalyPointsSeriesCircle);
+//        //.................Create area charts.................//
+//        createLittleGraph(v1, v2,len);
+//    }
+//
+//    public void createLittleGraph(Vector<Double> v1, Vector<Double> v2, int len) {
+//        NumberAxis leftX = new NumberAxis();
+//        NumberAxis leftY = new NumberAxis();
+//        AreaChart leftAreaChart = new AreaChart(leftX, leftY);
+//        leftAreaChart.setCreateSymbols(false);
+//        NumberAxis rightX = new NumberAxis();
+//        NumberAxis rightY = new NumberAxis();
+//        AreaChart rightAreaChart = new AreaChart(rightX, rightY);
+//        rightAreaChart.setCreateSymbols(false);
+//        XYChart.Series seriesLeftAreaChart = new XYChart.Series<>();
+//        seriesLeftAreaChart.setName("Left Area Chart");
+//        XYChart.Series seriesRightAreaChart = new XYChart.Series<>();
+//        seriesRightAreaChart.setName("Right Area Chart");
+//        for (int i = 0; i < len; i++) {
+//            seriesLeftAreaChart.getData().add(new XYChart.Data<>(i, v1.get(i))); //the x need to be the column of time
+//            seriesRightAreaChart.getData().add(new XYChart.Data<>(i, v2.get(i)));
+//        }
+//        leftX.setAutoRanging(false);
+//        leftX.setLowerBound(len - 20);
+//        leftX.setUpperBound(len);
+//        rightX.setAutoRanging(false);
+//        rightX.setLowerBound(len - 20);
+//        rightX.setUpperBound(len);
+//        leftAreaChart.getData().addAll(seriesLeftAreaChart);
+//        rightAreaChart.getData().addAll(seriesRightAreaChart);
+//        leftAreaChartBorderPane.setCenter(leftAreaChart);
+//        rightAreaChartBorderPane.setCenter(rightAreaChart);
+//    }
 
     public void createJoyStick() {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -432,6 +432,7 @@ public class TimeCapsuleController implements Initializable,Observer {
 
 
     public void feature(ActionEvent event){
+        sg.setData(this.timeSeries);
         sad.learnNormal(ts);
         String name = ((MenuItem) event.getSource()).getText();
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(name);
@@ -445,10 +446,10 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
         System.out.println(correlatedFeatureOfWhatWeNeed.get(index).correlation);
         if(correlatedFeatureOfWhatWeNeed.get(index).correlation > 0.95) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
+            sg.createLineCharts(correlatedFeatureOfWhatWeNeed, this.bigChartBorderPane, this.leftAreaChartBorderPane, this.rightAreaChartBorderPane);
         }
         if(correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95 && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
-            createCircleGraph(correlatedFeatureOfWhatWeNeed);
+            sg.createCircleGraph(correlatedFeatureOfWhatWeNeed, this.bigChartBorderPane, this.leftAreaChartBorderPane, this.rightAreaChartBorderPane);
         }
 
     }
@@ -530,6 +531,23 @@ public class TimeCapsuleController implements Initializable,Observer {
         MyResponse<List<List<String>>> ts = (MyResponse<List<List<String>>>) arg;
         if(ts.value != null){
             timeSeries = ts.value;
+            List<String> category = new ArrayList<>();
+            category.add("Aileron");
+            category.add("Elevator");
+            category.add("Rudder");
+            category.add("Longitude");
+            category.add("Latitude");
+            category.add("AirSpeed_kt");
+            category.add("VertSpeed");
+            category.add("Throttle_0");
+            category.add("Throttle_1");
+            category.add("Altitude");
+            category.add("PitchDeg");
+            category.add("RollDeg");
+            category.add("Heading");
+            category.add("TurnCoordinator");
+
+            timeSeries.set(0, category);
             initialLoad();
             System.out.println("Got TS");
         }
@@ -541,13 +559,29 @@ public class TimeCapsuleController implements Initializable,Observer {
                 choosePlane.getItems().add(ad.analyticList.get(i)._id);
             }
         }
+        featureComboBox.getItems().add("Aileron");
+        featureComboBox.getItems().add("Elevator");
+        featureComboBox.getItems().add("Rudder");
+        featureComboBox.getItems().add("Longitude");
+        featureComboBox.getItems().add("Latitude");
+        featureComboBox.getItems().add("AirSpeed_kt");
+        featureComboBox.getItems().add("VertSpeed");
+        featureComboBox.getItems().add("Throttle_0");
+        featureComboBox.getItems().add("Throttle_1");
+        featureComboBox.getItems().add("Altitude");
+        featureComboBox.getItems().add("PitchDeg");
+        featureComboBox.getItems().add("RollDeg");
+        featureComboBox.getItems().add("Heading");
+        featureComboBox.getItems().add("TurnCoordinator");
     }
 
     private void initialLoad(){
+        this.sg.setData(this.timeSeries);
         float longitude = Float.parseFloat(timeSeries.get(1).get(2));
         float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
         Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
         plane.relocate(pair.getKey(),pair.getValue());
+        sg.init( featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
 
         speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size()-1));
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
