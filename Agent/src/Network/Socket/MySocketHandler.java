@@ -63,9 +63,10 @@ public class MySocketHandler extends Observable implements Observer {
 
     public void ShutDown(String analytic, ArrayList<ArrayList<String>> flightData){
         this.fgHandler.Stop();
-        this.sendFlightDataToBackend(flightData);
+
         AnalyticsData analyticsData = new AnalyticsData(analytic);
         this.backHandler.sendFinalAnalytics(analyticsData);
+        this.sendFlightDataToBackend(flightData);
 //        this.backHandler.sendFinalAnalytics(analytic);
         System.out.println("sent Final Analytics");
         System.out.println("The analytics are:");

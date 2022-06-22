@@ -1,5 +1,6 @@
 package Model.Interpreter.Expression;
 
+import Model.Interpreter.Interpreter;
 import Model.Interpreter.Utils;
 
 import java.util.*;
@@ -84,26 +85,52 @@ public class ShuntingYardAlgorithm {
 
         return ret;
     }
-    public static double ConditionParser(List<String> conditionExp) throws Exception {//creating the condition tree
+    public static double ConditionParser(List<String> conditionExp, Interpreter interpreter) throws Exception {//creating the condition tree
         LinkedList<String> queue = new LinkedList<>();
         Stack<String> stack = new Stack<>();
         int size = conditionExp.size();
         String tmp ="";
         List<String> condition = new ArrayList<>();
-        for(int i = 0; i<size; i++){
-            if(Utils.isSymbol(conditionExp.get(i)))
-                tmp = String.valueOf(Utils.getSymbol(conditionExp.get(i)).getValue());
-            else
-                tmp = conditionExp.get(i);
-            condition.add(tmp);
-        }
         HashSet<String> operators = new HashSet<>();
         operators.add(">");
         operators.add("<");
         operators.add(">=");
         operators.add("<=");
         operators.add("==");
-
+        for(int i = 0; i<size; i++){
+            if (!operators.contains(conditionExp.get(i))){
+                List<String> exp = new ArrayList<>();
+                if(conditionExp.get(i).contains(" ")){
+                    exp = Arrays.asList(conditionExp.get(i).split(" "));
+                    for(int j = 0; j< exp.size(); j++){
+                        if(interpreter.utils.isSymbol(exp.get(j)))
+                            exp.set(j, String.valueOf(interpreter.utils.getSymbol(exp.get(j)).getValue()));
+                    }
+                }else{
+                    if(interpreter.utils.isSymbol(conditionExp.get(i)))
+                        exp.add(String.valueOf(interpreter.utils.getSymbol(conditionExp.get(i)).getValue()));
+                    else
+                        exp.add(conditionExp.get(i));
+                }
+//                while (i<size && !operators.contains(conditionExp.get(i))){
+//                    if(Utils.isSymbol(conditionExp.get(i))) {
+//                        exp.add(String.valueOf(Utils.getSymbol(conditionExp.get(i)).getValue()));
+//                    }else
+//                        exp.add(conditionExp.get(i));
+//                    i++;
+//                }
+                condition.add(String.valueOf(ShuntingYardAlgorithm.calc(exp)));
+            }
+            else
+                condition.add(conditionExp.get(i));
+//            if(Utils.isSymbol(conditionExp.get(i))) {
+//                tmp = String.valueOf(Utils.getSymbol(conditionExp.get(i)).getValue());
+//            }else
+//                tmp = conditionExp.get(i);
+//            condition.add(tmp);
+        }
+//        System.out.println(condition);
+        size = condition.size();
         for(int i = 0; i<size; i++){
             switch (condition.get(i)) {
                 case ">":

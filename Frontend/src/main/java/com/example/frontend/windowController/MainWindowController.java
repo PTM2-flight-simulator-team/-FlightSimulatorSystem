@@ -1,5 +1,6 @@
 package com.example.frontend.windowController;
 
+import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
@@ -51,6 +53,8 @@ public class MainWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FleetOverviewController mc = fxmlLoader.getController();
+        mc.initVM(m);
         mainPane.setCenter(fleetOverview);
     }
     @FXML
@@ -63,11 +67,13 @@ public class MainWindowController implements Initializable {
             e.printStackTrace();
         }
         mainPane.setCenter(monitoring);
+        System.out.println(mainPane.getChildren().size());
         MonitoringController mc = fxmlLoader.getController();
         mc.setModel(m);
+        mc.initViewModel(m);
         mc.createJoyStick();
         //mc.createLineCharts();
-        //mc.createCircleGraph();
+        //mc.createCircleGraph();;
         mc.createClocks();
     }
     @FXML
@@ -81,7 +87,10 @@ public class MainWindowController implements Initializable {
         }
         mainPane.setCenter(teleopration);
         TeleoperationController teleoperationController = fxmlLoader.getController();
+        teleoperationController.setModel(m);
         teleoperationController.createJoyStick();
+        teleoperationController.createClocks();
+        teleoperationController.initViewModel(m);
     }
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
@@ -93,6 +102,12 @@ public class MainWindowController implements Initializable {
             e.printStackTrace();
         }
         mainPane.setCenter(timeCapsule);
+        TimeCapsuleController mc = fxmlLoader.getController();
+        mc.setModel(m);
+        mc.createJoyStick();
+        //mc.createLineCharts();
+        //mc.createCircleGraph();
+        mc.createClocks();
     }
 
     @FXML

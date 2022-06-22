@@ -16,7 +16,7 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
     public SimpleAnomalyDetector(){
         listOfPairs = new ArrayList<>();
         listOfExp = new ArrayList<>();
-        thresholdCorr = (float) 0.9;
+        thresholdCorr = (float) 0.1;
         anomalyPoints = new ArrayList<>();
     }
 
@@ -25,7 +25,8 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
         listOfPairs = new ArrayList<>();
         float max = 0;
         for (int i = 0; i < ts.get_records().get(0).size(); i++) {
-            for (int j = i + 1; j < ts.get_records().get(0).size(); j++) {
+            int len = ts.get_records().get(0).size() - 1; // without the last colunmn
+            for (int j = i + 1; j < len; j++) {
                 int c = (-1);
                 float p = Math.abs(pearson(ts.getColByNum(i), ts.getColByNum(j)));
                 if (p > max) {

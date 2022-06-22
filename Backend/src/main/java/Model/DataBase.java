@@ -1,15 +1,15 @@
 package Model;
 
 import CommonClasses.PlaneData;
+import Model.Interpreter.Expression.BinaryExpression;
+import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import org.bson.Document;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DataBase {
@@ -34,6 +34,7 @@ public class DataBase {
         this.database.createCollection(colName);
     }
     public void addDocument(String colName, Document doc){
+
         this.database.getCollection(colName).insertOne(doc);
     }
 
@@ -45,8 +46,14 @@ public class DataBase {
         return this.database.getCollection(colName).find(doc);
     }
 
-    public FindIterable<Document> GetPlanes(){
-        return this.database.getCollection("AirCrafts").find();
+    public FindIterable<Document> GetPlanes() throws Exception{
+        Document doc = this.database.getCollection("AirCrafts").find().first();
+
+        if(doc != null)
+            return this.database.getCollection("AirCrafts").find();
+        else
+            throw new Exception("AirCrafts collection is empty");
+
     }
 
     public FindIterable<Document> getDocById(String colName, String id){
@@ -75,40 +82,62 @@ public class DataBase {
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
         //System.out.println("planeId:" + planeId + "ts: " + ts);
-        Document doc = new Document();
-        doc.append("plainID",planeId).append("PlaneName",planeName).append("ts",ts);
-        System.out.println(doc);
-        this.addDocument("TimeSeries",doc);
+        Document d = this.database.getCollection("TimeSeries").find(new Document().append("planeID",planeId)).first();
+        if(d == null){
+            System.out.println("plane does not exits");
+            List<List<List<String>>> l = new ArrayList<>();
+            l.add(ts);
+            Document doc = new Document();
+            doc.append("planeID",planeId).append("planeName",planeName).append("tsList",l);
+            System.out.println(doc);
+            this.addDocument("TimeSeries",doc);
+        }
+        else{
+            System.out.println("plane exists");
+            this.addTs(planeId,ts);
+        }
+
     }
 
-    public FindIterable<Document> getTSbyPlaneID(String id){
-        return this.database.getCollection("TimeSeries").find(new Document().append("_id",id));
+    public List<List<String>> getTSbyPlaneID(String id,int index) throws Exception{
+//        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            return list.get(index);
+        }else
+            throw new Exception("plane does not exists in TimeSeries collection");
     }
 
-
-
-
-    public FindIterable<Document> getTSbyPlaneName(String name){
-        return this.database.getCollection("TimeSeries").find(new Document().append("planeName",name));
+    public int getTSIndexesByPlaneID(String id) throws Exception{
+//        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            return list.size();
+        }else
+            throw new Exception("plane does not exists in TimeSeries collection");
     }
-    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
-        HashMap<String,Double> hashMap = new HashMap<>();
-       hashMap.put(Month.JANUARY.toString(),0.0);
-       hashMap.put(Month.FEBRUARY.toString(),0.0);
-       hashMap.put(Month.MARCH.toString(),0.0);
-       hashMap.put(Month.APRIL.toString(),0.0);
-       hashMap.put(Month.MAY.toString(),0.0);
-       hashMap.put(Month.JUNE.toString(),0.0);
-       hashMap.put(Month.JULY.toString(),0.0);
-       hashMap.put(Month.AUGUST.toString(),0.0);
-       hashMap.put(Month.SEPTEMBER.toString(),0.0);
-       hashMap.put(Month.OCTOBER.toString(),0.0);
-       hashMap.put(Month.NOVEMBER.toString(),0.0);
-       hashMap.put(Month.DECEMBER.toString(),0.0);
 
-       hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
-
-        Document d = new Document().append("_id",id).append("Name", name).append("miles",hashMap).append("active",active).append("planeData" ,planeData);
+    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, HashMap<String ,String> planeData){
+        LocalDate currentdate = LocalDate.now();
+        HashMap<String,Double> metrics = new HashMap<>();
+        Integer month1 = currentdate.getMonth().getValue();
+        metrics.put(Month.JANUARY.toString(),0.0);
+        metrics.put(Month.FEBRUARY.toString(),0.0);
+        metrics.put(Month.MARCH.toString(),0.0);
+        metrics.put(Month.APRIL.toString(),0.0);
+        metrics.put(Month.MAY.toString(),0.0);
+        metrics.put(Month.JUNE.toString(),0.0);
+        metrics.put(Month.JULY.toString(),0.0);
+        metrics.put(Month.AUGUST.toString(),0.0);
+        metrics.put(Month.SEPTEMBER.toString(),0.0);
+        metrics.put(Month.OCTOBER.toString(),0.0);
+        metrics.put(Month.NOVEMBER.toString(),0.0);
+        metrics.put(Month.DECEMBER.toString(),0.0);
+        metrics.put(month.toString(),metrics.get(month.toString())+miles);
+//        String gson = new Gson().toJson(planeData);
+        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,planeData).append("createdMonth", month1);
         this.addDocument("AirCrafts",d);
     }
 
@@ -117,11 +146,12 @@ public class DataBase {
         Month currentMonth = LocalDate.now().getMonth();
         FindIterable<Document> docs = this.getDocById("AirCrafts",id);
         HashMap<String,Double> hashMap = new HashMap<>();
+//        int numberOfFlights = (Integer) Objects.requireNonNull(docs.first()).get("NumberOfFlights");
         docs.forEach((d)->{
             Document doc = (Document) d.get("miles");
-            doc.forEach((key,value)->{
-                hashMap.put(key, (Double) value);
-            });
+            doc.forEach((key,value)->
+                hashMap.put(key, (Double) value));
+
         });
         if(hashMap.containsKey(currentMonth.toString()))
             hashMap.put(month.toString(),hashMap.get(currentMonth.toString())+mile);
@@ -131,14 +161,24 @@ public class DataBase {
         query.put("_id",id ); // (1)
 
         BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put("miles", hashMap); // (2)
+        newDocument.put("miles", hashMap);
+//
+//        BasicDBObject newDoc2 = new BasicDBObject();
+//        newDoc2.put("NumberOfFlights",numberOfFlights+1);
+
+
 
         BasicDBObject updateObject = new BasicDBObject();
-        updateObject.put("$set", newDocument); // (3)
+        updateObject.put("$set", newDocument);
 
-        database.getCollection("AirCrafts").updateOne(query, updateObject); // (4)
+//        BasicDBObject update2 = new BasicDBObject();
+//        update2.put("$set", newDoc2);
+
+        database.getCollection("AirCrafts").updateOne(query, updateObject);
+      //  database.getCollection("AirCrafts").updateOne(query,update2);
 
     }
+
     public void changePlaneState(String id, Boolean state){
         BasicDBObject query = new BasicDBObject();
         query.put("_id",id);
@@ -173,6 +213,57 @@ public class DataBase {
         });
         return b.get();
     }
-    
 
-}
+
+    public void addTs(String id, List<List<String>> ts){
+        BasicDBObject query = new BasicDBObject();
+        query.put("planeID",id);
+//         Document doc =  this.getDocById("TimeSeries",id).first();
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            System.out.println("doc != null");
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            list.add(ts);
+            BasicDBObject newDoc = new BasicDBObject();
+            newDoc.put("tsList",list);
+
+            BasicDBObject update = new BasicDBObject();
+            update.put("$set",newDoc);
+            database.getCollection("TimeSeries").updateOne(query,update);
+        }
+
+
+    }
+    public HashMap<Integer,Integer> getActivePlaneByMonth(){
+        LocalDate currentdate = LocalDate.now();
+        Integer month1 = currentdate.getMonth().getValue();
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        int[] array = new int[12];
+        FindIterable<Document> it = this.database.getCollection("AirCrafts").find();
+        List<Integer> l = new ArrayList<>();
+        it.forEach((d)->{
+            if(d.get("createdMonth") != null){
+                int x = (Integer) d.get("createdMonth");
+                array[x]++;
+            }
+
+
+        });
+        int sum =0;
+        for(int i=1; i<13;i++){
+            if(i > month1+1)
+                hashMap.put(i,0);
+
+            else {
+
+                hashMap.put(i-1, sum);
+                sum += array[i];
+            }
+        }
+        return hashMap;
+    }
+
+
+    }
+
+

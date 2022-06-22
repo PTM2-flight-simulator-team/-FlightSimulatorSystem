@@ -19,7 +19,7 @@ public class AgentWriter{
     }
 
     public void outToAgent(String outToAgent) {
-        System.out.println("inside agentWriter outToAgent, id" + Thread.currentThread().getId());
+//        System.out.println("inside agentWriter outToAgent, id" + Thread.currentThread().getId());
         this.outToAgent = outToAgent;
         out.println(outToAgent);
     }

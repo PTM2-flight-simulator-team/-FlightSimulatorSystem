@@ -13,5 +13,6 @@
       <Button fx:id="btnAutopilot" layoutX="125.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" text="Autopilot" />
       <Button layoutX="594.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" text="Manual" />
       <BorderPane fx:id="joyStickBorderPane" layoutX="533.0" layoutY="49.0" prefHeight="300.0" prefWidth="414.0" />
+      <BorderPane fx:id="clocksBorderPane" layoutX="533.0" layoutY="375.0" prefHeight="300.0" prefWidth="414.0" />
    </children>
 </AnchorPane>

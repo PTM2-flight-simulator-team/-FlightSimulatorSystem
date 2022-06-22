@@ -3,12 +3,15 @@ package com.example.frontend.windowController;
 import Model.ModelTools.*;
 import Model.dataHolder.MyResponse;
 
+import Model.dataHolder.PlaneData;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 
 import com.example.frontend.MonitoringViewModel;
 import com.example.frontend.Point;
 import com.example.frontend.SmallestEnclosingCircle;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,19 +20,27 @@ import javafx.geometry.Point2D;
 import javafx.scene.chart.*;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 public class MonitoringController implements Initializable, Observer {
     //................Data members.................//
-    private List<Point2D> list = new ArrayList<>();
-
+    List<List<String>> data;
+    MonitoringViewModel viewModel;
+    Model m;
+    SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
+    List<List<String>> tsTrainList = trainReader();
+    TimeSeries ts = new TimeSeries(tsTrainList);
     //................GUI..........................//
 
     @FXML
@@ -43,11 +54,6 @@ public class MonitoringController implements Initializable, Observer {
     @FXML
     private BorderPane rightAreaChartBorderPane;
 
-    List<List<String>> data;
-
-    MonitoringViewModel viewModel;
-    Model m;
-
     //..................Constructor.................//
     public MonitoringController() {
         this.data = new ArrayList<>();
@@ -57,16 +63,44 @@ public class MonitoringController implements Initializable, Observer {
         this.viewModel = new MonitoringViewModel(m);
         viewModel.addObserver(this);
         this.data = new ArrayList<>();
+//        viewModel.startService();
+    }
+
+    public void setPlaneID(ActionEvent planeID) {
+        String name = ((MenuItem) planeID.getSource()).getText();
+        viewModel.startService(name);
+    }
+    public void setPlaneID(String id){
+
+        viewModel.startService(id);
     }
 
     public void setModel(Model m) {
         this.m = m;
     }
 
-    SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-    TimeSeries ts = new TimeSeries(
-            "Frontend/src/main/java/Model/ModelTools/train.csv");
-
+    //..................trainJSON.........................//
+    public List<List<String>> trainReader() {
+        String json = "";
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader("Frontend/src/main/java/Model/ModelTools/trainJSON.txt")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while(scanner.hasNextLine()){
+            json += scanner.nextLine();
+        }
+        List<List<String>> train = new Gson().fromJson(json,new TypeToken<List<List<String>>>(){}.getType());
+        List<List<String>> ts = new ArrayList<>();
+        for(List<String> line : train){
+            if(line.size() == 15){
+                ts.add(line);
+            }
+        }
+        return ts;
+    }
+    //..................trainJSON.........................//
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = new ArrayList<>();
@@ -79,8 +113,12 @@ public class MonitoringController implements Initializable, Observer {
     }
 
     public void feature(ActionEvent event) {
+        reload(((MenuItem) event.getSource()).getText());
+    }
+
+    public void reload(String name) {
         sad.learnNormal(ts);
-        String name = ((MenuItem) event.getSource()).getText();
+//        String name = ((MenuItem) event.getSource()).getText();
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(name);
         double maxCorr = Double.MIN_VALUE;
         int index = 0;
@@ -95,34 +133,37 @@ public class MonitoringController implements Initializable, Observer {
             System.out.println("No correlated features");
             return;
         }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
-            createLineCharts(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
-                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
-            createCircleGraph(correlatedFeatureOfWhatWeNeed);
-        }
-        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
-            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
-        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation >= 0.95) {
+//            createLineCharts(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.95
+//                && correlatedFeatureOfWhatWeNeed.get(0).correlation > 0.5) {
+//            createCircleGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+//        if (correlatedFeatureOfWhatWeNeed.get(index).correlation < 0.5) {
+//            createZScoreGraph(correlatedFeatureOfWhatWeNeed);
+//        }
+        createLineCharts(correlatedFeatureOfWhatWeNeed);
     }
 
+    //.......................Anomalies.........................//
     public void createLineCharts(List<CorrelatedFeatures> cf) {
         //.................Create line charts.................//
         NumberAxis bigX = new NumberAxis();
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        TimeSeries ts2 = new TimeSeries(
-                "Frontend/src/main/java/Model/ModelTools/test.csv");
+        TimeSeries tsTest = new TimeSeries(
+                data);
+
         sad.listOfPairs = cf;
-        sad.detect(ts2);
+        sad.detect(tsTest);
         List<AnomalyReport> reports = sad.listOfExp;
         Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
         Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
         int len = ts.getArray().size();
         XYChart.Series seriesBigChart = new XYChart.Series<>();
-        seriesBigChart.setName("Big Chart");
+        seriesBigChart.setName("Big Line Chart");
         for (int i = 0; i < len; i++) {
             seriesBigChart.getData().add(new XYChart.Data<>(v1.get(i), v2.get(i)));
         }
@@ -226,6 +267,9 @@ public class MonitoringController implements Initializable, Observer {
         //populate the points
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
         sad.listOfPairs = cf;
+        TimeSeries train = new TimeSeries(
+                "Frontend/src/main/java/Model/ModelTools/train.csv");
+        ts = train;
         Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
         Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
         XYChart.Series trainPoints = new XYChart.Series();
@@ -233,23 +277,56 @@ public class MonitoringController implements Initializable, Observer {
         double mean = StatLib.avgZ(v1);
         double std = StatLib.stdZ(v1);
         for (int i = 0; i < v1.size(); i++) {
-            double x0 = v1.get(i);
-            double z = (x0 - mean) / std;
-            maxtx = Math.max(maxtx, z);
-            trainPoints.getData().add(new XYChart.Data(x0, z));
+//            double x0 = v1.get(i);
+//            double z = (x0 - mean) / std;
+//            maxtx = Math.max(maxtx, z);
+//            trainPoints.getData().add(new XYChart.Data(x0, z));
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        Vector<Double> zScores = new Vector<>();
+        zScores.add(2.0);
+        zScores.add(2.0);
+        zScores.add(3.0);
+        zScores.add(2.0);
+        zScores.add(5.0);
+        zScores.add(1.0);
+        zScores.add(6.0);
+//        zScores.add(5.0);
+//        zScores.add(3.0);
+//        zScores.add(1.0);
+        HashMap<Double, Double> map = new HashMap<>();
+        double mean1 = StatLib.avgZ(zScores);
+        System.out.println("mean1: " + mean1);
+        double std1 = StatLib.stdZ(zScores);
+        System.out.println("std1: " + std1);
+        for (int i = 0; i < zScores.size(); i++){ // need to fix the frequency
+            if(map.containsKey(zScores.get(i))){
+                map.put(zScores.get(i), map.get(zScores.get(i)) + 1.0);
+            }else{
+                map.put(zScores.get(i), 1.0);
+            }
+        }
+        for(int i = 0; i < zScores.size(); i++){
+            double x0 = zScores.get(i);
+            double z = (x0 - mean1) / std1;
+            System.out.println("z: " + z);
+            maxtx = Math.max(maxtx, z);
+            trainPoints.getData().add(new XYChart.Data(z,map.get(x0).doubleValue()));
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         TimeSeries tsTest = new TimeSeries(
                 "Frontend/src/main/java/Model/ModelTools/test.csv");
         double meanTest = StatLib.avgZ(tsTest.getColByName(cf.get(0).getFeature1()));
         double stdTest = StatLib.stdZ(tsTest.getColByName(cf.get(0).getFeature1()));
         XYChart.Series anomalies = new XYChart.Series();
         anomalies.setName("Anomalies");
-        for (int i = 0; i < tsTest.getColByName(cf.get(0).getFeature1()).size(); i++) {
-            double x0 = tsTest.getColByName(cf.get(0).getFeature1()).get(i);
-            double z = (x0 - meanTest) / stdTest;
-            if (z > maxtx) {
-                anomalies.getData().add(new XYChart.Data(x0, z));
-            }
+        for (int i = 0; i < tsTest.getColByName(cf.get(0).getFeature1()).size(); i++) { // the anomaly points
+//            double x0 = tsTest.getColByName(cf.get(0).getFeature1()).get(i);
+//            double z = (x0 - meanTest) / stdTest;
+//            if (z > maxtx) {
+//                anomalies.getData().add(new XYChart.Data(x0, z));
+//            }
+
         }
         zScoreChart.getData().addAll(trainPoints, anomalies);
         bigChartBorderPane.setCenter(zScoreChart);
@@ -336,6 +413,8 @@ public class MonitoringController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        MyResponse<List<List<String>>> data = (MyResponse<List<List<String>>>) arg;
+        data = this.viewModel.getData();
+        reload("aileron");
+
     }
 }

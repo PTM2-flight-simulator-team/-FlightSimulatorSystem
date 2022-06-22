@@ -1,25 +1,18 @@
 package Controller;
 import CommonClasses.PlaneData;
 import CommonClasses.PlaneVar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonWriter;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.json.JSONObject;
 
+import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class JsonsFuncs {
-    public static JSONObject plainDataToJson(PlaneData planeData){
-        JSONObject json = new JSONObject();
-        for(PlaneVar planeVar: planeData.getAllVars()){
-            json.put(planeVar.getNickName(),planeVar.getValue());
-        }
-        return json;
-    }
 
     public static String JoystickJsonToAgentCommands(JsonObject json){
         List<String> agentCommands = new ArrayList<>();
@@ -46,38 +39,68 @@ public class JsonsFuncs {
         return sb.toString();//return the code as string
     }
 
-    public static JsonObject getPlainData(String pid) throws IOException {
+    public static JsonObject getPlaneData(String pid) throws IOException {
         JsonObject json = new JsonObject();
-        List<PlaneVar> planeData = Controller.planeDataMap.get(pid).getAllVars();//add exception if not find
-        for (PlaneVar var: planeData){
-            json.addProperty(var.getNickName(), var.getValue());
+        Controller.getPlaneDataByPid(pid).Print();
+        List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
+        System.out.println(planeData);
+        System.out.println("size: " + planeData.size());
+        for (int i = 0; i<planeData.size(); i++){
+            if(planeData.get(i)!= null){
+                json.addProperty(planeData.get(i).getNickName(), planeData.get(i).getValue());
+                System.out.println("key: " + planeData.get(i).getNickName() + " value: " + planeData.get(i).getValue());
+            }
         }
+        System.out.println(json.toString());
         return json;
     }
 
-    public static String getTimeSeries(String pid){
-        FindIterable<Document> documentsList = Controller.getTimeSeries(pid);
-        Document ts = null;
-        if(documentsList.first() != null)
-            ts = documentsList.first();
-        return ts.toString().replaceAll("Document", "");
-    }
+    public static String getTimeSeries(String pid, int index){ return new Gson().toJson(Controller.getTimeSeries(pid,index));}
 
     public static String getAnalytics(){
         FindIterable<Document> documentsList = Controller.getAnalytics();
-        StringBuilder sb = new StringBuilder();
+        List<Document> docList = new ArrayList<>();
         if(documentsList == null)
             return "document list is null";
         documentsList.forEach((d)->{
-            String tmp = "";
-            if(d != null)
-                tmp = d.toString();
+            d.remove("createdMonth");
+            if(d != null) {
+                if((boolean)d.get("active") == true){
+                    String id = (String) d.get("_id");
+                    PlaneData planeData = Controller.getPlaneDataByPid(id);
+                    HashMap<String,String> data = new HashMap<>();
+                    data.put("ID", planeData.getID());
+                    data.put("PlaneName", planeData.getPlaneName());
+                    for(PlaneVar var: planeData.getAllVars()){
+                        data.put(var.getNickName(), var.getValue());
+                    }
+                    d.replace("planeData", data);
+                }
+                docList.add(d);
+            }
             else
                 return;
-            String document = tmp;
-            sb.append(document);
         });
-
-        return sb.toString().replaceAll("Document", "");
+        Document retDoc = new Document();
+        retDoc.append("analyticList", docList);
+        return retDoc.toJson();
     }
+
+    public static String fleetSize(){
+        return new Gson().toJson(Controller.getFleetSize());
+    }
+
+    public static String getPlaneFlightsIndexes(String pid){
+        int numOfTimeSeries = Controller.getNumOfTimeSeries(pid);
+        if(numOfTimeSeries == 0)
+            return "none";
+        else{
+            String ret = "0-";
+            String last = String.valueOf(numOfTimeSeries);
+            ret += last;
+            return ret;
+        }
+
+    }
+
 }

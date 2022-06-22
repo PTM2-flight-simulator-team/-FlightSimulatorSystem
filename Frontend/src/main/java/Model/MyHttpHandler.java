@@ -1,11 +1,11 @@
 package Model;
 
-import Model.dataHolder.AnalyticsData;
-import Model.dataHolder.MyResponse;
-import Model.dataHolder.PlaneData;
-import Model.dataHolder.ResonseType;
+import Model.dataHolder.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,6 +15,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -85,6 +86,7 @@ public class MyHttpHandler extends Observable {
         return response;
     }
     public Object HandleGetPlaneData(HttpResponse<String> response){
+//        System.out.println(response.body());
         PlaneData data = new Gson().fromJson(response.body(),PlaneData.class);
         MyResponse<PlaneData> res = new MyResponse<>(data, ResonseType.PlaneData);
         setChanged();
@@ -93,14 +95,14 @@ public class MyHttpHandler extends Observable {
     }
 
     public Object HandleGetAnalytics(HttpResponse<String> response){
-        AnalyticsData data = new Gson().fromJson(response.body(),AnalyticsData.class);
+        AnalyticsData data = new Gson().fromJson(response.body(), AnalyticsData.class);
         MyResponse<AnalyticsData> res = new MyResponse<>(data, ResonseType.Analytic);
         setChanged();
         notifyObservers(res);
-
         return null;
     }
     public Object HandleGetTS(HttpResponse<String> response){
+        System.out.println(response.body());
         List<List<String>> ts = new Gson().fromJson(response.body(),new TypeToken<List<List<String>>>(){}.getType());
         MyResponse<List<List<String>>> res = new MyResponse<>(ts, ResonseType.TS);
         setChanged();
@@ -109,6 +111,23 @@ public class MyHttpHandler extends Observable {
         return null;
     }
 
+    public Object HandleGetTSIndexes(HttpResponse<String> response){
+        System.out.println(response.body());
+        String tsIndexes = response.body();
+        MyResponse<String> res = new MyResponse<>(tsIndexes, ResonseType.TS);
+        setChanged();
+        notifyObservers(res);
+
+        return null;
+    }
+
+    public Object HandleGetFleetSize(HttpResponse<String> response){
+        HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
+        MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);
+        setChanged();
+        notifyObservers(res);
+        return null;
+    }
 //    public Object HandleGetAllPlanes(HttpResponse<String> response){
 //        List<PlaneData> data = new Gson().fromJson(response.body(),new TypeToken<List<PlaneData>>(){}.getType());
 //        MyResponse<List<PlaneData>> res = new MyResponse<>(data,ResonseType.AllPlanes);

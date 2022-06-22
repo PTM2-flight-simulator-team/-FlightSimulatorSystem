@@ -3,11 +3,12 @@ package CommonClasses;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlaneData implements Serializable{
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
-    private String plainName;
+    private String PlaneName;
     private PlaneVar aileron;
     private PlaneVar elevator;
     private PlaneVar rudder;
@@ -91,7 +92,7 @@ public class PlaneData implements Serializable{
     }
 
     public void setPlainName(String plainName) {
-        this.plainName = plainName;
+        this.PlaneName = plainName;
     }
 
     public PlaneData(HashMap<String,String> map){
@@ -99,10 +100,10 @@ public class PlaneData implements Serializable{
         this.aileron = new PlaneVar("/controls/flight/aileron[0]","aileron",map.get("aileron")) ;
         this.elevator = new PlaneVar("/controls/flight/elevator","elevator",map.get("elevator"));
         this.rudder = new PlaneVar("/controls/flight/rudder","rudder",map.get("rudder"));
-        this.longitude = new PlaneVar("/position/longitude-deg","longitude-deg",map.get("longitude-deg"));
-        this.latitude = new PlaneVar("/position/latitude-deg","latitude-deg",map.get("latitude-deg"));
-        this.airSpeed_kt =new PlaneVar("/instrumentation/airspeed-indicator/indicated-speed-kt","airspeed-indicator_indicated-speed-kt",map.get("airspeed-indicator_indicated-speed-kt"));
-        this.vertSpeed = new PlaneVar("/velocities/vertical-speed-fps","vertical-speed",map.get("vertical-speed-fps"));
+        this.longitude = new PlaneVar("/position/longitude-deg","longitude",map.get("longitude-deg"));
+        this.latitude = new PlaneVar("/position/latitude-deg","latitude",map.get("latitude-deg"));
+        this.airSpeed_kt =new PlaneVar("/instrumentation/airspeed-indicator/indicated-speed-kt","airSpeed_kt",map.get("airspeed-indicator_indicated-speed-kt"));
+        this.vertSpeed = new PlaneVar("/velocities/vertical-speed-fps","vertSpeed",map.get("vertical-speed-fps"));
         this.throttle_0 = new PlaneVar("/controls/engines/current-engine/throttle","throttle_0",map.get("throttle_0"));
         this.throttle_1 = new PlaneVar("/controls/engines/engine[1]/throttle","throttle_1",map.get("throttle_1"));
         this.altitude = new PlaneVar("/instrumentation/altimeter/indicated-altitude-ft","altitude",map.get("altimeter_indicated-altitude-ft"));
@@ -112,6 +113,7 @@ public class PlaneData implements Serializable{
         //indicated-heading-deg,/instrumentation/heading-indicator/indicated-heading-deg
         // heading might be wrong need the offset
         this.turnCoordinator = new PlaneVar("/orientation/side-slip-deg","turnCoordinator",map.get("side-slip-deg"));
+
     }
 
     public ArrayList<String> PlainDataToList(){

@@ -68,7 +68,7 @@ public class AnalyticsHandler {
         timeSeries.add(tsElement);
 
 
-        timeSeries.add(plainData.PlainDataToList());
+//        timeSeries.add(plainData.PlainDataToList());
 
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }
