@@ -38,7 +38,7 @@ public class ClocksController implements Initializable,Observer {
     BorderPane bp5 = new BorderPane();
     @FXML
     BorderPane bp6 = new BorderPane();
-
+    Gauge airSpeed;
     ClocksViewModel vm;
 
     DoubleProperty compassDegree, speed, verticalSpeed;
@@ -47,6 +47,8 @@ public class ClocksController implements Initializable,Observer {
         compassDegree = new SimpleDoubleProperty();
         verticalSpeed = new SimpleDoubleProperty();
         speed = new SimpleDoubleProperty();
+
+        airSpeed = new Gauge();
 
     }
 
@@ -58,17 +60,17 @@ public class ClocksController implements Initializable,Observer {
         vm.speed.bindBidirectional(speed);
     }
 
-    public void paintAirSpeed() {
+    public void paintAirSpeed(double val) {
         //create an air speed gauge
 
-        Gauge airSpeed = new Gauge();
 
         airSpeed.setSkin(new ModernSkin(airSpeed));  //ModernSkin : you guys can change the skin
         airSpeed.setTitle("AIRSPEED");  //title
         airSpeed.setUnit("mi / h");  //unit
         airSpeed.setUnitColor(Color.WHITE);
         airSpeed.setDecimals(0);
-        airSpeed.setValue(this.speed.doubleValue()); //deafult position of needle on gauage
+        airSpeed.setValue(val); //deafult position of needle on gauage
+
         airSpeed.setAnimated(true);
         //gauge.setAnimationDuration(500);
 
@@ -78,8 +80,8 @@ public class ClocksController implements Initializable,Observer {
         airSpeed.setBarColor(Color.rgb(0, 214, 215));
         airSpeed.setNeedleColor(Color.RED);
         airSpeed.setThresholdColor(Color.RED);  //color will become red if it crosses threshold value
-        airSpeed.setThreshold(85);
-        airSpeed.setThresholdVisible(true);
+//        airSpeed.setThreshold(85);
+//        airSpeed.setThresholdVisible(true);
         airSpeed.setTickLabelColor(Color.rgb(151, 151, 151));
         airSpeed.setTickMarkColor(Color.WHITE);
         airSpeed.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
@@ -175,7 +177,7 @@ public class ClocksController implements Initializable,Observer {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         paintAttitude();
-        paintAirSpeed();
+        paintAirSpeed(0);
         paintVerticalSpeed();
         paintCompass();
         paintAltimeter();

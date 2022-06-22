@@ -129,7 +129,7 @@ public class TimeCapsuleController implements Initializable,Observer {
 
     @FXML
     private ComboBox choosePlane,chooseflight;
-    ClocksController clocks;
+    ClocksController clocks = new ClocksController();
 
     private List<List<String>> timeSeries;
 
@@ -370,7 +370,7 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
-        clocks.initViewModel(m);
+        //clocks.initViewModel(m);
     }
 
 
@@ -466,8 +466,9 @@ public class TimeCapsuleController implements Initializable,Observer {
     }
 
     public void ChangeClocksStateByIndex(int indexInTimeSeries){
-        double aitSpeed = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(5));
-        clocks.speed.setValue(aitSpeed);
+        double airSpeed = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(4));
+        clocks.speed.setValue(airSpeed);
+        clocks.paintAirSpeed(airSpeed);
     }
 
     public void resetFlight(){
