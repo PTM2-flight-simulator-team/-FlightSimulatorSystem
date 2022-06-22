@@ -42,6 +42,8 @@ public class Controller implements Observer {
       return planeDataMap.get(pid);
    }
 
+   public static Map<String,PlaneData> getActiveData(){return planeDataMap;}
+
    @Override
    public void update(Observable o, Object arg) {
       if(o instanceof MyHttpServer){// case the data came from the http connection
@@ -110,6 +112,15 @@ public class Controller implements Observer {
          return model.DB.getTSbyPlaneID(id, index);
       } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+
+      }
+   }
+
+   public static int getNumOfTimeSeries(String id){
+      try {
+         return model.DB.getTSIndexesByPlaneID(id);
+      } catch (Exception e) {
+         throw new RuntimeException(e.getMessage());
 
       }
    }

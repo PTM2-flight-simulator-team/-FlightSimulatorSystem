@@ -28,7 +28,7 @@ public class Model extends Observable implements Observer {
         planeData.aileron = "1.0";
         planeData.elevator = "1.0";
 
-      
+        SendGetTSIndexesByPlaneID("1995");
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
@@ -85,7 +85,6 @@ public class Model extends Observable implements Observer {
             }
         };
 
-
         final ScheduledFuture<?> Handle =
                 scheduler.scheduleAtFixedRate(sendGet, 0, seconds, TimeUnit.SECONDS);
         scheduler.schedule(new Runnable() {
@@ -95,6 +94,9 @@ public class Model extends Observable implements Observer {
         }, 60 * 600, TimeUnit.SECONDS);
     }
 
+    public void StopRunningService(){
+        scheduler.shutdown();
+    }
     @Override
     public void update(Observable o, Object arg) {
 //        if (o.getClass().equals(Model.class)){
@@ -147,6 +149,11 @@ public class Model extends Observable implements Observer {
         System.out.println(json);
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID ,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
+    }
+    public void SendGetTSIndexesByPlaneID(String PlaneID){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TSIndexes?plane_id="+ PlaneID);
+        cf.thenApply((response) -> myHttpHandler.HandleGetTSIndexes(response));
+
     }
 
 }

@@ -16,7 +16,7 @@ public class SimpleAnomalyDetector implements TimeSeriesAnomalyDetector {
     public SimpleAnomalyDetector(){
         listOfPairs = new ArrayList<>();
         listOfExp = new ArrayList<>();
-        thresholdCorr = (float) 0.9;
+        thresholdCorr = (float) 0.1;
         anomalyPoints = new ArrayList<>();
     }
 
