@@ -25,6 +25,7 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
         CodeHandler ch = new CodeHandler();//  /POST/Code
         ShutDownHandler sh = new ShutDownHandler();//  /POST/Shutdown
         GetFleetSizeHandler gfsh = new GetFleetSizeHandler();// /GET/FleetSize
+        GetNumOfTSHandler gntsh = new GetNumOfTSHandler();// /GET/TSIndexes
         jh.addObserver(this);
         ch.addObserver(this);
         sh.addObserver(this);
@@ -32,6 +33,7 @@ public class MyHttpServer extends Observable implements Observer , Runnable {
         httpServer.createContext("/GET/Analytics", gah);
         httpServer.createContext("/GET/TS", gtsh);
         httpServer.createContext("/GET/FleetSize", gfsh);
+        httpServer.createContext("/GET/TSIndexes", gntsh);
         httpServer.createContext("/POST/Code",ch);
         httpServer.createContext("/POST/Shutdown",sh);
         httpServer.createContext("/POST/Joystick",jh);

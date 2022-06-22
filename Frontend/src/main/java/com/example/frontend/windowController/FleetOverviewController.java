@@ -115,7 +115,12 @@ public class FleetOverviewController implements Initializable, Observer {
                 new PieChart.Data("Active Planes", avg), // avg - active ones
                 new PieChart.Data("NonActive", 100 - avg) // 100% - avg - non active ones
         );
-        myPie.setData(data);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                myPie.setData(data);
+            }
+        });
     }
 
 
@@ -127,13 +132,13 @@ public class FleetOverviewController implements Initializable, Observer {
 
         }
 
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                myBar.getData().clear();
-//                myBar.getData().addAll(data);
-//            }
-//        });
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                myBar.getData().clear();
+                myBar.getData().addAll(data);
+            }
+        });
     }
 
 
@@ -265,7 +270,7 @@ public class FleetOverviewController implements Initializable, Observer {
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
         if (ad.value instanceof AnalyticsData) {
             updateVisuals(ad.value);
-            System.out.println(ad.value.analyticList.get(0).planeData.longitude);
+//            System.out.println(ad.value.analyticList.get(0).planeData.longitude);
             return;
         }
         MyResponse<HashMap<Integer, Integer>> hash = (MyResponse<HashMap<Integer, Integer>>) arg;
@@ -295,7 +300,7 @@ public class FleetOverviewController implements Initializable, Observer {
                 p.relocate(pair.getKey(), pair.getValue());
             } else {
                 createPlaneView(ad.analyticList.get(i).planeData, pair);
-                System.out.println("here");
+//                System.out.println("here");
             }
 
             if (ad.analyticList.get(i).active)
@@ -321,16 +326,16 @@ public class FleetOverviewController implements Initializable, Observer {
         multipleSortedMiles2(map2);
 
         for (int i = 0; i < ad.analyticList.size(); i++) {
-            String month1 = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.US);
-            String month = "May";
-            map1.put(Integer.parseInt(ad.analyticList.get(i)._id), ad.analyticList.get(i).miles.get(month1));
+            String month0 = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL_STANDALONE, Locale.US).toUpperCase();
+//            String month1 = "May";
+            map1.put(Integer.parseInt(ad.analyticList.get(i)._id), ad.analyticList.get(i).miles.get(month0));
 
         }
         singleSortedMiles(map1);
 
 
         //lineChart(ad.analyticList.get(i),fleetSize);
-        activePlanes(countActivePlanes);
+        activePlanes((countActivePlanes/ ad.analyticList.size()) * 100);
     }
 
 
