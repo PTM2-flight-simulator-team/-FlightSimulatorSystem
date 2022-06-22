@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
+    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/csv-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/TimeSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/TimeSeries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/file1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/file1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Clocks1.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick1.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/Clocks1.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick1.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
     </list>
@@ -171,6 +172,15 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java</url>
+          <line>593</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />

@@ -94,6 +94,7 @@ public class JoyStickController implements Initializable, Observer {
             throttle.setValue(throttle.getValue());
             sendJoystick(normalizedX, normalizedY);
         }
+
     }
 
     @FXML

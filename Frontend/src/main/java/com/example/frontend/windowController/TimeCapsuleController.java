@@ -1,12 +1,16 @@
 package com.example.frontend.windowController;
 
 import Model.ModelTools.*;
+import Model.dataHolder.AnalyticsData;
+import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 
 import com.example.frontend.Point;
 import com.example.frontend.SmallestEnclosingCircle;
+import com.example.frontend.TimeCapsuleViewModel;
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -34,7 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class TimeCapsuleController implements Initializable {
+public class TimeCapsuleController implements Initializable,Observer {
     //................Data members.................//
     private List<Point2D> list = new ArrayList<>();
 
@@ -124,8 +128,12 @@ public class TimeCapsuleController implements Initializable {
     private Button reset;
 
     @FXML
-    private MenuButton chooseId,chooseFlight;
+    private ComboBox choosePlane,chooseflight;
 
+    private List<List<String>> timeSeries;
+
+
+    private TimeCapsuleViewModel vm;
 
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
@@ -350,6 +358,7 @@ public class TimeCapsuleController implements Initializable {
         }
         joyStickBorderPane.setCenter(joyStickPane);
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
+        joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
 
@@ -394,41 +403,42 @@ public class TimeCapsuleController implements Initializable {
                 _records.add(values);
             }
 
-            for (int i=1; i<_records.size(); i++){
-                ArrayList<String> list = new ArrayList<>();
-                for (int j =0; j < _records.get(i).length; j++){
-                    list.add(_records.get(i)[j]);
-                }
-            }
+//            for (int i=1; i<_records.size(); i++){
+//                ArrayList<String> list = new ArrayList<>();
+//                for (int j =0; j < _records.get(i).length; j++){
+//                    list.add(_records.get(i)[j]);
+//                }
+//            }
 
             int startIndex = 0;
-            for(int i=1; i<_records.size(); i++){
-                if (_records.get(i)[_records.get(i).length - 1].equals(speedTxt.getText())){
+            for(int i=1; i<timeSeries.size(); i++){
+                if (timeSeries.get(i).get(timeSeries.get(i).size() - 1).equals(speedTxt.getText())){
                     startIndex = i;
                 }
             }
 
             double speed2 = Double.parseDouble(speed1.getText());
-            int inc = (int) ((mySlider.getValue() / 100) * ((_records.size()-1))) +1;
+            int inc = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()-1))) +1;
             int finalStartIndex = startIndex;
             thread = new Thread(){
                 @Override
                 public void run() {
                     try {
                         SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                        Date date1 = s1.parse(_records.get(4)[_records.get(4).length - 1]);
-                        Date date2 = s1.parse(_records.get(3)[_records.get(3).length - 1]);
+                        System.out.println(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
+                        Date date1 = s1.parse(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
+                        Date date2 = s1.parse(timeSeries.get(3).get(timeSeries.get(3).size() - 1));
                         double dat1 = date1.getTime();
                         double dat2 = date2.getTime();
-                        double timeSleep = (dat1 - dat2) * speed2;
-                        for (int i = finalStartIndex + 1; i < _records.size(); i += speed2) {
+                        double timeSleep = (dat1 - dat2) / speed2;
+                        for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
                             if (!stop) {
                                 pause.setVisible(true);
-                                speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
+                                speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
                                 mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
                                 //System.out.println("Flying...");
                                 currenIndex = i;
-                                ChangePlanePositionByTime(i);
+                                ChangePlanePositionByTime(currenIndex);
                                 Thread.sleep((long) timeSleep);
                             }
 //                            if (i == _records.size()-1)
@@ -468,6 +478,11 @@ public class TimeCapsuleController implements Initializable {
 
     }
 
+    public void initViewModel(Model m){
+        this.vm = new TimeCapsuleViewModel(m);
+        this.vm.addObserver(this);
+        this.vm.sendGetAnalytic();
+    }
     public void ChangePlanePositionByTime(int indexInTimeSeries){
         ArrayList<ArrayList<String>> _records = new ArrayList<>();
         String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
@@ -482,9 +497,9 @@ public class TimeCapsuleController implements Initializable {
                 }
                 _records.add(values1);
             }
-            float longitude = Float.parseFloat(_records.get(indexInTimeSeries).get(2));
-            float latitude =  Float.parseFloat(_records.get(indexInTimeSeries).get(3));
-            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
+            float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
+            float latitude =  Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
+            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,312);
             plane.relocate(pair.getKey(),pair.getValue());
 
         } catch (IOException e) {
@@ -505,12 +520,12 @@ public class TimeCapsuleController implements Initializable {
                 _records.add(values);
             }
             stop = false;
-            speedTxt.setText(_records.get(1)[_records.get(1).length-1]);
+            speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size()-1));
             mySlider.setValue(0);
             speed1.setText("1");
             pause.setVisible(false);
-            float longitude = Float.parseFloat(_records.get(1)[2]);
-            float latitude =  Float.parseFloat(_records.get(1)[3]);
+            float longitude = Float.parseFloat(timeSeries.get(1).get(3));
+            float latitude =  Float.parseFloat(timeSeries.get(1).get(4));
             Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
             plane.relocate(pair.getKey(),pair.getValue());
             reset.setVisible(false);
@@ -520,22 +535,6 @@ public class TimeCapsuleController implements Initializable {
 
     }
 
-    public void addFlightsToList(int index){
-        if (index == 0){
-            for(int i=0; i<2; i++){
-                MenuItem menuItem = new CheckMenuItem();
-                menuItem.setText("Flight" + (i+1));
-                chooseFlight.getItems().add(menuItem);
-            }
-        }if (index == 1){
-            for(int i=0; i<3; i++){
-                MenuItem menuItem = new CheckMenuItem();
-                menuItem.setText("Flight" + (i+1));
-                chooseFlight.getItems().add(menuItem);
-            }
-        }
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -547,50 +546,84 @@ public class TimeCapsuleController implements Initializable {
         img1.setImage(new Image(mapImgPath));
 
 
-
-
         pause.setVisible(false);
         reset.setVisible(false);
 
-        ArrayList<String[]> _records = new ArrayList<>();
-        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
-        ArrayList<String> times = new ArrayList<>();
-        File file = new File(csvName);
-        try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                _records.add(values);
-            }
+//        ArrayList<String[]> _records = new ArrayList<>();
+//        String csvName = "Frontend/src/main/java/Model/ModelTools/file1.csv";
+//        ArrayList<String> times = new ArrayList<>();
+//        File file = new File(csvName);
+//        try (BufferedReader br = new BufferedReader(new FileReader(csvName))) {
+//            String line = "";
+//            while ((line = br.readLine()) != null) {
+//                String[] values = line.split(",");
+//                _records.add(values);
+//            }
 
             String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
             plane = new ImageView(new Image(path));
             plane.setFitHeight(20);
             plane.setFitWidth(20);
-            float longitude = Float.parseFloat(_records.get(1)[2]);
-            float latitude =  Float.parseFloat(_records.get(1)[3]);
-            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
-            plane.relocate(pair.getKey(),pair.getValue());
             airpane.getChildren().add(plane);
-        } catch (IOException e) {
-            e.printStackTrace();
+    }
+
+    public void onPlaneSelected(ActionEvent a){
+        this.vm.sendGetFlightIDS(choosePlane.getValue().toString());
+    }
+    public void onFlightSelected(ActionEvent a){
+        this.vm.sendGetTS(choosePlane.getValue().toString(),chooseflight.getValue().toString());
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        MyResponse<String> s = (MyResponse<String>) arg;
+        if(s.value instanceof String){
+            String id =  s.value.split("-")[1];
+            int count = Integer.parseInt(id);
+            for (int i=0; i <= count;i++){
+                chooseflight.getItems().add(i);
+            }
+            return;
         }
-        speedTxt.setText(_records.get(1)[_records.get(1).length-1]);
+        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
+        if(ad.value instanceof AnalyticsData){
+            addActivePlanes(ad.value);
+            return;
+            //loadPlaneFlights
+        }
+        MyResponse<List<List<String>>> ts = (MyResponse<List<List<String>>>) arg;
+        if(ts.value != null){
+            timeSeries = ts.value;
+            initialLoad();
+            System.out.println("Got TS");
+        }
+    }
+
+    private void addActivePlanes(AnalyticsData ad){
+        for (int i =0; i < ad.analyticList.size(); i++){
+            if (!ad.analyticList.get(i).active){
+                choosePlane.getItems().add(ad.analyticList.get(i)._id);
+            }
+        }
+    }
+
+    private void initialLoad(){
+        float longitude = Float.parseFloat(timeSeries.get(1).get(2));
+        float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
+        Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
+        plane.relocate(pair.getKey(),pair.getValue());
+
+        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size()-1));
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if (stop == false) {
-                    int i = (int) ((mySlider.getValue() / 100) * ((_records.size()) - 1)) + 1;
-                    speedTxt.setText(_records.get(i)[_records.get(i).length - 1]);
+                    int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 1)) + 1;
+                    speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
                 }
 
             }
         });
 
-        for (int i=0; i<5; i++){
-            MenuItem menuItem = new CheckMenuItem();
-            menuItem.setText("Plane" + (i+1));
-            chooseId.getItems().add(menuItem);
-        }
     }
 }
