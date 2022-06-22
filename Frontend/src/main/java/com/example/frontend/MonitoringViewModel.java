@@ -1,6 +1,7 @@
 package com.example.frontend;
 
 import Model.Model;
+import Model.dataHolder.AnalyticsData;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 
@@ -13,27 +14,27 @@ public class MonitoringViewModel extends Observable implements Observer {
 
     public List<List<String>> data;
     Model m;
-    int miliseconds = 500;
+    int miliseconds = 5000;
 
     public MonitoringViewModel(Model m) {
         this.m = m;
         m.addObserver(this);
         this.data = new ArrayList<>();
         List<String> category = new ArrayList<>();
-        category.add("aileron");
-        category.add("elevator");
-        category.add("rudder");
-        category.add("longitude-deg");
-        category.add("latitude-deg");
-        category.add("airspeed-indicator_indicated-speed-kt");
-        category.add("vertical-speed");
-        category.add("throttle_0");
-        category.add("throttle_1");
-        category.add("altitude");
-        category.add("pitchDeg");
-        category.add("rollDeg");
-        category.add("heading");
-        category.add("turnCoordinator");
+        category.add("Aileron");
+        category.add("Elevator");
+        category.add("Rudder");
+        category.add("Longitude");
+        category.add("Latitude");
+        category.add("AirSpeed_kt");
+        category.add("VertSpeed");
+        category.add("Throttle_0");
+        category.add("Throttle_1");
+        category.add("Altitude");
+        category.add("PitchDeg");
+        category.add("RollDeg");
+        category.add("Heading");
+        category.add("TurnCoordinator");
         category.add("Time");
         data.add(category);
 
@@ -61,10 +62,13 @@ public class MonitoringViewModel extends Observable implements Observer {
 
         }
         setChanged();
-        notifyObservers();
+        notifyObservers(arg);
     }
 
     public List<List<String>> getData() {
         return data;
     }
+
+    public void GetAnal(){
+        m.SendGetAnalyticData();}
 }

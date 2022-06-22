@@ -71,6 +71,7 @@ public class MainWindowController implements Initializable {
         MonitoringController mc = fxmlLoader.getController();
         mc.setModel(m);
         mc.initViewModel(m);
+        mc.viewModel.GetAnal();
         mc.createJoyStick();
         //mc.createLineCharts();
         //mc.createCircleGraph();;
