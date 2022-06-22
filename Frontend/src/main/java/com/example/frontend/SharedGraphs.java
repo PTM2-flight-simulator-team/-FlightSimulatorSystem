@@ -4,6 +4,7 @@ import Model.ModelTools.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.scene.chart.*;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.BorderPane;
 
 import java.io.BufferedReader;
@@ -182,6 +183,30 @@ public class SharedGraphs {
         rightAreaChart.getData().addAll(seriesRightAreaChart);
         leftAreaChartBorderPane.setCenter(leftAreaChart);
         rightAreaChartBorderPane.setCenter(rightAreaChart);
+    }
+
+    public void init(ComboBox featureComboBox, BorderPane bigChartBorderPane, BorderPane leftAreaChartBorderPane, BorderPane rightAreaChartBorderPane){
+//        "Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+//            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time"
+        if(featureComboBox.getItems().isEmpty()){
+            featureComboBox.getItems().addAll("Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+                    "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator");
+        }
+        NumberAxis x = new NumberAxis();
+        NumberAxis y = new NumberAxis();
+        LineChart chart = new LineChart(x, y);
+        LineChart chart2 = new LineChart(x, y);
+        LineChart chart3 = new LineChart(x, y);
+        chart.setAnimated(false);
+        x.setTickLabelsVisible(false);
+        x.setTickMarkVisible(false);
+        y.setTickLabelsVisible(false);
+        y.setTickMarkVisible(false);
+        chart2.setAnimated(false);
+        chart3.setAnimated(false);
+        bigChartBorderPane.setCenter(chart);
+        leftAreaChartBorderPane.setCenter(chart2);
+        rightAreaChartBorderPane.setCenter(chart3);
     }
 
     public void setData(List<List<String>> data){

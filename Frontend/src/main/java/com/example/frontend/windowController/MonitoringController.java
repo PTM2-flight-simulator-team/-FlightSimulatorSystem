@@ -148,7 +148,7 @@ public class MonitoringController implements Initializable, Observer {
         }
         System.out.println(maxCorr);
         if (correlatedFeatureOfWhatWeNeed.isEmpty()) {
-            init();
+             sg.init( featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
             System.out.println("No correlated features");
             return;
         }
@@ -187,33 +187,33 @@ public class MonitoringController implements Initializable, Observer {
         //clocks.initViewModel(m);
     }
 
-    public void init(){
-//        "Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
-//            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time"
-        if(featureComboBox.getItems().isEmpty()){
-            featureComboBox.getItems().addAll("Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
-                    "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator");
-        }
-        NumberAxis x = new NumberAxis();
-        NumberAxis y = new NumberAxis();
-        LineChart chart = new LineChart(x, y);
-        LineChart chart2 = new LineChart(x, y);
-        LineChart chart3 = new LineChart(x, y);
-        chart.setAnimated(false);
-        x.setTickLabelsVisible(false);
-        x.setTickMarkVisible(false);
-        y.setTickLabelsVisible(false);
-        y.setTickMarkVisible(false);
-        chart2.setAnimated(false);
-        chart3.setAnimated(false);
-        bigChartBorderPane.setCenter(chart);
-        leftAreaChartBorderPane.setCenter(chart2);
-        rightAreaChartBorderPane.setCenter(chart3);
-    }
+//    public void init(){
+////        "Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+////            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time"
+//        if(featureComboBox.getItems().isEmpty()){
+//            featureComboBox.getItems().addAll("Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+//                    "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator");
+//        }
+//        NumberAxis x = new NumberAxis();
+//        NumberAxis y = new NumberAxis();
+//        LineChart chart = new LineChart(x, y);
+//        LineChart chart2 = new LineChart(x, y);
+//        LineChart chart3 = new LineChart(x, y);
+//        chart.setAnimated(false);
+//        x.setTickLabelsVisible(false);
+//        x.setTickMarkVisible(false);
+//        y.setTickLabelsVisible(false);
+//        y.setTickMarkVisible(false);
+//        chart2.setAnimated(false);
+//        chart3.setAnimated(false);
+//        bigChartBorderPane.setCenter(chart);
+//        leftAreaChartBorderPane.setCenter(chart2);
+//        rightAreaChartBorderPane.setCenter(chart3);
+//    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        init();
+        sg.init( featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
         sad.learnNormal(ts);
     }
 
