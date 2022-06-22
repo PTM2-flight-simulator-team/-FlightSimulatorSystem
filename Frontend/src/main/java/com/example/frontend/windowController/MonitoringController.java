@@ -1,8 +1,10 @@
 package com.example.frontend.windowController;
 
 import Model.ModelTools.*;
+import Model.dataHolder.AnalyticsData;
 import Model.dataHolder.MyResponse;
 
+import Model.dataHolder.PlaneAnalytic;
 import Model.dataHolder.PlaneData;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
@@ -12,12 +14,14 @@ import com.example.frontend.Point;
 import com.example.frontend.SmallestEnclosingCircle;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.chart.*;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.input.MouseEvent;
@@ -54,6 +58,15 @@ public class MonitoringController implements Initializable, Observer {
     @FXML
     private BorderPane rightAreaChartBorderPane;
 
+    @FXML
+    private SplitMenuButton splitMenuItem;
+    @FXML
+    private ComboBox featureComboBox;
+    String selectedFeature = "";
+
+    @FXML
+    private ComboBox planesComboBox;
+
     //..................Constructor.................//
     public MonitoringController() {
         this.data = new ArrayList<>();
@@ -67,8 +80,9 @@ public class MonitoringController implements Initializable, Observer {
     }
 
     public void setPlaneID(ActionEvent planeID) {
-        String name = ((MenuItem) planeID.getSource()).getText();
+        String name = planesComboBox.getValue().toString();
         viewModel.startService(name);
+
     }
     public void setPlaneID(String id){
 
@@ -113,13 +127,18 @@ public class MonitoringController implements Initializable, Observer {
     }
 
     public void feature(ActionEvent event) {
-        reload(((MenuItem) event.getSource()).getText());
+        reload();
+    }
+    public void onSelectFeature(ActionEvent a){
+        selectedFeature = featureComboBox.getValue().toString();
     }
 
-    public void reload(String name) {
-        sad.learnNormal(ts);
-//        String name = ((MenuItem) event.getSource()).getText();
-        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(name);
+    public void reload() {
+        if(selectedFeature == null || selectedFeature.equals(""))
+            return;
+        selectedFeature = featureComboBox.getValue().toString();
+        System.out.println(selectedFeature);
+        List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(selectedFeature);
         double maxCorr = Double.MIN_VALUE;
         int index = 0;
         for (int i = 0; i < correlatedFeatureOfWhatWeNeed.size(); i++) {
@@ -153,19 +172,19 @@ public class MonitoringController implements Initializable, Observer {
         NumberAxis bigY = new NumberAxis();
         LineChart bigChart = new LineChart(bigX, bigY);
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-        TimeSeries tsTest = new TimeSeries(
-                data);
-
+        TimeSeries tsTest = new TimeSeries(data);
         sad.listOfPairs = cf;
         sad.detect(tsTest);
         List<AnomalyReport> reports = sad.listOfExp;
         Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
         Vector<Double> v2 = ts.getColByName(cf.get(0).getFeature2());
-        int len = ts.getArray().size();
+        Vector<Double> d1 = tsTest.getColByName(cf.get(0).getFeature1());
+        Vector<Double> d2 = tsTest.getColByName(cf.get(0).getFeature2());
+        int len = tsTest.getArray().size();
         XYChart.Series seriesBigChart = new XYChart.Series<>();
         seriesBigChart.setName("Big Line Chart");
         for (int i = 0; i < len; i++) {
-            seriesBigChart.getData().add(new XYChart.Data<>(v1.get(i), v2.get(i)));
+            seriesBigChart.getData().add(new XYChart.Data<>(d1.get(i), d2.get(i)));
         }
         XYChart.Series linearRegressionSeries = new XYChart.Series();
         linearRegressionSeries.setName("Linear Regression");
@@ -178,7 +197,7 @@ public class MonitoringController implements Initializable, Observer {
         for (int i = 0; i < sad.anomalyPoints.size(); i++) {
             anomalyPointsSeries.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
         }
-        bigChart.getData().addAll(seriesBigChart, linearRegressionSeries, anomalyPointsSeries);
+        bigChart.getData().addAll(linearRegressionSeries, seriesBigChart,anomalyPointsSeries);
         bigChartBorderPane.setCenter(bigChart);
         //.................Create area charts.................//
         createLittleGraph(v1, v2, len);
@@ -189,8 +208,7 @@ public class MonitoringController implements Initializable, Observer {
         //populate the points
         SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
         sad.listOfPairs = cf;
-        TimeSeries tsTest = new TimeSeries(
-                "Frontend/src/main/java/Model/ModelTools/test.csv");
+        TimeSeries tsTest = new TimeSeries(data);
         //sad.detect(ts2);
         List<AnomalyReport> reports = sad.listOfExp;
         Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
@@ -372,7 +390,7 @@ public class MonitoringController implements Initializable, Observer {
         }
         joyStickBorderPane.setCenter(joyStickPane);
         JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
-        //joyStick.disableJoyStick();
+        joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
 
@@ -390,6 +408,11 @@ public class MonitoringController implements Initializable, Observer {
     }
 
     public void init(){
+//        "Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+//            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time"
+        featureComboBox.getItems().addAll("Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
+            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time");
+
         NumberAxis x = new NumberAxis();
         NumberAxis y = new NumberAxis();
         LineChart chart = new LineChart(x, y);
@@ -408,13 +431,31 @@ public class MonitoringController implements Initializable, Observer {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         init();
+        sad.learnNormal(ts);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        data = this.viewModel.getData();
-        reload("aileron");
+        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
 
+        if(ad.value instanceof AnalyticsData) {
+            if (ad.value != null) {
+                for (PlaneAnalytic plane : ad.value.analyticList) {
+                    if (plane.active == true)
+                        planesComboBox.getItems().add(plane._id);
+                }
+                return;
+            }
+        }
+        data = this.viewModel.getData();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                reload();
+            }
+        });
     }
 }

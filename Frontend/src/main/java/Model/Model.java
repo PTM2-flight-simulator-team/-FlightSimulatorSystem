@@ -28,7 +28,6 @@ public class Model extends Observable implements Observer {
         planeData.aileron = "1.0";
         planeData.elevator = "1.0";
 
-        SendGetTSIndexesByPlaneID("1995");
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
