@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitMenuButton?>
@@ -41,12 +42,18 @@
                      <BorderPane fx:id="leftAreaChartBorderPane" layoutX="164.0" layoutY="72.0" prefHeight="80.0" prefWidth="204.0" />
                      <BorderPane fx:id="rightAreaChartBorderPane" layoutX="368.0" layoutY="72.0" prefHeight="80.0" prefWidth="204.0" />
                      <BorderPane fx:id="bigChartBorderPane" layoutX="164.0" layoutY="200.0" prefHeight="150.0" prefWidth="204.0" />
-                     <BorderPane fx:id="joyStickBorderPane" layoutX="598.0" layoutY="63.0" prefHeight="40.0" prefWidth="80.0" />
-                     <BorderPane fx:id="clocksBorderPane" layoutX="600.5" layoutY="140.5" prefHeight="40.0" prefWidth="80.0" />
-                     <Text layoutX="14.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Flight Index" />
-                     <TextField layoutX="118.0" layoutY="32.0" prefHeight="26.0" prefWidth="51.0" />
+                     <BorderPane fx:id="joyStickBorderPane" layoutX="598.0" layoutY="63.0" prefHeight="280.0" prefWidth="331.0" />
+<!--                     <BorderPane fx:id="clocksBorderPane" layoutX="600.5" layoutY="140.5" prefHeight="40.0" prefWidth="80.0" />-->
                      <BorderPane fx:id="leftAreaChartBorderPane1" layoutX="174.0" layoutY="82.0" prefHeight="80.0" prefWidth="204.0" />
-                     <Button fx:id="load" layoutX="193.0" layoutY="33.0" mnemonicParsing="false" text="Load Flight Details" />
+                     <Button fx:id="load" layoutX="302.0" layoutY="32.0" mnemonicParsing="false" text="Load Flight Details" />
+                     <MenuButton layoutX="13.0" fx:id="chooseId" layoutY="32.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="130.0" text="Choose Plane Id">
+                       <items>
+                       </items>
+                     </MenuButton>
+                     <MenuButton fx:id="chooseFlight" layoutX="164.0" layoutY="32.0" mnemonicParsing="false" text="Choose Flight">
+                       <items>
+                       </items>
+                     </MenuButton>
                   </children>
                </AnchorPane>
             </AnchorPane>
@@ -58,9 +65,11 @@
                   <Text layoutX="99.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLAY SPEED" />
                   <TextField fx:id="speed1" layoutX="170.0" layoutY="293.0" prefHeight="26.0" prefWidth="31.0" text="1" />
                   <Text fx:id="speedTxt" layoutX="214.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="130.40000000000003" />
-                  <AnchorPane fx:id="airpane" layoutX="256.0" layoutY="14.0" prefHeight="256.0" prefWidth="490.0">
+                  <BorderPane fx:id="clocksBorderPane" layoutX="650.5" layoutY="10" prefHeight="40.0" prefWidth="80.0" />
+
+                  <AnchorPane fx:id="airpane" layoutX="156.0" layoutY="14.0" prefHeight="268.0" prefWidth="463.0">
                      <children>
-                        <ImageView fx:id="img1" fitHeight="375.0" fitWidth="468.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="img1" fitHeight="247.5" fitWidth="419.0" layoutX="0.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </AnchorPane>
                   <Button fx:id="reset" layoutX="447.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#resetFlight" text="RESET" />

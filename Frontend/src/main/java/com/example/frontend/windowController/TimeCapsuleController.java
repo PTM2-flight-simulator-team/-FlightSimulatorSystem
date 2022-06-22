@@ -10,6 +10,7 @@ import com.example.frontend.SmallestEnclosingCircle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -122,6 +123,10 @@ public class TimeCapsuleController implements Initializable {
     @FXML
     private Button reset;
 
+    @FXML
+    private MenuButton chooseId,chooseFlight;
+
+
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, int mapWidth, int mapHeight) {
         final float fe = 180;
         float radius = mapWidth / (float) (2 * Math.PI);
@@ -130,8 +135,8 @@ public class TimeCapsuleController implements Initializable {
         double x = lonRad * radius;
         double yFromEquator = radius * Math.log(Math.tan(Math.PI / 4 + latRad / 2));
         double y = mapHeight / 2 - yFromEquator;
-        System.out.println("x" + x);
-        System.out.println("y" + y);
+        //System.out.println("x" + x);
+        //System.out.println("y" + y);
 
         return new Pair<Double, Double>(x, y);
     }
@@ -477,12 +482,11 @@ public class TimeCapsuleController implements Initializable {
                 }
                 _records.add(values1);
             }
-            //longitude = index 3
-            //latitude = index 4
             float longitude = Float.parseFloat(_records.get(indexInTimeSeries).get(2));
             float latitude =  Float.parseFloat(_records.get(indexInTimeSeries).get(3));
-            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,468,375);
+            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
             plane.relocate(pair.getKey(),pair.getValue());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -505,9 +509,30 @@ public class TimeCapsuleController implements Initializable {
             mySlider.setValue(0);
             speed1.setText("1");
             pause.setVisible(false);
+            float longitude = Float.parseFloat(_records.get(1)[2]);
+            float latitude =  Float.parseFloat(_records.get(1)[3]);
+            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
+            plane.relocate(pair.getKey(),pair.getValue());
             reset.setVisible(false);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public void addFlightsToList(int index){
+        if (index == 0){
+            for(int i=0; i<2; i++){
+                MenuItem menuItem = new CheckMenuItem();
+                menuItem.setText("Flight" + (i+1));
+                chooseFlight.getItems().add(menuItem);
+            }
+        }if (index == 1){
+            for(int i=0; i<3; i++){
+                MenuItem menuItem = new CheckMenuItem();
+                menuItem.setText("Flight" + (i+1));
+                chooseFlight.getItems().add(menuItem);
+            }
         }
 
     }
@@ -521,12 +546,8 @@ public class TimeCapsuleController implements Initializable {
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
 
-        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-        plane = new ImageView(new Image(path));
-        plane.setFitHeight(20);
-        plane.setFitWidth(20);
 
-        airpane.getChildren().add(plane);
+
 
         pause.setVisible(false);
         reset.setVisible(false);
@@ -542,6 +563,15 @@ public class TimeCapsuleController implements Initializable {
                 _records.add(values);
             }
 
+            String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+            plane = new ImageView(new Image(path));
+            plane.setFitHeight(20);
+            plane.setFitWidth(20);
+            float longitude = Float.parseFloat(_records.get(1)[2]);
+            float latitude =  Float.parseFloat(_records.get(1)[3]);
+            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
+            plane.relocate(pair.getKey(),pair.getValue());
+            airpane.getChildren().add(plane);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -557,5 +587,10 @@ public class TimeCapsuleController implements Initializable {
             }
         });
 
+        for (int i=0; i<5; i++){
+            MenuItem menuItem = new CheckMenuItem();
+            menuItem.setText("Plane" + (i+1));
+            chooseId.getItems().add(menuItem);
+        }
     }
 }
