@@ -410,7 +410,6 @@ public class FleetOverviewController implements Initializable, Observer {
         zoomLvl.setMaxWidth(200);
         zoomLvl.setMinWidth(200);
         Label hint = new Label("Zoom Level");
-//        Label value = new Label("1.0");
 
         offSetX = width / 2;
         offSetY = height / 2;
@@ -423,8 +422,7 @@ public class FleetOverviewController implements Initializable, Observer {
         {
             zoomlvl = zoomLvl.getValue();
              double newValue = (zoomlvl * 10) / 10;  // ---> For Slider "doubled" values
-           // double newValue = (double) ((int) (zoomlvl * 10)) / 10;  // ----> For Slider "Inted" values
-            //value.setText(newValue + "");
+
             if (offSetX < (width / newValue) / 2) {
                 offSetX = (width / newValue) / 2;
             }
@@ -442,39 +440,25 @@ public class FleetOverviewController implements Initializable, Observer {
             mapHeight = (590 ) - ((offSetY - ((height / newValue) / 2)) ) / 10 ;
             mapWidth = (750 ) + (offSetX - ((width / newValue) / 2)) / 10;
 
-//            System.out.println("Offset X " + (offSetX - ((width / newValue) / 2)));
-//            System.out.println("Offset Y " + (offSetY - ((height / newValue) / 2)));
 
-//            imageView.setScaleX(newValue);
-//            imageView.setScaleY(newValue);
-//            System.out.println(imageView.getWidth());
-//            System.out.println(imageView.getHeight());
-            //update planes location
             updateVisuals(lastAD);
             Rectangle2D rec = new Rectangle2D(offSetX - ((width / newValue) / 2), offSetY - ((height / newValue) / 2), width / newValue, height / newValue);
-//            System.out.println("X " + mapWidth); //  Min(1.0x) X zoom: 750 -----> Max(2.0x) X zoom: 1500
-//            System.out.println("Y " + mapHeight); // Min(1.0x) Y zoom: 590 -----> Max(2.0x) Y zoom is 1180
-//          System.out.println(rec.getWidth());
             img1.setViewport(rec);
         });
 
         root.getChildren().addAll(imageView, zoom);
         worldMapPane.getChildren().addAll(imageView, zoom);
-//        View = new Scene(root,(img1.getFitWidth())+70,(image.getFitHeight())+150);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // this.canvas = this.worldMapCanvas.getGraphicsContext2D();
-
         String refreshBtnPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\refreshBtn.png";
         refreshBtn.setImage(new Image(refreshBtnPath));
 
 //        String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
 //        img1.setImage(new Image(mapImgPath));
         zoomMap();
-//        System.out.println(mapHeight);
-//        System.out.println(mapWidth);
+
         AnalyticsData ad = new AnalyticsData();
         ArrayList<PlaneAnalytic> list = new ArrayList<>();
         ad.analyticList = list;
