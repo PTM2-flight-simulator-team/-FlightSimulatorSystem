@@ -1,14 +1,14 @@
 package com.example.frontend.windowController;
 
 import Model.Model;
-import Model.dataHolder.CodeLine;
-import Model.dataHolder.TeleoperationsData;
+import Model.dataHolder.*;
 import com.example.frontend.FxmlLoader;
 import com.example.frontend.TeleoperationViewModel;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -19,11 +19,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class TeleoperationController {
+public class TeleoperationController implements Observer {
 
     FileChooser fileChooser = new FileChooser();
 
@@ -43,6 +41,8 @@ public class TeleoperationController {
 
     @FXML
     private BorderPane clocksBorderPane;
+    @FXML
+    private ComboBox pickPlane;
 
     private TeleoperationViewModel vm;
 
@@ -108,7 +108,27 @@ public class TeleoperationController {
     }
         public void initViewModel(Model m) {
             this.vm = new TeleoperationViewModel(m);
+            this.vm.addObserver(this);
+            this.vm.SendGetPlains();
+        }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
+        if(ad.value != null){
+            pickPlane.getItems().clear();
+            addItemsToComboBox(ad.value);
         }
     }
+
+    private void addItemsToComboBox(AnalyticsData ad) {
+        for (int i=0; i< ad.analyticList.size(); i++){
+            PlaneAnalytic data = ad.analyticList.get(i);
+            if (data.active){
+                pickPlane.getItems().add(data._id);
+            }
+        }
+    }
+}
 
 
