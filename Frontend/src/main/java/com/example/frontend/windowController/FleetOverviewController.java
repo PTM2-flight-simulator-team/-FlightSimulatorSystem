@@ -82,10 +82,10 @@ public class FleetOverviewController implements Initializable, Observer {
     double angle = 0;
 
     //Map Sizes
-  //  double mapWidth = 750; //Real Size
+    //  double mapWidth = 750; //Real Size
 //    double mapHeight = 590;//Real Size
-   double mapWidth = 825;
-   double mapHeight = 649;
+    double mapWidth = 825;
+    double mapHeight = 649;
 
 
     FleetOverViewModel fvm;
@@ -141,7 +141,7 @@ public class FleetOverviewController implements Initializable, Observer {
         });
     }
 
-
+    // Sorted accumulated nautical miles for fleet in every month since the beginning of the year
     public void multipleSortedMiles2(HashMap<Integer, List<Double>> airplaneList) {
         List<Double> averages = new ArrayList<>();
         for (Integer month : airplaneList.keySet()) {
@@ -179,29 +179,6 @@ public class FleetOverviewController implements Initializable, Observer {
         });
     }
 
-    // presents average sorted nautical miles of all the fleet for every month since the beginning of the year
-//    public void multipleSortedMiles(HashMap<Integer, List<Integer>> airplaneList) {
-//        HashMap<Integer, Integer> sums = new HashMap<>();
-//        for (Map.Entry<Integer, List<Integer>> e : airplaneList.entrySet()) {
-//            int sum = e.getValue().stream().mapToInt(a -> a).sum();
-//            sums.put(e.getKey(), sum);
-//        }
-//        Map<Integer, Integer> sorted = sums
-//                .entrySet()
-//                .stream()
-//                .sorted(comparingByValue())
-//                .collect(
-//                        toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
-//                                LinkedHashMap::new));
-//
-//
-//        var data = new XYChart.Series<String, Number>();
-//        for (Map.Entry<Integer, Integer> entry : sorted.entrySet()) {
-//            data.getData().add(new XYChart.Data<>(entry.getKey() + "", entry.getValue()));
-//        }
-//        myBar2.getData().clear();
-//        myBar2.getData().addAll(data);
-//    }
 
     //-------------------------------Functions-------------------------------//
 
@@ -335,7 +312,7 @@ public class FleetOverviewController implements Initializable, Observer {
 
 
         //lineChart(ad.analyticList.get(i),fleetSize);
-        activePlanes((countActivePlanes/ ad.analyticList.size()) * 100);
+        activePlanes((countActivePlanes / ad.analyticList.size()) * 100);
     }
 
 
@@ -425,28 +402,29 @@ public class FleetOverviewController implements Initializable, Observer {
         System.out.println("height = " + height + "\nwidth = " + width);
         HBox zoom = new HBox(10);
         zoom.setAlignment(Pos.CENTER);
+        zoom.relocate(20,475);
 
         Slider zoomLvl = new Slider();
-        zoomLvl.setMax(2);
+        zoomLvl.setMax(1.25);
         zoomLvl.setMin(1);
         zoomLvl.setMaxWidth(200);
         zoomLvl.setMinWidth(200);
         Label hint = new Label("Zoom Level");
-        Label value = new Label("1.0");
+//        Label value = new Label("1.0");
 
         offSetX = width / 2;
         offSetY = height / 2;
 
-        zoom.getChildren().addAll(hint, zoomLvl, value);
+        zoom.getChildren().addAll(hint, zoomLvl);
         BorderPane imageView = new BorderPane();
         imageView.setCenter(img1);
 
         zoomLvl.valueProperty().addListener(e ->
         {
             zoomlvl = zoomLvl.getValue();
-           // double newValue = (zoomlvl * 10) / 10; ---> For Slider "doubled" values
-            double newValue = (double)((int)(zoomlvl*10))/10;  // ----> For Slider "Inted" values
-            value.setText(newValue + "");
+             double newValue = (zoomlvl * 10) / 10;  // ---> For Slider "doubled" values
+           // double newValue = (double) ((int) (zoomlvl * 10)) / 10;  // ----> For Slider "Inted" values
+            //value.setText(newValue + "");
             if (offSetX < (width / newValue) / 2) {
                 offSetX = (width / newValue) / 2;
             }
@@ -460,24 +438,27 @@ public class FleetOverviewController implements Initializable, Observer {
                 offSetY = height - ((height / newValue) / 2);
             }
 
-            mapHeight = 590 * newValue;
-            mapWidth = 750 * newValue;
 
-            System.out.println("Offset X " + (offSetX - ((width / newValue) / 2)));
-            System.out.println("Offset Y " + (offSetY - ((height / newValue) / 2)));
+            mapHeight = (590 ) - ((offSetY - ((height / newValue) / 2)) ) / 10 ;
+            mapWidth = (750 ) + (offSetX - ((width / newValue) / 2)) / 10;
 
-            imageView.setScaleX(newValue);
-            imageView.setScaleY(newValue);
+//            System.out.println("Offset X " + (offSetX - ((width / newValue) / 2)));
+//            System.out.println("Offset Y " + (offSetY - ((height / newValue) / 2)));
+
+//            imageView.setScaleX(newValue);
+//            imageView.setScaleY(newValue);
+//            System.out.println(imageView.getWidth());
+//            System.out.println(imageView.getHeight());
             //update planes location
             updateVisuals(lastAD);
-//            Rectangle2D rec = new Rectangle2D(offSetX - ((width / newValue) / 2), offSetY - ((height / newValue) / 2), width / newValue, height / newValue);
-            System.out.println("X " + mapWidth); //  Min(1.0x) X zoom: 750 -----> Max(2.0x) X zoom: 1500
-            System.out.println("Y " + mapHeight); // Min(1.0x) Y zoom: 590 -----> Max(2.0x) Y zoom is 1180
+            Rectangle2D rec = new Rectangle2D(offSetX - ((width / newValue) / 2), offSetY - ((height / newValue) / 2), width / newValue, height / newValue);
+//            System.out.println("X " + mapWidth); //  Min(1.0x) X zoom: 750 -----> Max(2.0x) X zoom: 1500
+//            System.out.println("Y " + mapHeight); // Min(1.0x) Y zoom: 590 -----> Max(2.0x) Y zoom is 1180
 //          System.out.println(rec.getWidth());
-//            img1.setViewport(rec);
+            img1.setViewport(rec);
         });
 
-//        root.getChildren().addAll(imageView,zoom);
+        root.getChildren().addAll(imageView, zoom);
         worldMapPane.getChildren().addAll(imageView, zoom);
 //        View = new Scene(root,(img1.getFitWidth())+70,(image.getFitHeight())+150);
     }
@@ -527,11 +508,11 @@ public class FleetOverviewController implements Initializable, Observer {
         p2.planeData.airSpeed_kt = "33333";
 
         p1.miles = new HashMap<>();
-        p1.miles.put("May", 30.6);
-        p1.miles.put("June", 99.0);
+        p1.miles.put("MAY", 30.6);
+        p1.miles.put("JUNE", 99.0);
         p2.miles = new HashMap<>();
-        p2.miles.put("May", 30.6);
-        p2.miles.put("June", 99.0);
+        p2.miles.put("MAY", 30.6);
+        p2.miles.put("JUNE", 99.0);
 
         lastAD = ad;
         //Adding Planes To the plane List
