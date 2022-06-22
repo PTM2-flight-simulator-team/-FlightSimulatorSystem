@@ -5,6 +5,7 @@ import Model.dataHolder.*;
 import com.example.frontend.FxmlLoader;
 import com.example.frontend.TeleoperationViewModel;
 import com.google.gson.JsonObject;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -45,7 +46,8 @@ public class TeleoperationController implements Observer {
     private ComboBox pickPlane;
 
     private TeleoperationViewModel vm;
-
+    private String selectedID;
+    private  JoyStickController joyStick;
 
     @FXML
     void getText(MouseEvent event) {
@@ -72,7 +74,7 @@ public class TeleoperationController implements Observer {
             code.addProperty(String.valueOf(i), s);
             i++;
         }
-        vm.sendCode("1995", toData);
+        vm.sendCode(selectedID, toData);
     }
 
     public void setModel(Model m) {
@@ -88,7 +90,7 @@ public class TeleoperationController implements Observer {
             e.printStackTrace();
         }
         joyStickBorderPane.setCenter(joyStickPane);
-        JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
+        joyStick = (JoyStickController) fxmlLoader.getController();
         //joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
@@ -128,6 +130,11 @@ public class TeleoperationController implements Observer {
                 pickPlane.getItems().add(data._id);
             }
         }
+    }
+
+    public void selectID(ActionEvent act){
+        selectedID = pickPlane.getValue().toString();
+        joyStick.setPlaneID(selectedID);
     }
 }
 
