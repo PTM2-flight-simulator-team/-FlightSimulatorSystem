@@ -20,11 +20,12 @@ import javafx.scene.shape.Circle;
 
 
 import java.net.URL;
+import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
 
-public class ClocksController implements Initializable {
+public class ClocksController implements Initializable,Observer {
     @FXML
     BorderPane bp1 = new BorderPane();
     @FXML
@@ -51,7 +52,7 @@ public class ClocksController implements Initializable {
 
     public void initViewModel(Model m) {
         this.vm = new ClocksViewModel(m);
-        vm.addObserver((Observer) this);
+        vm.addObserver(this);
         vm.compassDegree.bindBidirectional(compassDegree);
         vm.verticalSpeed.bindBidirectional(verticalSpeed);
         vm.speed.bindBidirectional(speed);
@@ -64,7 +65,7 @@ public class ClocksController implements Initializable {
 
         airSpeed.setSkin(new ModernSkin(airSpeed));  //ModernSkin : you guys can change the skin
         airSpeed.setTitle("AIRSPEED");  //title
-        airSpeed.setUnit("Km / h");  //unit
+        airSpeed.setUnit("mi / h");  //unit
         airSpeed.setUnitColor(Color.WHITE);
         airSpeed.setDecimals(0);
         airSpeed.setValue(this.speed.doubleValue()); //deafult position of needle on gauage
@@ -179,5 +180,10 @@ public class ClocksController implements Initializable {
         paintCompass();
         paintAltimeter();
         paintTurnCoordinator();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
