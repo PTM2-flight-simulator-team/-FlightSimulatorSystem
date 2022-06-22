@@ -14,7 +14,7 @@ public class MonitoringViewModel extends Observable implements Observer {
 
     public List<List<String>> data;
     Model m;
-    int miliseconds = 5000;
+    int miliseconds = 1000;
 
     public MonitoringViewModel(Model m) {
         this.m = m;
