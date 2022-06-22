@@ -4,6 +4,7 @@ import Model.Model;
 import Model.dataHolder.MyResponse;
 import Model.dataHolder.PlaneData;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -16,6 +17,9 @@ public class ClocksViewModel extends Observable implements Observer {
     public ClocksViewModel(Model m){
         this.m = m;
         m.addObserver(this);
+        compassDegree = new SimpleDoubleProperty();
+        speed = new SimpleDoubleProperty();
+        verticalSpeed = new SimpleDoubleProperty();
     }
 
     @Override

@@ -4,19 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/csv-plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/TimeSeries.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/TimeSeries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/ClocksViewModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/MonitoringViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/MonitoringViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/file1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/ModelTools/file1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/JoyStickController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/Monitoring.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/JoyStick1.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick1.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/JoyStick1.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/target/classes/com/example/frontend/TimeCapsule.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +32,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/17.0.0.1/javafx-graphics-17.0.0.1-win.jar!/javafx/scene/Node.class" root0="SKIP_INSPECTION" />
@@ -54,17 +61,21 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Frontend/src/main/resources/com/example/frontend" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\Documents\GitHub\FlightSimulatorSystem\Frontend\src\main\resources\com\example\frontend" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Program Files (x86)\GitHub\FlightSimulatorSystem\Frontend\src\main\java\com\example\frontend" />
-      <recent name="D:\Program Files (x86)\GitHub\FlightSimulatorSystem\Frontend\src\main\java\Model\ModelTools" />
+      <recent name="C:\Users\user\Documents\GitHub\FlightSimulatorSystem\Frontend\src\main\java\Model\ModelTools" />
       <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
@@ -80,7 +91,6 @@
     </configuration>
     <configuration name="Front" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.example.frontend.Application" />
       <module name="Frontend" />
       <method v="2">
@@ -156,6 +166,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -164,24 +175,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-
-          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java</url>
-          <line>71</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MonitoringController.java</url>
-          <line>298</line>
-          <option name="timeStamp" value="20" />
-          <url>file://$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java</url>
-          <line>114</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java</url>
+          <line>593</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
-        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
       </pinned-members>
     </pin-to-top-manager>

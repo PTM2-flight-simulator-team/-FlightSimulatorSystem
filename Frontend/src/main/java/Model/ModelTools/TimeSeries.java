@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TimeSeries {
@@ -60,6 +62,21 @@ public class TimeSeries {
                 temp_vector.add(Double.parseDouble(records.get(i).get(j)));
             }
             this._array.add(temp_vector);
+        }
+    }
+
+    public void DateToDouble(List<String> dateCol) {
+        try {
+            Vector<Double> temp = new Vector<>();
+            for (int i = 1; i < dateCol.size(); i++) {
+                SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date date1 = s1.parse(String.valueOf(_records.get(i)));
+                double dat1 = date1.getTime();
+                temp.add(dat1);
+            }
+            this._array.add(temp);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 

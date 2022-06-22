@@ -105,6 +105,7 @@ public class MainWindowController implements Initializable {
         mainPane.setCenter(timeCapsule);
         TimeCapsuleController mc = fxmlLoader.getController();
         mc.setModel(m);
+        mc.initViewModel(m);
         mc.createJoyStick();
         //mc.createLineCharts();
         //mc.createCircleGraph();
