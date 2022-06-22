@@ -28,7 +28,7 @@ public class Model extends Observable implements Observer {
         planeData.aileron = "1.0";
         planeData.elevator = "1.0";
 
-        SendGetTSIndexesByPlaneID("1995");
+//        SendGetTSIndexesByPlaneID("1995");
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
@@ -139,14 +139,14 @@ public class Model extends Observable implements Observer {
 //        System.out.println("test");
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         String json = gson.toJson(data);
-        System.out.println(json);
+//        System.out.println(json);
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Code?plane_id="+ PlaneID,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
     }
 
     public void SendPostJoystick(String PlaneID, JoystickData data){
         String json = new Gson().toJson(data);
-        System.out.println(json);
+//        System.out.println(json);
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID ,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
     }
