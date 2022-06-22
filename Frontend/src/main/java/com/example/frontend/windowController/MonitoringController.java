@@ -41,9 +41,10 @@ public class MonitoringController implements Initializable, Observer {
     MonitoringViewModel viewModel;
     Model m;
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
-    List<List<String>> tsTrainList = trainReader();
-    TimeSeries ts = new TimeSeries(tsTrainList);
+
     SharedGraphs sg = new SharedGraphs();
+    List<List<String>> tsTrainList = sg.trainReader();
+    TimeSeries ts = new TimeSeries(tsTrainList);
     //................GUI..........................//
 
     @FXML
@@ -92,28 +93,6 @@ public class MonitoringController implements Initializable, Observer {
         this.m = m;
     }
 
-    //..................trainJSON.........................//
-    public List<List<String>> trainReader() {
-        String json = "";
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new BufferedReader(new FileReader("Frontend/src/main/java/Model/ModelTools/trainJSON.txt")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        while(scanner.hasNextLine()){
-            json += scanner.nextLine();
-        }
-        List<List<String>> train = new Gson().fromJson(json,new TypeToken<List<List<String>>>(){}.getType());
-        List<List<String>> ts = new ArrayList<>();
-        for(List<String> line : train){
-            if(line.size() == 15){
-                ts.add(line);
-            }
-        }
-        return ts;
-    }
-    //..................trainJSON.........................//
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = new ArrayList<>();
