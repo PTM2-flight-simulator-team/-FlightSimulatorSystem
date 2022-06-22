@@ -109,6 +109,16 @@ public class DataBase {
             throw new Exception("plane does not exists in TimeSeries collection");
     }
 
+    public int getTSIndexesByPlaneID(String id) throws Exception{
+//        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            return list.size();
+        }else
+            throw new Exception("plane does not exists in TimeSeries collection");
+    }
+
     public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, HashMap<String ,String> planeData){
         LocalDate currentdate = LocalDate.now();
         HashMap<String,Double> metrics = new HashMap<>();

@@ -111,6 +111,16 @@ public class MyHttpHandler extends Observable {
         return null;
     }
 
+    public Object HandleGetTSIndexes(HttpResponse<String> response){
+        System.out.println(response.body());
+        String tsIndexes = response.body();
+        MyResponse<String> res = new MyResponse<>(tsIndexes, ResonseType.TS);
+        setChanged();
+        notifyObservers(res);
+
+        return null;
+    }
+
     public Object HandleGetFleetSize(HttpResponse<String> response){
         HashMap<Integer,Integer> fleetSize = new Gson().fromJson(response.body(),new TypeToken<HashMap<Integer,Integer>>(){}.getType());
         MyResponse<HashMap<Integer,Integer>> res = new MyResponse<>(fleetSize, ResonseType.Analytic);

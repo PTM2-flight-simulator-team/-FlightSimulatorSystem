@@ -13,14 +13,6 @@ import java.util.*;
 
 
 public class JsonsFuncs {
-    public static JSONObject plainDataToJson(PlaneData planeData){
-        JSONObject json = new JSONObject();
-        for(PlaneVar planeVar: planeData.getAllVars()){
-            if(planeVar != null)
-                json.put(planeVar.getNickName(),planeVar.getValue());
-        }
-        return json;
-    }
 
     public static String JoystickJsonToAgentCommands(JsonObject json){
         List<String> agentCommands = new ArrayList<>();
@@ -47,7 +39,7 @@ public class JsonsFuncs {
         return sb.toString();//return the code as string
     }
 
-    public static JsonObject getPlainData(String pid) throws IOException {
+    public static JsonObject getPlaneData(String pid) throws IOException {
         JsonObject json = new JsonObject();
         Controller.getPlaneDataByPid(pid).Print();
         List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
@@ -63,10 +55,7 @@ public class JsonsFuncs {
         return json;
     }
 
-    public static String getTimeSeries(String pid, int index){
-        List<List<String>> list = Controller.getTimeSeries(pid,index);
-        return new Gson().toJson(Controller.getTimeSeries(pid,index));
-    }
+    public static String getTimeSeries(String pid, int index){ return new Gson().toJson(Controller.getTimeSeries(pid,index));}
 
     public static String getAnalytics(){
         FindIterable<Document> documentsList = Controller.getAnalytics();
@@ -100,4 +89,18 @@ public class JsonsFuncs {
     public static String fleetSize(){
         return new Gson().toJson(Controller.getFleetSize());
     }
+
+    public static String getPlaneFlightsIndexes(String pid){
+        int numOfTimeSeries = Controller.getNumOfTimeSeries(pid);
+        if(numOfTimeSeries == 0)
+            return "none";
+        else{
+            String ret = "0-";
+            String last = String.valueOf(numOfTimeSeries);
+            ret += last;
+            return ret;
+        }
+
+    }
+
 }

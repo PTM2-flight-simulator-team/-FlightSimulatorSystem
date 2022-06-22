@@ -157,7 +157,6 @@ public class MonitoringController implements Initializable, Observer {
                 data);
 
         sad.listOfPairs = cf;
-        sad.listOfPairs = cf;
         sad.detect(tsTest);
         List<AnomalyReport> reports = sad.listOfExp;
         Vector<Double> v1 = ts.getColByName(cf.get(0).getFeature1());
@@ -415,7 +414,7 @@ public class MonitoringController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         data = this.viewModel.getData();
-        reload("1995");
+        reload("aileron");
 
     }
 }
