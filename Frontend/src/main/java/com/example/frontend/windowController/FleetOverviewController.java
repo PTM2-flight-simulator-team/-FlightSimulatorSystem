@@ -26,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
@@ -37,6 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry.comparingByValue;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 public class FleetOverviewController implements Initializable, Observer {
@@ -57,24 +59,18 @@ public class FleetOverviewController implements Initializable, Observer {
     private Canvas worldMapCanvas;
     @FXML
     private BarChart myBar;
-
     @FXML
     private BarChart myBar2;
-
     @FXML
     private Pane pane;
     @FXML
     private LineChart lineC;
-
     @FXML
     private ScrollBar mapScrollBar;
-
     @FXML
     private ImageView img1;
-
     @FXML
     private ImageView airp;
-
     @FXML
     private Pane worldMapPane;
 
@@ -86,10 +82,10 @@ public class FleetOverviewController implements Initializable, Observer {
     double angle = 0;
 
     //Map Sizes
-    double mapWidth = 750; //Real Siz
-    double mapHeight = 590;//Real Size
-//    double mapWidth = 825;
-//    double mapHeight = 649;
+  //  double mapWidth = 750; //Real Size
+//    double mapHeight = 590;//Real Size
+   double mapWidth = 825;
+   double mapHeight = 649;
 
 
     FleetOverViewModel fvm;
@@ -97,14 +93,15 @@ public class FleetOverviewController implements Initializable, Observer {
     //Variables for zoomMap
     double initx;
     double inity;
-    static int height;
-    static int width;
+    static double height;
+    static double width;
     public String path;
-    static Scene initialScene,View;
-    double offSetX,offSetY,zoomlvl;
+    static Scene initialScene, View;
+    double offSetX, offSetY, zoomlvl;
 
-    private HashMap<String,ImageView> planeImages;
+    private HashMap<String, ImageView> planeImages;
     public AnalyticsData lastAD;
+
     public FleetOverviewController() {
         planeImages = new HashMap<>();
 
@@ -124,7 +121,6 @@ public class FleetOverviewController implements Initializable, Observer {
 
     // sorted accumulated nautical miles for individual plane since the beginning of the month
     public void singleSortedMiles(HashMap<Integer, Double> airplaneToMiles) {
-
         var data = new XYChart.Series<String, Number>();
         for (Map.Entry<Integer, Double> e : airplaneToMiles.entrySet().stream().sorted(comparingByValue()).toList()) {
             data.getData().add(new XYChart.Data<>(e.getKey() + "", e.getValue()));
@@ -204,9 +200,10 @@ public class FleetOverviewController implements Initializable, Observer {
 
     //-------------------------------Functions-------------------------------//
 
+    // Generate
     public Pair<Double, Double> latLongToOffsets(float latitude, float longitude, double mapWidth, double mapHeight) {
         final float fe = 180;
-        float radius = (float)mapWidth / (float) (2 * Math.PI);
+        float radius = (float) mapWidth / (float) (2 * Math.PI);
         float latRad = degreesToRadians(latitude);
         float lonRad = degreesToRadians(longitude + fe);
         double x = lonRad * radius;
@@ -222,15 +219,14 @@ public class FleetOverviewController implements Initializable, Observer {
         return (float) (degrees * Math.PI) / 180;
     }
 
-    public void initVM(Model m)
-    {
+    public void initVM(Model m) {
         this.fvm = new FleetOverViewModel(m);
         this.fvm.addObserver(this);
     }
 
     // manual refresh button of all the graphs
     public void refreshButton(MouseEvent e) {
-        activePlanes(0);
+        activePlanes(30);
 
         Random r = new Random();
         HashMap<Integer, List<Integer>> test = new HashMap<>();
@@ -267,21 +263,25 @@ public class FleetOverviewController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
-        if(ad.value instanceof AnalyticsData){
+        if (ad.value instanceof AnalyticsData) {
             updateVisuals(ad.value);
             System.out.println(ad.value.analyticList.get(0).planeData.longitude);
             return;
         }
-        MyResponse<HashMap<Integer,Integer>> hash = (MyResponse<HashMap<Integer,Integer>>)arg;
-        if(hash.value != null)
-        {
+        MyResponse<HashMap<Integer, Integer>> hash = (MyResponse<HashMap<Integer, Integer>>) arg;
+        if (hash.value != null) {
             lineChart(hash.value);
             return;
         }
+
     }
 
 
     public void updateVisuals(AnalyticsData ad) {
+        if (lastAD == null) {
+            System.out.println("lastAD = null");
+            return;
+        }
         int countActivePlanes = 0;
         int fleetSize = ad.analyticList.size();
 
@@ -291,17 +291,16 @@ public class FleetOverviewController implements Initializable, Observer {
             float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
             Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
             ImageView p = planeImages.get(ad.analyticList.get(i)._id);
-            if (p !=null){
-                p.relocate(pair.getKey(),pair.getValue());
-            }
-            else
-            {
+            if (p != null) {
+                p.relocate(pair.getKey(), pair.getValue());
+            } else {
                 createPlaneView(ad.analyticList.get(i).planeData, pair);
                 System.out.println("here");
             }
 
             if (ad.analyticList.get(i).active)
                 countActivePlanes++;
+
         }
 
 
@@ -310,7 +309,7 @@ public class FleetOverviewController implements Initializable, Observer {
         HashMap<Integer, List<Double>> map2 = new HashMap<>();
 
 
-        //for multiple
+        //for multiplePlane Graph
         for (int i = 0; i < ad.analyticList.size(); i++) {
             HashMap<String, Double> map = ad.analyticList.get(i).miles;
             List<Double> sum = new ArrayList<>();
@@ -344,9 +343,11 @@ public class FleetOverviewController implements Initializable, Observer {
         planeIMG.relocate(pair.getKey(), pair.getValue());
         Tooltip tooltip = new Tooltip("Plane name: " + pd.PlaneName + "\n" + "Flight direction: " + pd.heading + "\n" + "Altitude: " + pd.altitude + "\n" + "Speed (knots): " + pd.airSpeed_kt);
         Tooltip.install(planeIMG, tooltip);
-        tooltip.setShowDelay(Duration.seconds(0.5));
-        //tooltip.setFont();
-        planeImages.put(pd.ID,planeIMG);
+        tooltip.setFont(new Font(12));
+        tooltip.setShowDelay(Duration.seconds(0.3));
+        tooltip.setShowDuration(Duration.seconds(60));
+
+        planeImages.put(pd.ID, planeIMG);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -400,30 +401,7 @@ public class FleetOverviewController implements Initializable, Observer {
         angle = Math.toDegrees(Math.atan(delta_y) / (delta_x)) - 180.0;
     }
 
-    int zoomCounter = 0;
-    GraphicsContext canvas;
-
-    //   public void zoomIn()
-//   {
-//       System.out.println("zoomIn");
-//    //this.img1.setScaleX(1.1);
-//    //this.img1.setScaleY(1.1);
-//    this.canvas.scale(1.1,1.1);
-//   }
-//   public void zoomOut()
-//   {
-//       System.out.println("zoomOut");
-//       if (zoomCounter<5)
-//       {
-//           this.canvas.clearRect(0,0,1000,1000);
-//           this.canvas.scale(0.9,0.9);
-//           //this.createPlaneView(mapHeight,mapWidth);
-//       }
-//        zoomCounter++;
-//   }
-
-    public void zoomMap()
-    {
+    public void zoomMap() {
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
 
@@ -432,14 +410,14 @@ public class FleetOverviewController implements Initializable, Observer {
         img1 = new ImageView(source);
 
         img1.setPreserveRatio(false);
-        img1.setFitWidth(850);
-        img1.setFitHeight(495);
+        img1.setFitWidth(850); // Fixed map width
+        img1.setFitHeight(495); // Fixed map height
 //        img1.setFitWidth(935);
 //        img1.setFitHeight(544.5);
 
-        height = (int) source.getHeight();
-        width = (int) source.getWidth();
-        System.out.println("height = "+height+"\n width = "+width);
+        height = source.getHeight();
+        width = source.getWidth();
+        System.out.println("height = " + height + "\nwidth = " + width);
         HBox zoom = new HBox(10);
         zoom.setAlignment(Pos.CENTER);
 
@@ -451,56 +429,57 @@ public class FleetOverviewController implements Initializable, Observer {
         Label hint = new Label("Zoom Level");
         Label value = new Label("1.0");
 
-        offSetX = width/2;
-        offSetY = height/2;
+        offSetX = width / 2;
+        offSetY = height / 2;
 
-
-
-        zoom.getChildren().addAll(hint,zoomLvl,value);
+        zoom.getChildren().addAll(hint, zoomLvl, value);
         BorderPane imageView = new BorderPane();
         imageView.setCenter(img1);
 
-        zoomLvl.valueProperty().addListener(e->{
+        zoomLvl.valueProperty().addListener(e ->
+        {
             zoomlvl = zoomLvl.getValue();
-            double newValue = (zoomlvl*10)/10;
-            value.setText(newValue+"");
-            if(offSetX<(width/newValue)/2) {
-                offSetX = (width/newValue)/2;
+           // double newValue = (zoomlvl * 10) / 10; ---> For Slider "doubled" values
+            double newValue = (double)((int)(zoomlvl*10))/10;  // ----> For Slider "Inted" values
+            value.setText(newValue + "");
+            if (offSetX < (width / newValue) / 2) {
+                offSetX = (width / newValue) / 2;
             }
-            if(offSetX>width-((width/newValue)/2)) {
-                offSetX = width-((width/newValue)/2);
+            if (offSetX > width - ((width / newValue) / 2)) {
+                offSetX = width - ((width / newValue) / 2);
             }
-            if(offSetY<(height/newValue)/2) {
-                offSetY = (height/newValue)/2;
+            if (offSetY < (height / newValue) / 2) {
+                offSetY = (height / newValue) / 2;
             }
-            if(offSetY>height-((height/newValue)/2)) {
-                offSetY = height-((height/newValue)/2);
+            if (offSetY > height - ((height / newValue) / 2)) {
+                offSetY = height - ((height / newValue) / 2);
             }
+
             mapHeight = 590 * newValue;
             mapWidth = 750 * newValue;
 
+            System.out.println("Offset X " + (offSetX - ((width / newValue) / 2)));
+            System.out.println("Offset Y " + (offSetY - ((height / newValue) / 2)));
+
+            imageView.setScaleX(newValue);
+            imageView.setScaleY(newValue);
             //update planes location
             updateVisuals(lastAD);
-            Rectangle2D rec = new Rectangle2D(offSetX-((width/newValue)/2), offSetY-((height/newValue)/2), width/newValue, height/newValue);
-            System.out.println("X" + mapWidth);
-            System.out.println("Y" + mapHeight);
-//            System.out.println(rec.getWidth());
-
-
-
-            img1.setViewport(rec);
+//            Rectangle2D rec = new Rectangle2D(offSetX - ((width / newValue) / 2), offSetY - ((height / newValue) / 2), width / newValue, height / newValue);
+            System.out.println("X " + mapWidth); //  Min(1.0x) X zoom: 750 -----> Max(2.0x) X zoom: 1500
+            System.out.println("Y " + mapHeight); // Min(1.0x) Y zoom: 590 -----> Max(2.0x) Y zoom is 1180
+//          System.out.println(rec.getWidth());
+//            img1.setViewport(rec);
         });
 
 //        root.getChildren().addAll(imageView,zoom);
-        worldMapPane.getChildren().addAll(imageView,zoom);
+        worldMapPane.getChildren().addAll(imageView, zoom);
 //        View = new Scene(root,(img1.getFitWidth())+70,(image.getFitHeight())+150);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-       // this.canvas = this.worldMapCanvas.getGraphicsContext2D();
-
+        // this.canvas = this.worldMapCanvas.getGraphicsContext2D();
 
         String refreshBtnPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\refreshBtn.png";
         refreshBtn.setImage(new Image(refreshBtnPath));
@@ -510,51 +489,49 @@ public class FleetOverviewController implements Initializable, Observer {
         zoomMap();
 //        System.out.println(mapHeight);
 //        System.out.println(mapWidth);
-//        AnalyticsData ad = new AnalyticsData();
-//        ArrayList<PlaneAnalytic> list = new ArrayList<>();
-//        ad.analyticList = list;
-//
-//        PlaneAnalytic p1 = new PlaneAnalytic();
-//        PlaneAnalytic p2 = new PlaneAnalytic();
-//
-//        p1._id = "0";
-//        p1.Name = "pilot0";
-//        p2._id = "1";
-//        p2.Name = "pilot1";
-//
-//
-//        p1.planeData = new PlaneData();
-//        p2.planeData = new PlaneData();
-//
-//        p1.planeData.latitude = "51.507351"; //London
-//        p1.planeData.longitude = "-0.127758"; //London
-//        p2.planeData.latitude = "-14.235004"; //Lebanon
-//        p2.planeData.longitude = "-51.925282"; //Lebanon
-//
-//
-//        p1.planeData.ID = "0";
-//        p1.planeData.PlaneName = "Plane 0";
-//        p1.planeData.heading = "312.332";
-//        p1.planeData.altitude = "1231312";
-//        p1.planeData.airSpeed_kt = "33333";
-//
-//        p2.planeData.ID = "1";
-//        p2.planeData.PlaneName = "Plane 1";
-//        p2.planeData.heading = "312.332";
-//        p2.planeData.altitude = "1231312";
-//        p2.planeData.airSpeed_kt = "33333";
-//
-//        p1.miles = new HashMap<>();
-//        p1.miles.put("May",30.6);
-//        p1.miles.put("June",99.0);
-//        p2.miles = new HashMap<>();
-//        p2.miles.put("May",30.6);
-//        p2.miles.put("June",99.0);
-//
-//        lastAD = ad;
-//        //Adding Planes To the plane List
-//        list.add(p1);
-//        list.add(p2);
+        AnalyticsData ad = new AnalyticsData();
+        ArrayList<PlaneAnalytic> list = new ArrayList<>();
+        ad.analyticList = list;
+
+        PlaneAnalytic p1 = new PlaneAnalytic();
+        PlaneAnalytic p2 = new PlaneAnalytic();
+
+        p1._id = "0";
+        p1.Name = "pilot0";
+        p2._id = "1";
+        p2.Name = "pilot1";
+
+        p1.planeData = new PlaneData();
+        p2.planeData = new PlaneData();
+
+        p1.planeData.latitude = "51.507351"; //London
+        p1.planeData.longitude = "-0.127758"; //London
+        p2.planeData.latitude = "-14.235004"; //Lebanon
+        p2.planeData.longitude = "-51.925282"; //Lebanon
+
+        p1.planeData.ID = "0";
+        p1.planeData.PlaneName = "Plane 0";
+        p1.planeData.heading = "312.332";
+        p1.planeData.altitude = "1231312";
+        p1.planeData.airSpeed_kt = "33333";
+
+        p2.planeData.ID = "1";
+        p2.planeData.PlaneName = "Plane 1";
+        p2.planeData.heading = "312.332";
+        p2.planeData.altitude = "1231312";
+        p2.planeData.airSpeed_kt = "33333";
+
+        p1.miles = new HashMap<>();
+        p1.miles.put("May", 30.6);
+        p1.miles.put("June", 99.0);
+        p2.miles = new HashMap<>();
+        p2.miles.put("May", 30.6);
+        p2.miles.put("June", 99.0);
+
+        lastAD = ad;
+        //Adding Planes To the plane List
+        list.add(p1);
+        list.add(p2);
 //
 //        //-----Testing Drawing Planes-----//
 //        updateVisuals(ad);
@@ -593,5 +570,4 @@ public class FleetOverviewController implements Initializable, Observer {
 
 //        System.out.println("w: " + img1.getFitWidth() + " h: " + img1.getFitHeight());
     }
-
 }               
