@@ -42,6 +42,7 @@ public class JoyStickController implements Initializable, Observer {
     double prevX, prevY;
 
     double normalizedX, normalizedY;
+    String planeID;
 
     public JoyStickController() {
         circle = new Circle();
@@ -149,7 +150,7 @@ public class JoyStickController implements Initializable, Observer {
         normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
         sendJoystick(normalizedX, normalizedY);
-        System.out.println("x: " + normalizedX + " y: " + normalizedY);
+//        System.out.println("x: " + normalizedX + " y: " + normalizedY);
 //        System.out.println("x: " + jx + " y: " + jy);
         printJoyStick();
     }
@@ -160,10 +161,13 @@ public class JoyStickController implements Initializable, Observer {
         data.elevator = String.valueOf(normalizedY);
         data.throttle = String.valueOf(throttle.getValue());
         data.rudder = String.valueOf(rudder.getValue());
-        vm.sendJoystickData("1995", data);
+        vm.sendJoystickData(planeID, data);
 
     }
 
+    public void setPlaneID(String pd){
+        this.planeID = pd;
+    }
     public void setValues(double jx, double jy) {
         this.jx = jx;
         this.jy = jy;
