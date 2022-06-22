@@ -97,7 +97,9 @@ public class TimeSeries {
         int size = this.getArray().size();
         float[] temp_vector1 = new float[size];
         for (i = 0; i < this._records.get(1).size(); i++) {
-            if (this._records.get(0).get(i).equals(str)) {
+            if(i == 14)
+                break;
+            if (this._records.get(0).get(i).equals(str) ) {
                 for (int j = 0; j < this._array.size(); j++) {
                     temp_vector1[j] = (float) this._array.get(j).get(i).doubleValue();
                 }
