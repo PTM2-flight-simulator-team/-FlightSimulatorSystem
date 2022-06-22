@@ -264,6 +264,7 @@ public class FleetOverviewController implements Initializable, Observer {
             System.out.println("lastAD = null");
             return;
         }
+
         int countActivePlanes = 0;
         int fleetSize = ad.analyticList.size();
 
@@ -276,8 +277,7 @@ public class FleetOverviewController implements Initializable, Observer {
             if (p != null) {
                 p.relocate(pair.getKey(), pair.getValue());
             } else {
-                createPlaneView(ad.analyticList.get(i).planeData, pair);
-//                System.out.println("here");
+                createPlaneView(ad.analyticList.get(i).planeData, pair,lati,longi);
             }
 
             if (ad.analyticList.get(i).active)
@@ -310,13 +310,12 @@ public class FleetOverviewController implements Initializable, Observer {
         }
         singleSortedMiles(map1);
 
-
         //lineChart(ad.analyticList.get(i),fleetSize);
         activePlanes((countActivePlanes / ad.analyticList.size()) * 100);
     }
 
 
-    public void createPlaneView(PlaneData pd, Pair<Double, Double> pair) {
+    public void createPlaneView(PlaneData pd, Pair<Double, Double> pair, double lat, double longt) {
 
         // String path = "D:\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
@@ -333,6 +332,8 @@ public class FleetOverviewController implements Initializable, Observer {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                addDoubleClick(planeIMG);
+                direction(longt,lat);
                 worldMapPane.getChildren().add(planeIMG);
             }
         });
