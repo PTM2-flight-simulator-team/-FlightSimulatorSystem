@@ -75,7 +75,7 @@ public class AgentListener extends Observable implements Runnable {
                     String tempPlaneId = this.planeData.getId();
                     if(Controller.model.DB.doesPlaneExists(tempPlaneId)){//check if plane exists
                         Controller.model.DB.updateMilesById(tempPlaneId , Double.valueOf(tempAnalytics.getMiles()), strMonth);
-                        Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
+                        Controller.model.DB.changePlaneState(tempPlaneId , false);
                        // Controller.model.DB.addTs(tempPlaneId,tsList);
                     }
                     else {

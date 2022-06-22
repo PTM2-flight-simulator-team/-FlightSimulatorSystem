@@ -65,7 +65,7 @@ public class JsonsFuncs {
         documentsList.forEach((d)->{
             d.remove("createdMonth");
             if(d != null) {
-                if((boolean)d.get("active") == true){
+                if(Controller.getActiveData().containsKey(d.get("_id"))){
                     String id = (String) d.get("_id");
                     PlaneData planeData = Controller.getPlaneDataByPid(id);
                     HashMap<String,String> data = new HashMap<>();
@@ -75,6 +75,7 @@ public class JsonsFuncs {
                         data.put(var.getNickName(), var.getValue());
                     }
                     d.replace("planeData", data);
+                    d.replace("active", "true");
                 }
                 docList.add(d);
             }
