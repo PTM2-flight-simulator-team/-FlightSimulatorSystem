@@ -1,10 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <Label text="Time" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="976.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.TimeCapsuleController">
+   <children>
+      <SplitPane fx:id="split" dividerPositions="0.5" onContextMenuRequested="#dividePane" orientation="VERTICAL" prefHeight="718.0" prefWidth="976.0">
+         <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <AnchorPane layoutX="-1.0" prefHeight="180.0" prefWidth="976.0" BorderPane.alignment="CENTER">
+                  <children>
+                     <BorderPane fx:id="leftAreaChartBorderPane" layoutX="164.0" layoutY="72.0" prefHeight="80.0" prefWidth="204.0" />
+                     <BorderPane fx:id="rightAreaChartBorderPane" layoutX="368.0" layoutY="72.0" prefHeight="80.0" prefWidth="204.0" />
+                     <BorderPane fx:id="bigChartBorderPane" layoutX="164.0" layoutY="200.0" prefHeight="150.0" prefWidth="204.0" />
+                     <BorderPane fx:id="joyStickBorderPane" layoutX="598.0" layoutY="63.0" prefHeight="280.0" prefWidth="331.0" />
+<!--                     <BorderPane fx:id="clocksBorderPane" layoutX="600.5" layoutY="140.5" prefHeight="40.0" prefWidth="80.0" />-->
+                     <BorderPane fx:id="leftAreaChartBorderPane1" layoutX="174.0" layoutY="82.0" prefHeight="80.0" prefWidth="204.0" />
+                     <ComboBox fx:id="choosePlane" layoutX="14.0" layoutY="32.0" onAction="#onPlaneSelected" prefHeight="26.0" prefWidth="130.0" promptText="choose plane id" />
+                     <ComboBox fx:id="chooseflight" layoutX="164.0" layoutY="32.0" onAction="#onFlightSelected" prefHeight="26.0" prefWidth="130.0" promptText="choose flight " />
+                     <ComboBox fx:id="featureComboBox" layoutX="14.0" layoutY="70.0" prefHeight="26.0" prefWidth="130.0" promptText="Feature list" onAction="#feature"/>
+                  </children>
+               </AnchorPane>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="974.0">
+               <children>
+                  <Button fx:id="pause" layoutX="367.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#pauseFlight" text="PAUSE" />
+                  <Button fx:id="play" layoutX="42.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#startFlight" text="PLAY" />
+                  <Slider fx:id="mySlider" layoutX="42.0" layoutY="329.0" prefHeight="14.0" prefWidth="890.0" />
+                  <Text layoutX="99.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLAY SPEED" />
+                  <TextField fx:id="speed1" layoutX="170.0" layoutY="293.0" prefHeight="26.0" prefWidth="31.0" text="1" />
+                  <Text fx:id="speedTxt" layoutX="214.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" wrappingWidth="130.40000000000003" />
+                  <BorderPane fx:id="clocksBorderPane" layoutX="650.5" layoutY="10" prefHeight="40.0" prefWidth="80.0" />
+
+                  <AnchorPane fx:id="airpane" layoutX="156.0" layoutY="14.0" prefHeight="268.0" prefWidth="463.0">
+                     <children>
+                        <ImageView fx:id="img1" fitHeight="247.5" fitWidth="419.0" layoutX="0.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+                  <Button fx:id="reset" layoutX="447.0" layoutY="293.0" mnemonicParsing="false" onMouseClicked="#resetFlight" text="RESET" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
+   </children>
+</Pane>

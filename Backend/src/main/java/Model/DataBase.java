@@ -7,7 +7,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import org.bson.Document;
 
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -35,6 +34,7 @@ public class DataBase {
         this.database.createCollection(colName);
     }
     public void addDocument(String colName, Document doc){
+
         this.database.getCollection(colName).insertOne(doc);
     }
 
@@ -81,7 +81,7 @@ public class DataBase {
     }
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
-        System.out.println("planeId:" + planeId + "ts: " + ts);
+        //System.out.println("planeId:" + planeId + "ts: " + ts);
         Document d = this.database.getCollection("TimeSeries").find(new Document().append("planeID",planeId)).first();
         if(d == null){
             System.out.println("plane does not exits");
@@ -109,9 +109,17 @@ public class DataBase {
             throw new Exception("plane does not exists in TimeSeries collection");
     }
 
-    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
-        System.out.println("inside save new anal");
-        System.out.println(planeData == null);
+    public int getTSIndexesByPlaneID(String id) throws Exception{
+//        return this.database.getCollection("TimeSeries").find(new Document().append("planeID",id));
+        Document doc = this.database.getCollection("TimeSeries").find(new Document().append("planeID",id)).first();
+        if(doc != null){
+            List<List<List<String>>> list = (List<List<List<String>>>) doc.get("tsList");
+            return list.size();
+        }else
+            throw new Exception("plane does not exists in TimeSeries collection");
+    }
+
+    public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, HashMap<String ,String> planeData){
         LocalDate currentdate = LocalDate.now();
         HashMap<String,Double> metrics = new HashMap<>();
         Integer month1 = currentdate.getMonth().getValue();
@@ -128,9 +136,8 @@ public class DataBase {
         metrics.put(Month.NOVEMBER.toString(),0.0);
         metrics.put(Month.DECEMBER.toString(),0.0);
         metrics.put(month.toString(),metrics.get(month.toString())+miles);
-        planeData.Print();
-        String gson = new Gson().toJson(planeData);
-        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,gson).append("createdMonth", month1);
+//        String gson = new Gson().toJson(planeData);
+        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,planeData).append("createdMonth", month1);
         this.addDocument("AirCrafts",d);
     }
 
@@ -226,6 +233,34 @@ public class DataBase {
         }
 
 
+    }
+    public HashMap<Integer,Integer> getActivePlaneByMonth(){
+        LocalDate currentdate = LocalDate.now();
+        Integer month1 = currentdate.getMonth().getValue();
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        int[] array = new int[12];
+        FindIterable<Document> it = this.database.getCollection("AirCrafts").find();
+        List<Integer> l = new ArrayList<>();
+        it.forEach((d)->{
+            if(d.get("createdMonth") != null){
+                int x = (Integer) d.get("createdMonth");
+                array[x]++;
+            }
+
+
+        });
+        int sum =0;
+        for(int i=1; i<13;i++){
+            if(i > month1+1)
+                hashMap.put(i,0);
+
+            else {
+
+                hashMap.put(i-1, sum);
+                sum += array[i];
+            }
+        }
+        return hashMap;
     }
 
 

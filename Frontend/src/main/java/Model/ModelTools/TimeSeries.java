@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TimeSeries {
 
@@ -66,6 +65,21 @@ public class TimeSeries {
         }
     }
 
+    public void DateToDouble(List<String> dateCol) {
+        try {
+            Vector<Double> temp = new Vector<>();
+            for (int i = 1; i < dateCol.size(); i++) {
+                SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date date1 = s1.parse(String.valueOf(_records.get(i)));
+                double dat1 = date1.getTime();
+                temp.add(dat1);
+            }
+            this._array.add(temp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Vector<Double> getColByName(String str) {
         Vector<Double> vector = new Vector<>();
         for (int i = 0; i < this._records.get(0).size(); i++) {
@@ -83,7 +97,9 @@ public class TimeSeries {
         int size = this.getArray().size();
         float[] temp_vector1 = new float[size];
         for (i = 0; i < this._records.get(1).size(); i++) {
-            if (this._records.get(0).get(i).equals(str)) {
+            if(i == 14)
+                break;
+            if (this._records.get(0).get(i).equals(str) ) {
                 for (int j = 0; j < this._array.size(); j++) {
                     temp_vector1[j] = (float) this._array.get(j).get(i).doubleValue();
                 }

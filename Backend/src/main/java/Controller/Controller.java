@@ -38,6 +38,11 @@ public class Controller implements Observer {
       model.addObserver(this);
 
    }
+   public static PlaneData getPlaneDataByPid(String pid){
+      return planeDataMap.get(pid);
+   }
+
+   public static Map<String,PlaneData> getActiveData(){return planeDataMap;}
 
    @Override
    public void update(Observable o, Object arg) {
@@ -66,12 +71,17 @@ public class Controller implements Observer {
          List<String> args = (List<String>)arg;
          clientMap.get(args.get(0)).writeToAgent(args.get(1));//write the commands from the interpreter to the agent
       }else if (o instanceof ClientHandler){
+         planeDataMap.put(((PlaneData) arg).getID(), (PlaneData) arg);
          model.setFgVarsInInterpreter((PlaneData) arg);//update the FG in model for pass it to interpreter
       }else if(o instanceof OpenServerCommand){// case that the data came from the agent server connection
          this.addHandler((Runnable) arg);
          ClientHandler ch = (ClientHandler) arg;
          ch.addObserver(this);
       }
+   }
+
+   public static HashMap<Integer,Integer> getFleetSize(){
+      return model.DB.getActivePlaneByMonth();
    }
 
    private void addHandler(Runnable r){
@@ -102,6 +112,15 @@ public class Controller implements Observer {
          return model.DB.getTSbyPlaneID(id, index);
       } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+
+      }
+   }
+
+   public static int getNumOfTimeSeries(String id){
+      try {
+         return model.DB.getTSIndexesByPlaneID(id);
+      } catch (Exception e) {
+         throw new RuntimeException(e.getMessage());
 
       }
    }

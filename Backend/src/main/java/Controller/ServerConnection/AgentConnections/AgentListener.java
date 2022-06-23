@@ -2,6 +2,7 @@ package Controller.ServerConnection.AgentConnections;
 
 import CommonClasses.AnalyticsData;
 import CommonClasses.PlaneData;
+import CommonClasses.PlaneVar;
 import Controller.Controller;
 
 import java.io.*;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 
@@ -49,11 +51,10 @@ public class AgentListener extends Observable implements Runnable {
 
                 if (fromAgent instanceof PlaneData) {
                     planeData = (PlaneData)fromAgent;
-                    Controller.planeDataMap.put(planeData.getId(),planeData);
-                    String id = planeData.getID();
+//                    Controller.planeDataMap.put(planeData.getId(),planeData);
+//                    String id = planeData.getID();
                     setChanged();
                     notifyObservers(planeData);
-                    System.out.println(planeData.getAileron().getValue());
 //                    planeData.Print();
                 }
                 else if(fromAgent instanceof AnalyticsData){
@@ -74,15 +75,19 @@ public class AgentListener extends Observable implements Runnable {
                     String tempPlaneId = this.planeData.getId();
                     if(Controller.model.DB.doesPlaneExists(tempPlaneId)){//check if plane exists
                         Controller.model.DB.updateMilesById(tempPlaneId , Double.valueOf(tempAnalytics.getMiles()), strMonth);
-                        Controller.model.DB.changePlaneState(tempPlaneId , tempAnalytics.getState());
+                        Controller.model.DB.changePlaneState(tempPlaneId , false);
                        // Controller.model.DB.addTs(tempPlaneId,tsList);
                     }
                     else {
-                            PlaneData pd = this.planeData;
-                            System.out.println("planeData" + this.planeData);
-
+                            System.out.println("blabla");
+                        HashMap<String,String> data = new HashMap<>();
+                        data.put("ID", planeData.getID());
+                        data.put("PlaneName", planeData.getPlaneName());
+                        for(PlaneVar var: planeData.getAllVars()){
+                            data.put(var.getNickName(), var.getValue());
+                        }
                             Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
-                                    ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
+                                    ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , data);
 //                            this.stopListening();
 
                     }
@@ -94,9 +99,7 @@ public class AgentListener extends Observable implements Runnable {
 
                     if(tsList != null){
                         //System.out.println(tsList.toString());
-                        System.out.println("num of rows that recived from the agent is: " + tsList.size());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
-                        System.out.println("got the timesreies from the agent");
                         this.stopListening();
                     }
             }catch (StreamCorruptedException sce){

@@ -1,2 +1,1 @@
-Setted id and name
-Connection to backend failed!
+test

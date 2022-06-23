@@ -28,7 +28,7 @@ public class Model extends Observable implements Observer {
         planeData.aileron = "1.0";
         planeData.elevator = "1.0";
 
-      
+//        SendGetTSIndexesByPlaneID("1995");
         MyResponse<PlaneData> response = new MyResponse<>(planeData, ResonseType.PlaneData);
 //        SendGetAnalyticData();
 //        HashMap<String,String> code = new HashMap<>();
@@ -50,6 +50,7 @@ public class Model extends Observable implements Observer {
 //                update(null,response);
 //            }
 //        }.start();
+//        SendGetTSData("1995","0");
     }
 
     public void setJoyStickData(double d1, double d2) {
@@ -78,11 +79,11 @@ public class Model extends Observable implements Observer {
     public void startGetAnalyticService(int seconds){
         final Runnable sendGet = new Runnable() {
             public void run() {
-                System.out.println("here");
-                //SendGetAnalyticData();
+//                System.out.println("here");
+                SendGetAnalyticData();
+                SendGetFleetSizeByMonth();
             }
         };
-
 
         final ScheduledFuture<?> Handle =
                 scheduler.scheduleAtFixedRate(sendGet, 0, seconds, TimeUnit.SECONDS);
@@ -93,6 +94,9 @@ public class Model extends Observable implements Observer {
         }, 60 * 600, TimeUnit.SECONDS);
     }
 
+    public void StopRunningService(){
+        scheduler.shutdown();
+    }
     @Override
     public void update(Observable o, Object arg) {
 //        if (o.getClass().equals(Model.class)){
@@ -117,6 +121,12 @@ public class Model extends Observable implements Observer {
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TS?plane_id="+ PlaneID+ "&flightId=" + flightId);
         cf.thenApply((response) -> myHttpHandler.HandleGetTS(response));
     }
+
+    public void SendGetFleetSizeByMonth(){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/FleetSize");
+        cf.thenApply((response) -> myHttpHandler.HandleGetFleetSize(response));
+
+    }
 //    public void SendGetAllPlanes(){
 //        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/Planes");
 //        cf.thenApply((response) -> myHttpHandler.HandleGotAllPlanes(response));
@@ -129,16 +139,21 @@ public class Model extends Observable implements Observer {
 //        System.out.println("test");
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         String json = gson.toJson(data);
-        System.out.println(json);
+//        System.out.println(json);
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Code?plane_id="+ PlaneID,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
     }
 
     public void SendPostJoystick(String PlaneID, JoystickData data){
         String json = new Gson().toJson(data);
-        System.out.println(json);
+//        System.out.println(json);
         CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Joystick?plane_id="+ PlaneID ,json);
         cf.thenApply((response) -> myHttpHandler.HandlePost(response));
+    }
+    public void SendGetTSIndexesByPlaneID(String PlaneID){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncGet("/GET/TSIndexes?plane_id="+ PlaneID);
+        cf.thenApply((response) -> myHttpHandler.HandleGetTSIndexes(response));
+
     }
 
 }
