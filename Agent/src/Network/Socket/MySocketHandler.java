@@ -92,8 +92,6 @@ public class MySocketHandler extends Observable implements Observer {
      * @param flightData is the data that the agent sent to the TS.
      */
     public void ShutDown(String analytic, ArrayList<ArrayList<String>> flightData){
-        System.out.println("num of planeData received is: "+ FlightGearReader.counter);
-        System.out.println("num of rows that the agent sent inside the TS is: " + flightData.size());
         this.fgHandler.Stop();
         AnalyticsData analyticsData = new AnalyticsData(analytic);
         this.backHandler.sendFinalAnalytics(analyticsData);

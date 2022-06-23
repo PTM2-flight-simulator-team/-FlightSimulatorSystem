@@ -19,14 +19,27 @@ public class TimeCapsuleViewModel extends Observable implements Observer {
         notifyObservers(arg);
     }
 
+    /**
+     * It sends a request to the server to get the analytic data.
+     */
     public void sendGetAnalytic(){
         m.SendGetAnalyticData();
     }
 
+    /**
+     * Send a request to the server to get all the flight IDs for a given plane ID.
+     * */
     public void sendGetFlightIDS(String pid){
         m.SendGetTSIndexesByPlaneID(pid);
     }
 
+    /**
+     * This function sends a request to the server to get the timestamp of the last update of the plane with the given
+     * planeID and flightNum
+     *
+     * @param planeID The plane's ID
+     * @param flightNum The flight number of the plane.
+     */
     public void sendGetTS(String planeID, String flightNum){
         m.SendGetTSData(planeID,flightNum);
     }
