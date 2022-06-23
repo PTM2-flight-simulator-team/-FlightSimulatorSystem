@@ -1,5 +1,8 @@
 package Network;
 
+/**
+ * > The NetworkCommand class is used to send commands to the Backend
+ */
 public class NetworkCommand {
     public Object fromObj;
     public Object outObj;
