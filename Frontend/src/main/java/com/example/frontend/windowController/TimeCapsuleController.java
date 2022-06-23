@@ -47,58 +47,8 @@ public class TimeCapsuleController implements Initializable,Observer {
     private SplitPane split;
     //........................................//
     JoyStickController joyStick;
-
-    @FXML
-    private MenuItem aileron;
-
-    @FXML
-    private MenuItem airSpeed_kt;
     @FXML
     ImageView img1;
-    @FXML
-    ImageView worldMapPane;
-    @FXML
-    private MenuItem vertSpeed;
-    @FXML
-    private Text playspeed;
-
-    @FXML
-    private MenuItem altitude;
-
-    @FXML
-    private MenuItem elevator;
-
-    @FXML
-    private MenuItem rudder;
-
-    @FXML
-    private MenuItem flaps;
-
-    @FXML
-    private MenuItem longitude;
-
-    @FXML
-    private MenuItem heading;
-
-    @FXML
-    private MenuItem latitude;
-
-    @FXML
-    private MenuItem pitchDeg;
-
-    @FXML
-    private MenuItem rollDeg;
-
-    @FXML
-    private MenuItem throttle_0;
-
-    @FXML
-    private MenuItem throttle_1;
-    @FXML
-    private MenuItem turnCoordinator;
-
-    @FXML
-    private SplitMenuButton splitMenuItem;
     @FXML
     private BorderPane joyStickBorderPane;
     @FXML
@@ -118,26 +68,20 @@ public class TimeCapsuleController implements Initializable,Observer {
     @FXML
     private Text speedTxt;
     private Thread thread;
-    private volatile boolean stop = false;
+    private volatile boolean stop = false; //flight is paused or not started yet
     private volatile int currenIndex;
     private ImageView plane;
     @FXML
     private AnchorPane airpane;
     @FXML
-    private Button load;
-    @FXML
     private Button reset;
-
-    private volatile boolean isFlightFinished = false;
-
-    @FXML
+@FXML
     private ComboBox choosePlane, chooseflight, featureComboBox;
     ClocksController clocks;
 
     private List<List<String>> timeSeries;
 
     SharedGraphs sg = new SharedGraphs();
-
 
     private TimeCapsuleViewModel vm;
 
@@ -245,7 +189,7 @@ public class TimeCapsuleController implements Initializable,Observer {
 
 
     public void pauseFlight() {
-        if (stop == false) {
+        if (stop == false) { //flight is stopped
             pause.setText("RESUME");
             reset.setVisible(true);
             stop = true;
@@ -259,16 +203,14 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
     }
 
-    public void startFlight() {
+    public void startFlight() { //when play is clicked
         int startIndex = 0;
         for (int i = 1; i < timeSeries.size(); i++) {
             if (timeSeries.get(i).get(timeSeries.get(i).size() - 1).equals(speedTxt.getText())) {
                 startIndex = i;
             }
         }
-
         double speed2 = Double.parseDouble(speed1.getText());
-        int inc = (int) ((mySlider.getValue() / 100) * ((timeSeries.size() - 1))) + 1;
         int finalStartIndex = startIndex;
         thread = new Thread() {
             @Override
@@ -283,17 +225,15 @@ public class TimeCapsuleController implements Initializable,Observer {
                     double timeSleep = (dat1 - dat2) / speed2;
                     for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
                         if (mySlider.getValue()+speed2 >= timeSeries.size()){
-                            isFlightFinished = true;
                             stop = true;
                         }
-                        if (!stop) {
-                            pause.setVisible(true);
-                            speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
+                        if (!stop) { //airplane is flying
+                            pause.setVisible(true); //you can press on pause now
+                            speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1)); //every date from ts
                             mySlider.setValue(mySlider.getValue() + (100 * speed2 / 200));
                             currenIndex = i;
                             String aileron = timeSeries.get(currenIndex).get(0);
                             String elevator = timeSeries.get(currenIndex).get(1);
-                            System.out.println("aileron = " + aileron + "," + "elevator = " + elevator);
                             ChangePlanePositionByTime(currenIndex);
                             ChangeClocksStateByIndex(currenIndex);
                             UpdateJoyStickByIndex(aileron,elevator);
@@ -347,6 +287,7 @@ public class TimeCapsuleController implements Initializable,Observer {
         this.vm.sendGetAnalytic();
     }
 
+
     public void ChangePlanePositionByTime(int indexInTimeSeries) {
         float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
         float latitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
@@ -355,13 +296,9 @@ public class TimeCapsuleController implements Initializable,Observer {
     }
 
     public void ChangeClocksStateByIndex(int indexInTimeSeries) {
-        //clocks.speed.setValue(airSpeed);
-//        clocks.setAirSpeedClock(airSpeed1);
-//        clocks.setAirSpeed(airSpeed1);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-//                clocks.setAirSpeed(airSpeed1);
                 createClocks(
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(5)),
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(6)),
@@ -369,14 +306,13 @@ public class TimeCapsuleController implements Initializable,Observer {
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(9)),
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(10)),
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(13)));
-
-
             }
         });
     }
 
     public void resetFlight() {
-        stop = false;
+        //returns the flight to it's starting position and reset all the params
+        stop = false; //change the flying state to false
         speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1));
         mySlider.setValue(0);
         speed1.setText("1");
@@ -391,30 +327,32 @@ public class TimeCapsuleController implements Initializable,Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         // 50% size from the original map
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
 
-
         clocks = new ClocksController();
 
+        //as long as the flight isn't started you can't press on pause or reset
         pause.setVisible(false);
         reset.setVisible(false);
-
-
 
         String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         plane = new ImageView(new Image(path));
         plane.setFitHeight(20);
         plane.setFitWidth(20);
-        airpane.getChildren().add(plane);
+        airpane.getChildren().add(plane); //puts the airplane on the map
     }
 
+    /*
+     * When the user selects a plane from the dropdown menu, the program will send a request to the server to get all the
+     * flight IDs for that plane
+     */
     public void onPlaneSelected(ActionEvent a) {
         this.vm.sendGetFlightIDS(choosePlane.getValue().toString());
     }
 
+    // A method that is called when the user selects a flight.
     public void onFlightSelected(ActionEvent a) {
         this.vm.sendGetTS(choosePlane.getValue().toString(), chooseflight.getValue().toString());
     }
@@ -427,32 +365,30 @@ public class TimeCapsuleController implements Initializable,Observer {
             String id = s.value.split("-")[1];
             int count = Integer.parseInt(id);
             for (int i = 0; i <= count; i++) {
-                chooseflight.getItems().add(i);
+                chooseflight.getItems().add(i); //fills Choose-Flight Combo box with non-active flights
             }
             return;
         }
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
         if (ad.value instanceof AnalyticsData) {
-            addActivePlanes(ad.value);
+            addNonActivePlanes(ad.value); //gets the non-actives planes
             return;
-            //loadPlaneFlights
         }
         MyResponse<List<List<String>>> ts = (MyResponse<List<List<String>>>) arg;
         if (ts.value != null) {
             timeSeries = ts.value;
-            System.out.println("Got TS");
-            initialLoad(timeSeries);
+            initialLoad(timeSeries); //initialize all the data of the chosen flight
         }
 
     }
 
     private void initialLoad(List<List<String>> timeSeries){
-        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1));
+        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1)); //start time of the chosen flight
         featureComboBox.setVisible(true);
-        mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+        mySlider.valueProperty().addListener(new ChangeListener<Number>() { //change the slider before the flight start
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if (stop == false) {
+                if (stop == false) { //flight is paused or not started yet
                     int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 1)) + 1;
                     speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
                 }
@@ -462,21 +398,22 @@ public class TimeCapsuleController implements Initializable,Observer {
         play.setDisable(false);
         mySlider.setDisable(false);
         speed1.setDisable(false);
+        //the started longitude and latitude of the flight that chose (x & y)
         float longitude = Float.parseFloat(timeSeries.get(1).get(2));
         float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
+        //change the (x,y) on the map according to the correct map size
         Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
-        plane.relocate(pair.getKey(),pair.getValue());
+        plane.relocate(pair.getKey(),pair.getValue()); //relocate the plane to the start place
         sg.init(featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
-        System.out.println("Initialized...");
     }
 
-    private void addActivePlanes(AnalyticsData ad) {
+    private void addNonActivePlanes(AnalyticsData ad) { //add all the non-active airplanes to the combo-box
         for (int i = 0; i < ad.analyticList.size(); i++) {
-
             if (!ad.analyticList.get(i).active) {
                 choosePlane.getItems().add(ad.analyticList.get(i)._id);
             }
         }
+
         featureComboBox.getItems().add("Aileron");
         featureComboBox.getItems().add("Elevator");
         featureComboBox.getItems().add("Rudder");
