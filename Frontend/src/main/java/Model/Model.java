@@ -156,4 +156,9 @@ public class Model extends Observable implements Observer {
 
     }
 
+    public void SendPostShutdown(String PlaneID){
+        CompletableFuture<HttpResponse<String>> cf = myHttpHandler.SendAsyncPost("/POST/Shutdown?plane_id="+ PlaneID,"");
+        cf.thenApply((response) -> myHttpHandler.HandlePost(response));
+    }
+
 }

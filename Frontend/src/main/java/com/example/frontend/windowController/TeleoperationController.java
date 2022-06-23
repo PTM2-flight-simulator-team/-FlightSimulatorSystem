@@ -29,10 +29,13 @@ public class TeleoperationController implements Observer {
     Model m;
 
     @FXML
-    public Button btnAutopilot;
+    private Button btnShutdown;
 
     @FXML
-    public Button btnManual;
+    private Button btnAutopilot;
+
+    @FXML
+    private Button btnManual;
 
     @FXML
     private Button btnLoad;
@@ -53,9 +56,31 @@ public class TeleoperationController implements Observer {
     private  JoyStickController joyStick;
 
     @FXML
+    void shutdown(MouseEvent event) {
+        this.vm.sendPostShutdown(selectedID);
+        reloadPane();
+    }
+
+    void reloadPane(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane teleoperation = new Pane();
+        try {
+            teleoperation = fxmlLoader.load(FxmlLoader.class.getResource("Teleoperation.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MainWindowController.mainPaneStatic.setCenter(teleoperation);
+        TeleoperationController mc = fxmlLoader.getController();
+        mc.setModel(MainWindowController.modelStatic);
+        mc.createJoyStick();
+        mc.createClocks();
+
+    }
+    @FXML
     void joystickMouseClicked(MouseEvent event) {
-        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
+        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399;-fx-border-color:white; ");
+        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
     }
 
     @FXML
@@ -73,8 +98,8 @@ public class TeleoperationController implements Observer {
 
     @FXML
     void submitText(MouseEvent event) {
-        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
+        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; -fx-border-color:white;");
+        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
         TeleoperationsData toData = new TeleoperationsData();
         String text = textArea.getText();
         String[] lines = text.split("\n");
