@@ -22,7 +22,6 @@ public class Controller implements Observer {
    public static volatile HashMap<String, ClientHandler> clientMap;
 
    public Controller() {
-//      System.out.println("Thread id:" + Thread.currentThread().getId());
       this.mapCommand = new HashMap<>();
       this.executor = Executors.newFixedThreadPool(10);
       OpenServerCommand openServerCommand = new OpenServerCommand();
@@ -85,8 +84,6 @@ public class Controller implements Observer {
    }
 
    private void addHandler(Runnable r){
-//      System.out.println("add handler, id: " + Thread.currentThread().getId());
-//      System.out.println("r class: " + r.getClass());
       this.executor.execute(r);
    }
 //   private void addCommands(){

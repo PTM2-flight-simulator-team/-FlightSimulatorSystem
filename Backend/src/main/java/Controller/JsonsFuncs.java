@@ -45,15 +45,11 @@ public class JsonsFuncs {
         JsonObject json = new JsonObject();
         Controller.getPlaneDataByPid(pid).Print();
         List<PlaneVar> planeData = Controller.getPlaneDataByPid(pid).getAllVars();//add exception if not find;
-        System.out.println(planeData);
-        System.out.println("size: " + planeData.size());
         for (int i = 0; i<planeData.size(); i++){
             if(planeData.get(i)!= null){
                 json.addProperty(planeData.get(i).getNickName(), planeData.get(i).getValue());
-                System.out.println("key: " + planeData.get(i).getNickName() + " value: " + planeData.get(i).getValue());
             }
         }
-        System.out.println(json.toString());
         return json;
     }
 
@@ -94,7 +90,6 @@ public class JsonsFuncs {
                     d.replace("active", "true");
                 }
                 docList.add(d);
-                System.out.println("in foreach");
             }
             else
                 return;
@@ -114,19 +109,16 @@ public class JsonsFuncs {
         metrics.put(Month.DECEMBER.toString(),0.0);
         for(String key: map.keySet()){
             if(!Controller.model.DB.doesPlaneExists(map.get(key).getID())){
-                System.out.println("in last for");
                 HashMap<String, String> tmp = new HashMap<>();
                 for(PlaneVar var: map.get(key).getAllVars()){
                     tmp.put(var.getNickName(), var.getValue());
                 }
-                System.out.println(map.get(key).getID());
                 Document d = new Document().append("_id",map.get(key).getID()).append("name", map.get(key).getPlaneName()).append("miles",metrics)
                         .append("active",true).append("planeData" ,tmp).append("createdMonth", month);
                 d.remove("createdMonth");
                 docList.add(d);
             }
         }
-        System.out.println(docList.size());
         Document retDoc = new Document();
         retDoc.append("analyticList", docList);
         return retDoc.toJson();
