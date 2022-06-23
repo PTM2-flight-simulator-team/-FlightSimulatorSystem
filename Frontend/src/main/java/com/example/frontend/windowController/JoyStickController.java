@@ -79,6 +79,8 @@ public class JoyStickController implements Initializable, Observer {
 
     public void disableJoyStick() {
         mouseDisabled = true;
+        rudder.setDisable(true);
+        throttle.setDisable(true);
     }
 
     @Override
@@ -95,7 +97,6 @@ public class JoyStickController implements Initializable, Observer {
             throttle.setValue(throttle.getValue());
             sendJoystick(normalizedX, normalizedY);
         }
-
     }
 
     @FXML
@@ -163,12 +164,12 @@ public class JoyStickController implements Initializable, Observer {
         data.throttle = String.valueOf(throttle.getValue());
         data.rudder = String.valueOf(rudder.getValue());
         vm.sendJoystickData(planeID, data);
-
     }
 
-    public void setPlaneID(String pd){
+    public void setPlaneID(String pd) {
         this.planeID = pd;
     }
+
     public void setValues(double jx, double jy) {
         this.jx = jx;
         this.jy = jy;
@@ -187,7 +188,6 @@ public class JoyStickController implements Initializable, Observer {
         double percentage = nd / 2 * 100;
         double returnVal = (percentage * (160 - 40) / 100) + 40;
         return returnVal;
-
     }
 
     private double getMapedJoystickXYminus1to1inverted(String val) {
@@ -196,7 +196,6 @@ public class JoyStickController implements Initializable, Observer {
         double percentage = 100 - (nd / 2 * 100);
         double returnVal = (percentage * (160 - 40) / 100) + 40;
         return returnVal;
-
     }
 
 }

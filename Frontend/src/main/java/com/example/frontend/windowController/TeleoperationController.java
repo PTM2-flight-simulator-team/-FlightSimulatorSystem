@@ -29,7 +29,10 @@ public class TeleoperationController implements Observer {
     Model m;
 
     @FXML
-    private Button btnAutopilot;
+    public Button btnAutopilot;
+
+    @FXML
+    public Button btnManual;
 
     @FXML
     private Button btnLoad;
@@ -50,6 +53,12 @@ public class TeleoperationController implements Observer {
     private  JoyStickController joyStick;
 
     @FXML
+    void joystickMouseClicked(MouseEvent event) {
+        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
+        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
+    }
+
+    @FXML
     void getText(MouseEvent event) {
         File file = fileChooser.showOpenDialog(new Stage());
         try {
@@ -65,6 +74,7 @@ public class TeleoperationController implements Observer {
     @FXML
     void submitText(MouseEvent event) {
         btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
+        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
         TeleoperationsData toData = new TeleoperationsData();
         String text = textArea.getText();
         String[] lines = text.split("\n");
