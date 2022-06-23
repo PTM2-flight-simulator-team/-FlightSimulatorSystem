@@ -26,7 +26,7 @@
                      <BorderPane fx:id="leftAreaChartBorderPane1" layoutX="174.0" layoutY="82.0" prefHeight="80.0" prefWidth="204.0" />
                      <ComboBox fx:id="choosePlane" layoutX="14.0" layoutY="32.0" onAction="#onPlaneSelected" prefHeight="26.0" prefWidth="130.0" promptText="choose plane id" />
                      <ComboBox fx:id="chooseflight" layoutX="164.0" layoutY="32.0" onAction="#onFlightSelected" prefHeight="26.0" prefWidth="130.0" promptText="choose flight " />
-                     <ComboBox fx:id="featureComboBox" layoutX="14.0" layoutY="70.0" onAction="#feature" prefHeight="26.0" prefWidth="130.0" promptText="Feature list" />
+                     <ComboBox fx:id="featureComboBox" visible="false" layoutX="14.0" layoutY="70.0" onAction="#feature" prefHeight="26.0" prefWidth="130.0" promptText="Feature list" />
                   </children>
                </AnchorPane>
             </AnchorPane>

@@ -288,7 +288,7 @@ public class TimeCapsuleController implements Initializable,Observer {
                         if (!stop) {
                             pause.setVisible(true);
                             speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
-                            mySlider.setValue(mySlider.getValue() + (100 * speed2 / 300));
+                            mySlider.setValue(mySlider.getValue() + (100 * speed2 / 200));
                             currenIndex = i;
                             String aileron = timeSeries.get(currenIndex).get(0);
                             String elevator = timeSeries.get(currenIndex).get(1);
@@ -394,6 +394,8 @@ public class TimeCapsuleController implements Initializable,Observer {
         pause.setVisible(false);
         reset.setVisible(false);
 
+
+
         String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
         plane = new ImageView(new Image(path));
         plane.setFitHeight(20);
@@ -438,6 +440,7 @@ public class TimeCapsuleController implements Initializable,Observer {
 
     private void initialLoad(List<List<String>> timeSeries){
         speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1));
+        featureComboBox.setVisible(true);
         mySlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
