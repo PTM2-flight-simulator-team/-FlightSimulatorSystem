@@ -8,6 +8,7 @@ import com.example.frontend.*;
 import Model.Model;
 
 import com.example.frontend.Point;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,7 +46,7 @@ public class TimeCapsuleController implements Initializable,Observer {
     @FXML
     private SplitPane split;
     //........................................//
-
+    JoyStickController joyStick;
 
     @FXML
     private MenuItem aileron;
@@ -58,6 +59,8 @@ public class TimeCapsuleController implements Initializable,Observer {
     ImageView worldMapPane;
     @FXML
     private MenuItem vertSpeed;
+    @FXML
+    private Text playspeed;
 
     @FXML
     private MenuItem altitude;
@@ -125,9 +128,11 @@ public class TimeCapsuleController implements Initializable,Observer {
     @FXML
     private Button reset;
 
+    private volatile boolean isFlightFinished = false;
+
     @FXML
     private ComboBox choosePlane, chooseflight, featureComboBox;
-    ClocksController clocks = new ClocksController();
+    ClocksController clocks;
 
     private List<List<String>> timeSeries;
 
@@ -218,7 +223,7 @@ public class TimeCapsuleController implements Initializable,Observer {
             e.printStackTrace();
         }
         joyStickBorderPane.setCenter(joyStickPane);
-        JoyStickController joyStick = (JoyStickController) fxmlLoader.getController();
+        joyStick = (JoyStickController) fxmlLoader.getController();
         joyStick.disableJoyStick();
         joyStick.initViewModel(m);
     }
@@ -233,7 +238,8 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
-        //clocks.initViewModel(m);
+//        clocks.createClocks();
+//        clocks.initViewModel(m);
     }
 
 
@@ -247,6 +253,7 @@ public class TimeCapsuleController implements Initializable,Observer {
             pause.setText("PAUSE");
             pause.setVisible(false);
             reset.setVisible(false);
+            play.setDisable(false);
             stop = false;
         }
     }
@@ -274,14 +281,21 @@ public class TimeCapsuleController implements Initializable,Observer {
                     double dat2 = date2.getTime();
                     double timeSleep = (dat1 - dat2) / speed2;
                     for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
+                        if (mySlider.getValue()+speed2 >= timeSeries.size()){
+                            isFlightFinished = true;
+                            stop = true;
+                        }
                         if (!stop) {
                             pause.setVisible(true);
                             speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
-                            mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
-                            //System.out.println("Flying...");
+                            mySlider.setValue(mySlider.getValue() + (100 * speed2 / 300));
                             currenIndex = i;
+                            String aileron = timeSeries.get(currenIndex).get(0);
+                            String elevator = timeSeries.get(currenIndex).get(1);
+                            System.out.println("aileron = " + aileron + "," + "elevator = " + elevator);
                             ChangePlanePositionByTime(currenIndex);
                             ChangeClocksStateByIndex(currenIndex);
+                            UpdateJoyStickByIndex(aileron,elevator);
                             Thread.sleep((long) timeSleep);
                         }
                     }
@@ -291,6 +305,10 @@ public class TimeCapsuleController implements Initializable,Observer {
             }
         };
         thread.start();
+    }
+
+    private void UpdateJoyStickByIndex(String aileron, String elevator) {
+        joyStick.mapAndSetValues(aileron,elevator);
     }
 
 
@@ -336,9 +354,17 @@ public class TimeCapsuleController implements Initializable,Observer {
     }
 
     public void ChangeClocksStateByIndex(int indexInTimeSeries) {
-        double airSpeed = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(4));
-        clocks.speed.setValue(airSpeed);
-        clocks.paintAirSpeed(airSpeed);
+        double airSpeed1 = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(4));
+        //clocks.speed.setValue(airSpeed);
+//        clocks.setAirSpeedClock(airSpeed1);
+//        clocks.setAirSpeed(airSpeed1);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                clocks.setAirSpeed(airSpeed1);
+
+            }
+        });
     }
 
     public void resetFlight() {
@@ -362,6 +388,8 @@ public class TimeCapsuleController implements Initializable,Observer {
         String mapImgPath = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\planesmap.gif";
         img1.setImage(new Image(mapImgPath));
 
+
+        clocks = new ClocksController();
 
         pause.setVisible(false);
         reset.setVisible(false);
@@ -420,6 +448,9 @@ public class TimeCapsuleController implements Initializable,Observer {
             }
         });
         this.sg.setData(timeSeries);
+        play.setDisable(false);
+        mySlider.setDisable(false);
+        speed1.setDisable(false);
         float longitude = Float.parseFloat(timeSeries.get(1).get(2));
         float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
         Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);

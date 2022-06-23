@@ -5,6 +5,7 @@ import com.example.frontend.ClocksViewModel;
 import com.example.frontend.JoyStickViewModel;
 import eu.hansolo.medusa.*;
 import eu.hansolo.medusa.skins.*;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -47,9 +48,7 @@ public class ClocksController implements Initializable,Observer {
         compassDegree = new SimpleDoubleProperty();
         verticalSpeed = new SimpleDoubleProperty();
         speed = new SimpleDoubleProperty();
-
         airSpeed = new Gauge();
-
     }
 
     public void initViewModel(Model m) {
@@ -60,19 +59,16 @@ public class ClocksController implements Initializable,Observer {
         vm.speed.bindBidirectional(speed);
     }
 
-    public void paintAirSpeed(double val) {
+    public void paintAirSpeed() {
         //create an air speed gauge
-
-
         airSpeed.setSkin(new ModernSkin(airSpeed));  //ModernSkin : you guys can change the skin
         airSpeed.setTitle("AIRSPEED");  //title
         airSpeed.setUnit("Km / h");  //unit
         airSpeed.setUnitColor(Color.WHITE);
         airSpeed.setDecimals(0);
-        airSpeed.setValue(val); //deafult position of needle on gauage
-
-        // airSpeed.setAnimated(true);
-        //gauge.setAnimationDuration(500);
+        airSpeed.setAnimated(true);
+        //airSpeed.setAnimationDuration(500);
+        airSpeed.setValue(0);//deafult position of needle on gauage
 
         airSpeed.setValueColor(Color.WHITE);
         airSpeed.setTitleColor(Color.WHITE);
@@ -80,18 +76,20 @@ public class ClocksController implements Initializable,Observer {
         airSpeed.setBarColor(Color.rgb(0, 214, 215));
         airSpeed.setNeedleColor(Color.RED);
         airSpeed.setThresholdColor(Color.RED);  //color will become red if it crosses threshold value
-//        airSpeed.setThreshold(85);
-//        airSpeed.setThresholdVisible(true);
+        airSpeed.setThreshold(85);
+        airSpeed.setThresholdVisible(true);
         airSpeed.setTickLabelColor(Color.rgb(151, 151, 151));
         airSpeed.setTickMarkColor(Color.WHITE);
         airSpeed.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+        airSpeed.valueProperty().addListener(o ->{
+            airSpeed.setValue(airSpeed.getValue());
+        });
         bp1.setCenter(airSpeed);
 
     }
 
     public void paintVerticalSpeed() {
         //create an air speed gauge
-
         Gauge verticalSpeed = GaugeBuilder.create()
                 .skinType(Gauge.SkinType.VERTICAL)
                 .title("100 FEET PER MINUTER")
@@ -104,6 +102,18 @@ public class ClocksController implements Initializable,Observer {
                 .build();
 
         bp6.setCenter(verticalSpeed);
+    }
+    public void setAirSpeed(double val){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                airSpeed.setAnimated(true);
+                airSpeed.setValue(val);
+                airSpeed.setTitle("AIRSPEED "+ val);
+                bp1.setCenter(airSpeed);
+
+            }
+        });
     }
 
     public void paintCompass() {
@@ -174,14 +184,25 @@ public class ClocksController implements Initializable,Observer {
         bp4.setCenter(imageView);
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         paintAttitude();
-        paintAirSpeed(0);
+        paintAirSpeed();
         paintVerticalSpeed();
         paintCompass();
         paintAltimeter();
         paintTurnCoordinator();
+    }
+
+    public void createClocks(){
+        paintAttitude();
+        paintAirSpeed();
+        paintVerticalSpeed();
+        paintCompass();
+        paintAltimeter();
+        paintTurnCoordinator();
+
     }
 
     @Override
