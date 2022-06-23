@@ -362,6 +362,7 @@ public class TimeCapsuleController implements Initializable,Observer {
             @Override
             public void run() {
 //                clocks.setAirSpeed(airSpeed1);
+                System.out.println(timeSeries.get(indexInTimeSeries).get(5));
                 createClocks(
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(5)),
                         Double.parseDouble(timeSeries.get(indexInTimeSeries).get(6)),

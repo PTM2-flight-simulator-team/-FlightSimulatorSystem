@@ -5,6 +5,7 @@ import Model.dataHolder.*;
 import com.example.frontend.FxmlLoader;
 import com.example.frontend.TeleoperationViewModel;
 import com.google.gson.JsonObject;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -113,6 +114,7 @@ public class TeleoperationController implements Observer {
     public void selectID(ActionEvent act){
         selectedID = pickPlane.getValue().toString();
         joyStick.setPlaneID(selectedID);
+        this.vm.startService(selectedID);
     }
 
     @Override
@@ -123,14 +125,19 @@ public class TeleoperationController implements Observer {
             addItemsToComboBox(ad.value);
         }
         MyResponse<PlaneData> pd = ( MyResponse<PlaneData>) arg;
-        if(pd.value instanceof  PlaneData){
-            createClocks(
-                    Double.parseDouble(pd.value.airSpeed_kt),
-                    Double.parseDouble(pd.value.vertSpeed),
-                    Double.parseDouble(pd.value.heading),
-                    Double.parseDouble(pd.value.altitude),
-                    Double.parseDouble(pd.value.pitchDeg),
-                    Double.parseDouble(pd.value.turnCoordinator));
+        if(pd.value instanceof  PlaneData) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    createClocks(
+                            Double.parseDouble(pd.value.airSpeed_kt),
+                            Double.parseDouble(pd.value.vertSpeed),
+                            Double.parseDouble(pd.value.heading),
+                            Double.parseDouble(pd.value.altitude),
+                            Double.parseDouble(pd.value.pitchDeg),
+                            Double.parseDouble(pd.value.turnCoordinator));
+                }
+            });
         }
     }
 
