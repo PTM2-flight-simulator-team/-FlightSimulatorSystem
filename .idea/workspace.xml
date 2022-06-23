@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="teleUpdate">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Logs.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/JsonsFuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/JsonsFuncs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Agent/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/Logs.txt" afterDir="false" />
-    </list>
+    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="teleUpdate" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,7 +46,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "WebServerToolWindowFactoryState": "false"
+    "WebServerToolWindowFactoryState": "false",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -150,6 +145,7 @@
       <workItem from="1655554522434" duration="17377000" />
       <workItem from="1655705084345" duration="11821000" />
       <workItem from="1655993705524" duration="971000" />
+      <workItem from="1655995456180" duration="300000" />
     </task>
     <task id="LOCAL-00001" summary="teleUpdate">
       <created>1655976667791</created>
