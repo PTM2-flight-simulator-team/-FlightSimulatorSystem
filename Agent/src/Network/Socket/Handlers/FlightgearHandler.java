@@ -15,6 +15,11 @@ public class FlightgearHandler extends Observable implements Observer  {
          flightGearReader.addObserver(this);
     }
 
+    /**
+     * It sends a command to FlightGear
+     *
+     * @param command The command to send to FlightGear.
+     */
     public void WriteToFG(String command)
     {
         flightGearWriter.WriteToFG(command);
@@ -24,6 +29,9 @@ public class FlightgearHandler extends Observable implements Observer  {
         return flightGearReader.getMyData();
     }
 
+    /**
+     * The function stops the connection between the simulator and the program
+     */
     public void Stop()
     {
         flightGearWriter.stop();
@@ -31,6 +39,12 @@ public class FlightgearHandler extends Observable implements Observer  {
     }
 
 
+    /**
+     * If the observable is a FlightGearReader, and the argument is a PlaneData object, then notify the observers
+     *
+     * @param o the object that is being observed
+     * @param arg the argument that was passed to the notifyObservers method.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof FlightGearReader){
