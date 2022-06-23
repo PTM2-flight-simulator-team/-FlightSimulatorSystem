@@ -1,11 +1,14 @@
 package CommonClasses;
 
+import Model.MyLogger;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class PlaneData implements Serializable{
+    // A serialVersionUID. It is used to identify the version of the class.
     private static final long serialVersionUID = 6529685098267757690L;
     private String ID;
     private String PlaneName;
@@ -25,9 +28,6 @@ public class PlaneData implements Serializable{
     private PlaneVar heading;
     private PlaneVar turnCoordinator; // didnt find
 
-//    public String getPlainName() {
-//        return plainName;
-//    }
 
     public String getAileron() {
         return aileron.value;
@@ -91,10 +91,11 @@ public class PlaneData implements Serializable{
         this.ID = ID;
     }
 
-    public void setPlainName(String plainName) {
-        this.PlaneName = plainName;
+    public void setPlaneName(String planeName) {
+        this.PlaneName = planeName;
     }
 
+    // A constructor for the class PlaneData.
     public PlaneData(HashMap<String,String> map){
 //        this.plainName = name;
         this.aileron = new PlaneVar("/controls/flight/aileron[0]","aileron",map.get("aileron")) ;
@@ -116,6 +117,11 @@ public class PlaneData implements Serializable{
 
     }
 
+    /**
+     * It takes the data from the class and puts it into an ArrayList
+     *
+     * @return An ArrayList of Strings.
+     */
     public ArrayList<String> PlainDataToList(){
         ArrayList<String> data = new ArrayList<>();
         data.add(this.aileron.value);
@@ -135,12 +141,20 @@ public class PlaneData implements Serializable{
         data.add(this.turnCoordinator.value);
         return data;
     }
+    /**
+     * It prints the values of the variables in the class.
+     */
     public void Print(){
         System.out.println(
                 "aileron:"+this.aileron.value +",elevator:" + this.elevator.value +",rudder:" + this.rudder.value+",longitude-deg:" + this.longitude.value+",latitude-deg:" + this.latitude.value
                         +",airspeed-kt:" + this.airSpeed_kt.value+",vertical-speed-fps:" + this.vertSpeed.value+",throttle_0:" + this.throttle_0.value+",throttle_1:" + this.throttle_1.value
                         +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
                         +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
+        MyLogger.LogMessage("aileron:"+this.aileron.value +",elevator:" + this.elevator.value +",rudder:" + this.rudder.value+",longitude-deg:" + this.longitude.value+",latitude-deg:" + this.latitude.value
+                +",airspeed-kt:" + this.airSpeed_kt.value+",vertical-speed-fps:" + this.vertSpeed.value+",throttle_0:" + this.throttle_0.value+",throttle_1:" + this.throttle_1.value
+                +",altitude-ft:" + this.altitude.value +",pitch-deg:" + this.pitchDeg.value+",roll-deg:" + this.rollDeg.value
+                +",heading-deg:" + this.heading.value+",side-slip-deg:" + this.turnCoordinator.value);
+
     }
 
 }
