@@ -107,7 +107,7 @@ public class TimeCapsuleController implements Initializable,Observer {
     @FXML
     private BorderPane rightAreaChartBorderPane;
     @FXML
-    private Button play,pause;
+    private Button play, pause;
     @FXML
     private Slider mySlider;
     @FXML
@@ -126,7 +126,7 @@ public class TimeCapsuleController implements Initializable,Observer {
     private Button reset;
 
     @FXML
-    private ComboBox choosePlane,chooseflight, featureComboBox;
+    private ComboBox choosePlane, chooseflight, featureComboBox;
     ClocksController clocks = new ClocksController();
 
     private List<List<String>> timeSeries;
@@ -146,15 +146,17 @@ public class TimeCapsuleController implements Initializable,Observer {
         double y = mapHeight / 2 - yFromEquator;
         return new Pair<Double, Double>(x, y);
     }
+
     //CPY
     public float degreesToRadians(float degrees) {
         return (float) (degrees * Math.PI) / 180;
     }
+
     public void setModel(Model m) {
         this.m = m;
     }
 
-    public void createMonitoring(){
+    public void createMonitoring() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane rachmany1 = new Pane();
         try {
@@ -164,17 +166,18 @@ public class TimeCapsuleController implements Initializable,Observer {
             e.printStackTrace();
         }
 
-        MonitoringController mc =(MonitoringController) fxmlLoader.getController();
+        MonitoringController mc = (MonitoringController) fxmlLoader.getController();
         mc.setModel(m);
     }
 
-    public void dividePane(){
-        split.setDividerPositions(0.6f,0.4f);
+    public void dividePane() {
+        split.setDividerPositions(0.6f, 0.4f);
     }
 
     SimpleAnomalyDetector sad = new SimpleAnomalyDetector();
     List<List<String>> tsTrainList = sg.trainReader();
     TimeSeries ts = new TimeSeries(tsTrainList);
+
     public List<CorrelatedFeatures> findRequiredList(String name) {
         List<CorrelatedFeatures> correlatedFeatures = sad.listOfPairs;
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = new ArrayList<>();
@@ -234,13 +237,13 @@ public class TimeCapsuleController implements Initializable,Observer {
     }
 
 
-    public void pauseFlight(){
-        if (stop == false){
+    public void pauseFlight() {
+        if (stop == false) {
             pause.setText("RESUME");
             reset.setVisible(true);
             stop = true;
 
-        }else{
+        } else {
             pause.setText("PAUSE");
             pause.setVisible(false);
             reset.setVisible(false);
@@ -248,53 +251,54 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
     }
 
-        public void startFlight(){
-            int startIndex = 0;
-            for(int i=1; i<timeSeries.size(); i++){
-                if (timeSeries.get(i).get(timeSeries.get(i).size() - 1).equals(speedTxt.getText())){
-                    startIndex = i;
+    public void startFlight() {
+        int startIndex = 0;
+        for (int i = 1; i < timeSeries.size(); i++) {
+            if (timeSeries.get(i).get(timeSeries.get(i).size() - 1).equals(speedTxt.getText())) {
+                startIndex = i;
+            }
+        }
+
+        double speed2 = Double.parseDouble(speed1.getText());
+        int inc = (int) ((mySlider.getValue() / 100) * ((timeSeries.size() - 1))) + 1;
+        int finalStartIndex = startIndex;
+        thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    System.out.println(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
+                    Date date1 = s1.parse(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
+                    Date date2 = s1.parse(timeSeries.get(3).get(timeSeries.get(3).size() - 1));
+                    double dat1 = date1.getTime();
+                    double dat2 = date2.getTime();
+                    double timeSleep = (dat1 - dat2) / speed2;
+                    for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
+                        if (!stop) {
+                            pause.setVisible(true);
+                            speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
+                            mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
+                            //System.out.println("Flying...");
+                            currenIndex = i;
+                            ChangePlanePositionByTime(currenIndex);
+                            ChangeClocksStateByIndex(currenIndex);
+                            Thread.sleep((long) timeSleep);
+                        }
+                    }
+                } catch (InterruptedException | ParseException e) {
+                    e.printStackTrace();
                 }
             }
-
-            double speed2 = Double.parseDouble(speed1.getText());
-            int inc = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()-1))) +1;
-            int finalStartIndex = startIndex;
-            thread = new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        SimpleDateFormat s1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                        System.out.println(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
-                        Date date1 = s1.parse(timeSeries.get(4).get(timeSeries.get(4).size() - 1));
-                        Date date2 = s1.parse(timeSeries.get(3).get(timeSeries.get(3).size() - 1));
-                        double dat1 = date1.getTime();
-                        double dat2 = date2.getTime();
-                        double timeSleep = (dat1 - dat2) / speed2;
-                        for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
-                            if (!stop) {
-                                pause.setVisible(true);
-                                speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
-                                mySlider.setValue(mySlider.getValue() + (100 * speed2 / 60));
-                                //System.out.println("Flying...");
-                                currenIndex = i;
-                                ChangePlanePositionByTime(currenIndex);
-                                ChangeClocksStateByIndex(currenIndex);
-                                Thread.sleep((long) timeSleep);
-                            }
-                        }
-                    } catch (InterruptedException | ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            thread.start();
+        };
+        thread.start();
     }
 
 
-    public void feature(ActionEvent event){
+    public void feature(ActionEvent event) {
         sg.setData(this.timeSeries);
         sad.learnNormal(ts);
-        String name  = featureComboBox.getValue().toString();;
+        String name = featureComboBox.getValue().toString();
+        ;
         List<CorrelatedFeatures> correlatedFeatureOfWhatWeNeed = findRequiredList(name);
         double maxCorr = Double.MIN_VALUE;
         int index = 0;
@@ -305,7 +309,7 @@ public class TimeCapsuleController implements Initializable,Observer {
             }
         }
         if (correlatedFeatureOfWhatWeNeed.isEmpty()) {
-            sg.init( featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
+            sg.init(featureComboBox, bigChartBorderPane, leftAreaChartBorderPane, rightAreaChartBorderPane);
             System.out.println("No correlated features");
             return;
         }
@@ -318,35 +322,36 @@ public class TimeCapsuleController implements Initializable,Observer {
 
     }
 
-    public void initViewModel(Model m){
+    public void initViewModel(Model m) {
         this.vm = new TimeCapsuleViewModel(m);
         this.vm.addObserver(this);
         this.vm.sendGetAnalytic();
     }
-    public void ChangePlanePositionByTime(int indexInTimeSeries){
-            float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
-            float latitude =  Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
-            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,312);
-            plane.relocate(pair.getKey(),pair.getValue());
+
+    public void ChangePlanePositionByTime(int indexInTimeSeries) {
+        float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
+        float latitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
+        Pair<Double, Double> pair = latLongToOffsets(latitude, longitude, 390, 312);
+        plane.relocate(pair.getKey(), pair.getValue());
     }
 
-    public void ChangeClocksStateByIndex(int indexInTimeSeries){
+    public void ChangeClocksStateByIndex(int indexInTimeSeries) {
         double airSpeed = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(4));
         clocks.speed.setValue(airSpeed);
         clocks.paintAirSpeed(airSpeed);
     }
 
-    public void resetFlight(){
-            stop = false;
-            speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size()-1));
-            mySlider.setValue(0);
-            speed1.setText("1");
-            pause.setVisible(false);
-            float longitude = Float.parseFloat(timeSeries.get(1).get(3));
-            float latitude =  Float.parseFloat(timeSeries.get(1).get(4));
-            Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
-            plane.relocate(pair.getKey(),pair.getValue());
-            reset.setVisible(false);
+    public void resetFlight() {
+        stop = false;
+        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1));
+        mySlider.setValue(0);
+        speed1.setText("1");
+        pause.setVisible(false);
+        float longitude = Float.parseFloat(timeSeries.get(1).get(3));
+        float latitude = Float.parseFloat(timeSeries.get(1).get(4));
+        Pair<Double, Double> pair = latLongToOffsets(latitude, longitude, 390, 311);
+        plane.relocate(pair.getKey(), pair.getValue());
+        reset.setVisible(false);
     }
 
 
@@ -361,65 +366,72 @@ public class TimeCapsuleController implements Initializable,Observer {
         pause.setVisible(false);
         reset.setVisible(false);
 
-            String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
-            plane = new ImageView(new Image(path));
-            plane.setFitHeight(20);
-            plane.setFitWidth(20);
-            airpane.getChildren().add(plane);
+        String path = System.getProperty("user.dir") + "\\Frontend\\src\\main\\resources\\icons\\airplaneSymbol.png";
+        plane = new ImageView(new Image(path));
+        plane.setFitHeight(20);
+        plane.setFitWidth(20);
+        airpane.getChildren().add(plane);
     }
 
-    public void onPlaneSelected(ActionEvent a){
+    public void onPlaneSelected(ActionEvent a) {
         this.vm.sendGetFlightIDS(choosePlane.getValue().toString());
     }
-    public void onFlightSelected(ActionEvent a){
-        this.vm.sendGetTS(choosePlane.getValue().toString(),chooseflight.getValue().toString());
+
+    public void onFlightSelected(ActionEvent a) {
+        this.vm.sendGetTS(choosePlane.getValue().toString(), chooseflight.getValue().toString());
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
         MyResponse<String> s = (MyResponse<String>) arg;
-        if(s.value instanceof String){
-            String id =  s.value.split("-")[1];
+        if (s.value instanceof String) {
+            String id = s.value.split("-")[1];
             int count = Integer.parseInt(id);
-            for (int i=0; i <= count;i++){
+            for (int i = 0; i <= count; i++) {
                 chooseflight.getItems().add(i);
             }
             return;
         }
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
-        if(ad.value instanceof AnalyticsData){
+        if (ad.value instanceof AnalyticsData) {
             addActivePlanes(ad.value);
             return;
             //loadPlaneFlights
         }
         MyResponse<List<List<String>>> ts = (MyResponse<List<List<String>>>) arg;
-        if(ts.value != null){
+        if (ts.value != null) {
             timeSeries = ts.value;
-            List<String> category = new ArrayList<>();
-            category.add("Aileron");
-            category.add("Elevator");
-            category.add("Rudder");
-            category.add("Longitude");
-            category.add("Latitude");
-            category.add("AirSpeed_kt");
-            category.add("VertSpeed");
-            category.add("Throttle_0");
-            category.add("Throttle_1");
-            category.add("Altitude");
-            category.add("PitchDeg");
-            category.add("RollDeg");
-            category.add("Heading");
-            category.add("TurnCoordinator");
-
-            timeSeries.set(0, category);
-            initialLoad();
             System.out.println("Got TS");
+            initialLoad(timeSeries);
         }
+
     }
 
-    private void addActivePlanes(AnalyticsData ad){
-        for (int i =0; i < ad.analyticList.size(); i++){
-            if (!ad.analyticList.get(i).active){
+    private void initialLoad(List<List<String>> timeSeries){
+        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size() - 1));
+        mySlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if (stop == false) {
+                    int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 1)) + 1;
+                    speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
+                }
+            }
+        });
+        this.sg.setData(timeSeries);
+        float longitude = Float.parseFloat(timeSeries.get(1).get(2));
+        float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
+        Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
+        plane.relocate(pair.getKey(),pair.getValue());
+        sg.init(featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
+        System.out.println("Initialized...");
+    }
+
+    private void addActivePlanes(AnalyticsData ad) {
+        for (int i = 0; i < ad.analyticList.size(); i++) {
+
+            if (!ad.analyticList.get(i).active) {
                 choosePlane.getItems().add(ad.analyticList.get(i)._id);
             }
         }
@@ -437,26 +449,5 @@ public class TimeCapsuleController implements Initializable,Observer {
         featureComboBox.getItems().add("RollDeg");
         featureComboBox.getItems().add("Heading");
         featureComboBox.getItems().add("TurnCoordinator");
-    }
-
-    private void initialLoad(){
-        this.sg.setData(this.timeSeries);
-        float longitude = Float.parseFloat(timeSeries.get(1).get(2));
-        float latitude =  Float.parseFloat(timeSeries.get(1).get(3));
-        Pair<Double,Double> pair = latLongToOffsets(latitude,longitude,390,311);
-        plane.relocate(pair.getKey(),pair.getValue());
-        sg.init( featureComboBox,  bigChartBorderPane,  leftAreaChartBorderPane,  rightAreaChartBorderPane);
-
-        speedTxt.setText(timeSeries.get(1).get(timeSeries.get(1).size()-1));
-        mySlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                if (stop == false) {
-                    int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 1)) + 1;
-                    speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
-                }
-            }
-        });
-
     }
 }

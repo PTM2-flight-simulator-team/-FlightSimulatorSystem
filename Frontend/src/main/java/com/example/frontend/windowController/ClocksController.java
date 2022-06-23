@@ -66,12 +66,12 @@ public class ClocksController implements Initializable,Observer {
 
         airSpeed.setSkin(new ModernSkin(airSpeed));  //ModernSkin : you guys can change the skin
         airSpeed.setTitle("AIRSPEED");  //title
-        airSpeed.setUnit("mi / h");  //unit
+        airSpeed.setUnit("Km / h");  //unit
         airSpeed.setUnitColor(Color.WHITE);
         airSpeed.setDecimals(0);
         airSpeed.setValue(val); //deafult position of needle on gauage
 
-        airSpeed.setAnimated(true);
+        // airSpeed.setAnimated(true);
         //gauge.setAnimationDuration(500);
 
         airSpeed.setValueColor(Color.WHITE);
