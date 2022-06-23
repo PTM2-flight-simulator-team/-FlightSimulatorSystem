@@ -7,6 +7,7 @@ public class PlaneVar implements Serializable {
     String nickName;
     String value;
 
+    // A constructor.
     public PlaneVar(String path, String nickName, String value) {
         this.path = path;
         this.nickName = nickName;
