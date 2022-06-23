@@ -1,4 +1,11 @@
 Setted id and name
-Connection to backend failed!
-Connection to backend failed!
-Connection to backend failed!
+Connected to server
+Reading from fg ready...
+writer created...
+Writing to fg ready...
+shutdown
+Nautical_Mile is: 1.1284237886704769
+end time is: 23-06-2022 17:08:43
+sent Final Analytics
+The analytics are:
+StartLongitude:-22.6153256867 StartLatitude:63.9810523067 EndLongitude:-22.6580185465 EndLatitude:63.9794995234 startTime:23-06-2022 17:07:28 endTime:23-06-2022 17:08:43 maxAlt:298.545837 maxSpeed:7.526762 Nautical_Mile:1.1284237886704769

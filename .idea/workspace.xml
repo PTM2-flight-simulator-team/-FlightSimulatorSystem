@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="teleUpdate">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/AgentMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/AgentMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Agent/src/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Logs.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/CommandAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/CommandAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/NetworkCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/NetworkCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/SSHhandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/SSHhandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/DataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/Controller/Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/TeleoperationViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/TeleoperationViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Agent/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/Logs.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Agent/PlaneData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/PlaneData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +177,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -202,6 +191,11 @@
           <line>80</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -215,9 +209,9 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ExpressionCommand_java$Front.ic" NAME="Front Coverage Results" MODIFIED="1655636881902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/FlightSimulatorSystem$Interpreter.ic" NAME="Interpreter Coverage Results" MODIFIED="1654019815497" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>Model.Interpreter.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/ExpressionCommand_java$Front.ic" NAME="Front Coverage Results" MODIFIED="1655636881902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

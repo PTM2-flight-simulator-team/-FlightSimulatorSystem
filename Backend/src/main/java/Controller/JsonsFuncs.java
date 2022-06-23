@@ -142,7 +142,7 @@ public class JsonsFuncs {
             return "none";
         else{
             String ret = "0-";
-            String last = String.valueOf(numOfTimeSeries);
+            String last = String.valueOf(numOfTimeSeries-1);
             ret += last;
             return ret;
         }

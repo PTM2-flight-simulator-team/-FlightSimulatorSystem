@@ -25,6 +25,9 @@ public class TeleoperationViewModel extends Observable implements Observer {
 
     public void sendPostShutdown(String planeID){this.m.SendPostShutdown(planeID);};
 
+    public void startService(String pd) {this.m.startGetPlaneData(500,pd);}
+
+
     @Override
     public void update(Observable o, Object arg) {
         setChanged();

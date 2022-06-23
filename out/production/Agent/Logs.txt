@@ -1,4 +1,2 @@
 Setted id and name
-Connection to backend failed!
-Connection to backend failed!
-Connection to backend failed!
+Connected to server
