@@ -14,8 +14,8 @@
       </ComboBox>
       <Button fx:id="btnLoad" layoutX="31.0" layoutY="679.0" mnemonicParsing="false" onMouseClicked="#getText" prefHeight="25.0" prefWidth="135.0" text="Load" />
       <Button layoutX="375.0" layoutY="679.0" mnemonicParsing="false" onMouseClicked="#submitText" prefHeight="25.0" prefWidth="135.0" text="Submit" />
-      <Button fx:id="btnAutopilot" layoutX="196.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" text="Autopilot" />
-      <Button fx:id="btnManual" layoutX="533.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" text="Manual" />
+      <Button fx:id="btnAutopilot" layoutX="196.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" style="-fx-border-color: white;" text="Autopilot" />
+      <Button fx:id="btnManual" layoutX="533.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="292.0" style="-fx-border-color: white;" text="Manual" wrapText="true" />
       <BorderPane fx:id="joyStickBorderPane" layoutX="533.0" layoutY="49.0" onMouseClicked="#joystickMouseClicked" prefHeight="300.0" prefWidth="414.0" />
       <BorderPane fx:id="clocksBorderPane" layoutX="533.0" layoutY="375.0" prefHeight="300.0" prefWidth="414.0" />
       <Button fx:id="btnShutdown" layoutX="835.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#shutdown" prefHeight="25.0" prefWidth="111.0" text="Shutdown" />

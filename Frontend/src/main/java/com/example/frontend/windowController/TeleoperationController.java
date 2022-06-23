@@ -79,8 +79,8 @@ public class TeleoperationController implements Observer {
     }
     @FXML
     void joystickMouseClicked(MouseEvent event) {
-        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
+        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399;-fx-border-color:white; ");
+        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
     }
 
     @FXML
@@ -98,8 +98,8 @@ public class TeleoperationController implements Observer {
 
     @FXML
     void submitText(MouseEvent event) {
-        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
+        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; -fx-border-color:white;");
+        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
         TeleoperationsData toData = new TeleoperationsData();
         String text = textArea.getText();
         String[] lines = text.split("\n");
