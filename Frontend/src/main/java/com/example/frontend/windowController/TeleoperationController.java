@@ -28,11 +28,15 @@ public class TeleoperationController implements Observer {
 
     Model m;
 
-    @FXML
-    public Button btnAutopilot;
 
     @FXML
-    public Button btnManual;
+    private Button btnShutdown;
+
+    @FXML
+    private Button btnAutopilot;
+
+    @FXML
+    private Button btnManual;
 
     @FXML
     private Button btnLoad;
@@ -51,41 +55,6 @@ public class TeleoperationController implements Observer {
     private TeleoperationViewModel vm;
     private String selectedID;
     private  JoyStickController joyStick;
-
-    @FXML
-    void joystickMouseClicked(MouseEvent event) {
-        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
-    }
-
-    @FXML
-    void getText(MouseEvent event) {
-        File file = fileChooser.showOpenDialog(new Stage());
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                textArea.appendText(scanner.nextLine() + "\n");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void submitText(MouseEvent event) {
-        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
-        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; ");
-        TeleoperationsData toData = new TeleoperationsData();
-        String text = textArea.getText();
-        String[] lines = text.split("\n");
-        JsonObject code = toData.code;
-        int i = 1;
-        for (String s : lines) {
-            code.addProperty(String.valueOf(i), s);
-            i++;
-        }
-        vm.sendCode(selectedID, toData);
-    }
 
     public void setModel(Model m) {
         this.m = m;
@@ -118,20 +87,14 @@ public class TeleoperationController implements Observer {
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
         //clocks.initViewModel(m);
     }
-        public void initViewModel(Model m) {
-            this.vm = new TeleoperationViewModel(m);
-            this.vm.addObserver(this);
-            this.vm.SendGetPlains();
-        }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
-        if(ad.value != null){
-            pickPlane.getItems().clear();
-            addItemsToComboBox(ad.value);
-        }
+    public void initViewModel(Model m) {
+        this.vm = new TeleoperationViewModel(m);
+        this.vm.addObserver(this);
+        this.vm.SendGetPlains();
     }
+
+    // This function takes in an AnalyticsData object and adds all of the active planes to the ComboBox
 
     private void addItemsToComboBox(AnalyticsData ad) {
         for (int i=0; i< ad.analyticList.size(); i++){
@@ -142,10 +105,87 @@ public class TeleoperationController implements Observer {
         }
     }
 
+    // When the user selects a plane from the dropdown menu, the plane's ID is stored in the variable selectedID
     public void selectID(ActionEvent act){
         selectedID = pickPlane.getValue().toString();
         joyStick.setPlaneID(selectedID);
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
+        if(ad.value != null){
+            pickPlane.getItems().clear();
+            addItemsToComboBox(ad.value);
+        }
+    }
+
+    // It reloads the Teleoperation pane - used after planeshutdown
+    void reloadPane(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane teleoperation = new Pane();
+        try {
+            teleoperation = fxmlLoader.load(FxmlLoader.class.getResource("Teleoperation.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MainWindowController.mainPaneStatic.setCenter(teleoperation);
+        TeleoperationController mc = fxmlLoader.getController();
+        mc.setModel(MainWindowController.modelStatic);
+        mc.createJoyStick();
+        mc.createClocks();
+
+    }
+
+
+    // When the shutdown button is clicked, send a post request to the server to shutdown the selected ViewModel.
+    @FXML
+    void shutdown(MouseEvent event) {
+        this.vm.sendPostShutdown(selectedID);
+        reloadPane();
+    }
+
+     // When the joystick is clicked, the manual button is set to a blue background and white text,
+     // and the autopilot button is set to a white background and black text
+    @FXML
+    void joystickMouseClicked(MouseEvent event) {
+        btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399;-fx-border-color:white; ");
+        btnAutopilot.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
+    }
+
+     //The function `getText` is called when the user clicks on the `Open` button. It opens a file chooser window and
+     // allows the user to select a file. The contents of the file are then read and displayed in the text area.
+    @FXML
+    void getText(MouseEvent event) {
+        File file = fileChooser.showOpenDialog(new Stage());
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                textArea.appendText(scanner.nextLine() + "\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // When the user clicks the submit button, the text in the text area is sent to the server
+    @FXML
+    void submitText(MouseEvent event) {
+        btnAutopilot.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; -fx-border-color:white;");
+        btnManual.setStyle("-fx-text-fill: #000000;-fx-background-color: #f0f0f5; -fx-border-color:white;");
+        TeleoperationsData toData = new TeleoperationsData();
+        String text = textArea.getText();
+        String[] lines = text.split("\n");
+        JsonObject code = toData.code;
+        int i = 1;
+        for (String s : lines) {
+            code.addProperty(String.valueOf(i), s);
+            i++;
+        }
+        vm.sendCode(selectedID, toData);
+    }
+
 }
 
 

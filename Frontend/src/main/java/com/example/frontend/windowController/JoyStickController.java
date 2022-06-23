@@ -183,9 +183,13 @@ public class JoyStickController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         MyResponse<PlaneData> data = (MyResponse<PlaneData>) arg;
-        setValues(getMapedJoystickXYminus1to1(data.value.aileron), getMapedJoystickXYminus1to1inverted(data.value.elevator));
+        mapAndSetValues(data.value.aileron, data.value.elevator);
     }
 
+    public void mapAndSetValues(String aileron, String  elevator){
+        setValues(getMapedJoystickXYminus1to1(aileron), getMapedJoystickXYminus1to1inverted(elevator));
+
+    }
     private double getMapedJoystickXYminus1to1(String val) {
         double d = Double.parseDouble(val);
         double nd = d + 1;

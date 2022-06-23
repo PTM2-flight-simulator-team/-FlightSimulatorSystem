@@ -2,6 +2,9 @@ package Model.Commands;
 
 import Model.MyModel;
 
+/**
+ * > This class is a command that sends analytic data to a Bckend
+ */
 public class AnalyticSenderCommand implements Command{
     private MyModel model;
 
@@ -9,10 +12,11 @@ public class AnalyticSenderCommand implements Command{
         this.model = model;
     }
 
+    /**
+     * The function is called by the controller when the user clicks the "AnalyticSender" button
+     */
     @Override
     public void execute() {
-        // send the special data like max speed or regular timeseries data ?
-//        model.notifyObservers("PrintStreamCommand:");
         model.modelNotify("AnalyticSenderCommand:");
     }
 }

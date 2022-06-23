@@ -1,9 +1,11 @@
 package com.example.frontend.windowController;
 
+import com.example.frontend.Application;
 import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,26 +26,35 @@ public class MainWindowController implements Initializable {
     private ImageView icon;
     @FXML
     private ImageView btnExit;
-
     @FXML
     private BorderPane mainPane;
-
-    public static BorderPane mainPaneStatic;
-
+    public  static  BorderPane mainPaneStatic;
     @FXML
     private Pane topPane;
-
     @FXML
     private AnchorPane mainAnchorPane;
-
     //Buttons
     @FXML
     private Button btnFleet;
-
     @FXML
     private Button btnMonitoring;
     Model m;
-    public static Model modelStatic;
+    public  static  Model modelStatic;
+    private static double xOffset = 0;
+    private static double yOffset = 0;
+
+    // For moving top pane border
+    public void moveMousePressed(MouseEvent mouseEvent)
+    {
+        xOffset = mouseEvent.getSceneX();
+        yOffset = mouseEvent.getSceneY();
+    }
+
+    public void moveMouseDragged(MouseEvent mouseEvent)
+    {
+        Application.primaryStage.setX(mouseEvent.getScreenX() - xOffset);
+        Application.primaryStage.setY(mouseEvent.getScreenY() - yOffset);
+    }
 
     @FXML
     private void btnFleetOverview(ActionEvent event) {
@@ -58,7 +69,6 @@ public class MainWindowController implements Initializable {
         mc.initVM(m);
         mainPane.setCenter(fleetOverview);
     }
-
     @FXML
     private void btnMonitoring(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -75,9 +85,10 @@ public class MainWindowController implements Initializable {
         mc.initViewModel(m);
         mc.viewModel.GetAnal();
         mc.createJoyStick();
-//        mc.createClocks(0,0,0,0,0,0);
+        //mc.createLineCharts();
+        //mc.createCircleGraph();;
+        mc.createClocks();
     }
-
     @FXML
     private void btnTeleoperation(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -94,7 +105,6 @@ public class MainWindowController implements Initializable {
         teleoperationController.createClocks();
         teleoperationController.initViewModel(m);
     }
-
     @FXML
     private void btnTimeCapsule(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -109,6 +119,8 @@ public class MainWindowController implements Initializable {
         mc.setModel(m);
         mc.initViewModel(m);
         mc.createJoyStick();
+        //mc.createLineCharts();
+        //mc.createCircleGraph();
         mc.createClocks();
     }
 
@@ -119,15 +131,15 @@ public class MainWindowController implements Initializable {
         }
     }
 
-    public void setModel(Model m) {
+    public void setModel(Model m){
         this.m = m;
-        modelStatic = m;
+        modelStatic=m;
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mainPaneStatic = mainPane;
-        modelStatic = m;
+        mainPaneStatic=mainPane;
+        modelStatic=m;
     }
 }
