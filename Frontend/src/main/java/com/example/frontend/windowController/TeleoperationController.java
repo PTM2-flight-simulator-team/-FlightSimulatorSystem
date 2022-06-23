@@ -29,10 +29,13 @@ public class TeleoperationController implements Observer {
     Model m;
 
     @FXML
-    public Button btnAutopilot;
+    private Button btnShutdown;
 
     @FXML
-    public Button btnManual;
+    private Button btnAutopilot;
+
+    @FXML
+    private Button btnManual;
 
     @FXML
     private Button btnLoad;
@@ -52,6 +55,28 @@ public class TeleoperationController implements Observer {
     private String selectedID;
     private  JoyStickController joyStick;
 
+    @FXML
+    void shutdown(MouseEvent event) {
+        this.vm.sendPostShutdown(selectedID);
+        reloadPane();
+    }
+
+    void reloadPane(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane teleoperation = new Pane();
+        try {
+            teleoperation = fxmlLoader.load(FxmlLoader.class.getResource("Teleoperation.fxml").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MainWindowController.mainPaneStatic.setCenter(teleoperation);
+        TeleoperationController mc = fxmlLoader.getController();
+        mc.setModel(MainWindowController.modelStatic);
+        mc.createJoyStick();
+        mc.createClocks();
+
+    }
     @FXML
     void joystickMouseClicked(MouseEvent event) {
         btnManual.setStyle("-fx-text-fill: #ffffff;-fx-background-color: #333399; ");
