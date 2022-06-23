@@ -10,10 +10,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -31,9 +31,13 @@ public class ClocksController implements Initializable,Observer {
     @FXML
     BorderPane bp2 = new BorderPane();
     @FXML
+    private StackPane stackbp2;
+    @FXML
     BorderPane bp3 = new BorderPane();
     @FXML
     BorderPane bp4 = new BorderPane();
+    @FXML
+    private StackPane stackpanebp4;
     @FXML
     BorderPane bp5 = new BorderPane();
     @FXML
@@ -146,21 +150,39 @@ public class ClocksController implements Initializable,Observer {
 //        altimeter.setTitleColor(Color.WHITE);
 //        altimeter.setTitleVisible(true);
 //        altimeter.setTimeMs((long)val);
-        Gauge altimeter = new Gauge();
-        altimeter.setSkin(new LcdSkin(altimeter));
-        altimeter.setTitle("ALTIMETER");
-        altimeter.setUnit("FEET");
-        altimeter.setMaxValue(50000);
-        altimeter.setMinValue(0);
-        altimeter.setValue(val); //deafult position of needle on gauage
-        altimeter.setAnimated(true);
-        altimeter.setValueColor(Color.WHITE);
-        altimeter.setTitleColor(Color.WHITE);
-        altimeter.setSubTitleColor(Color.WHITE);
-        altimeter.setBarColor(Color.rgb(0, 214, 215));
-        altimeter.setTickLabelColor(Color.rgb(151, 151, 151));
-        altimeter.setTickMarkColor(Color.WHITE);
-        altimeter.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+//        Gauge altimeter = new Gauge();
+//        altimeter.setSkin(new LcdSkin(altimeter));
+//        altimeter.setTitle("ALTIMETER");
+//        altimeter.setUnit("FEET");
+//        altimeter.setMaxValue(5000);
+//        altimeter.setMinValue(-1000);
+//        altimeter.setValue(val); //deafult position of needle on gauage
+//        altimeter.setPrefSize(bp3.getPrefHeight() / 2, bp3.getPrefWidth() / 2);
+////        altimeter.setAnimated(true);
+//        altimeter.setValueColor(Color.WHITE);
+//        altimeter.setTitleColor(Color.WHITE);
+//        altimeter.setSubTitleColor(Color.WHITE);
+//        altimeter.setBarColor(Color.rgb(0, 214, 215));
+//        altimeter.setTickLabelColor(Color.rgb(151, 151, 151));
+//        altimeter.setTickMarkColor(Color.WHITE);
+//        altimeter.setTickLabelOrientation(TickLabelOrientation.ORTHOGONAL);
+//        Label altimeter1 = new Label("altimeter\n"+ val+"");
+//        Gauge altimeter = new Gauge();
+//        altimeter.setSkin(new ModernSkin(altimeter));  //ModernSkin : you guys can change the skin
+//        altimeter.setTitle("ALTIMETER");  //title
+//        altimeter.setDecimals(0);
+//        altimeter.setMinValue(0);
+//        altimeter.setMaxValue(500);
+//        altimeter.setValue(val);
+        Gauge altimeter = GaugeBuilder.create()
+                .skinType(Gauge.SkinType.LCD)
+                .animated(true)
+                .title("ALTIMETER")
+                .unit("FT")
+                .lcdDesign(LcdDesign.BLACK)
+                .thresholdVisible(true)
+                .build();
+        altimeter.setValue(val);
         bp3.setCenter(altimeter);
     }
 
@@ -174,7 +196,8 @@ public class ClocksController implements Initializable,Observer {
         imageViewInner.setFitHeight(bp2.getPrefHeight() / 2);
         imageViewInner.setFitWidth(bp2.getPrefWidth() / 2);
         imageView.setRotate(val);
-        bp2.setCenter(imageView);
+        stackbp2.getChildren().addAll(imageView, imageViewInner);
+
     }
 
     public void paintTurnCoordinator(double val) {
@@ -187,7 +210,7 @@ public class ClocksController implements Initializable,Observer {
         imageViewInner.setFitHeight(bp2.getPrefHeight() / 2);
         imageViewInner.setFitWidth(bp2.getPrefWidth() / 2);
         imageView.setRotate(val);
-        bp4.setCenter(imageView);
+        stackpanebp4.getChildren().addAll(imageView, imageViewInner);
     }
 
     @Override

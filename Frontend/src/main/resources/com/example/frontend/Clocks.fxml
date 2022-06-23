@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="244.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.frontend.windowController.ClocksController">
    <center>
@@ -19,9 +20,17 @@
         </rowConstraints>
          <children>
             <BorderPane fx:id="bp1" />
-            <BorderPane fx:id="bp2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+            <BorderPane fx:id="bp2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <center>
+                  <StackPane fx:id="stackbp2" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
             <BorderPane fx:id="bp3" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
-            <BorderPane fx:id="bp4" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <BorderPane fx:id="bp4" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <center>
+                  <StackPane fx:id="stackpanebp4" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
             <BorderPane fx:id="bp5" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <BorderPane fx:id="bp6" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
