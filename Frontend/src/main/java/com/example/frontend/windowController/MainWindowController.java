@@ -121,7 +121,7 @@ public class MainWindowController implements Initializable {
         mc.createJoyStick();
         //mc.createLineCharts();
         //mc.createCircleGraph();
-        mc.createClocks();
+//        mc.createClocks();
     }
 
     @FXML
