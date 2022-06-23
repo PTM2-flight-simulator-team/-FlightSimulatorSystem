@@ -74,8 +74,9 @@ public class TeleoperationController implements Observer {
         joyStick.initViewModel(m);
     }
 
-
-    public void createClocks() {
+    public void createClocks(double airSpeedVal, double verticalSpeedVal,
+                             double compassVal, double altimeterVal,
+                             double attitudeVal, double turnCoordinatorVal) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane clocksPane = new Pane();
         try {
@@ -85,8 +86,11 @@ public class TeleoperationController implements Observer {
         }
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
+        clocks.createClocks(airSpeedVal,verticalSpeedVal,compassVal,altimeterVal,attitudeVal,turnCoordinatorVal);
         //clocks.initViewModel(m);
     }
+
+
 
     public void initViewModel(Model m) {
         this.vm = new TeleoperationViewModel(m);
@@ -114,9 +118,19 @@ public class TeleoperationController implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
-        if(ad.value != null){
+        if(ad.value instanceof AnalyticsData){
             pickPlane.getItems().clear();
             addItemsToComboBox(ad.value);
+        }
+        MyResponse<PlaneData> pd = ( MyResponse<PlaneData>) arg;
+        if(pd.value instanceof  PlaneData){
+            createClocks(
+                    Double.parseDouble(pd.value.airSpeed_kt),
+                    Double.parseDouble(pd.value.vertSpeed),
+                    Double.parseDouble(pd.value.heading),
+                    Double.parseDouble(pd.value.altitude),
+                    Double.parseDouble(pd.value.pitchDeg),
+                    Double.parseDouble(pd.value.turnCoordinator));
         }
     }
 
@@ -134,7 +148,6 @@ public class TeleoperationController implements Observer {
         TeleoperationController mc = fxmlLoader.getController();
         mc.setModel(MainWindowController.modelStatic);
         mc.createJoyStick();
-        mc.createClocks();
 
     }
 
