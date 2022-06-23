@@ -1,13 +1,2 @@
 Setted id and name
-Connected to server
-Reading from fg ready...
-writer created...
-Writing to fg ready...
-printstream
-aileron:0.000000,elevator:0.000000,rudder:0.000000,longitude-deg:-22.6054575961,latitude-deg:63.9479147009,airspeed-kt:0.000000,vertical-speed-fps:0.000000,throttle_0:0.000000,throttle_1:0.000000,altitude-ft:109.984016,pitch-deg:0.000000,roll-deg:40.000000,heading-deg:12.852209,side-slip-deg:0.000000
-reset
-printstream
-aileron:0.000000,elevator:0.000000,rudder:0.000000,longitude-deg:-22.6054066855,latitude-deg:63.9923669940,airspeed-kt:0.000000,vertical-speed-fps:19.625717,throttle_0:0.000000,throttle_1:0.000000,altitude-ft:608.368469,pitch-deg:0.000000,roll-deg:40.000000,heading-deg:12.852209,side-slip-deg:21.225410
-shutdown
-Nautical_Mile is: 2.6941434263438246
-end time is: 20-06-2022 11:33:11
+Connection to backend failed!

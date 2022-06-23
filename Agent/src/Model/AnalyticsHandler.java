@@ -80,7 +80,7 @@ public class AnalyticsHandler {
         // Adding the current plane data to the array list.
         timeSeries.add(tsElement);
         // Adding the plain data to the array list.
-        timeSeries.add(plainData.PlainDataToList());
+//        timeSeries.add(plainData.PlainDataToList());
         // This function is setting the end location to the current location.
         setTo(plainData.getLongitude(), plainData.getLatitude());
     }

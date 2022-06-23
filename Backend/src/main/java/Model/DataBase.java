@@ -7,6 +7,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import org.bson.Document;
 
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
@@ -34,7 +35,6 @@ public class DataBase {
         this.database.createCollection(colName);
     }
     public void addDocument(String colName, Document doc){
-
         this.database.getCollection(colName).insertOne(doc);
     }
 
@@ -81,7 +81,7 @@ public class DataBase {
     }
 
     public void savePlaneTimeSeries(String planeId,String planeName, List<List<String>> ts){
-        //System.out.println("planeId:" + planeId + "ts: " + ts);
+        System.out.println("planeId:" + planeId + "ts: " + ts);
         Document d = this.database.getCollection("TimeSeries").find(new Document().append("planeID",planeId)).first();
         if(d == null){
             System.out.println("plane does not exits");
@@ -110,23 +110,27 @@ public class DataBase {
     }
 
     public void saveNewPlaneAnalytics(String id, String name, Month month, Double miles, Boolean active, PlaneData planeData){
-        HashMap<String,Double> hashMap = new HashMap<>();
-        hashMap.put(Month.JANUARY.toString(),0.0);
-        hashMap.put(Month.FEBRUARY.toString(),0.0);
-        hashMap.put(Month.MARCH.toString(),0.0);
-        hashMap.put(Month.APRIL.toString(),0.0);
-        hashMap.put(Month.MAY.toString(),0.0);
-        hashMap.put(Month.JUNE.toString(),0.0);
-        hashMap.put(Month.JULY.toString(),0.0);
-        hashMap.put(Month.AUGUST.toString(),0.0);
-        hashMap.put(Month.SEPTEMBER.toString(),0.0);
-        hashMap.put(Month.OCTOBER.toString(),0.0);
-        hashMap.put(Month.NOVEMBER.toString(),0.0);
-        hashMap.put(Month.DECEMBER.toString(),0.0);
-        hashMap.put(month.toString(),hashMap.get(month.toString())+miles);
+        System.out.println("inside save new anal");
+        System.out.println(planeData == null);
+        LocalDate currentdate = LocalDate.now();
+        HashMap<String,Double> metrics = new HashMap<>();
+        Integer month1 = currentdate.getMonth().getValue();
+        metrics.put(Month.JANUARY.toString(),0.0);
+        metrics.put(Month.FEBRUARY.toString(),0.0);
+        metrics.put(Month.MARCH.toString(),0.0);
+        metrics.put(Month.APRIL.toString(),0.0);
+        metrics.put(Month.MAY.toString(),0.0);
+        metrics.put(Month.JUNE.toString(),0.0);
+        metrics.put(Month.JULY.toString(),0.0);
+        metrics.put(Month.AUGUST.toString(),0.0);
+        metrics.put(Month.SEPTEMBER.toString(),0.0);
+        metrics.put(Month.OCTOBER.toString(),0.0);
+        metrics.put(Month.NOVEMBER.toString(),0.0);
+        metrics.put(Month.DECEMBER.toString(),0.0);
+        metrics.put(month.toString(),metrics.get(month.toString())+miles);
         planeData.Print();
         String gson = new Gson().toJson(planeData);
-        Document d = new Document().append("_id",id).append("name", name).append("miles",hashMap).append("active",active).append("planeData" ,gson);
+        Document d = new Document().append("_id",id).append("name", name).append("miles",metrics).append("active",active).append("planeData" ,gson).append("createdMonth", month1);
         this.addDocument("AirCrafts",d);
     }
 

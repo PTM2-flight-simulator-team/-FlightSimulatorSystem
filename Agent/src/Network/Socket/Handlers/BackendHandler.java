@@ -67,7 +67,7 @@ public class BackendHandler extends  Observable implements Observer {
      */
     public void SendPlainData(PlaneData data){
         data.setID(AgentID);
-        data.setPlainName(AgentName);
+        data.setPlaneName(AgentName);
         try {
             // Checking if the objectOutputStream is not null, if it is not null, it writes the data to the
             // objectOutputStream.

@@ -53,6 +53,7 @@ public class AgentListener extends Observable implements Runnable {
                     String id = planeData.getID();
                     setChanged();
                     notifyObservers(planeData);
+                    System.out.println(planeData.getAileron().getValue());
 //                    planeData.Print();
                 }
                 else if(fromAgent instanceof AnalyticsData){
@@ -77,10 +78,12 @@ public class AgentListener extends Observable implements Runnable {
                        // Controller.model.DB.addTs(tempPlaneId,tsList);
                     }
                     else {
-                            System.out.println("blabla");
+                            PlaneData pd = this.planeData;
+                            System.out.println("planeData" + this.planeData);
+
                             Controller.model.DB.saveNewPlaneAnalytics(this.planeData.getId()
                                     ,this.planeData.getPlaneName(), strMonth ,  Double.valueOf(tempAnalytics.getMiles()) ,tempAnalytics.getState() , this.planeData);
-                            this.stopListening();
+//                            this.stopListening();
 
                     }
                     tempAnalytics.print();
@@ -91,7 +94,9 @@ public class AgentListener extends Observable implements Runnable {
 
                     if(tsList != null){
                         //System.out.println(tsList.toString());
+                        System.out.println("num of rows that recived from the agent is: " + tsList.size());
                         Controller.model.DB.savePlaneTimeSeries(planeData.getId() ,planeData.getPlaneName() ,tsList);
+                        System.out.println("got the timesreies from the agent");
                         this.stopListening();
                     }
             }catch (StreamCorruptedException sce){

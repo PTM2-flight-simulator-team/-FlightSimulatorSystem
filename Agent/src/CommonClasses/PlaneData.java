@@ -28,9 +28,6 @@ public class PlaneData implements Serializable{
     private PlaneVar heading;
     private PlaneVar turnCoordinator; // didnt find
 
-//    public String getPlainName() {
-//        return plainName;
-//    }
 
     public String getAileron() {
         return aileron.value;
@@ -94,8 +91,8 @@ public class PlaneData implements Serializable{
         this.ID = ID;
     }
 
-    public void setPlainName(String plainName) {
-        this.PlaneName = plainName;
+    public void setPlaneName(String planeName) {
+        this.PlaneName = planeName;
     }
 
     // A constructor for the class PlaneData.

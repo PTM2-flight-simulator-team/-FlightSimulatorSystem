@@ -3,9 +3,9 @@ package CommonClasses;
 import java.io.Serializable;
 
 public class PlaneVar implements Serializable {
-    private String path;
-    private String nickName;
-    public String value;
+    String path;
+    String nickName;
+    String value;
 
     // A constructor.
     public PlaneVar(String path, String nickName, String value) {

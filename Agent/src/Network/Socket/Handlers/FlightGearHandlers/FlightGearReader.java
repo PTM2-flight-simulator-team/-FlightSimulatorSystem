@@ -17,6 +17,7 @@ import java.util.Observable;
  * It's a class that reads data from a flight simulator and notifies observers when new data is available
  */
 public class FlightGearReader extends Observable {
+    public volatile static int counter = 0;
     // The port that the server will listen to.
     int serverPort = 5400;
     // A hashmap that will hold the data that is read from the server.
@@ -67,6 +68,7 @@ public class FlightGearReader extends Observable {
                 for(int i = 0; i < vals.length; i++){
                     newData.put(l.get(i), vals[i]);
                 }
+                counter++;
                 // Creating a new PlaneData object and passing the newData hashmap to the constructor.
                 PlaneData data = new PlaneData(newData);
                 // Saving the last data that was read from the server.

@@ -1,2 +1,2 @@
-id=5493
-name=BORAT
+id=336572
+name=Or

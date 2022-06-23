@@ -6,9 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="6bc2c6bc-d59c-4ddd-bd2a-9933479f2790" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/ClocksController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/MainWindowController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/AgentMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/AgentMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/CommonClasses/PlaneVar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Logs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/CommandAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/CommandAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/NetworkCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/NetworkCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/NetworkManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/SSHhandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/SSHhandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/FlightGearHandlers/FlightGearReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/MySocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Controller/ServerConnection/AgentConnections/AgentListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/Model/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/Model/DataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Agent/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/Logs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Agent/PlaneData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/PlaneData.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,12 +73,19 @@
       <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Front">
+  <component name="RunManager" selected="Application.Agent">
     <configuration name="Agent" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="AgentMain" />
       <module name="Agent" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BackendMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BackendMain" />
+      <module name="Backend" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -96,10 +116,12 @@
       <item itemvalue="Application.Front" />
       <item itemvalue="Application.Agent" />
       <item itemvalue="Application.MainController" />
+      <item itemvalue="Application.BackendMain" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainController" />
+        <item itemvalue="Application.BackendMain" />
       </list>
     </recent_temporary>
   </component>
@@ -155,6 +177,15 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Agent/src/Model/AnalyticsHandler.java</url>
+          <line>80</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.lang.String" memberName="value" />
