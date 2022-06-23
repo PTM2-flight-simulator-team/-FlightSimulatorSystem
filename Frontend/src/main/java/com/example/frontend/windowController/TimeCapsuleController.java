@@ -163,9 +163,9 @@ public class TimeCapsuleController implements Initializable,Observer {
 
     public void createMonitoring() {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Pane rachmany1 = new Pane();
+        Pane moniPane = new Pane();
         try {
-            rachmany1 = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
+            moniPane = fxmlLoader.load(FxmlLoader.class.getResource("Monitoring.fxml").openStream());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -228,7 +228,9 @@ public class TimeCapsuleController implements Initializable,Observer {
         joyStick.initViewModel(m);
     }
 
-    public void createClocks() {
+    public void createClocks(double airSpeedVal, double verticalSpeedVal,
+                             double compassVal, double altimeterVal,
+                             double attitudeVal, double turnCoordinatorVal) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane clocksPane = new Pane();
         try {
@@ -238,8 +240,7 @@ public class TimeCapsuleController implements Initializable,Observer {
         }
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
-//        clocks.createClocks();
-//        clocks.initViewModel(m);
+        clocks.createClocks(airSpeedVal,verticalSpeedVal,compassVal,altimeterVal,attitudeVal,turnCoordinatorVal);
     }
 
 
@@ -354,14 +355,21 @@ public class TimeCapsuleController implements Initializable,Observer {
     }
 
     public void ChangeClocksStateByIndex(int indexInTimeSeries) {
-        double airSpeed1 = Double.parseDouble(timeSeries.get(indexInTimeSeries).get(4));
         //clocks.speed.setValue(airSpeed);
 //        clocks.setAirSpeedClock(airSpeed1);
 //        clocks.setAirSpeed(airSpeed1);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                clocks.setAirSpeed(airSpeed1);
+//                clocks.setAirSpeed(airSpeed1);
+                createClocks(
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(5)),
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(6)),
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(12)),
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(9)),
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(10)),
+                        Double.parseDouble(timeSeries.get(indexInTimeSeries).get(13)));
+
 
             }
         });
