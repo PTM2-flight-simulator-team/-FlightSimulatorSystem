@@ -225,6 +225,7 @@ public class FleetOverviewController implements Initializable, Observer {
     public void update(Observable o, Object arg) {
         MyResponse<AnalyticsData> ad = (MyResponse<AnalyticsData>) arg;
         if (ad.value instanceof AnalyticsData) {
+            lastAD = ad.value;
             updateVisuals(ad.value);
 //            System.out.println(ad.value.analyticList.get(0).planeData.longitude);
             return;
@@ -248,15 +249,17 @@ public class FleetOverviewController implements Initializable, Observer {
 
     public void updatePlanesVisuals(AnalyticsData ad){
         for (int i = 0; i < ad.analyticList.size(); i++) {
-            //For Planes
-            float lati = Float.parseFloat(ad.analyticList.get(i).planeData.latitude);
-            float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
-            Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
-            ImageView p = planeImages.get(ad.analyticList.get(i)._id);
-            if (p != null) {
-                p.relocate(pair.getKey(), pair.getValue());
-            } else {
-                createPlaneView(ad.analyticList.get(i).planeData, pair, lati, longi);
+            if(ad.analyticList.get(i).active){
+                //For Planes
+                float lati = Float.parseFloat(ad.analyticList.get(i).planeData.latitude);
+                float longi = Float.parseFloat(ad.analyticList.get(i).planeData.longitude);
+                Pair<Double, Double> pair = latLongToOffsets(lati, longi, mapWidth, mapHeight);
+                ImageView p = planeImages.get(ad.analyticList.get(i)._id);
+                if (p != null) {
+                    p.relocate(pair.getKey(), pair.getValue());
+                } else {
+                    createPlaneView(ad.analyticList.get(i).planeData, pair, lati, longi);
+                }
             }
         }
     }
@@ -427,49 +430,49 @@ public class FleetOverviewController implements Initializable, Observer {
 //        img1.setImage(new Image(mapImgPath));
         zoomMap();
 
-        AnalyticsData ad = new AnalyticsData();
-        ArrayList<PlaneAnalytic> list = new ArrayList<>();
-        ad.analyticList = list;
-
-        PlaneAnalytic p1 = new PlaneAnalytic();
-        PlaneAnalytic p2 = new PlaneAnalytic();
-
-        p1._id = "0";
-        p1.Name = "pilot0";
-        p2._id = "1";
-        p2.Name = "pilot1";
-
-        p1.planeData = new PlaneData();
-        p2.planeData = new PlaneData();
-
-        p1.planeData.latitude = "51.507351"; //London
-        p1.planeData.longitude = "-0.127758"; //London
-        p2.planeData.latitude = "-14.235004"; //Lebanon
-        p2.planeData.longitude = "-51.925282"; //Lebanon
-
-        p1.planeData.ID = "0";
-        p1.planeData.PlaneName = "Plane 0";
-        p1.planeData.heading = "312.332";
-        p1.planeData.altitude = "1231312";
-        p1.planeData.airSpeed_kt = "33333";
-
-        p2.planeData.ID = "1";
-        p2.planeData.PlaneName = "Plane 1";
-        p2.planeData.heading = "312.332";
-        p2.planeData.altitude = "1231312";
-        p2.planeData.airSpeed_kt = "33333";
-
-        p1.miles = new HashMap<>();
-        p1.miles.put("MAY", 30.6);
-        p1.miles.put("JUNE", 99.0);
-        p2.miles = new HashMap<>();
-        p2.miles.put("MAY", 30.6);
-        p2.miles.put("JUNE", 99.0);
-
-        lastAD = ad;
-        //Adding Planes To the plane List
-        list.add(p1);
-        list.add(p2);
+//        AnalyticsData ad = new AnalyticsData();
+//        ArrayList<PlaneAnalytic> list = new ArrayList<>();
+//        ad.analyticList = list;
+//
+//        PlaneAnalytic p1 = new PlaneAnalytic();
+//        PlaneAnalytic p2 = new PlaneAnalytic();
+//
+//        p1._id = "0";
+//        p1.Name = "pilot0";
+//        p2._id = "1";
+//        p2.Name = "pilot1";
+//
+//        p1.planeData = new PlaneData();
+//        p2.planeData = new PlaneData();
+//
+//        p1.planeData.latitude = "51.507351"; //London
+//        p1.planeData.longitude = "-0.127758"; //London
+//        p2.planeData.latitude = "-14.235004"; //Lebanon
+//        p2.planeData.longitude = "-51.925282"; //Lebanon
+//
+//        p1.planeData.ID = "0";
+//        p1.planeData.PlaneName = "Plane 0";
+//        p1.planeData.heading = "312.332";
+//        p1.planeData.altitude = "1231312";
+//        p1.planeData.airSpeed_kt = "33333";
+//
+//        p2.planeData.ID = "1";
+//        p2.planeData.PlaneName = "Plane 1";
+//        p2.planeData.heading = "312.332";
+//        p2.planeData.altitude = "1231312";
+//        p2.planeData.airSpeed_kt = "33333";
+//
+//        p1.miles = new HashMap<>();
+//        p1.miles.put("MAY", 30.6);
+//        p1.miles.put("JUNE", 99.0);
+//        p2.miles = new HashMap<>();
+//        p2.miles.put("MAY", 30.6);
+//        p2.miles.put("JUNE", 99.0);
+//
+//        lastAD = ad;
+//        //Adding Planes To the plane List
+//        list.add(p1);
+//        list.add(p2);
 //
 //        //-----Testing Drawing Planes-----//
 //        updateVisuals(ad);

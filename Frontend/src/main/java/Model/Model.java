@@ -16,7 +16,7 @@ public class Model extends Observable implements Observer {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public Model(){
-        myHttpHandler = new MyHttpHandler("127.0.0.1","9000");
+        myHttpHandler = new MyHttpHandler("10.10.247.139","9000");
         myHttpHandler.addObserver(this);
         PlaneData planeData = new PlaneData();
         planeData.throttle_0 = "1.0";
