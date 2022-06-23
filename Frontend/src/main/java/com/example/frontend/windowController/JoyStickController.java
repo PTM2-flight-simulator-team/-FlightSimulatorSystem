@@ -55,6 +55,9 @@ public class JoyStickController implements Initializable, Observer {
         elevators = new SimpleDoubleProperty();
     }
 
+    /**
+     * > The view model is initialized with a model, and the view model's properties are bound to the view's properties
+     */
     public void initViewModel(Model m) {
         this.vm = new JoyStickViewModel(m);
         vm.addObserver(this);
@@ -65,6 +68,9 @@ public class JoyStickController implements Initializable, Observer {
     }
 
 
+    /**
+     * The function prints the joystick on the canvas, and sets the aileron and elevator values to the joystick's position
+     */
     public void printJoyStick() {
         GraphicsContext gc = joyStick.getGraphicsContext2D();
         // Center canvas
@@ -152,8 +158,6 @@ public class JoyStickController implements Initializable, Observer {
         normalizedY = -1 * (2 * ((jy - 40) / (160 - 40)) - 1); // invert y axis
 
         sendJoystick(normalizedX, normalizedY);
-//        System.out.println("x: " + normalizedX + " y: " + normalizedY);
-//        System.out.println("x: " + jx + " y: " + jy);
         printJoyStick();
     }
 
