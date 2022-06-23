@@ -7,14 +7,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Application extends javafx.application.Application {
+    public static Stage primaryStage;
     double x,y = 0;
     @Override
     public void start(Stage stage) throws IOException {
+        primaryStage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
         Parent root = (Parent) loader.load();
         Scene scene = new Scene(root);
@@ -24,7 +28,7 @@ public class Application extends javafx.application.Application {
         mwc.setModel(m);
         root.getStylesheets().add(getClass().getResource("css/chart.css").toExternalForm());
         root.getStylesheets().add(getClass().getResource("css/circleChart.css").toExternalForm());
-        //stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UNDECORATED); //Disables "windowed mode"
         //Mouse move around
 //        TimeSeries ts = new TimeSeries(
 //                "D:\\Program Files (x86)\\GitHub\\FlightSimulatorSystem\\Frontend\\src\\main\\java\\Model\\ModelTools\\file1.csv");

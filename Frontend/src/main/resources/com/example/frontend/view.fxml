@@ -72,7 +72,7 @@
             <top>
                 <HBox prefHeight="35.0" prefWidth="600.0" style="-fx-background-color: #707DF5;" stylesheets="@css/styling.css" BorderPane.alignment="CENTER">
                     <children>
-                  <Pane fx:id="topPane">
+                  <Pane fx:id="topPane" onMousePressed="#moveMousePressed" onMouseDragged="#moveMouseDragged">
                      <children>
                               <ImageView fitHeight="31.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
@@ -90,7 +90,7 @@
                                       <Insets left="10.0" />
                                   </padding>
                               </Label>
-                              <ImageView id="btnExit" fx:id="btnExit" fitHeight="23.0" fitWidth="29.0" layoutX="1074.0" layoutY="1.0" onMouseClicked="#exitButton" pickOnBounds="true" preserveRatio="true">
+                              <ImageView id="btnExit" fx:id="btnExit" fitHeight="23.0" fitWidth="29.0" layoutX="1074.0" layoutY="1.0" onMouseClicked="#exitButton" pickOnBounds="true" preserveRatio="true" >
                                   <image>
                                       <Image url="@../../../icons/xIcon.png" />
                                   </image>

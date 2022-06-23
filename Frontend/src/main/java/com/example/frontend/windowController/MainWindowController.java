@@ -1,9 +1,11 @@
 package com.example.frontend.windowController;
 
+import com.example.frontend.Application;
 import com.example.frontend.FleetOverViewModel;
 import com.example.frontend.FxmlLoader;
 import Model.Model;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,26 +26,36 @@ public class MainWindowController implements Initializable {
     private ImageView icon;
     @FXML
     private ImageView btnExit;
-
     @FXML
     private BorderPane mainPane;
-
     public  static  BorderPane mainPaneStatic;
-
     @FXML
     private Pane topPane;
-
     @FXML
     private AnchorPane mainAnchorPane;
-
     //Buttons
     @FXML
     private Button btnFleet;
-
     @FXML
     private Button btnMonitoring;
     Model m;
     public  static  Model modelStatic;
+    private static double xOffset = 0;
+    private static double yOffset = 0;
+
+    // For moving top pane border
+    public void moveMousePressed(MouseEvent mouseEvent)
+    {
+        xOffset = mouseEvent.getSceneX();
+        yOffset = mouseEvent.getSceneY();
+    }
+
+    public void moveMouseDragged(MouseEvent mouseEvent)
+    {
+        Application.primaryStage.setX(mouseEvent.getScreenX() - xOffset);
+        Application.primaryStage.setY(mouseEvent.getScreenY() - yOffset);
+    }
+
     @FXML
     private void btnFleetOverview(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader();
