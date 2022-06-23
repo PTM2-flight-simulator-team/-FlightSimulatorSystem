@@ -19,10 +19,15 @@ public class SharedGraphs {
     List<List<String>> tsTrainList = trainReader();
     TimeSeries ts = new TimeSeries(tsTrainList);
     List<List<String>> data;
-    public SharedGraphs(){
 
+    public SharedGraphs() {
     }
 
+    /**
+     * It reads a JSON file and returns a list of lists of strings
+     *
+     * @return A list of lists of strings.
+     */
     public List<List<String>> trainReader() {
         String json = "";
         Scanner scanner = null;
@@ -31,19 +36,29 @@ public class SharedGraphs {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        while(scanner.hasNextLine()){
+        while (scanner.hasNextLine()) {
             json += scanner.nextLine();
         }
-        List<List<String>> train = new Gson().fromJson(json,new TypeToken<List<List<String>>>(){}.getType());
+        List<List<String>> train = new Gson().fromJson(json, new TypeToken<List<List<String>>>() {
+        }.getType());
         List<List<String>> ts = new ArrayList<>();
-        for(List<String> line : train){
-            if(line.size() == 15){
+        for (List<String> line : train) {
+            if (line.size() == 15) {
                 ts.add(line);
             }
         }
         return ts;
     }
 
+    /**
+     * It creates a line chart with a linear regression line, a line chart with the data points, and a line chart with the
+     * anomaly points
+     *
+     * @param cf                 List of CorrelatedFeatures objects
+     * @param bigChartBorderPane The BorderPane that will contain the big chart.
+     * @param left               the left border pane
+     * @param right              the right border pane
+     */
     public void createLineCharts(List<CorrelatedFeatures> cf, BorderPane bigChartBorderPane, BorderPane left, BorderPane right) {
         //.................Create line charts.................//
         NumberAxis bigX = new NumberAxis();
@@ -75,12 +90,19 @@ public class SharedGraphs {
         for (int i = 0; i < sad.anomalyPoints.size(); i++) {
             anomalyPointsSeries.getData().add(new XYChart.Data<>(sad.anomalyPoints.get(i).x, sad.anomalyPoints.get(i).y));
         }
-        bigChart.getData().addAll(linearRegressionSeries, seriesBigChart,anomalyPointsSeries);
+        bigChart.getData().addAll(linearRegressionSeries, seriesBigChart, anomalyPointsSeries);
         bigChartBorderPane.setCenter(bigChart);
         //.................Create area charts.................//
         createLittleGraph(v1, v2, len, left, right);
     }
 
+    /**
+     * This function creates a circle graph and two area charts
+     *
+     * @param bigChartBorderPane The BorderPane that will contain the circle chart.
+     * @param left               the left border pane
+     * @param right              the right border pane
+     */
     public void createCircleGraph(List<CorrelatedFeatures> cf, BorderPane bigChartBorderPane, BorderPane left, BorderPane right) {
         List<com.example.frontend.Point> points = new ArrayList<>();
         //populate the points
@@ -156,6 +178,17 @@ public class SharedGraphs {
         //.................Create area charts.................//
         createLittleGraph(d1, d2, len, left, right);
     }
+
+    /**
+     * This function takes in two vectors of doubles, the length of the vectors, and two border panes. It then creates two
+     * area charts, one for each vector, and adds them to the border panes
+     *
+     * @param v1                       the vector of the left area chart
+     * @param v2                       the vector of the data you want to plot
+     * @param len                      the length of the vector
+     * @param leftAreaChartBorderPane  the BorderPane that the left AreaChart will be placed in
+     * @param rightAreaChartBorderPane the BorderPane that the right AreaChart will be placed in
+     */
     public void createLittleGraph(Vector<Double> v1, Vector<Double> v2, int len, BorderPane leftAreaChartBorderPane, BorderPane rightAreaChartBorderPane) {
         NumberAxis leftX = new NumberAxis();
         NumberAxis leftY = new NumberAxis();
@@ -185,12 +218,13 @@ public class SharedGraphs {
         rightAreaChartBorderPane.setCenter(rightAreaChart);
     }
 
-    public void init(ComboBox featureComboBox, BorderPane bigChartBorderPane, BorderPane leftAreaChartBorderPane, BorderPane rightAreaChartBorderPane){
-//        "Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
-//            "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator","Time"
-        if(featureComboBox.getItems().isEmpty()){
-            featureComboBox.getItems().addAll("Aileron","Elevator","Rudder","Longitude","Latitude","AirSpeed_kt","VertSpeed",
-                    "Throttle_0","Throttle_1","Altitude","PitchDeg","RollDeg","Heading","TurnCoordinator");
+    /**
+     * It initializes the charts
+     */
+    public void init(ComboBox featureComboBox, BorderPane bigChartBorderPane, BorderPane leftAreaChartBorderPane, BorderPane rightAreaChartBorderPane) {
+        if (featureComboBox.getItems().isEmpty()) {
+            featureComboBox.getItems().addAll("Aileron", "Elevator", "Rudder", "Longitude", "Latitude", "AirSpeed_kt", "VertSpeed",
+                    "Throttle_0", "Throttle_1", "Altitude", "PitchDeg", "RollDeg", "Heading", "TurnCoordinator");
         }
         NumberAxis x = new NumberAxis();
         NumberAxis y = new NumberAxis();
@@ -209,7 +243,7 @@ public class SharedGraphs {
         rightAreaChartBorderPane.setCenter(chart3);
     }
 
-    public void setData(List<List<String>> data){
+    public void setData(List<List<String>> data) {
         this.data = data;
     }
 }

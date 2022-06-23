@@ -153,7 +153,9 @@ public class MonitoringController implements Initializable, Observer {
         joyStick.initViewModel(m);
     }
 
-    public void createClocks() {
+    public void createClocks(double airSpeedVal, double verticalSpeedVal,
+                             double compassVal, double altimeterVal,
+                             double attitudeVal, double turnCoordinatorVal) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane clocksPane = new Pane();
         try {
@@ -163,6 +165,7 @@ public class MonitoringController implements Initializable, Observer {
         }
         clocksBorderPane.setCenter(clocksPane);
         ClocksController clocks = (ClocksController) fxmlLoader.getController();
+        clocks.createClocks(airSpeedVal,verticalSpeedVal,compassVal,altimeterVal,attitudeVal,turnCoordinatorVal);
         //clocks.initViewModel(m);
     }
 
@@ -214,7 +217,14 @@ public class MonitoringController implements Initializable, Observer {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
+                int len = data.size() - 1;
+                createClocks(
+                        Double.parseDouble(data.get(len).get(5)),
+                        Double.parseDouble(data.get(len).get(6)),
+                        Double.parseDouble(data.get(len).get(12)),
+                        Double.parseDouble(data.get(len).get(9)),
+                        Double.parseDouble(data.get(len).get(10)),
+                        Double.parseDouble(data.get(len).get(13)));
                 reload();
             }
         });

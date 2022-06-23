@@ -9,6 +9,8 @@ import org.json.JSONObject;
 
 import javax.swing.plaf.synth.SynthRadioButtonMenuItemUI;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 
@@ -60,13 +62,27 @@ public class JsonsFuncs {
     public static String getAnalytics(){
         FindIterable<Document> documentsList = Controller.getAnalytics();
         List<Document> docList = new ArrayList<>();
-        if(documentsList == null)
-            return "document list is null";
+        Map<String, PlaneData> map = Controller.getActiveData();
+        Month month = LocalDate.now().getMonth();
+        if(documentsList == null && !Controller.getActiveData().keySet().isEmpty()){
+                  for(String key: map.keySet()){
+                      HashMap<String, String> tmp = new HashMap<>();
+                      for(PlaneVar var: map.get(key).getAllVars()){
+                          tmp.put(var.getNickName(), var.getValue());
+                      }
+                      Controller.model.DB.saveNewPlaneAnalytics(map.get(key).getID(), map.get(key).getPlaneName()
+                              , month, 0.0, true, tmp);
+            }
+        } else if(documentsList == null && Controller.getActiveData().keySet().isEmpty())
+            return "there not planes";
+        HashSet<String> idsSet = new HashSet<>();
+        documentsList = Controller.getAnalytics();
         documentsList.forEach((d)->{
             d.remove("createdMonth");
             if(d != null) {
                 if(Controller.getActiveData().containsKey(d.get("_id"))){
                     String id = (String) d.get("_id");
+                    idsSet.add(id);
                     PlaneData planeData = Controller.getPlaneDataByPid(id);
                     HashMap<String,String> data = new HashMap<>();
                     data.put("ID", planeData.getID());
@@ -78,10 +94,39 @@ public class JsonsFuncs {
                     d.replace("active", "true");
                 }
                 docList.add(d);
+                System.out.println("in foreach");
             }
             else
                 return;
         });
+        HashMap<String,Double> metrics = new HashMap<>();
+        metrics.put(Month.JANUARY.toString(),0.0);
+        metrics.put(Month.FEBRUARY.toString(),0.0);
+        metrics.put(Month.MARCH.toString(),0.0);
+        metrics.put(Month.APRIL.toString(),0.0);
+        metrics.put(Month.MAY.toString(),0.0);
+        metrics.put(Month.JUNE.toString(),0.0);
+        metrics.put(Month.JULY.toString(),0.0);
+        metrics.put(Month.AUGUST.toString(),0.0);
+        metrics.put(Month.SEPTEMBER.toString(),0.0);
+        metrics.put(Month.OCTOBER.toString(),0.0);
+        metrics.put(Month.NOVEMBER.toString(),0.0);
+        metrics.put(Month.DECEMBER.toString(),0.0);
+        for(String key: map.keySet()){
+            if(!Controller.model.DB.doesPlaneExists(map.get(key).getID())){
+                System.out.println("in last for");
+                HashMap<String, String> tmp = new HashMap<>();
+                for(PlaneVar var: map.get(key).getAllVars()){
+                    tmp.put(var.getNickName(), var.getValue());
+                }
+                System.out.println(map.get(key).getID());
+                Document d = new Document().append("_id",map.get(key).getID()).append("name", map.get(key).getPlaneName()).append("miles",metrics)
+                        .append("active",true).append("planeData" ,tmp).append("createdMonth", month);
+                d.remove("createdMonth");
+                docList.add(d);
+            }
+        }
+        System.out.println(docList.size());
         Document retDoc = new Document();
         retDoc.append("analyticList", docList);
         return retDoc.toJson();
