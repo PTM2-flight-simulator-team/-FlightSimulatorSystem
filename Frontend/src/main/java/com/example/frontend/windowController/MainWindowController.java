@@ -102,7 +102,7 @@ public class MainWindowController implements Initializable {
         TeleoperationController teleoperationController = fxmlLoader.getController();
         teleoperationController.setModel(m);
         teleoperationController.createJoyStick();
-        teleoperationController.createClocks();
+//        teleoperationController.createClocks();
         teleoperationController.initViewModel(m);
     }
     @FXML
