@@ -87,7 +87,7 @@ public class MainWindowController implements Initializable {
         mc.createJoyStick();
         //mc.createLineCharts();
         //mc.createCircleGraph();;
-        mc.createClocks();
+//        mc.createClocks();
     }
     @FXML
     private void btnTeleoperation(ActionEvent event) {
@@ -102,7 +102,7 @@ public class MainWindowController implements Initializable {
         TeleoperationController teleoperationController = fxmlLoader.getController();
         teleoperationController.setModel(m);
         teleoperationController.createJoyStick();
-        teleoperationController.createClocks();
+//        teleoperationController.createClocks();
         teleoperationController.initViewModel(m);
     }
     @FXML
