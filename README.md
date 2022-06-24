@@ -1,4 +1,4 @@
-# FlightSimulatorSystem
+# FlightSimulator Application
 This project is a flight simulator Application, connected to the Flight-Gear program as a projector. 
 The project is written in Java, and divided into three parts:
 
