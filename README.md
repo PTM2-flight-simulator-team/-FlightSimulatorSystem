@@ -60,7 +60,40 @@ You can also play, pause and change the video speed.
 
 
 ## Agent:
+The Agent application integrates with the Flight Gear Simulator application and communicates with our Backend application.
 
+
+We used MVC architecture and Observer, Command design patterns.
+The Agent application is divided into three main parts:
+
+
+#### Controller – Manages the information flow between the Model and Network Manager.
+
+
+* Receives information from the Network Manager and sends it to the Model.             	
+* Receives execution results from the Model and sends them to the Network Manager.  
+
+
+#### Model – has two main roles:
+
+
+ * Receives information from the Controller and executes the relevant task.
+ * Saves analytics about the current flight.
+   
+   
+#### Network Manager – responsible for the communication between the Controller, Backend, and the Flight Gear Simulator.
+
+
+   * Communicate with the Flight Gear Simulator and the Backend using sockets with TCP.
+   
+   
+   * Receives instructions from the Backend and sends them to the Controller.
+   
+   
+   * Receives data from the Controller and sends it to the Backend/Flight Gear Simulator.
+   
+   
+   * Receives data from the Flight Gear Simulator and sends it to the Controller.
 
 
 ## Backend:
@@ -82,10 +115,10 @@ The Outside aspect divided into two parts:
 #### Model - has two main parts:
 
 
-1. Interperter - Recives code block from the Frontend and deploys interpretation, by using "lexer", "parser" and commands pattern. It sends commands by the following flow: Interpreter -> Model -> Controller -> Agent.
+* Interperter - Recives code block from the Frontend and deploys interpretation, by using "lexer", "parser" and commands pattern. It sends commands by the following flow: Interpreter -> Model -> Controller -> Agent.
 
 
-2.  DB - In oreder to store our data, we used Mongo DB API. It stores information about the airplane fleet and enables information withdraw to the front side.
+*  DB - In oreder to store our data, we used Mongo DB API. It stores information about the airplane fleet and enables information withdraw to the front side.
 
 
 ## Implements
