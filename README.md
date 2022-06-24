@@ -54,7 +54,7 @@ Manually - you can control the joystick by yourself!
 Also here, you have the Clock Table view below.
 
 ### Time Capsule:
-In this tab you can watch previous flight. Enter a flight index and choose desired plane feature. The joystick feature is in disabled mode.
+In this tab you can watch previous flights. Enter a flight index and choose desired plane feature. The joystick feature is in *disabled mode*.
 
 You can also play, pause and change the video speed.
 
@@ -64,9 +64,9 @@ You can also play, pause and change the video speed.
 
 
 ## Backend:
-Our backeds supports server-side application. It is built with MVC architecture and divided into two parts:
+The Backend supports server-side application. It is built with MVC architecture and divided into two parts:
 
-*Controller* - Manages all the information flow inside and outside of the application. 
+#### Controller - Manages all the information flow inside and outside of the application. 
 
 
 In Inside aspect, the application and the information flow created by *Observer* Design Pattern. 
@@ -79,7 +79,7 @@ The Outside aspect divided into two parts:
 2. comuunicating with the Frontend, by using HTTP server.
 
 
-*Model* - has two main parts:
+#### Model - has two main parts:
 
 
 1. Interperter - Recives code block from the Frontend and deploys interpretation, by using "lexer", "parser" and commands pattern. It sends commands by the following flow: Interpreter -> Model -> Controller -> Agent.
