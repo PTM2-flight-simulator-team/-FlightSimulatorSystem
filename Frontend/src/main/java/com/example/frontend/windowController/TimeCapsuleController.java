@@ -222,14 +222,15 @@ public class TimeCapsuleController implements Initializable,Observer {
                     Date date2 = s1.parse(timeSeries.get(3).get(timeSeries.get(3).size() - 1));
                     double dat1 = date1.getTime();
                     double dat2 = date2.getTime();
-                    double timeSleep = (dat1 - dat2) / speed2;
+                    double timeSleep = 0.1;
                     for (int i = finalStartIndex + 1; i < timeSeries.size(); i += speed2) {
                         if (mySlider.getValue()+speed2 >= timeSeries.size()){
                             stop = true;
                         }
                         if (!stop) { //airplane is flying
                             pause.setVisible(true); //you can press on pause now
-                            speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1)); //every date from ts
+                            String date = timeSeries.get(i).get(timeSeries.get(i).size() - 1);
+                            speedTxt.setText(date); //every date from ts
                             mySlider.setValue(mySlider.getValue() + (100 * speed2 / 200));
                             currenIndex = i;
                             String aileron = timeSeries.get(currenIndex).get(0);
@@ -237,7 +238,7 @@ public class TimeCapsuleController implements Initializable,Observer {
                             ChangePlanePositionByTime(currenIndex);
                             ChangeClocksStateByIndex(currenIndex);
                             UpdateJoyStickByIndex(aileron,elevator);
-                            Thread.sleep((long) timeSleep);
+                            Thread.sleep(1000);
                         }
                     }
                 } catch (InterruptedException | ParseException e) {
@@ -289,10 +290,15 @@ public class TimeCapsuleController implements Initializable,Observer {
 
 
     public void ChangePlanePositionByTime(int indexInTimeSeries) {
-        float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
-        float latitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
-        Pair<Double, Double> pair = latLongToOffsets(latitude, longitude, 390, 312);
-        plane.relocate(pair.getKey(), pair.getValue());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                float longitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(2));
+                float latitude = Float.parseFloat(timeSeries.get(indexInTimeSeries).get(3));
+                Pair<Double, Double> pair = latLongToOffsets(latitude, longitude, 390, 312);
+                plane.relocate(pair.getKey(), pair.getValue());
+            }
+        });
     }
 
     public void ChangeClocksStateByIndex(int indexInTimeSeries) {
@@ -389,7 +395,7 @@ public class TimeCapsuleController implements Initializable,Observer {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if (stop == false) { //flight is paused or not started yet
-                    int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 1)) + 1;
+                    int i = (int) ((mySlider.getValue() / 100) * ((timeSeries.size()) - 2)) + 1;
                     speedTxt.setText(timeSeries.get(i).get(timeSeries.get(i).size() - 1));
                 }
             }

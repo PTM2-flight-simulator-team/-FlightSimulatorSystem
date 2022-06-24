@@ -36,7 +36,7 @@ public class MyModel extends Observable {
         //read properties.txt
         // Reading the properties.txt file and adding the properties to the properties' hashmap.
         try {
-            BufferedReader in = new BufferedReader(new FileReader("Agent/src/properties.txt"));
+            BufferedReader in = new BufferedReader(new FileReader(System.getenv("APPDATA") + "\\Agent\\resources\\properties.txt"));
             String line;
             while((line=in.readLine())!=null)
             {
