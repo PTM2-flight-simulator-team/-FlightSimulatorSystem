@@ -9,7 +9,7 @@ import java.io.PrintWriter;
  */
 public class MyLogger {
     // Declaring a constant variable called path.
-    private static final String path = "Agent/src/Logs.txt";
+    private static final String path = System.getenv("APPDATA") + "\\Agent\\resources\\Logs.txt";
     // Declaring a variable called pt that is a PrintWriter.
     private static final PrintWriter pt;
 

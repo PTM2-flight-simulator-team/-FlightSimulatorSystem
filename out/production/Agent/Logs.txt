@@ -1,11 +1,47 @@
-Setted id and name
-Connected to server
-Reading from fg ready...
-writer created...
-Writing to fg ready...
-shutdown
-Nautical_Mile is: 1.1332995489444455
-end time is: 23-06-2022 17:31:14
-sent Final Analytics
-The analytics are:
-StartLongitude:-22.6153256867 StartLatitude:63.9810523067 EndLongitude:-22.6578365719 EndLatitude:63.9795143424 startTime:23-06-2022 17:29:42 endTime:23-06-2022 17:31:14 maxAlt:485.780518 maxSpeed:10.182636 Nautical_Mile:1.1332995489444455
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!
+Connection to backend failed!

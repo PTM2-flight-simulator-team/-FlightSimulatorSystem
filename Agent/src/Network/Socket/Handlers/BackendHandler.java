@@ -47,7 +47,7 @@ public class BackendHandler extends  Observable implements Observer {
     public void getIDAndName(){
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new FileReader("Agent/src/PlaneData.txt"));
+            scanner = new Scanner(new FileReader(System.getenv("APPDATA") + "\\Agent\\resources\\PlaneData.txt"));
             String[] firstrow =  scanner.nextLine().split("=");
             String id = firstrow[1];
             this.AgentID = id;
@@ -82,7 +82,7 @@ public class BackendHandler extends  Observable implements Observer {
      */
     public void SendAirplaneData(){
         try {
-            Scanner scanner = new Scanner(new FileReader("Agent/src/PlaneData.txt"));
+            Scanner scanner = new Scanner(new FileReader(System.getenv("APPDATA") + "\\Agent\\resources\\PlaneData.txt"));
             String[] firstrow =  scanner.nextLine().split("=");
             String id = firstrow[1];
             this.AgentID = id;

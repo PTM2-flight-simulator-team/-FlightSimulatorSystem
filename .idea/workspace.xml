@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="agent:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="teleUpdate" />
+    <list default="true" id="f69b471f-3d22-4f1a-860c-136af6661358" name="Changes" comment="teleUpdate">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/AgentMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/AgentMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Logs.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Model/MyModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/MyLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/Network/Socket/Handlers/BackendHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/PlaneData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/resources/PlaneData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Agent/src/properties.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Agent/src/resources/properties.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Agent/Logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Agent/Logs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Agent/PlaneData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Agent/properties.txt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,25 +67,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src" />
       <recent name="C:\Users\galle\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java\Controller" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Agent\src" />
+      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Agent" />
+      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\out\artifacts\agent_jar" />
+      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Agent\src\resources" />
       <recent name="D:\Program Files (x86)\GitHub\FlightSimulatorSystem\Frontend\src\main\java\Model\ModelTools" />
-      <recent name="C:\Users\shaha\OneDrive\Documents\GitHub\FlightSimulatorSystem\Backend\src\main\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Front">
+  <component name="RunManager" selected="Application.MainController">
     <configuration name="Agent" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -146,6 +173,14 @@
       <workItem from="1655705084345" duration="11821000" />
       <workItem from="1655993705524" duration="971000" />
       <workItem from="1655995456180" duration="300000" />
+      <workItem from="1656008572644" duration="85000" />
+      <workItem from="1656008711361" duration="1768000" />
+      <workItem from="1656011053697" duration="587000" />
+      <workItem from="1656011711151" duration="44000" />
+      <workItem from="1656013779827" duration="602000" />
+      <workItem from="1656051149733" duration="9000" />
+      <workItem from="1656051485871" duration="10162000" />
+      <workItem from="1656064929098" duration="4000" />
     </task>
     <task id="LOCAL-00001" summary="teleUpdate">
       <created>1655976667791</created>
@@ -188,6 +223,16 @@
           <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TeleoperationController.java</url>
           <line>121</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/Model/MyHttpHandler.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Frontend/src/main/java/com/example/frontend/windowController/TimeCapsuleController.java</url>
+          <line>232</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
