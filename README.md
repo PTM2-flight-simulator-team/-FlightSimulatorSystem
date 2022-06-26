@@ -69,6 +69,40 @@ You can also play, pause and change the video speed.
 The Agent application integrates with the Flight Gear Simulator application and communicates with our Backend application.
 
 
+
+We used MVC architecture and Observer, Command design patterns.
+The Agent application is divided into three main parts:
+
+
+#### Controller – Manages the information flow between the Model and Network Manager.
+
+
+* Receives information from the Network Manager and sends it to the Model.             	
+* Receives execution results from the Model and sends them to the Network Manager.  
+
+
+#### Model – has two main roles:
+
+
+ * Receives information from the Controller and executes the relevant task.
+ * Saves analytics about the current flight.
+   
+   
+#### Network Manager – responsible for the communication between the Controller, Backend, and the Flight Gear Simulator.
+
+
+
+   * Communicate with the Flight Gear Simulator and the Backend using sockets with TCP.
+   
+   
+   * Receives instructions from the Backend and sends them to the Controller.
+   
+   
+   * Receives data from the Controller and sends it to the Backend/Flight Gear Simulator.
+   
+   
+   * Receives data from the Flight Gear Simulator and sends it to the Controller.
+
 We used MVC architecture and Observer, Command design patterns.
 The Agent application is divided into three main parts:
 
