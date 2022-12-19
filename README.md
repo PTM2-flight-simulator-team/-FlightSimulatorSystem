@@ -13,7 +13,8 @@ The project is written in Java, and divided into three parts:
  Flight Simulator System.
  
  ## Project Demo
- https://drive.google.com/file/d/1Rv-BWzxCGTPIfXAUaNxjriX3O1Q1PYTS/view
+
+https://user-images.githubusercontent.com/93988278/208497787-06fb6dd5-f01f-41fb-8650-6422c73b9761.mp4
  
  ## Explantion video
  https://drive.google.com/file/d/1Ayugwrb1mmkJ8icxii-hT0Vb4NZk5yaL/view
